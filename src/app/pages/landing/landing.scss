@@ -355,11 +355,28 @@
           font-size: 1rem;
           transition: border-color 0.3s, box-shadow 0.3s;
 
+          &.invalid {
+            border-color: #ff4d4d;
+            background: #fffcfc;
+          }
+
           &:focus {
             outline: none;
             border-color: #ff41f8;
             box-shadow: 0 0 0 4px rgba(255, 65, 248, 0.1);
+
+            &.invalid {
+              border-color: #ff4d4d;
+              box-shadow: 0 0 0 4px rgba(255, 77, 77, 0.1);
+            }
           }
+        }
+
+        .error-msg {
+          font-size: 0.8rem;
+          color: #ff4d4d;
+          font-weight: 500;
+          margin-top: 2px;
         }
       }
 
