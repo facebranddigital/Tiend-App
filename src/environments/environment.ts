@@ -1,3 +1,4 @@
+cat <<EOF > src/environments/environment.ts
 export const environment = {
   production: true,
   firebase: {
@@ -10,3 +11,4 @@ export const environment = {
     measurementId: "G-GXP0146XTK"
   }
 };
+EOF
