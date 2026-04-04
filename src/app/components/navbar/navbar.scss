@@ -74,6 +74,22 @@
   }
 }
 
+.btn-login-nav {
+  background: linear-gradient(90deg, #ff41f8, #7702ff);
+  color: white;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 65, 248, 0.4);
+  }
+}
+
 @media (max-width: 768px) {
   .nav-links {
     display: none;
