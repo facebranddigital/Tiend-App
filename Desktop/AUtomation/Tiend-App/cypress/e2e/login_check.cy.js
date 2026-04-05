@@ -1,0 +1,10 @@
+describe('Tiend-App Login Check', () => {
+  it('Should load the login page without Firebase errors', () => {
+    // Visit your local app
+    cy.visit('https://tiend-app-facebranddigital-4083s-projects.vercel.app')
+
+    // Verify core elements from your project are visible
+    cy.get('app-navbar').should('be.visible')
+    cy.get('app-footer').should('be.visible')
+  })
+})
