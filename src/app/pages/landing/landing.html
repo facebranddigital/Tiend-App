@@ -165,7 +165,20 @@
                  [class.invalid]="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
         </div>
 
-        <button type="submit" class="btn-primary submit-btn">Registrarme Ahora</button>
+        @if (submitError()) {
+          <div class="error-banner">
+            {{ submitError() }}
+          </div>
+        }
+
+        <button type="submit" class="btn-primary submit-btn" [disabled]="isSubmitting()">
+          @if (isSubmitting()) {
+            <span class="spinner"></span>
+            Enviando...
+          } @else {
+            Registrarme Ahora
+          }
+        </button>
         <p class="terms">Al registrarte, aceptas nuestros <a href="#">Términos y Condiciones</a>.</p>
       </form>
     </div>

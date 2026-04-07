@@ -385,6 +385,34 @@
         width: 100%;
         padding: 1.2rem;
         font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+
+        .spinner {
+          width: 20px;
+          height: 20px;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          border-top-color: white;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+      }
+
+      .error-banner {
+        background: #fff0f0;
+        color: #ff4d4d;
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid #ffcccc;
+        font-size: 0.9rem;
+        text-align: center;
       }
 
       .terms {
@@ -410,4 +438,8 @@
 @keyframes slideUp {
   from { transform: translateY(50px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
