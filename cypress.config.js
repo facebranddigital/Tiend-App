@@ -2,7 +2,9 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
-    supportFile: false,
-    specPattern: "cypress/e2e/**/*.cy.js",
+    baseUrl: 'https://tiend-app-wogt.vercel.app',
+    setupNodeEvents(on, config) {
+      // listeners
+    },
   },
 });

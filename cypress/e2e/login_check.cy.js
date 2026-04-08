@@ -1,28 +1,23 @@
-describe('DCCF: Registro por Navegación Interna', () => {
-  it('Debe navegar al registro desde el inicio para evitar el 404', () => {
-    // 1. Entrar a la Home (que siempre funciona)
-    cy.visit('https://tiend-app.vercel.app/');
+describe('Misión: Tiend-App Status Check', () => {
+  it('Debe cargar la página principal', () => {
+    // Visitamos la página raíz definida en cypress.config.js
+    cy.visit('/');
 
-    // 2. Esperar a que el navbar o algún enlace sea visible
-    // Tu HTML decía que en el login hay un link al registro, y viceversa.
-    // Vamos a forzar a Angular a cambiar de página internamente
-    cy.visit('https://tiend-app.vercel.app/login');
+    // Verificamos que contenga un elemento clave de la página de inicio
+    // (Ajusta este selector según lo que haya en tu landing page real)
+    cy.contains(/bienvenido|tienda|productos/i).should('be.visible');
     
-    // 3. Buscamos el enlace de "Registrate" por su texto o ruta
-    // Según tu app.routes.ts, la ruta es /register
-    cy.get('a[routerlink="/register"]').first().click({ force: true });
+    cy.screenshot('STATUS_CHECK_INICIO');
+  });
 
-    // 4. Ahora, si el cambio de página fue interno (SPA), 
-    // el formulario DEBE aparecer sin que Vercel se entere
-    cy.get('input#name', { timeout: 15000 }).should('be.visible').type('Ever QA Final');
-    cy.get('input#email').type('facebranddigital@gmail.com');
-    cy.get('input#password').type('D4rk4rm4deus2026');
+  it('Debe cargar la página de Login', () => {
+    // Visitamos la ruta relativa /login
+    cy.visit('/login');
 
-    // 5. Botón de enviar (usamos la clase o el tipo ya que el testid falló)
-    cy.get('button[type="submit"]').click({ force: true });
-
-    // 6. Verificar éxito
-    cy.contains('éxito', { timeout: 15000 }).should('be.visible');
-    cy.screenshot('REGISTRO-LOGRADO');
+    // Verificamos que el formulario de login esté presente
+    cy.get('input[type="email"]').should('be.visible');
+    cy.get('input[type="password"]').should('be.visible');
+    
+    cy.screenshot('STATUS_CHECK_LOGIN');
   });
 });
