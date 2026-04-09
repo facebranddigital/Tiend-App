@@ -32,8 +32,12 @@
     "@angular/compiler-cli": "^21.2.0",
     "@angular/platform-browser-dynamic": "^21.2.7",
     "@sendgrid/mail": "^8.1.6",
+    "axios": "^1.15.0",
     "cypress": "^15.13.1",
     "jsdom": "^28.0.0",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.1",
+    "mochawesome-report-generator": "^6.3.2",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
