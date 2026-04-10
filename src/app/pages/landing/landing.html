@@ -1,31 +1,167 @@
-<div class="product-container">
-  <div class="product-card">
-    <img src="/assets/headphones.png" alt="Nexus Over-Ear Headphones">
-    <h3>Nexus Over-Ear Headphones</h3>
-    <p class="category">Audio Tech</p>
-    <p class="price">$299.99</p>
-    <button class="add-btn" (click)="onAddToCart('Nexus Over-Ear Headphones', 299.99, 'Audio Tech', '/assets/headphones.png')">
-      Add to Cart
-    </button>
-  </div>
+<div class="landing-container">
+  <section class="hero">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+      <h1>The Future of Style</h1>
+      <p>Entra en una nueva dimensión de e-commerce. Productos diseñados para innovar y colores que cobran vida.</p>
+      <div class="cta-buttons">
+        <button class="btn-primary" (click)="toggleModal()">Ver Colección</button>
+        <button class="btn-secondary">Saber Más</button>
+      </div>
+    </div>
+  </section>
 
-  <div class="product-card">
-    <img src="/assets/smartwatch.png" alt="Smartwatch Pro">
-    <h3>Smartwatch Pro</h3>
-    <p class="category">Wearables</p>
-    <p class="price">$199.99</p>
-    <button class="add-btn" (click)="onAddToCart('Smartwatch Pro', 199.99, 'Wearables', '/assets/smartwatch.png')">
-      Add to Cart
-    </button>
-  </div>
+  <section class="featured-products">
+    <div class="section-header">
+      <div>
+        <h2>Destacados</h2>
+        <p>Lo más innovador de nuestra tienda.</p>
+      </div>
+      <a href="#">Ver todos los productos &rarr;</a>
+    </div>
 
-  <div class="product-card">
-    <img src="https://cogconnected.com/wp-content/uploads/2023/05/JBL_Quantum_TWS_Air_Earbuds_box.jpg" alt="Quantum Wireless Buds">
-    <h3>Quantum Wireless Buds</h3>
-    <p class="category">Audio Tech</p>
-    <p class="price">$149.99</p>
-    <button class="add-btn" (click)="onAddToCart('Quantum Wireless Buds', 149.99, 'Audio Tech', 'https://cogconnected.com/wp-content/uploads/2023/05/JBL_Quantum_TWS_Air_Earbuds_box.jpg')">
-      Add to Cart
-    </button>
-  </div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-image">
+          <img src="/assets/headphones.png" alt="Nexus Headphones">
+          <span class="badge">Nuevo</span>
+        </div>
+        <div class="product-info">
+          <span class="category">Audio Tech</span>
+          <h3>Nexus Over-Ear Headphones</h3>
+          <div class="price-row">
+            <span class="price">$299.99</span>
+            <button class="add-btn" (click)="onAddToCart('Nexus Over-Ear Headphones', 299.99, 'Audio Tech', '/assets/headphones.png')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="M12 5v14" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <img src="/assets/smartwatch.png" alt="Aura SmartWatch">
+          <span class="badge">Top Ventas</span>
+        </div>
+        <div class="product-info">
+          <span class="category">Wearables</span>
+          <h3>Aura Holographic SmartWatch</h3>
+          <div class="price-row">
+            <span class="price">$450.00</span>
+            <button class="add-btn" (click)="onAddToCart('Aura Holographic SmartWatch', 450.00, 'Wearables', '/assets/smartwatch.png')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="M12 5v14" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <img src="https://cogconnected.com/wp-content/uploads/2023/05/JBL_Quantum_TWS_Air_Earbuds_box.jpg" alt="Quantum Buds">
+          <span class="badge">-20%</span>
+        </div>
+        <div class="product-info">
+          <span class="category">Audio Tech</span>
+          <h3>Quantum Wireless Buds</h3>
+          <div class="price-row">
+            <span class="price">$150.00</span>
+            <button class="add-btn" (click)="onAddToCart('Quantum Wireless Buds', 150.00, 'Audio Tech', 'https://cogconnected.com/wp-content/uploads/2023/05/JBL_Quantum_TWS_Air_Earbuds_box.jpg')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14" />
+                <path d="M12 5v14" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="promo-banner">
+    <div class="promo-content">
+      <h2>Únete a la Revolución de TIEND.</h2>
+      <p>Más de 50,000 usuarios ya están innovando con nosotros. Sé parte de la comunidad que define el mañana.</p>
+      <button class="promo-btn" (click)="toggleRegisterModal()">Registrarse Ahora</button>
+    </div>
+    <div class="promo-visual">STYLE</div>
+  </section>
 </div>
+
+@if (showModal()) {
+  <div class="modal-overlay" (click)="toggleModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="toggleModal()">&times;</button>
+      <h2>Nuestras Colecciones</h2>
+      <div class="collections-summary">
+        <div class="collection-item">
+          <h3>Cyberpunk 2026</h3>
+          <p>Inspirada en la estética urbana de un futuro cercano. Ropa técnica, materiales reflectantes y cortes vanguardistas para los pioneros del mañana.</p>
+        </div>
+        <div class="collection-item">
+          <h3>Neon Aura</h3>
+          <p>Una explosión de color y luz. Accesorios con tecnología LED integrada y telas que reaccionan a la luz UV. No pases desapercibido.</p>
+        </div>
+        <div class="collection-item">
+          <h3>Minimal Tech</h3>
+          <p>La máxima expresión de la elegancia funcional. Dispositivos y wearables con un diseño limpio y potencia sin precedentes en tu muñeca.</p>
+        </div>
+      </div>
+      <button class="btn-primary" (click)="toggleModal()" style="margin-top: 2rem; width: 100%;">Explorar Todo</button>
+    </div>
+  </div>
+}
+
+@if (showRegisterModal()) {
+  <div class="modal-overlay" (click)="toggleRegisterModal()">
+    <div class="modal-content register-modal" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="toggleRegisterModal()">&times;</button>
+      <h2>Únete a TIEND</h2>
+      <p style="margin-bottom: 2rem; color: #666;">Completa tus datos para empezar tu experiencia innovadora.</p>
+      
+      <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombres</label>
+            <input type="text" formControlName="firstName" placeholder="Ej: Juan" 
+                   [class.invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+          </div>
+          <div class="form-group">
+            <label>Apellidos</label>
+            <input type="text" formControlName="lastName" placeholder="Ej: Pérez"
+                   [class.invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Correo Electrónico</label>
+          <input type="email" formControlName="email" placeholder="juan.perez@email.com"
+                 [class.invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+            <span class="error-msg">
+              @if (registerForm.get('email')?.errors?.['required']) { El correo es obligatorio }
+              @else if (registerForm.get('email')?.errors?.['email']) { Ingresa un correo válido }
+            </span>
+          }
+        </div>
+        
+        <div class="form-group">
+          <label>Número Celular</label>
+          <input type="tel" formControlName="phone" placeholder="+57 300 000 0000"
+                 [class.invalid]="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+        </div>
+
+        <button type="submit" class="btn-primary submit-btn">Registrarme Ahora</button>
+        <p class="terms">Al registrarte, aceptas nuestros <a href="#">Términos y Condiciones</a>.</p>
+      </form>
+    </div>
+  </div>
+}
