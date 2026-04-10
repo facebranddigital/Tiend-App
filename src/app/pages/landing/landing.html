@@ -1,7 +1,18 @@
 <div class="landing-container">
-  
+  <!-- HERO -->
   <section class="hero">
-    <div class="hero-background"></div>
+    <!-- ✅ Imagen optimizada para LCP -->
+    <img
+      src="assets/hero.webp"
+      alt="Hero banner"
+      class="hero-img"
+      fetchpriority="high"
+      loading="eager"
+    />
+
+    <!-- overlay -->
+    <div class="hero-overlay"></div>
+
     <div class="hero-content">
       <div class="cta-buttons">
         <button class="btn-primary">Shop Now</button>
@@ -10,35 +21,52 @@
     </div>
   </section>
 
+  <!-- BANNER -->
   <div class="promo-banner">
-    <h2>Moda diseñada para el futuro de hoy<i class="fas fa-hospital-symbol    "></i></h2>
+    <h2>
+      Moda diseñada para el futuro de hoy
+      <i class="fas fa-hospital-symbol"></i>
+    </h2>
   </div>
 
+  <!-- PRODUCTOS -->
   <section class="featured-products">
     <div class="section-header">
       <a href="#">View All Collections →</a>
     </div>
 
     <div class="product-grid">
+      <!-- PRODUCTO 1 -->
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/headphones.png" alt="Nexus Headphones">
+          <img src="assets/headphones.webp" alt="Nexus Headphones" loading="lazy" />
         </div>
         <div class="product-info">
           <span class="category">Premium Audio</span>
           <h3>Nexus Wireless Headphones</h3>
           <div class="price-row">
             <span class="price">$299.00</span>
-            <button class="add-btn" (click)="onAddToCart('Nexus Wireless Headphones', 299.00, 'Premium Audio', 'assets/headphones.png')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart(
+                  'Nexus Wireless Headphones',
+                  299.0,
+                  'Premium Audio',
+                  'assets/headphones.webp'
+                )
+              "
+            >
+              +
             </button>
           </div>
         </div>
       </div>
 
+      <!-- PRODUCTO 2 -->
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/smartwatch.png" alt="Z-Series Smartwatch">
+          <img src="assets/smartwatch.webp" alt="Z-Series Smartwatch" loading="lazy" />
           <span class="badge">New</span>
         </div>
         <div class="product-info">
@@ -46,16 +74,22 @@
           <h3>Z-Series Smartwatch</h3>
           <div class="price-row">
             <span class="price">$350.00</span>
-            <button class="add-btn" (click)="onAddToCart('Z-Series Smartwatch', 350.00, 'Wearables', 'assets/smartwatch.png')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart('Z-Series Smartwatch', 350.0, 'Wearables', 'assets/smartwatch.webp')
+              "
+            >
+              +
             </button>
           </div>
         </div>
       </div>
 
+      <!-- PRODUCTO 3 -->
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/airbud.jpeg" alt="Quantum Wireless Buds">
+          <img src="assets/airbud.webp" alt="Quantum Wireless Buds" loading="lazy" />
           <span class="badge">-20%</span>
         </div>
         <div class="product-info">
@@ -63,8 +97,13 @@
           <h3>Quantum Wireless Buds</h3>
           <div class="price-row">
             <span class="price">$150.00</span>
-            <button class="add-btn" (click)="onAddToCart('Quantum Wireless Buds', 150.00, 'Audio Tech', 'assets/airbud.jpeg')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart('Quantum Wireless Buds', 150.0, 'Audio Tech', 'assets/airbud.webp')
+              "
+            >
+              +
             </button>
           </div>
         </div>

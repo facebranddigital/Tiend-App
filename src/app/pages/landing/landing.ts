@@ -8,7 +8,7 @@ import { CartService, Product } from '../../services/cart.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './landing.html',
-  styleUrl: './landing.scss'
+  styleUrl: './landing.scss',
 })
 export class LandingComponent {
   public cartService = inject(CartService);
@@ -19,7 +19,7 @@ export class LandingComponent {
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9+ ]*$')])
+    phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9+ ]*$')]),
   });
 
   onAddToCart(name: string, price: number, category: string, imageUrl: string) {
@@ -29,20 +29,20 @@ export class LandingComponent {
       category,
       imageUrl,
       description: 'Producto destacado de la colección TIEND.',
-      stock: 10
+      stock: 10,
     };
     this.cartService.addToCart(product);
   }
 
   toggleModal() {
-    this.showModal.update(v => !v);
+    this.showModal.update((v) => !v);
   }
 
   toggleRegisterModal() {
     if (!this.showRegisterModal()) {
       this.registerForm.reset();
     }
-    this.showRegisterModal.update(v => !v);
+    this.showRegisterModal.update((v) => !v);
   }
 
   onSubmit() {

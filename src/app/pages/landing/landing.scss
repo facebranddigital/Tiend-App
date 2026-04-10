@@ -1,110 +1,197 @@
 .landing-container {
-  overflow-x: hidden;
+  overflow-x: clip;
   background-color: #ffffff;
 }
 
-// 1. HERO
+/* HERO */
 .hero {
-  height: 70vh;
+  position: relative;
+  min-height: 70vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  position: relative;
-  background: #000;
   padding-bottom: 4rem;
+  overflow: hidden;
+}
 
-  .hero-background {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.4)), 
-                url('/assets/hero.png') no-repeat center center;
-    background-size: cover;
-    z-index: 1;
-  }
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
 
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    .cta-buttons {
-      display: flex; gap: 1.5rem;
-      .btn-primary {
-        background: linear-gradient(90deg, #ff41f8, #7702ff);
-        color: white; padding: 1.2rem 3rem; border-radius: 50px; border: none; font-weight: 800; cursor: pointer;
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4));
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+
+  .cta-buttons {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+
+    button {
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #ff41f8, #7702ff);
+      color: white;
+      padding: 1.2rem 3rem;
+      border-radius: 50px;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-2px);
+        opacity: 0.9;
       }
-      .btn-secondary {
-        background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);
-        color: white; padding: 1.2rem 3rem; border-radius: 50px; border: 1px solid white; font-weight: 800; cursor: pointer;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: white;
+      padding: 1.2rem 3rem;
+      border-radius: 50px;
+      border: 1px solid white;
+      font-weight: 800;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.25);
       }
     }
   }
 }
 
-// 2. BANNER MORADO
+/* BANNER */
 .promo-banner {
   padding: 80px 5% 40px;
   text-align: center;
+
   h2 {
-    font-size: 2.8rem;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
     font-weight: 800;
     max-width: 900px;
     margin: 0 auto;
-    background: linear-gradient(90deg, #ff41f8 0%, #7702ff 100%);
+
+    background: linear-gradient(90deg, #ff41f8, #7702ff);
+
+    /* 🔥 FIX COMPLETO */
+    background-clip: text;
     -webkit-background-clip: text;
+
+    color: transparent;
     -webkit-text-fill-color: transparent;
-    display: inline-block;
   }
 }
 
-// 3. PRODUCTOS (Fix de imágenes)
+/* PRODUCTOS */
 .featured-products {
   padding: 20px 5% 100px;
+
   .section-header {
-    display: flex; justify-content: flex-end; margin-bottom: 30px;
-    a { color: #7702ff; font-weight: 600; text-decoration: none; }
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+
+    a {
+      color: #7702ff;
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
+  }
 
-    .product-card {
-      background: #f9f9f9;
+  .product-card {
+    background: #f9f9f9;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: 0.3s;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  .product-image {
+    aspect-ratio: 1 / 1;
+    background: #eee;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #7702ff;
+      color: white;
+      padding: 5px 15px;
       border-radius: 20px;
-      overflow: hidden;
-      
-      .product-image {
-        width: 100%;
-        position: relative;
-        padding-top: 100%; // Esto mantiene el cuadro aunque no cargue la imagen
-        background: #eee; // Color de respaldo mientras carga
-        
-        img {
-          position: absolute;
-          top: 0; left: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover; // Crucial para que no se deformen
-          display: block;
-        }
-        
-        .badge {
-          position: absolute; top: 15px; left: 15px; background: #7702ff; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; z-index: 5;
-        }
+      font-weight: bold;
+    }
+  }
+
+  .product-info {
+    padding: 1.5rem;
+
+    h3 {
+      margin: 10px 0;
+      font-size: 1.3rem;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .price {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #ff41f8;
       }
 
-      .product-info {
-        padding: 1.5rem;
-        h3 { font-size: 1.3rem; margin: 10px 0; color: #111; }
-        .price-row {
-          display: flex; justify-content: space-between; align-items: center;
-          .price { font-size: 1.5rem; font-weight: 800; color: #ff41f8; }
-          .add-btn {
-            background: #111; color: white; width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-          }
+      .add-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #111;
+        color: white;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background: #333;
         }
       }
     }
   }
-}/* fix */
+}
