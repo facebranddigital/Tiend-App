@@ -1,229 +1,110 @@
 .landing-container {
   overflow-x: hidden;
+  background-color: #ffffff;
 }
 
-// Hero Section
+// 1. HERO
 .hero {
-  height: 90vh;
+  height: 70vh;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   position: relative;
   background: #000;
-  color: white;
-  padding: 0 5%;
+  padding-bottom: 4rem;
 
   .hero-background {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.65)), url('/assets/hero.png') no-repeat right center;
-    background-size: cover; // Cambiado a cover para el hero también
-    opacity: 0.95;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.4)), 
+                url('/assets/hero.png') no-repeat center center;
+    background-size: cover;
     z-index: 1;
   }
 
   .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 800px;
-    text-align: center;
-
-    h1 {
-      font-size: 5rem;
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 2rem;
-      background: linear-gradient(135deg, #fff 0%, #ff41f8 50%, #7702ff 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-transform: uppercase;
-      letter-spacing: -2px;
-    }
-
-    p {
-      font-size: 1.5rem;
-      margin-bottom: 3rem;
-      color: rgba(255, 255, 255, 0.8);
-    }
-
     .cta-buttons {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-
+      display: flex; gap: 1.5rem;
       .btn-primary {
         background: linear-gradient(90deg, #ff41f8, #7702ff);
-        color: white;
-        padding: 1.2rem 3rem;
-        border-radius: 999px;
-        font-weight: 800;
-        text-transform: uppercase;
-        border: none;
-        cursor: pointer;
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-        box-shadow: 0 14px 28px rgba(255, 65, 248, 0.25);
-
-        &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 18px 32px rgba(255, 65, 248, 0.35);
-        }
+        color: white; padding: 1.2rem 3rem; border-radius: 50px; border: none; font-weight: 800; cursor: pointer;
       }
-
       .btn-secondary {
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(16px);
-        color: white;
-        padding: 1.2rem 3rem;
-        border-radius: 999px;
-        font-weight: 800;
-        text-transform: uppercase;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        cursor: pointer;
-        transition: transform 0.25s ease;
-
-        &:hover {
-          transform: translateY(-2px);
-          background: rgba(255, 255, 255, 0.16);
-        }
+        background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);
+        color: white; padding: 1.2rem 3rem; border-radius: 50px; border: 1px solid white; font-weight: 800; cursor: pointer;
       }
     }
   }
 }
 
-// Featured Products Section - EL CORE DEL ARREGLO
+// 2. BANNER MORADO
+.promo-banner {
+  padding: 80px 5% 40px;
+  text-align: center;
+  h2 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(90deg, #ff41f8 0%, #7702ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+}
+
+// 3. PRODUCTOS (Fix de imágenes)
 .featured-products {
-  padding: 8rem 5%;
-  background: white;
-
+  padding: 20px 5% 100px;
   .section-header {
-    margin-bottom: 4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-
-    h2 { font-size: 3rem; font-weight: 800; color: #111; }
-    a { color: #7702ff; font-weight: 600; text-decoration: none; &:hover { color: #ff41f8; } }
+    display: flex; justify-content: flex-end; margin-bottom: 30px;
+    a { color: #7702ff; font-weight: 600; text-decoration: none; }
   }
 
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 3rem;
+    gap: 30px;
 
     .product-card {
+      background: #f9f9f9;
       border-radius: 20px;
       overflow: hidden;
-      background: #f9f9f9;
-      transition: transform 0.4s;
-      display: flex;
-      flex-direction: column;
-
-      &:hover {
-        transform: translateY(-10px);
-        .product-image img { transform: scale(1.1); } // Zoom para que se vea dinámico
-      }
-
+      
       .product-image {
         width: 100%;
         position: relative;
-        padding-top: 100%; // CUADRADO PERFECTO (1:1)
-        overflow: hidden;
-
+        padding-top: 100%; // Esto mantiene el cuadro aunque no cargue la imagen
+        background: #eee; // Color de respaldo mientras carga
+        
         img {
           position: absolute;
-          top: 0;
-          left: 0;
+          top: 0; left: 0;
           width: 100%;
           height: 100%;
-          /* CAMBIO CLAVE DE QA: 'cover' para que los Buds llenen el espacio igual que los otros */
-          object-fit: cover; 
-          object-position: center;
-          transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+          object-fit: cover; // Crucial para que no se deformen
+          display: block;
         }
-
+        
         .badge {
-          position: absolute;
-          top: 20px;
-          left: 20px;
-          background: #7702ff;
-          color: white;
-          padding: 5px 15px;
-          border-radius: 20px;
-          font-size: 0.8rem;
-          font-weight: bold;
-          z-index: 10;
+          position: absolute; top: 15px; left: 15px; background: #7702ff; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; z-index: 5;
         }
       }
 
       .product-info {
-        padding: 2rem;
-        flex-grow: 1;
-
-        .category { color: #999; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem; }
-        h3 { font-size: 1.4rem; margin-bottom: 1rem; color: #111; height: 3.4rem; overflow: hidden; }
-
+        padding: 1.5rem;
+        h3 { font-size: 1.3rem; margin: 10px 0; color: #111; }
         .price-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-
-          .price { font-size: 1.6rem; font-weight: 800; color: #ff41f8; }
+          display: flex; justify-content: space-between; align-items: center;
+          .price { font-size: 1.5rem; font-weight: 800; color: #ff41f8; }
           .add-btn {
-            background: #111; color: white; width: 45px; height: 45px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;
-            &:hover { background: #7702ff; }
+            background: #111; color: white; width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
           }
         }
       }
     }
   }
 }
-
-// Promo Section y Modales
-.promo-banner {
-  margin: 4rem 5%; padding: 6rem; border-radius: 40px;
-  background: linear-gradient(135deg, #7702ff 0%, #ff41f8 100%);
-  color: white; display: flex; justify-content: space-between; align-items: center;
-
-  .promo-content {
-    max-width: 600px;
-    h2 { font-size: 3.5rem; margin-bottom: 1.5rem; font-weight: 900; }
-    p { font-size: 1.3rem; margin-bottom: 2rem; }
-    .promo-btn { background: white; color: #7702ff; padding: 1rem 2.5rem; border-radius: 50px; font-weight: 800; border: none; cursor: pointer; }
-  }
-  .promo-visual { font-size: 8rem; opacity: 0.2; transform: rotate(-15deg); }
-}
-
-@media (max-width: 1024px) {
-  .hero .hero-content h1 { font-size: 3.5rem; }
-  .promo-banner { flex-direction: column; text-align: center; padding: 4rem; }
-  .promo-banner .promo-visual { display: none; }
-}
-
-// Animaciones y Modales (Se mantienen igual)
-.modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
-  display: flex; align-items: center; justify-content: center; z-index: 2000;
-  
-  .modal-content {
-    background: white; width: 90%; max-width: 600px; padding: 3rem; border-radius: 30px;
-    position: relative; animation: slideUp 0.4s ease;
-    
-    .register-form {
-      display: flex; flex-direction: column; gap: 1.2rem;
-      .form-row { display: flex; gap: 1rem; }
-      .form-group {
-        display: flex; flex-direction: column; gap: 0.4rem;
-        label { font-weight: 600; font-size: 0.9rem; }
-        input { padding: 0.8rem; border-radius: 10px; border: 1px solid #eee; }
-      }
-    }
-    .close-btn { position: absolute; top: 20px; right: 20px; border: none; background: none; font-size: 2rem; cursor: pointer; }
-  }
-}
-
-@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
