@@ -1,0 +1,20 @@
+<app-navbar></app-navbar>
+
+<main class="auth-container">
+
+      <div class="error-alert" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="loading">
+        {{ loading ? 'Creando cuenta...' : 'Crear Cuenta' }}
+      </button>
+
+      <p class="auth-footer">
+        ¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a>
+      </p>
+    </form>
+  </div>
+</main>
+
+<app-footer></app-footer>

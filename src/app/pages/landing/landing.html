@@ -1,0 +1,74 @@
+<div class="landing-container">
+  
+  <section class="hero">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+      <div class="cta-buttons">
+        <button class="btn-primary">Shop Now</button>
+        <button class="btn-secondary">Learn More</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="promo-banner">
+    <h2>Moda diseñada para el futuro de hoy<i class="fas fa-hospital-symbol    "></i></h2>
+  </div>
+
+  <section class="featured-products">
+    <div class="section-header">
+      <a href="#">View All Collections →</a>
+    </div>
+
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-image">
+          <img src="assets/headphones.png" alt="Nexus Headphones">
+        </div>
+        <div class="product-info">
+          <span class="category">Premium Audio</span>
+          <h3>Nexus Wireless Headphones</h3>
+          <div class="price-row">
+            <span class="price">$299.00</span>
+            <button class="add-btn" (click)="onAddToCart('Nexus Wireless Headphones', 299.00, 'Premium Audio', 'assets/headphones.png')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <img src="assets/smartwatch.png" alt="Z-Series Smartwatch">
+          <span class="badge">New</span>
+        </div>
+        <div class="product-info">
+          <span class="category">Wearables</span>
+          <h3>Z-Series Smartwatch</h3>
+          <div class="price-row">
+            <span class="price">$350.00</span>
+            <button class="add-btn" (click)="onAddToCart('Z-Series Smartwatch', 350.00, 'Wearables', 'assets/smartwatch.png')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-image">
+          <img src="assets/airbud.jpeg" alt="Quantum Wireless Buds">
+          <span class="badge">-20%</span>
+        </div>
+        <div class="product-info">
+          <span class="category">Audio Tech</span>
+          <h3>Quantum Wireless Buds</h3>
+          <div class="price-row">
+            <span class="price">$150.00</span>
+            <button class="add-btn" (click)="onAddToCart('Quantum Wireless Buds', 150.00, 'Audio Tech', 'assets/airbud.jpeg')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

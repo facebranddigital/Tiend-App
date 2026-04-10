@@ -1,0 +1,136 @@
+.cart-container {
+  max-width: 1100px;
+  margin: 6rem auto 2rem;
+  padding: 0 1.5rem;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #1a1a1a;
+  }
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #666;
+
+  p { font-size: 1.2rem; margin-bottom: 1.5rem; }
+
+  .btn-primary {
+    background: #7c3aed;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+}
+
+.cart-content {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: white;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+
+  img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    background: #f3f4f6;
+  }
+
+  .item-info {
+    flex: 1;
+    h3 { font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; }
+    .price { color: #7c3aed; font-weight: 700; font-size: 1.1rem; margin: 0; }
+  }
+
+  .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #ef4444;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: background 0.2s;
+    &:hover { background: #fee2e2; }
+  }
+}
+
+.cart-summary {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  height: fit-content;
+
+  .totals { margin-bottom: 1.5rem; }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    color: #555;
+
+    &.main-total {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 0.75rem;
+      margin-top: 0.75rem;
+    }
+  }
+
+  .btn-checkout {
+    width: 100%;
+    background: #7c3aed;
+    color: white;
+    border: none;
+    padding: 0.9rem;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 0.75rem;
+    transition: background 0.2s;
+    &:hover { background: #6d28d9; }
+  }
+
+  .btn-clear {
+    width: 100%;
+    background: none;
+    color: #ef4444;
+    border: 1px solid #ef4444;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    &:hover { background: #fee2e2; }
+  }
+}
