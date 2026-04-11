@@ -1,8 +1,10 @@
 <div class="landing-container">
+  
   <!-- HERO -->
   <section class="hero">
+    
     <!-- ✅ Imagen optimizada para LCP -->
-    <img
+    <img 
       src="assets/hero.webp"
       alt="Hero banner"
       class="hero-img"
@@ -36,27 +38,23 @@
     </div>
 
     <div class="product-grid">
+
       <!-- PRODUCTO 1 -->
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/headphones.webp" alt="Nexus Headphones" loading="lazy" />
+          <img 
+            src="assets/headphones.webp" 
+            alt="Nexus Headphones"
+            loading="lazy"
+          >
         </div>
         <div class="product-info">
           <span class="category">Premium Audio</span>
           <h3>Nexus Wireless Headphones</h3>
           <div class="price-row">
             <span class="price">$299.00</span>
-            <button
-              class="add-btn"
-              (click)="
-                onAddToCart(
-                  'Nexus Wireless Headphones',
-                  299.0,
-                  'Premium Audio',
-                  'assets/headphones.webp'
-                )
-              "
-            >
+            <button class="add-btn"
+              (click)="onAddToCart('Nexus Wireless Headphones', 299.00, 'Premium Audio', 'assets/headphones.webp')">
               +
             </button>
           </div>
@@ -66,7 +64,11 @@
       <!-- PRODUCTO 2 -->
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/smartwatch.webp" alt="Z-Series Smartwatch" loading="lazy" />
+          <img 
+            src="assets/smartwatch.webp" 
+            alt="Z-Series Smartwatch"
+            loading="lazy"
+          >
           <span class="badge">New</span>
         </div>
         <div class="product-info">
@@ -74,12 +76,8 @@
           <h3>Z-Series Smartwatch</h3>
           <div class="price-row">
             <span class="price">$350.00</span>
-            <button
-              class="add-btn"
-              (click)="
-                onAddToCart('Z-Series Smartwatch', 350.0, 'Wearables', 'assets/smartwatch.webp')
-              "
-            >
+            <button class="add-btn"
+              (click)="onAddToCart('Z-Series Smartwatch', 350.00, 'Wearables', 'assets/smartwatch.webp')">
               +
             </button>
           </div>
@@ -89,7 +87,11 @@
       <!-- PRODUCTO 3 -->
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/airbud.webp" alt="Quantum Wireless Buds" loading="lazy" />
+          <img 
+            src="assets/airbud.webp" 
+            alt="Quantum Wireless Buds"
+            loading="lazy"
+          >
           <span class="badge">-20%</span>
         </div>
         <div class="product-info">
@@ -97,17 +99,15 @@
           <h3>Quantum Wireless Buds</h3>
           <div class="price-row">
             <span class="price">$150.00</span>
-            <button
-              class="add-btn"
-              (click)="
-                onAddToCart('Quantum Wireless Buds', 150.0, 'Audio Tech', 'assets/airbud.webp')
-              "
-            >
+            <button class="add-btn"
+              (click)="onAddToCart('Quantum Wireless Buds', 150.00, 'Audio Tech', 'assets/airbud.webp')">
               +
             </button>
           </div>
         </div>
       </div>
+
     </div>
   </section>
+
 </div>
