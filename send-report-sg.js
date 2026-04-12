@@ -23,8 +23,8 @@ const filasTabla = specs.map(s => `
 `).join('');
 
 const msg = {
-  to: 'teveventaspasto@gmail.com',
-  from: 'teveventaspasto@gmail.com', // Asegúrate de que este correo esté verificado en SendGrid
+  to: 'eversozinho@gmail.com',
+  from: 'facebranddigital@gmail.com', // Asegúrate de que este correo esté verificado en SendGrid
   subject: '🚀 Reporte de Automatización: Tiend-App (100% SUCCESS)',
   html: `
     <div style="font-family: sans-serif; color: #333;">
