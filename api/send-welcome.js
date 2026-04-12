@@ -1,20 +1,25 @@
-const { Resend } = require('resend');
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export default async function handler(req, res) {
-  const { email } = req.body;
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Método no permitido' });
+  }
+
+  const { email, name } = req.body;
+
+  const msg = {
+    to: email, 
+    from: 'facebranddigital@gmail.com', 
+    subject: '¡Bienvenido a Tiend-App! 🚀',
+    html: `<strong>Hola ${name || 'Usuario'}, tu cuenta ha sido creada con éxito.</strong>`,
+  };
 
   try {
-    const data = await resend.emails.send({
-      from: 'Acme <onboarding@resend.dev>',
-      to: [email],
-      subject: '¡Bienvenido a Tiend-App! 🚀',
-      html: '<strong>Tu cuenta ha sido creada con éxito.</strong>',
-    });
-
-    res.status(200).json(data);
+    await sgMail.send(msg);
+    res.status(200).json({ success: true });
   } catch (error) {
-    res.status(500).json({ error });
+    console.error('Error de SendGrid:', error);
+    res.status(500).json({ error: 'No se pudo enviar el correo' });
   }
 }
