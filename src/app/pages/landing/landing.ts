@@ -1,56 +1,60 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Importante para @if y @for
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { CartService, Product } from '../../services/cart.service';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './landing.html',
-  styleUrl: './landing.scss',
+  styleUrls: ['./landing.scss'],
 })
 export class LandingComponent {
-  public cartService = inject(CartService);
+  // 1. Control de Modales y Carrito usando Signals
   showModal = signal(false);
   showRegisterModal = signal(false);
+  cart = signal<any[]>([]); // Aquí es donde viven tus productos
 
+  // 2. Formulario de Registro
   registerForm = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required, Validators.pattern('^[0-9+ ]*$')]),
+    phone: new FormControl(''),
   });
 
-  onAddToCart(name: string, price: number, category: string, imageUrl: string) {
-    const product: Product = {
-      name,
-      price,
-      category,
-      imageUrl,
-      description: 'Producto destacado de la colección TIEND.',
-      stock: 10,
-    };
-    this.cartService.addToCart(product);
-  }
-
+  // 3. Funciones de Modales
   toggleModal() {
-    this.showModal.update((v) => !v);
+    this.showModal.update((valor) => !valor);
   }
 
   toggleRegisterModal() {
-    if (!this.showRegisterModal()) {
-      this.registerForm.reset();
-    }
     this.showRegisterModal.update((v) => !v);
   }
 
+  // 4. Lógica del Carrito (LIMPIA)
+  onAddToCart(name: string, price: number, category: string, image: string) {
+  const newProduct = { name, price, category, image };
+
+   //  Guardar en la lista
+  this.cart.update(prevCart => [...prevCart, newProduct]);
+
+    console.log('Agregado:', newProduct);
+    console.log('Total productos en carro:', this.cart().length);
+     alert(`¡Añadido al carrito: ${name}!`);
+  
+  }
+
+  // Lógica de Registro
   onSubmit() {
     if (this.registerForm.valid) {
-      console.log('Form Submitted', this.registerForm.value);
-      this.toggleRegisterModal();
+      console.log('Datos de registro:', this.registerForm.value);
       alert('¡Registro exitoso! Bienvenido a TIEND.');
+
+      this.toggleRegisterModal();
+      this.registerForm.reset(); 
     } else {
+  // Marcar campos como tocados para mostrar errores visuales si el usuario intenta enviar vacío
       this.registerForm.markAllAsTouched();
     }
   }

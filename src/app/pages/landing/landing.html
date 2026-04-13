@@ -1,9 +1,6 @@
 <div class="landing-container">
   
-  <!-- HERO -->
   <section class="hero">
-    
-    <!-- ✅ Imagen optimizada para LCP -->
     <img 
       src="assets/hero.webp"
       alt="Hero banner"
@@ -12,18 +9,18 @@
       loading="eager"
     />
 
-    <!-- overlay -->
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
       <div class="cta-buttons">
-               <button class="btn-primary" (click)="toggleModal()">Ver Colección</button>
+        <button class="btn-primary" (click)="toggleModal()">
+          Ver Colección
+        </button>
         <button class="btn-secondary">Saber Más</button>
       </div>
     </div>
   </section>
 
-  <!-- BANNER -->
   <div class="promo-banner">
     <h2>
       La mejor tecnología para tu salud
@@ -31,22 +28,15 @@
     </h2>
   </div>
 
-  <!-- PRODUCTOS -->
   <section class="featured-products">
     <div class="section-header">
       <a href="#">See all products →</a>
     </div>
 
     <div class="product-grid">
-
-      <!-- PRODUCTO 1 -->
       <div class="product-card">
         <div class="product-image">
-          <img 
-            src="assets/headphones.webp" 
-            alt="Nexus Headphones"
-            loading="lazy"
-          >
+          <img src="assets/headphones.webp" alt="Nexus Headphones" loading="lazy">
         </div>
         <div class="product-info">
           <span class="category">Premium Audio</span>
@@ -61,14 +51,9 @@
         </div>
       </div>
 
-      <!-- PRODUCTO 2 -->
       <div class="product-card">
         <div class="product-image">
-          <img 
-            src="assets/smartwatch.webp" 
-            alt="Z-Series Smartwatch"
-            loading="lazy"
-          >
+          <img src="assets/smartwatch.webp" alt="Z-Series Smartwatch" loading="lazy">
           <span class="badge">New</span>
         </div>
         <div class="product-info">
@@ -84,14 +69,9 @@
         </div>
       </div>
 
-      <!-- PRODUCTO 3 -->
       <div class="product-card">
         <div class="product-image">
-          <img 
-            src="assets/airbud.webp" 
-            alt="Quantum Wireless Buds"
-            loading="lazy"
-          >
+          <img src="assets/airbud.webp" alt="Quantum Wireless Buds" loading="lazy">
           <span class="badge">-20%</span>
         </div>
         <div class="product-info">
@@ -106,8 +86,88 @@
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
+  <!-- Promo Banner -->
+  <section class="promo-banner">
+    <div class="promo-content">
+      <h2>Únete a la Revolución de TIEND.</h2>
+      <p>Más de 50,000 usuarios ya están innovando con nosotros. Sé parte de la comunidad que define el mañana.</p>
+      <button class="promo-btn" (click)="toggleRegisterModal()">Registrarse Ahora</button>
+    </div>
+    <div class="promo-visual">STYLE</div>
+  </section>
 </div>
+
+@if (showModal()) {
+  <div class="modal-overlay" (click)="toggleModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="toggleModal()">&times;</button>
+      <h2>Nuestras Colecciones</h2>
+      <div class="collections-summary">
+        <div class="collection-item">
+          <h3>Cyberpunk 2026</h3>
+          <p>Inspirada en la estética urbana de un futuro cercano. Ropa técnica, materiales reflectantes y cortes vanguardistas para los pioneros del mañana.</p>
+        </div>
+        <div class="collection-item">
+          <h3>Neon Aura</h3>
+          <p>Una explosión de color y luz. Accesorios con tecnología LED integrada y telas que reaccionan a la luz UV. No pases desapercibido.</p>
+        </div>
+        <div class="collection-item">
+          <h3>Minimal Tech</h3>
+          <p>La máxima expresión de la elegancia funcional. Dispositivos y wearables con un diseño limpio y potencia sin precedentes en tu muñeca.</p>
+        </div>
+      </div>
+      <button class="btn-modal-footer" (click)="toggleModal()">
+        Explorar Todo
+      </button>
+    </div>
+  </div>
+}
+
+@if (showRegisterModal()) {
+  <div class="modal-overlay" (click)="toggleRegisterModal()">
+    <div class="modal-content register-modal" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="toggleRegisterModal()">&times;</button>
+      <h2>Únete a TIEND</h2>
+      <p style="margin-bottom: 2rem; color: #666;">Completa tus datos para empezar tu experiencia innovadora.</p>
+      
+      <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombres</label>
+            <input type="text" formControlName="firstName" placeholder="Ej: Juan" 
+                   [class.invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+          </div>
+          <div class="form-group">
+            <label>Apellidos</label>
+            <input type="text" formControlName="lastName" placeholder="Ej: Pérez"
+                   [class.invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Correo Electrónico</label>
+          <input type="email" formControlName="email" placeholder="juan.perez@email.com"
+                 [class.invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+            <span class="error-msg">
+              @if (registerForm.get('email')?.errors?.['required']) { El correo es obligatorio }
+              @else if (registerForm.get('email')?.errors?.['email']) { Ingresa un correo válido }
+            </span>
+          }
+        </div>
+        
+        <div class="form-group">
+          <label>Número Celular</label>
+          <input type="tel" formControlName="phone" placeholder="+57 300 000 0000"
+                 [class.invalid]="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+        </div>
+
+        <button type="submit" class="btn-primary submit-btn">Registrarme Ahora</button>
+        <p class="terms">Al registrarte, aceptas nuestros <a href="#">Términos y Condiciones</a>.</p>
+      </form>
+    </div>
+  </div>
+}

@@ -11,21 +11,21 @@ export const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'cart', component: CartComponent },
-  { 
-    path: 'products', 
+  {
+    path: 'products',
     component: ProductListComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
-  { 
-    path: 'products/new', 
+  {
+    path: 'products/new',
     component: ProductFormComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
-  { 
-    path: 'products/edit/:id', 
+  {
+    path: 'products/edit/:id',
     component: ProductFormComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
-  { path: '**', redirectTo: '' }
+  { path: 'cart', component: CartComponent }, // No olvides agregar el carrito
+  { path: '**', redirectTo: '' },
 ];
