@@ -1,18 +1,18 @@
 <div class="cart-container">
   <h2>Tu Carrito</h2>
   
-  <div *ngIf="cartService.count() === 0" class="empty-cart">
+  <div *ngIf="cartService.cartItems().length === 0" class="empty-cart">
     <p>El carrito está vacío.</p>
     <button class="btn-primary" routerLink="/">Volver a la tienda</button>
   </div>
 
-  <div *ngIf="cartService.count() > 0" class="cart-content">
+  <div *ngIf="cartService.cartItems().length > 0" class="cart-content">
     <div class="cart-items">
-      <div *ngFor="let item of cartService.items(); let i = index" class="cart-item">
-        <img [src]="item.imageUrl" [alt]="item.name">
+      <div *ngFor="let item of cartService.cartItems(); let i = index" class="cart-item">
+        <img [src]="item.image" [alt]="item.name">
         <div class="item-info">
           <h3>{{ item.name }}</h3>
-          <p class="price">${{ item.price }}</p>
+          <p class="price">{{ item.price | currency }}</p>
         </div>
         <button class="delete-btn" (click)="onDelete(i)">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
@@ -24,11 +24,11 @@
       <div class="totals">
         <div class="total-row">
           <span>Resumen de compra</span>
-          <span>{{ cartService.count() }} items</span>
+          <span>{{ cartService.cartItems().length }} items</span>
         </div>
         <div class="total-row main-total">
           <span>Total a pagar</span>
-          <span>${{ cartService.total() }}</span>
+          <span>{{ total() | currency }}</span>
         </div>
       </div>
 
@@ -48,7 +48,7 @@
         </div>
       </div>
 
-      <button class="btn-checkout" data-testid="pay-button" (click)="onCheckout()">Pagar</button>
+      <button class="btn-checkout" (click)="onCheckout()">Pagar</button>
       <button class="btn-clear" (click)="onClear()">Vaciar Carrito</button>
 
       <div *ngIf="paymentSuccess()" class="payment-success">

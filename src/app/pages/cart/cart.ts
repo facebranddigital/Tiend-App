@@ -1,4 +1,4 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart';
@@ -11,28 +11,35 @@ import { CartService } from '../../services/cart';
   styleUrls: ['./cart.scss']
 })
 export class CartComponent {
-  
+  // Estas variables son obligatorias porque tu HTML las usa:
+  paymentMethods = ['Mercado Pago', 'Tarjeta de Crédito'];
+  selectedPaymentMethod = signal('Mercado Pago');
+  paymentSuccess = signal(false);
+
   constructor(public cartService: CartService) {}
 
-  // Calculamos el total de la suma de precios
+  // Cálculo del total para mostrar en el resumen
   total = computed(() => {
     return this.cartService.cartItems().reduce((acc, item) => acc + item.price, 0);
   });
 
-  // Eliminar un solo producto por su posición
+  // Función para borrar un ítem
   onDelete(index: number) {
     this.cartService.cartItems.update(prev => prev.filter((_, i) => i !== index));
   }
 
-  // Vaciar todo
+  // Función para vaciar todo el carrito
   onClear() {
-    if(confirm('¿Deseas vaciar el carrito?')) {
-      this.cartService.clearCart();
-    }
+    this.cartService.clearCart();
+  }
+
+  // Función para cambiar método de pago
+  onSelectMethod(method: string) {
+    this.selectedPaymentMethod.set(method);
   }
 
   onCheckout() {
-    // Aquí conectarás tu SDK de Mercado Pago pronto
-    alert(`Iniciando pago por: $${this.total()}`);
+    console.log('Iniciando checkout con:', this.selectedPaymentMethod());
+    // Aquí es donde meteremos el SDK de Mercado Pago
   }
 }
