@@ -1,7 +1,6 @@
 <div class="landing-container">
-  
   <section class="hero">
-    <img 
+    <img
       src="assets/bracasfood.jpg"
       alt="Hero banner"
       class="hero-img"
@@ -13,9 +12,7 @@
 
     <div class="hero-content">
       <div class="cta-buttons">
-        <button class="btn-primary" (click)="toggleModal()">
-          Ver Colección
-        </button>
+        <button class="btn-primary" (click)="toggleModal()">Ver Colección</button>
         <button class="btn-secondary">Saber Más</button>
       </div>
     </div>
@@ -36,16 +33,25 @@
     <div class="product-grid">
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/bracasfood2.webp" alt="Nexus Headphones" loading="lazy">
+          <img src="assets/bracasfood2.webp" alt="Nexus Headphones" loading="lazy" />
         </div>
         <div class="product-info">
           <span class="category">Premium Audio</span>
           <h3>Papas, platanitos, chicharrones, etc..</h3>
           <div class="price-row">
             <span class="price">$2.500</span>
-            <button class="add-btn"
-              (click)="onAddToCart('Papas, platanitos, chicharrones,etc', 299.00, 'Premium Audio', 'assets/bracasfood2.webp')">
-              +
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart(
+                  'Papas, platanitos, chicharrones,etc',
+                  2500,
+                  'Premium Audio',
+                  'assets/bracasfood2.webp'
+                )
+              "
+            >
+              Buy
             </button>
           </div>
         </div>
@@ -53,7 +59,7 @@
 
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/bracasfoodbolis.webp" alt="Z-Series Smartwatch" loading="lazy">
+          <img src="assets/bracasfoodbolis.webp" alt="Z-Series Smartwatch" loading="lazy" />
           <span class="badge">New</span>
         </div>
         <div class="product-info">
@@ -61,9 +67,13 @@
           <h3>Bolis de leche</h3>
           <div class="price-row">
             <span class="price">$2.000</span>
-            <button class="add-btn"
-              (click)="onAddToCart('Bolis de leche', 350.00, 'Wearables', 'assets/bracasfoodbolis.webp')">
-              +
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart('Bolis de leche', 2000, 'Wearables', 'assets/bracasfoodbolis.webp')
+              "
+            >
+              Buy
             </button>
           </div>
         </div>
@@ -71,7 +81,7 @@
 
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/bolismorados.webp" alt="Quantum Wireless Buds" loading="lazy">
+          <img src="assets/bolismorados.webp" alt="Quantum Wireless Buds" loading="lazy" />
           <span class="badge">-20%</span>
         </div>
         <div class="product-info">
@@ -79,9 +89,13 @@
           <h3>Bolis Naturales</h3>
           <div class="price-row">
             <span class="price">$1.500</span>
-            <button class="add-btn"
-              (click)="onAddToCart('Bolis Naturales', 150.00, 'Audio Tech', 'assets/bolismorados.webp')">
-              +
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart('Bolis Naturales', 1500, 'Audio Tech', 'assets/bolismorados.webp')
+              "
+            >
+              Buy
             </button>
           </div>
         </div>
@@ -108,20 +122,27 @@
       <div class="collections-summary">
         <div class="collection-item">
           <h3>Bracas Food</h3>
-          <p>Inspirada en la comida urbana de un futuro cercano. comidas técnicas, bebidas hidratantes y cortes pasbocas.</p>
+          <p>
+            Inspirada en la comida urbana de un futuro cercano. comidas técnicas, bebidas
+            hidratantes y cortes pasbocas.
+          </p>
         </div>
         <div class="collection-item">
           <h3>Brades</h3>
-          <p>Una explosión de color y luz. Ropa con tecnología integrada y telas que reaccionan a la luz UV. No pases desapercibido.</p>
+          <p>
+            Una explosión de color y luz. Ropa con tecnología integrada y telas que reaccionan a la
+            luz UV. No pases desapercibido.
+          </p>
         </div>
         <div class="collection-item">
           <h3>Bracas Styles</h3>
-          <p>La máxima expresión de la elegancia funcional. Dispositivos y wearables con un diseño limpio y potencia sin precedentes en tu muñeca.</p>
+          <p>
+            La máxima expresión de la elegancia funcional. Dispositivos y wearables con un diseño
+            limpio y potencia sin precedentes en tu muñeca.
+          </p>
         </div>
       </div>
-      <button class="btn-modal-footer" (click)="toggleModal()">
-        Explorar Todo
-      </button>
+      <button class="btn-modal-footer" (click)="toggleModal()">Explorar Todo</button>
     </div>
   </div>
 }
@@ -131,43 +152,84 @@
     <div class="modal-content register-modal" (click)="$event.stopPropagation()">
       <button class="close-btn" (click)="toggleRegisterModal()">&times;</button>
       <h2>Únete a TIEND</h2>
-      <p style="margin-bottom: 2rem; color: #666;">Completa tus datos para empezar tu experiencia innovadora.</p>
-      
+      <p style="margin-bottom: 2rem; color: #666">
+        Completa tus datos para empezar tu experiencia innovadora.
+      </p>
+
       <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="form-row">
           <div class="form-group">
             <label>Nombres</label>
-            <input type="text" formControlName="firstName" placeholder="Ej: Juan" 
-                   [class.invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched">
+            <input
+              type="text"
+              formControlName="firstName"
+              placeholder="Ej: Juan"
+              [class.invalid]="
+                registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched
+              "
+            />
           </div>
           <div class="form-group">
             <label>Apellidos</label>
-            <input type="text" formControlName="lastName" placeholder="Ej: Pérez"
-                   [class.invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched">
+            <input
+              type="text"
+              formControlName="lastName"
+              placeholder="Ej: Pérez"
+              [class.invalid]="
+                registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched
+              "
+            />
           </div>
         </div>
-        
+
         <div class="form-group">
           <label>Correo Electrónico</label>
-          <input type="email" formControlName="email" placeholder="juan.perez@email.com"
-                 [class.invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="juan.perez@email.com"
+            [class.invalid]="
+              registerForm.get('email')?.invalid && registerForm.get('email')?.touched
+            "
+          />
           @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
             <span class="error-msg">
-              @if (registerForm.get('email')?.errors?.['required']) { El correo es obligatorio }
-              @else if (registerForm.get('email')?.errors?.['email']) { Ingresa un correo válido }
+              @if (registerForm.get('email')?.errors?.['required']) {
+                El correo es obligatorio
+              } @else if (registerForm.get('email')?.errors?.['email']) {
+                Ingresa un correo válido
+              }
             </span>
           }
         </div>
-        
+
         <div class="form-group">
           <label>Número Celular</label>
-          <input type="tel" formControlName="phone" placeholder="+57 300 000 0000"
-                 [class.invalid]="registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched">
+          <input
+            type="tel"
+            formControlName="phone"
+            placeholder="+57 300 000 0000"
+            [class.invalid]="
+              registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched
+            "
+          />
         </div>
 
         <button type="submit" class="btn-primary submit-btn">Registrarme Ahora</button>
-        <p class="terms">Al registrarte, aceptas nuestros <a href="#">Términos y Condiciones</a>.</p>
+        <p class="terms">
+          Al registrarte, aceptas nuestros <a href="#">Términos y Condiciones</a>.
+        </p>
       </form>
+    </div>
+    <div class="social-networks" style="text-align: center; margin-top: 2rem">
+      <a
+        href="https://www.facebook.com/TU_PAGINA"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="color: #1877f2; font-size: 2rem"
+      >
+        <i class="fab fa-facebook"></i>
+      </a>
     </div>
   </div>
 }

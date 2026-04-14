@@ -22,8 +22,8 @@
 
   /* AJUSTE PARA MÓVIL: En pantallas pequeñas centramos más el contenido */
   @media (max-width: 900px) {
-    min-height: 60vh;
-    padding-bottom: 0.5rem;
+    min-height: 40vh;
+    padding-bottom: 1rem;
   }
 }
 
@@ -356,14 +356,7 @@
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(119, 2, 255, 0.3);
 
-  &:hover {
-    // Un pequeño efecto de brillo al pasar el mouse
-    filter: brightness(1.1);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(119, 2, 255, 0.4);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-}
+    }
+  
+  
+  
