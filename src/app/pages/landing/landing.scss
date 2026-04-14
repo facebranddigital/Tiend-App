@@ -4,8 +4,8 @@
   flex-direction: center;
   justify-content: up;
   align-items: up;
-  min-height: 50vh; /* 🔥 Esto hace que ocupe TODA la pantalla del portátil */
-  width: 50%;
+  min-height: 10vh; /* 🔥 Esto hace que ocupe TODA la pantalla del portátil */
+  width: 80%;
   position: up;
   overflow: hidden;
 }
@@ -13,17 +13,17 @@
 /* HERO */
 .hero {
   position: relative;
-  min-height: 122vh;
+  min-height: 200vh;
   display: flex;
   align-items: flex-end;
   justify-content: right;
-  padding-bottom: 1rem;
+  padding-bottom: 3rem;
   overflow: hidden;
 
   /* AJUSTE PARA MÓVIL: En pantallas pequeñas centramos más el contenido */
-  @media (max-width: 700px) {
-    min-height: 40vh;
-    padding-bottom: 1rem;
+  @media (max-width: 900px) {
+    min-height: 60vh;
+    padding-bottom: 0.5rem;
   }
 }
 
@@ -68,22 +68,22 @@
       }
     }
 
-    .btn-primary { 
-  background: linear-gradient(90deg, #ff41f8 0%, #7702ff 100%); // El gradiente fucsia-morado
-  color: white;
-  padding: 15px 35px;
-  border: none;
-  border-radius: 50px; // Forma de cápsula para que resalte
-  font-weight: 800;
-  font-size: 1.1rem;
-  cursor: pointer;
-  box-shadow: 0 10px 20px rgba(119, 2, 255, 0.3);
-  transition: all 0.3s ease;
+    .btn-primary {
+      background: linear-gradient(90deg, #ff41f8 0%, #7702ff 100%); // El gradiente fucsia-morado
+      color: white;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 50px; // Forma de cápsula para que resalte
+      font-weight: 800;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(119, 2, 255, 0.3);
+      transition: all 0.3s ease;
 
       &:hover {
-    transform: scale(1.05); // Crece un poquito al pasar el mouse
-    filter: brightness(1.1);
-    box-shadow: 0 15px 30px rgba(119, 2, 255, 0.4);
+        transform: scale(1.05); // Crece un poquito al pasar el mouse
+        filter: brightness(1.1);
+        box-shadow: 0 15px 30px rgba(119, 2, 255, 0.4);
       }
     }
 
@@ -310,7 +310,7 @@
   .close-btn {
     position: absolute;
     top: 20px;
-    right:30px;
+    right: 30px;
     font-size: 1.9rem;
     color: #8f068f;
     background: none;
