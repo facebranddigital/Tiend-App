@@ -4,16 +4,16 @@
   flex-direction: center;
   justify-content: center;
   align-items: center;
-  min-height: 8vh; /* 🔥 Esto hace que ocupe TODA la pantalla del portátil */
-  width: 100%;
+  min-height: 2vh; /* 🔥 Esto hace que ocupe TODA la pantalla del portátil */
+  width: 90%;
   position: center;
   overflow: hidden;
 }
 
 /* HERO */
 .hero {
-  position: relative;
-  min-height: 100vh;
+  position: center;
+  min-height: 90vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -23,7 +23,7 @@
   /* AJUSTE PARA MÓVIL: En pantallas pequeñas centramos más el contenido */
   @media (max-width: 700px) {
     min-height: 20vh;
-    padding-bottom: 1rem;
+    padding-bottom: 4rem;
   }
 }
 
@@ -31,13 +31,13 @@
   position: absolute;
   inset: 0;
   width: 100%;
-  height: 111%;
+  height: 90%;
   object-fit: cover;
-  object-position: center 15%;
+  object-position: center 25%;
 }
 
 .hero-overlay {
-  position: absolute;
+  position: center;
   inset: 0;
   background: linear-gradient(180deg, rgba(232, 23, 23, 0.1), rgba(0, 0, 0, 0.4));
   z-index: 2;
@@ -46,7 +46,7 @@
 .hero-content {
   position: relative;
   z-index: 2;
-  width: 80%; // Asegura que use el espacio disponible
+  width: 90%; // Asegura que use el espacio disponible
   padding: 0 3%;
 
   .cta-buttons {
@@ -69,7 +69,9 @@
     }
 
     .btn-primary {
-      background: linear-gradient(90deg, #141314 0%, #7702ff 100%); // El gradiente fucsia-morado
+      background: linear-gradient(70deg, #1f0d34, #e4890a);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       color: white;
       padding: 15px 35px;
       border: none;
@@ -81,27 +83,30 @@
       transition: all 0.3s ease;
 
       &:hover {
-        transform: scale(1.05); // Crece un poquito al pasar el mouse
-        filter: brightness(1.1);
-        box-shadow: 0 15px 30px rgba(119, 2, 255, 0.4);
+        transform: translateY(-2px);
+        opacity: 0.8;
+        background: rgba(225, 136, 4, 0.829);
       }
     }
 
     .btn-secondary {
-      background: linear-gradient(90deg, #090809, #7702ff);
+      background: linear-gradient(70deg, #e4890a, #1f0d34);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       color: white;
-      padding: 1.5rem 2rem;
-      border-radius: 44px;
-      border: 1px solid white;
-      font-weight: 750;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 50px; // Forma de cápsula para que resalte
+      font-weight: 800;
+      font-size: 1.1rem;
       cursor: pointer;
+      box-shadow: 0 10px 20px rgba(238, 127, 1, 0.3);
+      transition: all 0.3s ease;
 
       &:hover {
         transform: translateY(-2px);
-        opacity: 0.9;
-        background: rgba(220, 6, 6, 0.25);
+        opacity: 0.8;
+        background: rgba(225, 136, 4, 0.829);
       }
     }
   }
@@ -114,7 +119,7 @@
   display: flex;
   flex-direction: column;
   align-items: center; // Centra todo el contenido
-  gap: 20px;
+  gap: 40px;
 
   /* Reducimos el padding en pantallas pequeñas */
   @media (max-width: 768px) {
@@ -126,7 +131,7 @@
     font-weight: 800;
     max-width: 900px;
     margin: 0 auto 15px; // Un poco de margen abajo
-    background: linear-gradient(90deg, #ff41f8, #7702ff);
+    background: linear-gradient(50deg, #c57a00, #1505a1);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -355,8 +360,4 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(119, 2, 255, 0.3);
-
-    }
-  
-  
-  
+}
