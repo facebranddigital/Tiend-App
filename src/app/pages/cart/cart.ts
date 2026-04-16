@@ -2,6 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart';
+import { environment } from '../../../environments/environment';
 
 declare var MercadoPago: any;
 
@@ -13,47 +14,68 @@ declare var MercadoPago: any;
   styleUrls: ['./cart.scss'],
 })
 export class CartComponent {
-  // Estas variables son obligatorias porque tu HTML las usa:
   paymentMethods = ['Mercado Pago', 'Tarjeta de Crédito'];
   selectedPaymentMethod = signal('Mercado Pago');
   paymentSuccess = signal(false);
 
   constructor(public cartService: CartService) {}
 
-  // Cálculo del total para mostrar en el resumen
   total = computed(() => {
     return this.cartService.cartItems().reduce((acc, item) => acc + item.price, 0);
   });
 
-  // Función para borrar un ítem
   onDelete(index: number) {
     this.cartService.cartItems.update((prev) => prev.filter((_, i) => i !== index));
   }
 
-  // Función para vaciar todo el carrito
   onClear() {
     this.cartService.clearCart();
   }
 
-  // Función para cambiar método de pago
   onSelectMethod(method: string) {
     this.selectedPaymentMethod.set(method);
   }
 
   onCheckout() {
-    console.log('Iniciando checkout con:', this.selectedPaymentMethod());
-    // 1. Inicializa Mercado Pago con tu llave de prueba
-    const mp = new MercadoPago('TEST-1a7af8d6-a414-4308-ba67-bd36d379818b', {
-      locale: 'es-CO',
-    });
+  const totalAmount = this.total();
+  const urlFirebase = 'https://us-central1-tiend-app.cloudfunctions.net/createPreference';
 
-    // 2. Llama al checkout
-    // Nota: Por ahora usamos un ID ficticio para probar el "linkeo"
-    mp.checkout({
-      preference: {
-        id: 'AIzaSyDHwKpocUR1xHtCdhabnNiEAOOQpaXR6Mk',
-      },
-      autoOpen: true, // Esto hace que al dar clic se abra de una vez
+  fetch(urlFirebase, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title: 'Productos Tiend-App',
+      price: totalAmount,
+      quantity: 1,
+    }),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error('Error en el servidor de Firebase');
+      return res.json();
+    })
+    .then((data) => {
+      // VALIDACIÓN CLAVE: Si data.id no existe, el SDK dará error 404
+      if (!data.id) {
+        console.error('No se recibió un ID de preferencia:', data);
+        return;
+      }
+
+      console.log('ID recibido con éxito:', data.id);
+
+      const mp = new (window as any).MercadoPago(environment.mercadoPagoPublicKey, {
+        locale: 'es-CO',
+      });
+
+      // Aseguramos que el objeto preference solo tenga el ID
+      mp.checkout({
+        preference: {
+          id: data.id
+        },
+        autoOpen: true
+      });
+    })
+    .catch((err) => {
+      console.error('Error detallado:', err);
     });
-  } // Aquí es donde meteremos el SDK de Mercado Pago
-}
+    }
+    }
