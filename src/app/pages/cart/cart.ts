@@ -37,45 +37,45 @@ export class CartComponent {
   }
 
   onCheckout() {
-  const totalAmount = this.total();
-  const urlFirebase = 'https://us-central1-tiend-app.cloudfunctions.net/createPreference';
+    const totalAmount = this.total();
+    const urlFirebase = 'https://us-central1-tiend-app.cloudfunctions.net/createPreference';
 
-  fetch(urlFirebase, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      title: 'Productos Tiend-App',
-      price: totalAmount,
-      quantity: 1,
-    }),
-  })
-    .then((res) => {
-      if (!res.ok) throw new Error('Error en el servidor de Firebase');
-      return res.json();
+    fetch(urlFirebase, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: 'Productos Tiend-App',
+        price: totalAmount,
+        quantity: 1,
+      }),
     })
-    .then((data) => {
-      // VALIDACIÓN CLAVE: Si data.id no existe, el SDK dará error 404
-      if (!data.id) {
-        console.error('No se recibió un ID de preferencia:', data);
-        return;
-      }
+      .then((res) => {
+        if (!res.ok) throw new Error('Error en el servidor de Firebase');
+        return res.json();
+      })
+      .then((data) => {
+        // VALIDACIÓN CLAVE: Si data.id no existe, el SDK dará error 404
+        if (!data.id) {
+          console.error('No se recibió un ID de preferencia:', data);
+          return;
+        }
 
-      console.log('ID recibido con éxito:', data.id);
+        console.log('ID recibido con éxito:', data.id);
 
-      const mp = new (window as any).MercadoPago(environment.mercadoPagoPublicKey, {
-        locale: 'es-CO',
+        const mp = new (window as any).MercadoPago(environment.mercadoPagoPublicKey, {
+          locale: 'es-CO',
+        });
+
+        // Aseguramos que el objeto preference solo tenga el ID
+        mp.checkout({
+          preference: {
+            id: data.id,
+          },
+          autoOpen: true,
+        });
+      })
+      .catch((err) => {
+        console.error('Error detallado:', err);
       });
-
-      // Aseguramos que el objeto preference solo tenga el ID
-      mp.checkout({
-        preference: {
-          id: data.id
-        },
-        autoOpen: true
-      });
-    })
-    .catch((err) => {
-      console.error('Error detallado:', err);
-    });
-    }
-    }
+  }
+}
