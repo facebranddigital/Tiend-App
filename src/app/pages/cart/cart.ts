@@ -62,7 +62,7 @@ export class CartComponent {
 
         console.log('ID recibido con éxito:', data.id);
 
-        const mp = new (window as any).MercadoPago(environment.mercadoPagoPublicKey, {
+        const mp = new (window as any).MercadoPago('TEST-1a7af8d6-a414-4308-ba67-bd36d379818b', {
           locale: 'es-CO',
         });
 
