@@ -15,9 +15,10 @@
     font-size: 1.2rem;
     font-weight: 800;
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-    -webkit-background-clip: text;
-
+    background-clip: text; /* Agregamos la estándar por buena práctica */
+    -webkit-background-clip: text ;
     -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
     cursor: pointer;
     letter-spacing: -0.5px;
     transition: filter 0.3s ease;
@@ -60,9 +61,12 @@
       }
     }
 
+    .cart-btn {
+      position: relative;
+    }
+
     .cart-count {
       background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-
       color: white;
       font-size: 0.7rem;
       padding: 2px 6px;
@@ -72,36 +76,40 @@
       right: -10px;
     }
 
-    .cart-btn {
-      position: relative;
-    }
-
-    .btn-login-nav {
+    /* UNIFICADO: Todo bajo .login-btn */
+    .login-btn {
       background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-      color: white;
+      color: white !important;
       border: none;
       padding: 0.7rem 1.5rem;
-      border-radius: 999px;
-      font-weight: 700;
-      letter-spacing: 0.03em;
+      border-radius: 25px;
+      font-weight: 800;
+      font-size: 0.95rem;
       cursor: pointer;
-      box-shadow: 0 14px 28px rgba(87, 60, 6, 0.22);
-      transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        opacity 0.25s ease;
-    }
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
 
-    .btn-login-nav:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 32px rgba(255, 65, 248, 0.3);
-      opacity: 0.98;
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 107, 0, 0.5);
+        filter: brightness(1.1);
+      }
+
+      &:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 8px rgba(255, 107, 0, 0.2);
+      }
     }
   }
-}
 
 @media (max-width: 768px) {
   .nav-links {
     display: none;
   }
+}
 }

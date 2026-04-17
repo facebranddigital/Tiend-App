@@ -23,8 +23,8 @@
 
   /* AJUSTE PARA MÓVIL: En pantallas pequeñas centramos más el contenido */
   @media (max-width: 576px) {
-    min-height: 100vh;
-    padding-bottom: 0.5rem;
+    min-height: 50vh;
+    padding-bottom: 0.1rem;
     background-attachment: fixed;
   }
 }

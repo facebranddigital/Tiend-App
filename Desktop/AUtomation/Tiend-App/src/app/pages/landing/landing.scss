@@ -37,7 +37,7 @@
       line-height: 1.1;
       margin-bottom: 2rem;
       background: linear-gradient(135deg, #fff 0%, #ff41f8 50%, #7702ff 100%);
-      -webkit-background-clip: text;
+      
       -webkit-text-fill-color: transparent;
       text-transform: uppercase;
       letter-spacing: -2px;
@@ -130,7 +130,7 @@
     .product-card {
       border-radius: 20px;
       overflow: hidden;
-      background: #f9f9f9;
+      background: #e2c404;
       transition: transform 0.4s;
 
       &:hover {
@@ -195,7 +195,7 @@
           }
 
           .add-btn {
-            background: #111;
+            background: #b23838;
             color: white;
             width: 45px;
             height: 45px;
@@ -312,7 +312,7 @@
       margin-bottom: 2rem;
       font-weight: 900;
       background: linear-gradient(90deg, #7702ff, #ff41f8);
-      -webkit-background-clip: text;
+      
       -webkit-text-fill-color: transparent;
     }
 
