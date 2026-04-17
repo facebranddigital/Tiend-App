@@ -19,12 +19,13 @@
   p { font-size: 1.2rem; margin-bottom: 1.5rem; }
 
   .btn-primary {
-    background: #7c3aed;
+    background: linear-gradient(95deg, #FF6B00 20%, #FFB800 80%);
+
     color: white;
     border: none;
     padding: 0.75rem 2rem;
     border-radius: 0.5rem;
-    font-size: 1rem;
+    font-size: 1.0rem;
     cursor: pointer;
   }
 }
@@ -59,13 +60,14 @@
     height: 80px;
     object-fit: cover;
     border-radius: 0.5rem;
-    background: #f3f4f6;
+    background: linear-gradient(95deg, #FF6B00 20%, #FFB800 80%);
+
   }
 
   .item-info {
     flex: 1;
     h3 { font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; }
-    .price { color: #7c3aed; font-weight: 700; font-size: 1.1rem; margin: 0; }
+    .price { color: #a15804; font-weight: 700; font-size: 1.1rem; margin: 0; }
   }
 
   .delete-btn {
@@ -108,7 +110,8 @@
 
   .btn-checkout {
     width: 100%;
-    background: #7c3aed;
+    background: linear-gradient(95deg, #FF6B00 20%, #FFB800 80%);
+
     color: white;
     border: none;
     padding: 0.9rem;
@@ -118,19 +121,21 @@
     cursor: pointer;
     margin-bottom: 0.75rem;
     transition: background 0.2s;
-    &:hover { background: #6d28d9; }
+    &:hover { background: #FF6B00; }
+    background: linear-gradient(95deg, #FF6B00 20%, #FFB800 80%);
+
   }
 
   .btn-clear {
     width: 100%;
     background: none;
-    color: #ef4444;
-    border: 1px solid #ef4444;
+    color: #4f2c05;
+    border: 1px solid #0b0202;
     padding: 0.75rem;
     border-radius: 0.75rem;
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s;
-    &:hover { background: #fee2e2; }
+    &:hover { background: #fef5e2; }
   }
 }
