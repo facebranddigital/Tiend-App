@@ -4,6 +4,13 @@
       <h1>Inventario de Productos</h1>
       <p>Gestiona tu stock y productos en tiempo real.</p>
     </div>
+    <div class="search-container">
+      <input 
+        type="text" 
+        
+        placeholder="🔍 Buscar producto por nombre..."
+        class="search-input">
+    </div>
     <button class="btn-add" [routerLink]="['/products/new']">
       <span class="icon">+</span> Agregar Producto
     </button>
@@ -11,58 +18,67 @@
 
   <div class="table-card">
     <div class="table-responsive">
-      <table class="products-table">
-        <thead>
-          <tr>
-            <th>Imagen</th>
-            <th>Producto</th>
-            <th>Descripción</th>
-            <th>Valor</th>
-            <th>Stock</th>
-            <th>Status</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let product of products$ | async">
-            <td class="col-image">
-              <div class="image-wrapper">
-                <img [src]="product.imageUrl || 'assets/placeholder-product.png'" [alt]="product.name">
-              </div>
-            </td>
-            <td class="col-name">
-              <strong>{{ product.name }}</strong>
-            </td>
-            <td class="col-desc">
-              <p class="truncate">{{ product.description }}</p>
-            </td>
-            <td class="col-value">
-              {{ product.price | currency:'USD':'symbol':'1.0-2' }}
-            </td>
-            <td class="col-stock">
-              {{ product.stock }} und.
-            </td>
-            <td class="col-status">
-              <span class="status-badge" [ngClass]="getStatusClass(product.status)">
-                {{ product.status }}
-              </span>
-            </td>
-            <td class="col-actions">
-              <button class="btn-icon edit" [routerLink]="['/products/edit', product.id]" title="Editar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-              </button>
-              <button class="btn-icon delete" (click)="onDelete(product.id!)" title="Eliminar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-              </button>
-            </td>
-          </tr>
-          <tr *ngIf="(products$ | async)?.length === 0">
-            <td colspan="7" class="empty-state">
-              No hay productos registrados.
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <ng-container *ngIf="products$ | async as products; else loading">
+        <table class="products-table">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Producto</th>
+              <th>Descripción</th>
+              <th>Valor</th>
+              <th>Stock</th>
+              <th>Status</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products; trackBy: trackByFn">
+              <td class="col-image">
+                <div class="image-wrapper">
+                  <img [src]="product.imageUrl || 'assets/placeholder-product.png'" [alt]="product.name">
+                </div>
+              </td>
+              <td class="col-name">
+                <strong>{{ product.name }}</strong>
+              </td>
+              <td class="col-desc">
+                <p class="truncate">{{ product.description }}</p>
+              </td>
+              <td class="col-value">
+                {{ product.price | currency:'USD':'symbol':'1.0-2' }}
+              </td>
+              <td class="col-stock">
+                {{ product.stock }} und.
+              </td>
+              <td class="col-status">
+                <span class="status-badge" [ngClass]="getStatusClass(product.status)">
+                  {{ product.status }}
+                </span>
+              </td>
+              <td class="col-actions">
+                <button class="btn-icon edit" [routerLink]="['/products/edit', product.id]" title="Editar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                </button>
+                <button class="btn-icon delete" (click)="onDelete(product.id!)" title="Eliminar">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                </button>
+              </td>
+            </tr>
+
+            <tr *ngIf="products.length === 0">
+              <td colspan="7" class="empty-state">
+                No se encontraron productos.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+
+      <ng-template #loading>
+        <div class="loading-container">
+          <p>Cargando inventario...</p>
+        </div>
+      </ng-template>
     </div>
   </div>
 </main>

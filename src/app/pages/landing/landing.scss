@@ -1,19 +1,19 @@
 .hero-container {
   // O la clase que envuelva todo el Hero
   display: center;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: auto; /* 🔥 Esto hace que ocupe TODA la pantalla del portátil */
-  width: 100%;
-  position: auto;
+  flex-direction: over;
+  justify-content: over;
+  align-items: over;
+  min-height: 10%; /* 🔥 Esto hace que ocupe TODA la pantalla del portátil */
+  width: 10%;
+  position: over;
   overflow: hidden;
 }
 
 /* HERO */
 .hero {
   position: cover;
-  min-height: 100vh;
+  min-height: 10vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -22,8 +22,8 @@
 
   /* AJUSTE PARA MÓVIL: En pantallas pequeñas centramos más el contenido */
   @media (max-width: 576px) {
-    min-height: 48vh;
-    padding-bottom: 1rem;
+    min-height: 77vh;
+    padding-bottom: 0.5rem;
   }
 }
 
@@ -69,7 +69,7 @@
     }
 
     .btn-primary {
-      background: linear-gradient(10deg, #1f0d34, #e4890a);
+      background: linear-gradient(10deg, #1A1A1A, #e4890a);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       color: white;
@@ -77,7 +77,7 @@
       border: none;
       border-radius: 50px; // Forma de cápsula para que resalte
       font-weight: 800;
-      font-size: 1.1rem;
+      font-size: 1.0rem;
       cursor: pointer;
       box-shadow: 0 10px 20px rgba(4, 0, 8, 0.3);
       transition: all 0.3s ease;
@@ -90,7 +90,7 @@
     }
 
     .btn-secondary {
-      background: linear-gradient(70deg, #e4890a, #1f0d34);
+      background: linear-gradient(70deg, #e4890a, #1A1A1A);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       color: white;
@@ -98,7 +98,7 @@
       border: none;
       border-radius: 50px; // Forma de cápsula para que resalte
       font-weight: 800;
-      font-size: 1.1rem;
+      font-size: 1.0rem;
       cursor: pointer;
       box-shadow: 0 10px 20px rgba(238, 127, 1, 0.3);
       transition: all 0.3s ease;
@@ -139,7 +139,7 @@
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: 0.5rem;
     color: #e58217;
     max-width: 900px;
     margin: 0 auto;
@@ -262,15 +262,15 @@
       .price {
         font-size: 2.2rem;
         font-weight: 800;
-        color:(10deg, #123cd4, #eb9c24);
+        color: linear-gradient(10deg, #e4890a, #0d011b);
       }
 
       .add-btn {
         width: 40px;
         height: 40px;
-        border-radius: 50%;
-        background: #eb9c24;
-        color: white;
+        border-radius: 70%;
+        background: #eda108;
+        color: linear-gradient(10deg, #e4890a, #0d011b);
         border: none;
         cursor: pointer;
 
@@ -351,10 +351,10 @@
   margin-top: 30px;
   padding: 5px;
   // Usamos el gradiente característico de tu marca
-  background: linear-gradient(70deg, #e4890a, #34270d);
+  background: linear-gradient(70deg, #f27405, #34270d);
   border: none;
   border-radius: 12px;
-  color: rgb(19, 12, 4); // Texto blanco para que resalte sobre el gradiente
+  color: rgb(240, 109, 14); // Texto blanco para que resalte sobre el gradiente
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
