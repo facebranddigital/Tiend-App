@@ -58,18 +58,38 @@
     flex-wrap: center; // Clave para que los botones se bajen solos en móvil
     justify-content: center;
     /* AJUSTE PARA MÓVIL: Botones centrados y a lo ancho en celulares */
-    @media (max-width: 576px) {
-      justify-content: center;
-    }
+  /* Optimized Mobile Buttons */
+@media (max-width: 576px) {
+  .hero-content .cta-buttons {
+    display: flex;
+    flex-direction: row; /* Keeps them side-by-side */
+    justify-content: center;
+    gap: 10px; /* Space between buttons */
+    width: 100%;
+    padding: 0 10px;
+  }
 
-    button {
-      transition: all 2s ease;
-
-      @media (max-width: 576px) {
-        width: 55%; // En celular el botón ocupa todo el ancho
-        max-width: 200px;
-      }
-    }
+  .btn-primary, .btn-secondary, .ver-coleccion-btn, .saber-mas-btn {
+    /* Resetting the "squashed" look */
+    width: auto !important; 
+    flex: 1; /* Makes both buttons equal width */
+    max-width: 160px; /* Prevents them from getting too huge */
+    
+    /* Better touch targets */
+    padding: 12px 10px !important; 
+    font-size: 0.95rem !important; 
+    font-weight: 700 !important;
+    
+    /* Ensure they stay as rounded capsules */
+    border-radius: 50px !important;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+  }
 
     .btn-primary {
       background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
@@ -113,7 +133,18 @@
       }
     }
   }
-}
+.ver-coleccion-btn, .saber-mas-btn {
+    /* Reducimos el tamaño significativamente */
+    padding: 10px 15px !important; 
+    font-size: 0.8rem !important;  // Letra más pequeña y fina
+    min-width: 130px;              // Ancho mínimo controlado
+    border-radius: 20px;           // Menos exagerado que el de PC
+    
+    /* Para que el texto no se amontone */
+    white-space: nowrap; 
+    text-transform: none;          // Opcional: Quitar mayúsculas ayuda a ahorrar espacio
+  }
+
 
 /* BANNER */
 .promo-banner {

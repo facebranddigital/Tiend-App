@@ -9,20 +9,20 @@
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   .logo {
     font-size: 1.5rem;
     font-weight: 900;
-    background: linear-gradient(95deg, #FF6B00 15%, #FFB800 85%);
+    background: linear-gradient(95deg, #ff6b00 15%, #ffb800 85%);
     -webkit-background-clip: text;
+    background-clip: text; /* Add the standard property */
     -webkit-text-fill-color: transparent;
 
     text-transform: uppercase;
     cursor: pointer;
     letter-spacing: -0.5px;
     transition: filter 0.3s ease;
-    
   }
 
   .nav-links {
@@ -64,9 +64,9 @@
 
     .cart-count {
       position: absolute;
-      top: -2px;    // Ajusta esto si queda muy arriba
-      right: -5px;  // Ajusta esto si queda muy a la derecha
-      background: linear-gradient(135deg, #FF6B00, #FFB800);
+      top: -2px; // Ajusta esto si queda muy arriba
+      right: -5px; // Ajusta esto si queda muy a la derecha
+      background: linear-gradient(135deg, #ff6b00, #ffb800);
       color: white;
       font-size: 0.7rem;
       padding: 2px 6px;
