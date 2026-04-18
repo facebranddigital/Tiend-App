@@ -1,0 +1,12 @@
+/* Asegurar que el contenedor raíz no limite al chat */
+app-root {
+  display: block;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Forzar que el chat ignore cualquier contenedor con overflow hidden */
+app-chat-ai {
+  position: fixed !important;
+  z-index: 999999;
+}
