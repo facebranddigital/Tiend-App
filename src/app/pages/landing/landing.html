@@ -40,15 +40,18 @@
           <h3>Pasabocas</h3>
           <div class="price-row">
             <span class="price">$2.500</span>
-            <button class="add-btn" (click)="onAddToCart('Papas, platanitos, chicharrones,etc',
-               2500,
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart(
+                  'Papas, platanitos, chicharrones,etc',
+                  2500,
                   'Premium Audio',
                   'assets/bracasfood2.webp'
-              
                 )
               "
             >
-              Añadir
+              BUY
             </button>
           </div>
         </div>
@@ -70,7 +73,7 @@
                 onAddToCart('Bolis de leche', 2000, 'Wearables', 'assets/bracasfoodbolis.webp')
               "
             >
-              Buy
+              BUY
             </button>
           </div>
         </div>
@@ -92,7 +95,7 @@
                 onAddToCart('Bolis Naturales', 1500, 'Audio Tech', 'assets/bolismorados.webp')
               "
             >
-              Buy
+              BUY
             </button>
           </div>
         </div>
@@ -104,7 +107,7 @@
   <section class="promo-banner">
     <div class="promo-content">
       <h2>Disfruta mientras te alimentas</h2>
-      
+
       <button class="promo-btn" (click)="toggleRegisterModal()">Registrarse Ahora</button>
     </div>
     <div class="promo-visual">STYLE</div>
@@ -118,7 +121,7 @@
       <h2>Nuestras Colecciones</h2>
       <div class="collections-summary">
         <div class="collection-item">
-          <h3>Bracas Food</h3>
+          <h3>BracasFood</h3>
           <p>
             Inspirada en la comida urbana de un futuro cercano. comidas técnicas, bebidas
             hidratantes y cortes pasbocas.

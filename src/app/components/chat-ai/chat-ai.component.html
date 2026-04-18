@@ -1,0 +1,53 @@
+<div class="chat-wrapper">
+  
+  <div class="chat-window" *ngIf="isOpen()">
+    <div class="chat-header">
+      <div class="header-info">
+        <span class="status-dot"></span>
+        <p>BracasBot 🍦</p>
+      </div>
+      <button class="close-btn" (click)="toggleChat()">×</button>
+    </div>
+
+    <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+      <div *ngFor="let msg of messages()" 
+           [ngClass]="{'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model'}">
+        <div class="message-bubble">
+          {{ msg.text }}
+        </div>
+      </div>
+      
+      <div class="bot-msg" *ngIf="isLoading()">
+        <div class="message-bubble typing">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <input 
+        type="text" 
+        [(ngModel)]="userInput" 
+        (keyup.enter)="sendMessage()" 
+        placeholder="¿Buscas bolis o pasabocas?"
+        [disabled]="isLoading()"
+      />
+      <button (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <a href="https://wa.me/573113355665?text=Hola!%20Vengo%20de%20la%20web%20y%20quiero%20hacer%20un%20pedido" 
+       class="float-btn whatsapp" 
+       target="_blank">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{'active': isOpen()}">
+      <i class="fas" [ngClass]="isOpen() ? 'fa-times' : 'fa-robot'"></i>
+    </button>
+  </div>
+
+</div>
