@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div class="whatsapp-float" (click)="openWhatsApp()" title="Chatea con Bracasfood">
-      <img src="assets/whatsapp-icon.png" alt="WhatsApp Business" />
+      <b style="color:white; font-size:25px;">WA</b>
     </div>
   `,
   styles: [
