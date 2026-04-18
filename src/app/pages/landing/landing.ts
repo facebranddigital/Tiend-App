@@ -1,7 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CartService } from '../../services/cart'; 
+import { CartService } from '../../services/cart';
+
+// Declaramos Swal para que TypeScript no se queje
+declare var Swal: any; 
 
 @Component({
   selector: 'app-landing',
@@ -33,12 +36,24 @@ export class LandingComponent {
     // Guardamos en el servicio
     this.cartService.addToCart(newProduct);
     
-    alert(`¡Añadido al carrito: ${name}!`);
-  }
+    Swal.fire({
+      title: '¡Excelente elección!',
+      text: `Añadido al carrito: ${name}`,
+      icon: 'success',
+      confirmButtonColor: '#ff6b00',
+      timer: 2500,
+      backdrop: `rgba(0,0,0,0.4)`
+    });
+  } // <--- Faltaba cerrar esta llave
 
   onSubmit() {
     if (this.registerForm.valid) {
-      alert('¡Registro exitoso!');
+      Swal.fire({
+        title: '¡Registro exitoso!',
+        text: 'Bienvenido a TIEND',
+        icon: 'success',
+        confirmButtonColor: '#ff6b00'
+      });
       this.toggleRegisterModal();
       this.registerForm.reset(); 
     } else {

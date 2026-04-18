@@ -53,13 +53,24 @@
   padding: 1%;
 
   .cta-buttons {
-    display: flex;
-    gap: 1rem;
+    display: flex;     ///* This centers them horizontally */
+    justify-content: center;    /// /* This centers them vertically (if the container has height) */
+    align-items: center;   /// /* Gap adds space between them so they don't touch */
+    gap: 1.5rem;
+    width: 100%;
+    margin: 0 auto;
+
     flex-wrap: center; // Clave para que los botones se bajen solos en móvil
-    justify-content: center;
+    
     /* AJUSTE PARA MÓVIL: Botones centrados y a lo ancho en celulares */
   /* Optimized Mobile Buttons */
 @media (max-width: 576px) {
+    gap: 1rem;
+    /* This ensures that even if they wrap to two lines, they stay centered */
+    justify-content: center; 
+  }
+
+
   .hero-content .cta-buttons {
     display: flex;
     flex-direction: row; /* Keeps them side-by-side */
@@ -132,7 +143,7 @@
         background: rgba(225, 136, 4, 0.829);
       }
     }
-  }
+  
 .ver-coleccion-btn, .saber-mas-btn {
     /* Reducimos el tamaño significativamente */
     padding: 10px 15px !important; 
