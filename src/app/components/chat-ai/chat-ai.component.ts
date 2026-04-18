@@ -1,11 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-chat-ai',
   standalone: true,
+  imports: [CommonModule],
   template: `
-    <div class="whatsapp-float" (click)="openWhatsApp()">
-      <img src="assets/whatsapp-icon.png" alt="WhatsApp" />
+    <div class="whatsapp-float" (click)="openWhatsApp()" title="Chatea con Bracasfood">
+      <img src="assets/whatsapp-icon.png" alt="WhatsApp Business" />
     </div>
   `,
   styles: [
@@ -16,21 +18,42 @@ import { Component, signal } from '@angular/core';
         right: 20px;
         background-color: #25d366;
         border-radius: 50%;
-        padding: 15px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.4);
         z-index: 1000;
+        transition: all 0.3s ease;
       }
+
+      .whatsapp-float:hover {
+        transform: scale(1.1);
+        background-color: #20ba5a;
+      }
+
       img {
         width: 35px;
         height: 35px;
+      }
+
+      /* Ajuste para móviles */
+      @media (max-width: 768px) {
+        .whatsapp-float {
+          bottom: 15px;
+          right: 15px;
+          width: 55px;
+          height: 55px;
+        }
       }
     `,
   ],
 })
 export class ChatAiComponent {
   openWhatsApp() {
-    const phone = '573218119383'; // Pon tu número de WhatsApp Business aquí (con el 57 de Colombia)
+    const phone = '573218119383';
     const message = encodeURIComponent(
       '¡Hola Bracasfood! Vi la tienda y me gustaría hacer un pedido.',
     );
