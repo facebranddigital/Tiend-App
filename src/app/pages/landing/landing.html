@@ -2,17 +2,15 @@
   <section class="hero">
     <img
       src="assets/bracasfoodlogo.jpeg"
-      alt="Hero banner"
+      alt="Bracas Food Logo"
       class="hero-img"
       fetchpriority="high"
       loading="eager"
     />
-
     <div class="hero-overlay"></div>
-
     <div class="hero-content">
       <div class="cta-buttons">
-        <button class="btn-primary" (click)="toggleModal()">Ver Colección</button>
+        <button class="btn-primary" (click)="toggleModal()">Ver Productos</button>
         <button class="btn-secondary">Saber Más</button>
       </div>
     </div>
@@ -20,38 +18,32 @@
 
   <div class="promo-banner">
     <h2>
-      La mejor nutricion para tu salud
-      <i class="fas fa-hospital-symbol"></i>
+      La mejor nutrición para tu salud
+      <i class="fas fa-apple-alt"></i>
     </h2>
   </div>
 
   <section class="featured-products">
     <div class="section-header">
-      <a href="#">See all products →</a>
+      <a href="#">Ver todo el menú →</a>
     </div>
 
     <div class="product-grid">
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/bracasfood2.webp" alt="Nexus Headphones" loading="lazy" />
+          <img src="assets/bracasfood2.webp" alt="Pasabocas Variados" loading="lazy" />
         </div>
         <div class="product-info">
-          <span class="category"></span>
+          <span class="category">Snacks</span>
           <h3>Pasabocas</h3>
+          <p class="description">Papas, platanitos y chicharrones.</p>
           <div class="price-row">
             <span class="price">$2.500</span>
             <button
               class="add-btn"
-              (click)="
-                onAddToCart(
-                  'Papas, platanitos, chicharrones,etc',
-                  2500,
-                  'Premium Audio',
-                  'assets/bracasfood2.webp'
-                )
-              "
+              (click)="onAddToCart('Pasabocas Mixtos', 2500, 'Snacks', 'assets/bracasfood2.webp')"
             >
-              BUY
+              COMPRAR
             </button>
           </div>
         </div>
@@ -59,21 +51,19 @@
 
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/bracasfoodbolis.webp" alt="Z-Series Smartwatch" loading="lazy" />
-          <span class="badge">New</span>
+          <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
+          <span class="badge">Nuevo</span>
         </div>
         <div class="product-info">
-          <span class="category"></span>
+          <span class="category">Postres</span>
           <h3>Bolis de Leche</h3>
           <div class="price-row">
             <span class="price">$2.000</span>
             <button
               class="add-btn"
-              (click)="
-                onAddToCart('Bolis de leche', 2000, 'Wearables', 'assets/bracasfoodbolis.webp')
-              "
+              (click)="onAddToCart('Bolis de Leche', 2000, 'Postres', 'assets/bracasfoodbolis.webp')"
             >
-              BUY
+              COMPRAR
             </button>
           </div>
         </div>
@@ -81,21 +71,19 @@
 
       <div class="product-card">
         <div class="product-image">
-          <img src="assets/bolismorados.webp" alt="Quantum Wireless Buds" loading="lazy" />
+          <img src="assets/bolismorados.webp" alt="Bolis Fruta Natural" loading="lazy" />
           <span class="badge">-20%</span>
         </div>
         <div class="product-info">
-          <span class="category"></span>
+          <span class="category">Refrescantes</span>
           <h3>Bolis Naturales</h3>
           <div class="price-row">
             <span class="price">$1.500</span>
             <button
               class="add-btn"
-              (click)="
-                onAddToCart('Bolis Naturales', 1500, 'Audio Tech', 'assets/bolismorados.webp')
-              "
+              (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp')"
             >
-              BUY
+              COMPRAR
             </button>
           </div>
         </div>
@@ -103,14 +91,11 @@
     </div>
   </section>
 
-  <!-- Promo Banner -->
-  <section class="promo-banner">
+  <section class="promo-banner secondary">
     <div class="promo-content">
       <h2>Disfruta mientras te alimentas</h2>
-
-      <button class="promo-btn" (click)="toggleRegisterModal()">Registrarse Ahora</button>
+      <button (click)="irAWhatsApp()" class="btn-registrar">HAZ TU PEDIDO POR WHATSAPP</button>
     </div>
-    <div class="promo-visual">STYLE</div>
   </section>
 </div>
 
@@ -118,31 +103,18 @@
   <div class="modal-overlay" (click)="toggleModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="close-btn" (click)="toggleModal()">&times;</button>
-      <h2>Nuestras Colecciones</h2>
+      <h2>Nuestras Líneas</h2>
       <div class="collections-summary">
         <div class="collection-item">
           <h3>BracasFood</h3>
-          <p>
-            Inspirada en la comida urbana de un futuro cercano. comidas técnicas, bebidas
-            hidratantes y cortes pasbocas.
-          </p>
+          <p>Snacks, pasabocas y alimentos rápidos para tu día a día.</p>
         </div>
         <div class="collection-item">
-          <h3>Brades</h3>
-          <p>
-            Una explosión de color y luz. Ropa con tecnología integrada y telas que reaccionan a la
-            luz UV. No pases desapercibido.
-          </p>
-        </div>
-        <div class="collection-item">
-          <h3>Bracas Styles</h3>
-          <p>
-            La máxima expresión de la elegancia funcional. Dispositivos y wearables con un diseño
-            limpio y potencia sin precedentes en tu muñeca.
-          </p>
+          <h3>Bolis Gourmet</h3>
+          <p>Sabores cremosos y frutales para refrescar tu paladar.</p>
         </div>
       </div>
-      <button class="btn-modal-footer" (click)="toggleModal()">Explorar Todo</button>
+      <button class="btn-modal-footer" (click)="toggleModal()">Cerrar</button>
     </div>
   </div>
 }
@@ -151,85 +123,42 @@
   <div class="modal-overlay" (click)="toggleRegisterModal()">
     <div class="modal-content register-modal" (click)="$event.stopPropagation()">
       <button class="close-btn" (click)="toggleRegisterModal()">&times;</button>
-      <h2>Únete a TIEND</h2>
+      <h2>Únete a nuestra comunidad</h2>
       <p style="margin-bottom: 2rem; color: #666">
-        Completa tus datos para empezar tu experiencia innovadora.
+        Regístrate para recibir promociones exclusivas de BracasFood.
       </p>
 
       <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="form-row">
           <div class="form-group">
             <label>Nombres</label>
-            <input
-              type="text"
-              formControlName="firstName"
-              placeholder="Ej: Juan"
-              [class.invalid]="
-                registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched
-              "
-            />
+            <input type="text" formControlName="firstName" placeholder="Ej: Juan" />
           </div>
           <div class="form-group">
             <label>Apellidos</label>
-            <input
-              type="text"
-              formControlName="lastName"
-              placeholder="Ej: Pérez"
-              [class.invalid]="
-                registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched
-              "
-            />
+            <input type="text" formControlName="lastName" placeholder="Ej: Pérez" />
           </div>
         </div>
 
         <div class="form-group">
           <label>Correo Electrónico</label>
-          <input
-            type="email"
-            formControlName="email"
-            placeholder="juan.perez@email.com"
-            [class.invalid]="
-              registerForm.get('email')?.invalid && registerForm.get('email')?.touched
-            "
-          />
-          @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-            <span class="error-msg">
-              @if (registerForm.get('email')?.errors?.['required']) {
-                El correo es obligatorio
-              } @else if (registerForm.get('email')?.errors?.['email']) {
-                Ingresa un correo válido
-              }
-            </span>
-          }
+          <input type="email" formControlName="email" placeholder="correo@ejemplo.com" />
         </div>
 
         <div class="form-group">
           <label>Número Celular</label>
-          <input
-            type="tel"
-            formControlName="phone"
-            placeholder="+57 300 000 0000"
-            [class.invalid]="
-              registerForm.get('phone')?.invalid && registerForm.get('phone')?.touched
-            "
-          />
+          <input type="tel" formControlName="phone" placeholder="+57 300..." />
         </div>
 
-        <button type="submit" class="btn-primary submit-btn">Registrarme Ahora</button>
-        <p class="terms">
-          Al registrarte, aceptas nuestros <a href="#">Términos y Condiciones</a>.
-        </p>
+        <button type="submit" class="btn-registrar">REGISTRARME</button>
+        <p class="terms">Al registrarte, aceptas nuestros <a href="#">Términos</a>.</p>
       </form>
-    </div>
-    <div class="social-networks" style="text-align: center; margin-top: 2rem">
-      <a
-        href="https://www.facebook.com/TU_PAGINA"
-        target="_blank"
-        rel="noopener noreferrer"
-        style="color: #1877f2; font-size: 2rem"
-      >
-        <i class="fab fa-facebook"></i>
-      </a>
+      
+      <div class="social-networks" style="text-align: center; margin-top: 1rem">
+        <a href="https://facebook.com/BracasFood" target="_blank" style="color: #1877f2; font-size: 1.5rem">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </div>
     </div>
   </div>
 }

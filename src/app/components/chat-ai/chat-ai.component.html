@@ -32,22 +32,21 @@
         placeholder="¿Buscas bolis o pasabocas?"
         [disabled]="isLoading()"
       />
-      <button (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">
+      <button class="send-btn" (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">
         <i class="fas fa-paper-plane"></i>
       </button>
     </div>
   </div>
-<div class="whatsapp-float" (click)="abrirWhatsApp()" title="Chatea con Bracasfood">
-  <img src="assets/img/whatsapp-icon.png" alt="WhatsApp Business" />
-</div>
+
   <div class="action-buttons">
     <a href="https://wa.me/573218119383?text=Hola!%20Vengo%20de%20la%20web%20y%20quiero%20hacer%20un%20pedido" 
        class="float-btn whatsapp" 
-       target="_blank">
+       target="_blank"
+       title="Pedido rápido por WhatsApp">
       <i class="fab fa-whatsapp"></i>
     </a>
 
-    <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{'active': isOpen()}">
+    <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{'active': isOpen()}" title="Pregúntale a BracasBot">
       <i class="fas" [ngClass]="isOpen() ? 'fa-times' : 'fa-robot'"></i>
     </button>
   </div>

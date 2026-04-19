@@ -1,47 +1,56 @@
+/* --- CONTENEDOR PRINCIPAL DEL CHAT Y BOTONES --- */
 .chat-wrapper {
-  position: fixed !important; /* Forzamos la posición */
-  bottom: 20px !important;
-  right: 20px !important;
-  z-index: 999999 !important; /* Un número exageradamente alto para que esté por encima de todo */
+  position: fixed !important; // Mantiene todo el grupo pegado a la pantalla aunque hagas scroll
+  bottom: 20px !important; // Distancia desde el borde inferior
+  right: 20px !important; // Distancia desde el borde derecho
+  z-index: 999999 !important; // Lo pone por encima de cualquier otro elemento
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  flex-direction: column; // Organiza los elementos (ventana y botones) hacia arriba
+  align-items: flex-end; // Alinea todo hacia la derecha
 }
 
 /* Botones Flotantes */
 .action-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px; // Espacio entre el robot y el whatsapp
+  z-index: 9999;
 }
 
-/* IMPORTANTE: Asegúrate de tener esto para que los botones tengan tamaño y color */
+/* IMPORTANTE: Asegúrate de tener esto para que los botones tengan tamaño y color - ESTILO DE LOS BOTONES CIRCULARES (WhatsApp e IA)*/
 
 .float-btn {
   width: 55px;
   height: 55px;
-  border-radius: 50%;
+  border-radius: 50%; // Los hace redondos
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+  align-items: center; // Centra el icono verticalmente
+  justify-content: center; // Centra el icono horizontalmente
   font-size: 24px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
+  color: white; // Color del icono
   border: none;
-  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); // Sombra para dar profundidad
+  transition: transform 0.3s ease; // Suaviza el movimiento al pasar el mouse
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.1); // Se agranda un 10% cuando pones el cursor encima
   }
+
+  // AQUÍ ESTÁ EL CAMBIO: Usamos el ampersand (&) pegado al punto de la clase
   &.whatsapp {
-    background: #25d366;
+    background-color: #25d366; /* Color específico para el botón de WhatsApp */
   }
+
   &.ai {
-    background: linear-gradient(135deg, #ff6b00, #ffb800);
+    background-color: #ff6b00; /* Color específico para el botón de BracasBot (IA) */
+
+    // Estilo cuando el chat está abierto (botón activo)
     &.active {
-      background: #666;
+      background-color: #e66000; // Un naranja más fuerte cuando el chat está abierto
     }
   }
 }
@@ -93,16 +102,16 @@
 .chat-window {
   width: 330px;
   height: 450px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.9); // Blanco con un toque de transparencia
+  backdrop-filter: blur(12px); // Efecto de vidrio esmerilado
   border-radius: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 15px; // Espacio entre la ventana y los botones de abajo
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: hidden; // Evita que el contenido se salga de las esquinas redondeadas
   border: 1px solid rgba(255, 255, 255, 0.4);
-  animation: slideUp 0.3s ease-out;
+  animation: slideUp 0.3s ease-out; // Animación de entrada
 }
 
 .chat-header {

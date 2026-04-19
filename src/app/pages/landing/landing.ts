@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart';
 
-// Declaramos Swal para que TypeScript no se queje
 declare var Swal: any; 
 
 @Component({
@@ -17,7 +16,6 @@ export class LandingComponent {
   showModal = signal(false);
   showRegisterModal = signal(false);
 
-  // Inyectamos el servicio global
   constructor(public cartService: CartService) {}
 
   registerForm = new FormGroup({
@@ -27,33 +25,46 @@ export class LandingComponent {
     phone: new FormControl(''),
   });
 
-  toggleModal() { this.showModal.update(v => !v); }
-  toggleRegisterModal() { this.showRegisterModal.update(v => !v); }
+  // --- FUNCIONES DE CONTROL DE MODALES ---
+  
+  toggleModal() { 
+    this.showModal.update(v => !v); 
+  }
+
+  // ESTA ES LA QUE TE FALTABA PARA QUE EL NG SERVE NO DE ERROR
+  toggleRegisterModal() {
+    this.showRegisterModal.update(v => !v);
+  }
+
+  // --- LÓGICA DE NEGOCIO ---
+
+  irAWhatsApp() {
+    const telefono = "573218119383";
+    const mensaje = encodeURIComponent("¡Hola Bracasfood! Quiero hacer un pedido y conocer más sobre sus productos.");
+    const url = `https://wa.me/${telefono}?text=${mensaje}`;
+    window.open(url, '_blank');
+  }
 
   onAddToCart(name: string, price: number, category: string, image: string) {
     const newProduct = { name, price, category, image };
-    
-    // Guardamos en el servicio
     this.cartService.addToCart(newProduct);
     
+    // Usamos el SweetAlert para confirmar
     Swal.fire({
       title: '¡Excelente elección!',
       text: `Añadido al carrito: ${name}`,
       icon: 'success',
       confirmButtonColor: '#ff6b00',
-      timer: 2500,
-      backdrop: `rgba(0,0,0,0.4)`
+      timer: 2000,
+      showConfirmButton: false
     });
-  } // <--- Faltaba cerrar esta llave
+  }
 
   onSubmit() {
     if (this.registerForm.valid) {
-      Swal.fire({
-        title: '¡Registro exitoso!',
-        text: 'Bienvenido a TIEND',
-        icon: 'success',
-        confirmButtonColor: '#ff6b00'
-      });
+      // Si el formulario es válido, podemos mandarlos a WhatsApp
+      // y cerrar el modal automáticamente
+      this.irAWhatsApp(); 
       this.toggleRegisterModal();
       this.registerForm.reset(); 
     } else {
