@@ -34,16 +34,16 @@
           <img src="assets/bracasfood2.webp" alt="Pasabocas Variados" loading="lazy" />
         </div>
         <div class="product-info">
-          <span class="category">Snacks</span>
+          <span class="category"></span>
           <h3>Pasabocas</h3>
-          <p class="description">Papas, platanitos y chicharrones.</p>
+          <p class="description"></p>
           <div class="price-row">
             <span class="price">$2.500</span>
             <button
               class="add-btn"
               (click)="onAddToCart('Pasabocas Mixtos', 2500, 'Snacks', 'assets/bracasfood2.webp')"
             >
-              COMPRAR
+              Comprar
             </button>
           </div>
         </div>
@@ -55,7 +55,7 @@
           <span class="badge">Nuevo</span>
         </div>
         <div class="product-info">
-          <span class="category">Postres</span>
+          <span class="category"></span>
           <h3>Bolis de Leche</h3>
           <div class="price-row">
             <span class="price">$2.000</span>
@@ -63,7 +63,7 @@
               class="add-btn"
               (click)="onAddToCart('Bolis de Leche', 2000, 'Postres', 'assets/bracasfoodbolis.webp')"
             >
-              COMPRAR
+              Comprar
             </button>
           </div>
         </div>
@@ -75,7 +75,7 @@
           <span class="badge">-20%</span>
         </div>
         <div class="product-info">
-          <span class="category">Refrescantes</span>
+          <span class="category"></span>
           <h3>Bolis Naturales</h3>
           <div class="price-row">
             <span class="price">$1.500</span>
@@ -83,7 +83,7 @@
               class="add-btn"
               (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp')"
             >
-              COMPRAR
+              Comprar
             </button>
           </div>
         </div>
@@ -93,8 +93,9 @@
 
   <section class="promo-banner secondary">
     <div class="promo-content">
-      <h2>Disfruta mientras te alimentas</h2>
-      <button (click)="irAWhatsApp()" class="btn-registrar">HAZ TU PEDIDO POR WHATSAPP</button>
+      <h2>Consiente tu paladar</h2>
+      <button (click)="irAWhatsApp()" 
+      class="btn-registrar">HAZ TU PEDIDO AQUI<i class="fas fa-arrow-alt-square-right    "></i></button>
     </div>
   </section>
 </div>

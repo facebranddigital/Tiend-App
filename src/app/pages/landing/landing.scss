@@ -176,7 +176,7 @@
     font-weight: 900;
     max-width: 900px;
     margin: 0 auto 15px; // Un poco de margen abajo
-    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    background: linear-gradient(95deg, #ff6b00 20%, #2e2204 80%);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -229,7 +229,7 @@
   .section-header {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 30px;
+    margin-bottom: 60px;
 
     /* En móvil alineamos el "Ver más" al centro */
     @media (max-width: 900px) {
@@ -238,11 +238,13 @@
 
     a {
       color: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-      font-weight: 900;
+      font-weight: 500;
       text-decoration: none;
 
       &:hover {
-        text-decoration: underline;
+        transform: translateY(-2px);
+        opacity: 0.8;
+        background: rgba(225, 136, 4, 0.829);
       }
     }
   }
@@ -251,33 +253,69 @@
     display: grid;
     /* Cambiamos minmax para que en celulares pequeños no se rompa */
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-    gap: 30px;
+    gap: 60px;
   }
 
-  .product-card {
-    background: #f9f9f9;
-    border-radius: 20px;
-    overflow: hidden;
-    transition: 0.3s;
+  .product-card  {
+  background: #ffffff;
+  border-radius: 20px; /* Bordes redondos */
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); /* Transición suave */
+  position: relative;
+  border: 1px solid #f0f0f0; /* Borde sutil */
+  cursor: pointer;
+}
 
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    }
+    color: #6e3a07; /* Un café cálido para que sea fácil de leer */
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: 5px;
   }
 
+    
+
+  /* LA IMAGEN CUADRADA */
   .product-image {
-    aspect-ratio: 1 / 1;
-    background: #eee;
-    position: relative;
-    overflow: hidden;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Esto fuerza a que sea un cuadrado perfecto */
+  overflow: hidden;
+  }
 
-    img {
-      width: 111%;
-      height: 111%;
-      object-fit: cover;
+  img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Evita que la foto se estire */
+  transition: transform 0.3s ease;
     }
 
+
+
+/* 2. QUITAR LA DESCRIPCIÓN (Papas, platanitos, etc.) */
+/* Buscamos el párrafo de descripción y lo ocultamos */
+
+/* 3. AJUSTE DE CATEGORÍA Y TÍTULO */
+.product-info {
+  padding: 15px;
+  text-align: left;
+}
+
+/* El texto de arriba (Snacks, Postres) */
+.category-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #3e1f01; /* Color oscuro que pediste */
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+/* El texto de abajo (Papas, Platanitos) */
+.product-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #3e1f01; /* Color oscuro que pediste */
+  margin-bottom: 10px;
+}
     .badge {
       position: absolute;
       top: 50px;
@@ -289,43 +327,72 @@
       font-weight: bold;
       font-size: 1rem;
     }
+  
+    // --- ESTILO DE LA INFORMACIÓN DEL PRODUCTO ---
+  .product-info  {
+  display: cover; /* Esto elimina el texto de los ingredientes */
   }
-
-  .product-info {
-    padding: 0.1rem;
-
+    
     h3 {
-      margin: 50px 0;
-      font-size: 2.2rem; // Un poco más pequeño para que no rompa en móvil
+      margin: 80px 0;
+      font-size: 1.4rem; // Tamaño del nombre del producto (Pasabocas, etc.)
+      background: linear-gradient(90deg, #0f0701 0%, #6d5006 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+  text-transform: capitalize; /* Asegura que la primera sea mayúscula */
+
     }
 
     .price-row {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+  justify-content: space-between; /* El precio a la izquierda, el botón a la derecha */
+  align-items: center;
+  margin-top: 15px;
+  width: 100%;
+    }
 
       .price {
         font-size: 2.2rem;
         font-weight: 800;
-        color: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+        color: linear-gradient(40deg, #050200 20%, #161001 80%);
       }
 
       .add-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 70%;
-        background: #eda108;
-        color: llinear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+        width: auto !important;      /* Deja de ser un círculo fijo */
+        height: auto !important;
+        border-radius: 50px !important; /* Forma de cápsula */
+        padding: 8px 20px !important;  /* Espacio interno para que parezca etiqueta */
+
+        /* Color y Texto */
+        background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+        color: white !important;
+        font-weight: 800;
+        font-size: 0.8rem;
+        text-transform: uppercase;
         border: none;
         cursor: pointer;
 
+        /* Alineación */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        
+
         &:hover {
-          background: #bd1515;
+        transform: translateY(-2px);
+        opacity: 1.5;
+        background: rgba(225, 136, 4, 0.829);
         }
       }
-    }
-  }
-}
+    
+  
+
 .modal-overlay {
   position: fixed;
   top: 10;
@@ -370,7 +437,9 @@
     cursor: pointer;
 
     &:hover {
-      color: #d46811;
+      transform: translateY(-2px);
+        opacity: 0.8;
+        background: rgba(225, 136, 4, 0.829);
     }
   }
 }
@@ -382,8 +451,8 @@
   h3 {
     color: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
 
-    font-size: 1.6rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.8rem;      // Tamaño del nombre del producto (Pasabocas, etc.)
+    margin-bottom: 5px;
   }
 
   p {
