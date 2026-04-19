@@ -1,31 +1,31 @@
 .hero-container {
   // O la clase que envuelva todo el Hero
-  display: center;
-  flex-direction: over;
-  justify-content: contain;
-  align-items: contain;
-  min-height: 100%; /* 🔥 Esto hace que ocupe TODA la pantalla del portátil */
+  display: flex; /* Antes decía 'center' (error) */
+  flex-direction: column; /* Antes decía 'over' (error) */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   width: 100%;
-  position: over;
+  position: relative; /* Antes decía 'over' (error) */
   overflow: hidden;
-  background-attachment: fixed;
 }
 
 /* HERO */
 .hero {
-  position: cover;
-  min-height: 111vh;
   display: flex;
-  align-items: flex-end;
-  justify-content: cover;
-  padding-bottom: 1rem;
+  flex-direction: column; /* Apila logo y botones */
+  align-items: center; /* Centra horizontalmente */
+  justify-content: center; /* Centra verticalmente en el espacio disponible */
+  min-height: 80vh; /* Ajusta esto para que no sea tan alto y el texto de abajo suba */
+  padding-top: 11px; /* Espacio para que no choque con el Header/Navbar */
+  position: relative;
   overflow: hidden;
 
   /* AJUSTE PARA MÓVIL: En pantallas pequeñas centramos más el contenido */
-  @media (max-width: 576px) {
-    min-height: 50vh;
-    padding-bottom: 0.1rem;
-    background-attachment: fixed;
+  @media (max-width: 666px) {
+    min-height: auto;
+    align-items: center;
+    gap: 32rem;
   }
 }
 
@@ -33,7 +33,7 @@
   position: absolute;
   inset: 100;
   width: 100%;
-  height: cover;
+  height: container;
   object-fit: contain;
   object-position: center 0.2%;
   background-attachment: fixed;
@@ -47,29 +47,28 @@
 }
 
 .hero-content {
-  position: relative;
-  z-index: 2;
-  width: 90%; // Asegura que use el espacio disponible
-  padding: 1%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -20px; /* Sube un poco todo el bloque si es necesario */
+}
 
-  .cta-buttons {
-    display: flex;     ///* This centers them horizontally */
-    justify-content: center;    /// /* This centers them vertically (if the container has height) */
-    align-items: center;   /// /* Gap adds space between them so they don't touch */
-    gap: 1.5rem;
-    width: 100%;
-    margin: 0 auto;
+.cta-buttons {
+  display: flex; ///* This centers them horizontally */
+  justify-content: center; /// /* This centers them vertically (if the container has height) */
+  align-items: center; /// /* Gap adds space between them so they don't touch */
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 30px;
 
-    flex-wrap: center; // Clave para que los botones se bajen solos en móvil
-    
-    /* AJUSTE PARA MÓVIL: Botones centrados y a lo ancho en celulares */
+  /* AJUSTE PARA MÓVIL: Botones centrados y a lo ancho en celulares */
   /* Optimized Mobile Buttons */
-@media (max-width: 576px) {
-    gap: 1rem;
+  @media (max-width: 576px) {
+    padding: 0 10px;
+    gap: 10px;
     /* This ensures that even if they wrap to two lines, they stay centered */
-    justify-content: center; 
+    justify-content: center;
   }
-
 
   .hero-content .cta-buttons {
     display: flex;
@@ -77,20 +76,23 @@
     justify-content: center;
     gap: 10px; /* Space between buttons */
     width: 100%;
-    padding: 0 10px;
+    padding: 10px;
   }
 
-  .btn-primary, .btn-secondary, .ver-coleccion-btn, .saber-mas-btn {
+  .btn-primary,
+  .btn-secondary,
+  .ver-coleccion-btn,
+  .saber-mas-btn {
     /* Resetting the "squashed" look */
-    width: auto !important; 
+    width: auto !important;
     flex: 1; /* Makes both buttons equal width */
     max-width: 160px; /* Prevents them from getting too huge */
-    
+
     /* Better touch targets */
-    padding: 12px 10px !important; 
-    font-size: 0.95rem !important; 
+    padding: 12px 25px !important;
+    font-size: 1.25rem !important;
     font-weight: 700 !important;
-    
+
     /* Ensure they stay as rounded capsules */
     border-radius: 50px !important;
     white-space: nowrap;
@@ -100,82 +102,68 @@
     text-align: center;
   }
 }
+
+.btn-primary {
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: white;
+  padding: 15px 35px;
+  border: none;
+  border-radius: 50px; // Forma de cápsula para que resalte
+  font-weight: 800;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(4, 0, 8, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    opacity: 0.8;
+    background: rgba(225, 136, 4, 0.829);
   }
+}
 
-    .btn-primary {
-      background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: white;
-      padding: 15px 35px;
-      border: none;
-      border-radius: 50px; // Forma de cápsula para que resalte
-      font-weight: 800;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(4, 0, 8, 0.3);
-      transition: all 0.3s ease;
+.btn-secondary {
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: white;
+  padding: 15px 35px;
+  border: none;
+  border-radius: 50px; // Forma de cápsula para que resalte
+  font-weight: 800;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(238, 127, 1, 0.3);
+  transition: all 0.3s ease;
 
-      &:hover {
-        transform: translateY(-2px);
-        opacity: 0.8;
-        background: rgba(225, 136, 4, 0.829);
-      }
-    }
-
-    .btn-secondary {
-      background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: white;
-      padding: 15px 35px;
-      border: none;
-      border-radius: 50px; // Forma de cápsula para que resalte
-      font-weight: 800;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 10px 20px rgba(238, 127, 1, 0.3);
-      transition: all 0.3s ease;
-
-      &:hover {
-        transform: translateY(-2px);
-        opacity: 0.8;
-        background: rgba(225, 136, 4, 0.829);
-      }
-    }
-  
-.ver-coleccion-btn, .saber-mas-btn {
-    /* Reducimos el tamaño significativamente */
-    padding: 10px 15px !important; 
-    font-size: 0.8rem !important;  // Letra más pequeña y fina
-    min-width: 130px;              // Ancho mínimo controlado
-    border-radius: 20px;           // Menos exagerado que el de PC
-    
-    /* Para que el texto no se amontone */
-    white-space: nowrap; 
-    text-transform: none;          // Opcional: Quitar mayúsculas ayuda a ahorrar espacio
+  &:hover {
+    transform: translateY(-2px);
+    opacity: 0.8;
+    background: rgba(225, 136, 4, 0.829);
   }
-
+}
 
 /* BANNER */
 .promo-banner {
-  padding: 80px 5% 40px;
+  padding: 10px 5%;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center; // Centra todo el contenido
-  gap: 50px;
+  gap: 10px;
 
   /* Reducimos el padding en pantallas pequeñas */
-  @media (max-width: 900px) {
-    padding: 40px 5% 20px;
+  @media (max-width: 576px) {
+    padding: 5px 2% 5px;
   }
 
   h2 {
-    font-size: clamp(3.5rem, 5vw, 2.8rem); // Ajuste dinámico de tamaño de letra
+    font-size: 2.2rem !important; // Ajuste dinámico de tamaño de letra
     font-weight: 900;
-    max-width: 900px;
-    margin: 0 auto 15px; // Un poco de margen abajo
+    max-width: 700px;
+    margin-top: 0;
     background: linear-gradient(95deg, #ff6b00 20%, #2e2204 80%);
     background-clip: text;
     -webkit-background-clip: text;
@@ -193,7 +181,7 @@
 
   /* EL BOTÓN CON EL DISEÑO DE TU MARCA */
   .promo-btn {
-    margin-top: 50px;
+    margin-top: 10px;
     padding: 15px 45px;
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
     border: none;
@@ -223,16 +211,16 @@
   padding: 20px 5% 50px;
 
   @media (max-width: 900px) {
-    padding-bottom: 10px;
+    padding-bottom: 1rem;
   }
 
   .section-header {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 60px;
+    margin-bottom: 10px;
 
     /* En móvil alineamos el "Ver más" al centro */
-    @media (max-width: 900px) {
+    @media (max-width: 100px) {
       justify-content: center;
     }
 
@@ -256,46 +244,42 @@
     gap: 60px;
   }
 
-  .product-card  {
-  background: #ffffff;
-  border-radius: 20px; /* Bordes redondos */
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); /* Transición suave */
-  position: relative;
-  border: 1px solid #f0f0f0; /* Borde sutil */
-  cursor: pointer;
-}
-
-    color: #6e3a07; /* Un café cálido para que sea fácil de leer */
-  font-size: 1.5rem;
-  font-weight: 500;
-  margin-top: 5px;
+  .product-card {
+    background: #ffffff;
+    border-radius: 20px; /* Bordes redondos */
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); /* Transición suave */
+    position: relative;
+    border: 1px solid #f0f0f0; /* Borde sutil */
+    cursor: pointer;
   }
 
-    
+  color: #6e3a07; /* Un café cálido para que sea fácil de leer */
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: 1px;
+}
 
-  /* LA IMAGEN CUADRADA */
-  .product-image {
+/* LA IMAGEN CUADRADA */
+.product-image {
   width: 100%;
   aspect-ratio: 1 / 1; /* Esto fuerza a que sea un cuadrado perfecto */
   overflow: hidden;
-  }
+}
 
-  img {
+img {
   width: 100%;
   height: 100%;
   object-fit: cover; /* Evita que la foto se estire */
   transition: transform 0.3s ease;
-    }
-
-
+}
 
 /* 2. QUITAR LA DESCRIPCIÓN (Papas, platanitos, etc.) */
 /* Buscamos el párrafo de descripción y lo ocultamos */
 
 /* 3. AJUSTE DE CATEGORÍA Y TÍTULO */
 .product-info {
-  padding: 15px;
+  padding: 10px;
   text-align: left;
 }
 
@@ -306,7 +290,7 @@
   font-weight: 700;
   color: #3e1f01; /* Color oscuro que pediste */
   text-transform: uppercase;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 
 /* El texto de abajo (Papas, Platanitos) */
@@ -314,84 +298,80 @@
   font-size: 1.2rem;
   font-weight: 600;
   color: #3e1f01; /* Color oscuro que pediste */
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
-    .badge {
-      position: absolute;
-      top: 50px;
-      left: 15px;
-      background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-      color: white;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 1rem;
-    }
-  
-    // --- ESTILO DE LA INFORMACIÓN DEL PRODUCTO ---
-  .product-info  {
+.badge {
+  position: absolute;
+  top: 50px;
+  left: 15px;
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+// --- ESTILO DE LA INFORMACIÓN DEL PRODUCTO ---
+.product-info {
   display: cover; /* Esto elimina el texto de los ingredientes */
-  }
-    
-    h3 {
-      margin: 80px 0;
-      font-size: 1.4rem; // Tamaño del nombre del producto (Pasabocas, etc.)
-      background: linear-gradient(90deg, #0f0701 0%, #6d5006 100%);
+}
+
+h3 {
+  margin: 8px 0;
+  font-size: 1.4rem; // Tamaño del nombre del producto (Pasabocas, etc.)
+  background: linear-gradient(90deg, #0f0a01 0%, #6d5006 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  
+
   font-size: 1.8rem;
   font-weight: 900;
   margin-bottom: 8px;
   text-transform: capitalize; /* Asegura que la primera sea mayúscula */
+}
 
-    }
-
-    .price-row {
-      display: flex;
+.price-row {
+  display: flex;
   justify-content: space-between; /* El precio a la izquierda, el botón a la derecha */
   align-items: center;
-  margin-top: 15px;
+  margin-top: px;
   width: 100%;
-    }
+}
 
-      .price {
-        font-size: 2.2rem;
-        font-weight: 800;
-        color: linear-gradient(40deg, #050200 20%, #161001 80%);
-      }
+.price {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: linear-gradient(40deg, #050200 20%, #161001 80%);
+}
 
-      .add-btn {
-        width: auto !important;      /* Deja de ser un círculo fijo */
-        height: auto !important;
-        border-radius: 50px !important; /* Forma de cápsula */
-        padding: 8px 20px !important;  /* Espacio interno para que parezca etiqueta */
+.add-btn {
+  width: auto !important; /* Deja de ser un círculo fijo */
+  height: auto !important;
+  border-radius: 50px !important; /* Forma de cápsula */
+  padding: 8px 20px !important; /* Espacio interno para que parezca etiqueta */
 
-        /* Color y Texto */
-        background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-        color: white !important;
-        font-weight: 800;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        border: none;
-        cursor: pointer;
+  /* Color y Texto */
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  color: white !important;
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
 
-        /* Alineación */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        
+  /* Alineación */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 
-        &:hover {
-        transform: translateY(-2px);
-        opacity: 1.5;
-        background: rgba(225, 136, 4, 0.829);
-        }
-      }
-    
-  
+  &:hover {
+    transform: translateY(-2px);
+    opacity: 1.5;
+    background: rgba(225, 136, 4, 0.829);
+  }
+}
 
 .modal-overlay {
   position: fixed;
@@ -423,12 +403,12 @@
     // El morado del título
     font-size: 2.2rem;
     font-weight: 900;
-    margin-bottom: 4rem;
+    margin-bottom: 1rem;
   }
 
   .close-btn {
     position: absolute;
-    top: 10px;
+    top: 7px;
     right: 30px;
     font-size: 1.9rem;
     color: #cd640f;
@@ -438,21 +418,21 @@
 
     &:hover {
       transform: translateY(-2px);
-        opacity: 0.8;
-        background: rgba(225, 136, 4, 0.829);
+      opacity: 0.8;
+      background: rgba(225, 136, 4, 0.829);
     }
   }
 }
 
 /* CADA ITEM DE COLECCIÓN */
 .collection-item {
-  margin-bottom: 1.3rem;
+  margin-bottom: 1rem;
 
   h3 {
     color: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
 
-    font-size: 1.8rem;      // Tamaño del nombre del producto (Pasabocas, etc.)
-    margin-bottom: 5px;
+    font-size: 1.8rem; // Tamaño del nombre del producto (Pasabocas, etc.)
+    margin-bottom: 1px;
   }
 
   p {
@@ -465,7 +445,7 @@
 /* BOTÓN DE EXPLORAR TODO (El de abajo) */
 .btn-modal-footer {
   width: 100%;
-  margin-top: 30px;
+  margin-top: 10px;
   padding: 5px;
   // Usamos el gradiente característico de tu marca
   background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
@@ -480,7 +460,7 @@
 }
 /* Estilo para el botón de WhatsApp y Registro */
 .btn-registrar {
-  background-color: #ff6b00; /* El naranja de tu marca */
+  background-color: #e4890a; /* El naranja de tu marca */
   color: white;
   border: none;
   padding: 12px 24px;
@@ -492,13 +472,13 @@
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
   display: inline-block;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .btn-registrar:hover {
   background-color: #e66000; /* Un naranja más oscurito al pasar el mouse */
   transform: translateY(-2px); /* Pequeño salto hacia arriba */
-  box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+  box-shadow: 0 6px 20px rgba(236, 158, 12, 0.4);
 }
 
 .btn-registrar:active {
