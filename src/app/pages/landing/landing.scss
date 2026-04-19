@@ -16,23 +16,29 @@
   flex-direction: column; /* Apila logo y botones */
   align-items: center; /* Centra horizontalmente */
   justify-content: center; /* Centra verticalmente en el espacio disponible */
-  min-height: 80vh; /* Ajusta esto para que no sea tan alto y el texto de abajo suba */
-  padding-top: 11px; /* Espacio para que no choque con el Header/Navbar */
+  min-height: auto; /* Ajusta esto para que no sea tan alto y el texto de abajo suba */
+  padding: 8px 0; /* +/- espacio entre Header/Navbar y el logo (afect both)*/
   position: relative;
-  overflow: hidden;
+
+  /* --- Media Query para pantallas de computadora (ancho > 1024px) --- */
+  @media screen and (min-width: 1024px) {
+  }
 
   /* AJUSTE PARA MÓVIL: En pantallas pequeñas centramos más el contenido */
-  @media (max-width: 666px) {
+  @media (max-width: 80px) {
     min-height: auto;
     align-items: center;
-    gap: 32rem;
+    gap: 1rem;
   }
 }
 
 .hero-img {
-  position: absolute;
-  inset: 100;
-  width: 100%;
+  position: center;
+  display: block;
+  margin: 0 auto;
+  inset: 50;
+  max-width: 466px; /* Ajusta tamaño logo nel compu */
+  width: 100%; // Ajusta tamaño logo no cel bom no compu ruim //
   height: container;
   object-fit: contain;
   object-position: center 0.2%;
@@ -53,53 +59,57 @@
   margin-top: -20px; /* Sube un poco todo el bloque si es necesario */
 }
 
-.cta-buttons {
-  display: flex; ///* This centers them horizontally */
-  justify-content: center; /// /* This centers them vertically (if the container has height) */
-  align-items: center; /// /* Gap adds space between them so they don't touch */
-  gap: 1rem;
-  width: 100%;
-  margin-bottom: 30px;
+/* CONTENEDOR DE BOTONES */
 
-  /* AJUSTE PARA MÓVIL: Botones centrados y a lo ancho en celulares */
-  /* Optimized Mobile Buttons */
-  @media (max-width: 576px) {
-    padding: 0 10px;
-    gap: 10px;
-    /* This ensures that even if they wrap to two lines, they stay centered */
-    justify-content: center;
-  }
+@media screen and (min-width: 1025px) {
+  /* --- Media Query para pantallas de computadora (Escritorio) --- */
 
-  .hero-content .cta-buttons {
-    display: flex;
-    flex-direction: row; /* Keeps them side-by-side */
-    justify-content: center;
-    gap: 10px; /* Space between buttons */
+  .cta-buttons {
+    display: flex; // Change location //
+    justify-content: top;
+    align-items: top;
     width: 100%;
-    padding: 10px;
+    position: relative;
+    z-index: 10;
+    margin-top: 1rem; // Baja los FUCKING botones Ver products & Saber Mas //
   }
 
   .btn-primary,
-  .btn-secondary,
-  .ver-coleccion-btn,
-  .saber-mas-btn {
-    /* Resetting the "squashed" look */
-    width: auto !important;
-    flex: 1; /* Makes both buttons equal width */
-    max-width: 160px; /* Prevents them from getting too huge */
-
-    /* Better touch targets */
-    padding: 12px 25px !important;
-    font-size: 1.25rem !important;
-    font-weight: 700 !important;
-
-    /* Ensure they stay as rounded capsules */
-    border-radius: 50px !important;
-    white-space: nowrap;
+  .btn-secondary {
+    width: 240px !important; /* The anchura of the buttons */
+    height: 55px !important; /* The altura of the buttons */
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: white;
+    border: none;
+    font-weight: 100;
+    cursor: pointer;
+    transition: all 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+
+    white-space: normal; /* Permite que el texto salte de línea si es largo */
+
+    /* Elevación para que destaque sobre el logo oscuro */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Mantenemos tu lógica de móvil para que sigan siendo cápsulas */
+@media (max-width: 576px) {
+  .cta-buttons {
+    .btn-primary,
+    .btn-secondary {
+      width: auto !important;
+      flex: none !important;
+      height: auto !important;
+      border-radius: 50px !important; /* Vuelve a forma de cápsula en celular */
+      font-size: 1.1rem !important; // General button size //
+      padding: 12px 15px !important;
+    }
   }
 }
 
@@ -108,11 +118,11 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: white;
-  padding: 15px 35px;
+  padding: 10px 15px; // Grosor & largor of the buttons //
   border: none;
-  border-radius: 50px; // Forma de cápsula para que resalte
-  font-weight: 800;
-  font-size: 1.5rem;
+  border-radius: 40px; // Forma de cápsula para que resalte //
+  font-weight: 800; // +/- Grosor Text //
+  font-size: 1.5rem; // General button size //
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(4, 0, 8, 0.3);
   transition: all 0.3s ease;
@@ -129,10 +139,10 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: white;
-  padding: 15px 35px;
+  padding: 10px 15px; // Grosor & largor of the buttons //
   border: none;
-  border-radius: 50px; // Forma de cápsula para que resalte
-  font-weight: 800;
+  border-radius: 40px; // Forma de cápsula para que resalte //
+  font-weight: 800; // +/- Grosor Text //
   font-size: 1.5rem;
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(238, 127, 1, 0.3);
@@ -220,7 +230,7 @@
     margin-bottom: 10px;
 
     /* En móvil alineamos el "Ver más" al centro */
-    @media (max-width: 100px) {
+    @media (max-width: 1020px) {
       justify-content: center;
     }
 

@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart';
 
-declare var Swal: any; 
+declare var Swal: any;
 
 @Component({
   selector: 'app-landing',
@@ -26,21 +26,23 @@ export class LandingComponent {
   });
 
   // --- FUNCIONES DE CONTROL DE MODALES ---
-  
-  toggleModal() { 
-    this.showModal.update(v => !v); 
+
+  toggleModal() {
+    this.showModal.update((v) => !v);
   }
 
   // ESTA ES LA QUE TE FALTABA PARA QUE EL NG SERVE NO DE ERROR
   toggleRegisterModal() {
-    this.showRegisterModal.update(v => !v);
+    this.showRegisterModal.update((v) => !v);
   }
 
   // --- LÓGICA DE NEGOCIO ---
 
   irAWhatsApp() {
-    const telefono = "573218119383";
-    const mensaje = encodeURIComponent("¡Hola Bracasfood! Quiero hacer un pedido y conocer más sobre sus productos.");
+    const telefono = '573116213800';
+    const mensaje = encodeURIComponent(
+      '¡Hola Bracasfood! Quiero hacer un pedido y conocer más sobre sus productos.',
+    );
     const url = `https://wa.me/${telefono}?text=${mensaje}`;
     window.open(url, '_blank');
   }
@@ -48,7 +50,7 @@ export class LandingComponent {
   onAddToCart(name: string, price: number, category: string, image: string) {
     const newProduct = { name, price, category, image };
     this.cartService.addToCart(newProduct);
-    
+
     // Usamos el SweetAlert para confirmar
     Swal.fire({
       title: '¡Excelente elección!',
@@ -56,7 +58,7 @@ export class LandingComponent {
       icon: 'success',
       confirmButtonColor: '#ff6b00',
       timer: 2000,
-      showConfirmButton: false
+      showConfirmButton: false,
     });
   }
 
@@ -64,9 +66,9 @@ export class LandingComponent {
     if (this.registerForm.valid) {
       // Si el formulario es válido, podemos mandarlos a WhatsApp
       // y cerrar el modal automáticamente
-      this.irAWhatsApp(); 
+      this.irAWhatsApp();
       this.toggleRegisterModal();
-      this.registerForm.reset(); 
+      this.registerForm.reset();
     } else {
       this.registerForm.markAllAsTouched();
     }
