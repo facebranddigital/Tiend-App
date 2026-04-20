@@ -4,28 +4,28 @@
   flex-direction: column; /* Antes decía 'over' (error) */
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  width: 100%;
-  position: relative; /* Antes decía 'over' (error) */
+  min-height: 20vh;
+  width: 20%;
+  position: center; /* Antes decía 'over' (error) */
   overflow: hidden;
 }
 
 /* HERO */
 .hero {
   display: flex;
-  flex-direction: column; /* Apila logo y botones */
-  align-items: center; /* Centra horizontalmente */
-  justify-content: center; /* Centra verticalmente en el espacio disponible */
+  flex-direction: 65%; /* Change location of buttons */
+  align-items: center; /* Up/Down */
+  justify-content: 75%; /* Centra verticalmente en el espacio disponible */
   min-height: auto; /* Ajusta esto para que no sea tan alto y el texto de abajo suba */
   padding: 8px 0; /* +/- espacio entre Header/Navbar y el logo (afect both)*/
   position: relative;
 
   /* --- Media Query para pantallas de computadora (ancho > 1024px) --- */
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 200px) {
   }
 
-  /* AJUSTE PARA MÓVIL: En pantallas pequeñas centramos más el contenido */
-  @media (max-width: 80px) {
+  /* AJUSTE LOGO MÓVIL: En pantallas pequeñas centramos más el contenido */
+  @media (max-width: 0.5px) {
     min-height: auto;
     align-items: center;
     gap: 1rem;
@@ -37,8 +37,8 @@
   display: block;
   margin: 0 auto;
   inset: 50;
-  max-width: 466px; /* Ajusta tamaño logo nel compu */
-  width: 100%; // Ajusta tamaño logo no cel bom no compu ruim //
+  max-width: 660px; /* Ajusta tamaño logo nel compu */
+  width: 76%; // Ajusta tamaño logo no cel bom no compu ruim //
   height: container;
   object-fit: contain;
   object-position: center 0.2%;
@@ -61,28 +61,36 @@
 
 /* CONTENEDOR DE BOTONES */
 
-@media screen and (min-width: 1025px) {
-  /* --- Media Query para pantallas de computadora (Escritorio) --- */
-
+@media screen and (min-width: 1025px) {   /* --- Media Query para pantallas de computadora (Escritorio) --- */
+ 
   .cta-buttons {
-    display: flex; // Change location //
-    justify-content: top;
-    align-items: top;
-    width: 100%;
-    position: relative;
+    display: flex;
+    justify-content: space-between; /* Empuja uno a la izquierda y otro a la derecha */;
+    align-items: center;
+
+    /* AJUSTE CLAVE: */
+    width: 100%; // Move Horizontaly //
+    max-width: 650px;   /* Ajusta este número para que se peguen más o menos al círculo */
+    margin: -250px auto 0; /* El margen negativo los sube para que queden sobre el logo */
+    
+    position: absolute;
     z-index: 10;
+    pointer-events: none; /* Permite que el mouse pase a través del contenedor si es necesario */
+    
     margin-top: 1rem; // Baja los FUCKING botones Ver products & Saber Mas //
   }
 
-  .btn-primary,
-  .btn-secondary {
-    width: 240px !important; /* The anchura of the buttons */
-    height: 55px !important; /* The altura of the buttons */
+  .btn-primary, .btn-secondary {
+  
+    pointer-events: auto; /* Asegura que los botones sí reciban clics */
+    width: 160px !important; /* The anchura on Laptop */
+    height: 100px !important; /* Change altura on Laptop  */
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     color: white;
-    border: none;
+    border-radius: 20px !important;
+    flex: none;
     font-weight: 100;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -99,16 +107,28 @@
 }
 
 /* Mantenemos tu lógica de móvil para que sigan siendo cápsulas */
-@media (max-width: 576px) {
+@media screen and (max-width: 1024px) {
   .cta-buttons {
-    .btn-primary,
-    .btn-secondary {
-      width: auto !important;
-      flex: none !important;
-      height: auto !important;
+    display: flex;
+    flex-direction: column; /* Mantenerlos uno al lado del otro */
+    justify-content: column;
+    align-items: center;
+    gap: 7px;           /* Espacio equilibrado entre cápsulas */
+    width: 50%;
+    margin-top: -60px;   /* Sube los botones para que "toquen" el logo circular */
+    padding: 2000 0.8px;
+    z-index: 10;
+
+    .btn-primary, .btn-secondary {
+      flex: 1;
+      max-width: 150px !important;
+      height: 25px !important;
       border-radius: 50px !important; /* Vuelve a forma de cápsula en celular */
-      font-size: 1.1rem !important; // General button size //
-      padding: 12px 15px !important;
+      font-size: 1rem !important; // General button size //
+      padding: 10px 25px !important;
+      white-space: nowrap;
+      /* Sombras para que resalten sobre el logo de Bracasfood */
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     }
   }
 }
@@ -118,7 +138,7 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: white;
-  padding: 10px 15px; // Grosor & largor of the buttons //
+  padding: 2px 5px; // Grosor & largor of the buttons //
   border: none;
   border-radius: 40px; // Forma de cápsula para que resalte //
   font-weight: 800; // +/- Grosor Text //
@@ -139,7 +159,7 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: white;
-  padding: 10px 15px; // Grosor & largor of the buttons //
+  padding: 2px 15px; // Grosor & largor of the buttons //
   border: none;
   border-radius: 40px; // Forma de cápsula para que resalte //
   font-weight: 800; // +/- Grosor Text //
@@ -250,8 +270,8 @@
   .product-grid {
     display: grid;
     /* Cambiamos minmax para que en celulares pequeños no se rompa */
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-    gap: 60px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); // Configuracion products cuadro //
+    gap: 10px;
   }
 
   .product-card {
@@ -265,7 +285,7 @@
   }
 
   color: #6e3a07; /* Un café cálido para que sea fácil de leer */
-  font-size: 1.5rem;
+  font-size: 1.0rem;
   font-weight: 500;
   margin-top: 1px;
 }
