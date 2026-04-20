@@ -62,41 +62,45 @@
 /* CONTENEDOR DE BOTONES */
 
 @media screen and (min-width: 1025px) {   /* --- Media Query para pantallas de computadora (Escritorio) --- */
- 
   .cta-buttons {
-    display: flex;
-    justify-content: space-between; /* Empuja uno a la izquierda y otro a la derecha */;
-    align-items: center;
+    display: grid;  /* Creamos 3 columnas: botones izq | espacio logo | botones der */
+    grid-template-columns: 1fr 500px 1fr;
+    gap: 10px;
+    padding: 20px;
+    margin-top: 10px;
 
+    align-items: center;
+    
     /* AJUSTE CLAVE: */
-    width: 100%; // Move Horizontaly //
-    max-width: 650px;   /* Ajusta este número para que se peguen más o menos al círculo */
-    margin: -250px auto 0; /* El margen negativo los sube para que queden sobre el logo */
-    
-    position: absolute;
+    position: absolute;  /* Para que flote sobre el logo */
+    left: 50%;            /* Lo manda al centro exacto */
+    transform: translateX(-50%); /* Centrado matemático perfecto *
+    width: 100%;      // Move Horizontaly //
+    max-width: 1100px; /* Aumentamos el ancho para que quepan 5 */
+    top: 50%;
     z-index: 10;
-    pointer-events: none; /* Permite que el mouse pase a través del contenedor si es necesario */
-    
-    margin-top: 1rem; // Baja los FUCKING botones Ver products & Saber Mas //
   }
 
   .btn-primary, .btn-secondary {
-  
     pointer-events: auto; /* Asegura que los botones sí reciban clics */
-    width: 160px !important; /* The anchura on Laptop */
-    height: 100px !important; /* Change altura on Laptop  */
+    width: auto !important; /* The anchura on Laptop */
+    height: 50px !important; /* Change altura on Laptop  */
+    border-radius: 50px !important;
+    font-size: 0.9rem !important;
+    
+    flex: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     color: white;
-    border-radius: 20px !important;
-    flex: none;
     font-weight: 100;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    
     text-align: center;
 
     white-space: normal; /* Permite que el texto salte de línea si es largo */
