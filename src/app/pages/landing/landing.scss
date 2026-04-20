@@ -1,12 +1,12 @@
 .hero-container {
   // O la clase que envuelva todo el Hero
-  display: flex; /* Antes decía 'center' (error) */
+  display: relative; /* Antes decía 'center' (error) */
   flex-direction: column; /* Antes decía 'over' (error) */
   justify-content: center;
   align-items: center;
   min-height: 20vh;
   width: 20%;
-  position: center; /* Antes decía 'over' (error) */
+  position: relative; /* Antes decía 'over' (error) */
   overflow: hidden;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .hero-img {
-  position: center;
+  position: relative;
   display: block;
   margin: 0 auto;
   inset: 50;
@@ -62,91 +62,69 @@
 /* CONTENEDOR DE BOTONES */
 
 @media screen and (min-width: 1025px) {   /* --- Media Query para pantallas de computadora (Escritorio) --- */
-  .cta-buttons {
-    display: grid;  /* Creamos 3 columnas: botones izq | espacio logo | botones der */
-    grid-template-columns: 1fr 500px 1fr;
-    gap: 10px;
-    padding: 20px;
-    margin-top: 10px;
+     :host .cta-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 9px !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 55% !important;
+    /* Ajusta este valor (ej. 130% a 145%) para separar el bloque del logo */
+    transform: translate(135%, -50%) !important; 
+    z-index: 100 !important;
+    align-items: flex-start !important;
+  }
+  /* --- CURVA CORRECTA: PARÉNTESIS DE CIERRE ")" --- */
 
-    align-items: center;
-    
-    /* AJUSTE CLAVE: */
-    position: absolute;  /* Para que flote sobre el logo */
-    left: 50%;            /* Lo manda al centro exacto */
-    transform: translateX(-50%); /* Centrado matemático perfecto *
-    width: 100%;      // Move Horizontaly //
-    max-width: 1100px; /* Aumentamos el ancho para que quepan 5 */
-    top: 50%;
-    z-index: 10;
+  /* El botón 3 (CENTRAL): Es el que debe estar pegado al logo */
+  :host .cta-buttons button:nth-child(3) {
+    margin-left: 28px !important;
   }
 
-  .btn-primary, .btn-secondary {
-    pointer-events: auto; /* Asegura que los botones sí reciban clics */
-    width: auto !important; /* The anchura on Laptop */
-    height: 50px !important; /* Change altura on Laptop  */
-    border-radius: 50px !important;
-    font-size: 0.9rem !important;
-    
-    flex: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: white;
-    font-weight: 100;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    
-    text-align: center;
+  /* Los botones 2 y 4 (INTERMEDIOS): Se alejan un poco hacia la derecha */
+  :host .cta-buttons button:nth-child(2),
+  :host .cta-buttons button:nth-child(4) {
+    margin-left: 28px !important;
+  }
 
-    white-space: normal; /* Permite que el texto salte de línea si es largo */
-
-    /* Elevación para que destaque sobre el logo oscuro */
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  /* Los botones 1 y 5 (EXTREMOS): Son los que más se alejan a la derecha */
+  :host .cta-buttons button:nth-child(1),
+  :host .cta-buttons button:nth-child(5) {
+    margin-left: 10px !important;
   }
 }
+  
+/* DISEÑO MÓVIL (Los botones bajan y se centran) */
+@media screen and (max-width: 1020px) {
+   .cta-buttons button {
+    width: 175px !important;
+    height: 34px !important;
+    transition: all 0.6s ease;
+  }
 
-/* Mantenemos tu lógica de móvil para que sigan siendo cápsulas */
-@media screen and (max-width: 1024px) {
-  .cta-buttons {
-    display: flex;
-    flex-direction: column; /* Mantenerlos uno al lado del otro */
-    justify-content: column;
-    align-items: center;
-    gap: 7px;           /* Espacio equilibrado entre cápsulas */
-    width: 50%;
-    margin-top: -60px;   /* Sube los botones para que "toquen" el logo circular */
-    padding: 2000 0.8px;
-    z-index: 10;
+  /* El botón del centro (3) queda recto */
+  .cta-buttons button:nth-child(3) {
+    transform: scale(0.98); /* El del medio un poco más grande para resaltar */
+  }
 
-    .btn-primary, .btn-secondary {
-      flex: 1;
-      max-width: 150px !important;
-      height: 25px !important;
-      border-radius: 50px !important; /* Vuelve a forma de cápsula en celular */
-      font-size: 1rem !important; // General button size //
-      padding: 10px 25px !important;
-      white-space: nowrap;
-      /* Sombras para que resalten sobre el logo de Bracasfood */
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    }
+  /* Los de arriba y abajo se encogen un pelín para dar sensación de profundidad circular */
+  .cta-buttons button:nth-child(1),
+  .cta-buttons button:nth-child(5) {
+    transform: scale(1.1);
+    opacity: 0.9;
   }
 }
-
+  
 .btn-primary {
   background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: white;
-  padding: 2px 5px; // Grosor & largor of the buttons //
+  padding: 1px 1px; // Grosor & largor of the buttons //
   border: none;
   border-radius: 40px; // Forma de cápsula para que resalte //
   font-weight: 800; // +/- Grosor Text //
-  font-size: 1.5rem; // General button size //
+  font-size: 1.6rem; // General button size //
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(4, 0, 8, 0.3);
   transition: all 0.3s ease;
@@ -163,11 +141,11 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: white;
-  padding: 2px 15px; // Grosor & largor of the buttons //
+  padding: 1.1px 1px; // Grosor & largor of the buttons //
   border: none;
   border-radius: 40px; // Forma de cápsula para que resalte //
   font-weight: 800; // +/- Grosor Text //
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(238, 127, 1, 0.3);
   transition: all 0.3s ease;
@@ -181,62 +159,46 @@
 
 /* BANNER */
 .promo-banner {
-  padding: 10px 5%;
+  padding: 20px 5%;
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center; // Centra todo el contenido
+  align-items: center;
   gap: 10px;
 
-  /* Reducimos el padding en pantallas pequeñas */
-  @media (max-width: 576px) {
-    padding: 5px 2% 5px;
-  }
-
   h2 {
-    font-size: 2.2rem !important; // Ajuste dinámico de tamaño de letra
+    font-size: 2.2rem;
     font-weight: 900;
-    max-width: 700px;
-    margin-top: 0;
+    margin: 0;
     background: linear-gradient(95deg, #ff6b00 20%, #2e2204 80%);
-    background-clip: text;
     -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
   }
 
   p {
-    font-size: 0.5rem;
+    font-size: 0.9rem;
     color: #e58217;
-    max-width: 900px;
-    margin: 0 auto;
-    line-height: 1.5;
+    max-width: 800px;
+    margin: 0;
   }
 
-  /* EL BOTÓN CON EL DISEÑO DE TU MARCA */
   .promo-btn {
     margin-top: 10px;
     padding: 15px 45px;
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
     border: none;
-    border-radius: 50px; // Estilo cápsula
+    border-radius: 50px;
     color: white;
     font-weight: 800;
-    font-size: 1.1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(119, 2, 255, 0.2);
-    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
 
     &:hover {
-      transform: scale(1.05) translateY(-3px);
-      filter: brightness(1.1);
+      transform: scale(1.05);
       box-shadow: 0 15px 30px rgba(230, 145, 8, 0.4);
-    }
-
-    &:active {
-      transform: scale(0.98);
     }
   }
 }
@@ -517,4 +479,21 @@ h3 {
 
 .btn-registrar:active {
   transform: translateY(0);
+}
+
+/* Estilo para el botón de WhatsApp y Registro */
+.btn-whatsapp {
+  background-color: #e4890a; /* El naranja de tu marca */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+  display: inline-block;
+  margin-top: 0.5rem;
 }
