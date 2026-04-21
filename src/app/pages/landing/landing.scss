@@ -13,49 +13,63 @@
 /* HERO */
 .hero {
   display: flex;
-  flex-direction: 65%; /* Change location of buttons */
+  justify-content: center; /* Centra verticalmente en el espacio disponible */
   align-items: center; /* Up/Down */
-  justify-content: 75%; /* Centra verticalmente en el espacio disponible */
-  min-height: auto; /* Ajusta esto para que no sea tan alto y el texto de abajo suba */
-  padding: 8px 0; /* +/- espacio entre Header/Navbar y el logo (afect both)*/
+  height: 444px;           /* Dale una altura fija razonable para PC */
+  gap: 10px; /* Espacio entre logo y botones */ /* Ajusta esto para que no sea tan alto y el texto de abajo suba */
+  padding: 20px 10; /* +/- espacio entre Header/Navbar y el logo (afect both)*/
   position: relative;
+  overflow: hidden;  /* Corta lo que se salga */
+
+.hero-img {
+  max-width: 450px !important; /* Ajusta este número hasta que el logo se vea entero */
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain;      /* Obliga a la imagen a caber entera sin deformarse */
+  margin: 0 auto;
+}
 
   /* --- Media Query para pantallas de computadora (ancho > 1024px) --- */
   @media screen and (min-width: 1025px) {
     :host .cta-buttons {
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: flex-end !important; /* Clave: alinea todos los botones hacia el logo */
-      gap: 12px !important;
-      position: absolute !important;
-      top: 50% !important;
-      left: 48% !important;
-      transform: translate(-105%, -50%) !important; /* Los posiciona a la izquierda del logo */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* Clave: alinea todos los botones hacia el logo */
+      gap: 8px !important;
+      flex: 1; /* Toma el espacio restante */
     }
-    
   }
 
   /* AJUSTE LOGO MÓVIL: En pantallas pequeñas centramos más el contenido */
-  @media (max-width: 0.5px) {
+  @media (max-width: 0.4px) {
     min-height: auto;
-    align-items: center;
+    align-items: flex-start !important; 
     gap: 1rem;
   }
 }
+@media screen and (max-width: 1025px) {
+  .hero {
+    display: flex !important;
+    flex-direction: row !important; /* Logo a la izquierda, botones a la derecha */
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 69px !important; /* Pegamos los botones al borde del logo */
+    padding: 40px !important;
+    min-height: 300px !important; /* Altura suficiente para que quepan los 5 botones */
+  }
 
-.hero-img {
-  position: relative;
-  display: block;
-  margin: 0 auto;
-  inset: 50;
-  max-width: 660px; /* Ajusta tamaño logo nel compu */
-  width: 76%; // Ajusta tamaño logo no cel bom no compu ruim //
-  height: container;
-  object-fit: contain;
-  object-position: center 0.2%;
-  background-attachment: fixed;
+  .hero-img {
+    width: 5% !important; /* Reducimos el logo a la mitad del ancho */
+    max-width: 90px !important;  /* Ajusta tamaño logo nel compu */
+    margin: 0 !important; /* Quitamos el auto para que no se centre solo */
 }
-
+.cta-buttons button {
+    width: auto !important; /* Que el botón solo ocupe lo que necesita el texto */
+    min-width: 100px !important;
+    font-size: 1rem !important; /* Bajamos un poco la letra para que no se amontone */
+    padding: 5px 10px !important;
+  }
+}
 .hero-overlay {
   position: center;
   inset: 0;
@@ -83,8 +97,8 @@
     top: 50% !important;
 
     /* --- CAMBIOS CLAVE PARA MOVER A LA IZQUIERDA --- */
-    left: 35% !important; /* Bajamos el % para que empiece antes del logo */
-    transform: translate(100%, -50%) !important; /* El valor negativo lo lanza a la IZQUIERDA */
+    left: 72% !important; /* Bajamos el % para que empiece antes del logo */
+    transform: translate(220%, -50%) !important; /* El valor negativo lo lanza a la IZQUIERDA */
     width: auto !important;
   }
 }
@@ -97,52 +111,62 @@
   white-space: nowrap !important; /* Evita que la palabra se parta en dos */
 }
 :host .cta-buttons button:nth-child(1) {
-  margin-left: -58px !important;
+  margin-right: -20px !important;
 }
 :host .cta-buttons button:nth-child(2) {
-  margin-left: -25px !important;
+  margin-right: -10px !important;
 }
 :host .cta-buttons button:nth-child(3) {
-  margin-left: -11px !important;
+  margin-right: -14px !important;
 }
 :host .cta-buttons button:nth-child(4) {
-  margin-left: -12px !important;
+  margin-right: -10px !important;
 }
 :host .cta-buttons button:nth-child(5) {
-  margin-left: -35px !important;
+  margin-right: -1px !important;
 }
 
 /* DISEÑO MÓVIL (Los botones bajan y se centran) */
-@media screen and (max-width: 1025px) {
-  .cta-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px !important; /* Esto separa los botones entre sí */
-    margin-top: -5px; /* Esto baja el bloque de botones */
-  }
 
-  .cta-buttons button {
-    width: 90% !important;
-    max-width: 250px;
-    height: auto !important;
-    padding: 7px 3px !important; /* Más espacio interno para que el texto respire */
-    font-size: 1.8rem !important; /* Reduce de 1.6rem a 1.1rem para que quepan las palabras */
-    white-space: nowrap; /* Evita que el texto salte de línea si no quieres */
-    transition: all 0.6s ease;
-  }
 
-  /* El botón del centro (3) queda recto */
-  .cta-buttons button:nth-child(3) {
-    transform: scale(0.99); /* El del medio un poco más grande para resaltar */
-  }
+  /* --- Media Query para pantallas de celular (Móvil) --- */
+  :host .cta-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important; /* Alinea los botones hacia el logo */
+    gap: 12px !important; /* Esto separa los botones entre sí */
+    position: absolute !important;
+    top: 50% !important;
+   /* --- CAMBIOS CLAVE PARA MOVER A LA IZQUIERDA --- */
+    right: 35% !important; /* Bajamos el % para que empiece antes del logo */
+    transform: translate(100%, -50%) !important; /* El valor negativo lo lanza a la IZQUIERDA */
+    width: auto !important;
+}
 
-  /* Los de arriba y abajo se encogen un pelín para dar sensación de profundidad circular */
-  .cta-buttons button:nth-child(1),
-  .cta-buttons button:nth-child(5) {
-    transform: scale(1);
-    opacity: 0.9;
-  }
+
+/* --La curva ahora usa margin-right para empujar hacia el logo-- */
+:host .cta-buttons button {
+  width: min-content !important; /* LA CLAVE: El botón se estira según el texto */
+  min-width: 140px !important; /* Para que no se vean flacos */
+  padding: 9px 7px !important; /* Grosor del botón */
+  font-size: 1.3rem !important; /* Tamaño de letra legible en PC */
+  white-space: nowrap !important; /* Evita que la palabra se parta en dos */
+}
+
+:host .cta-buttons button:nth-child(1) {
+  margin-right: -32px !important;
+}
+:host .cta-buttons button:nth-child(2) {
+  margin-right: -30px !important;
+}
+:host .cta-buttons button:nth-child(3) {
+  margin-right: -40px !important;
+}
+:host .cta-buttons button:nth-child(4) {
+  margin-right: -30px !important;
+}
+:host .cta-buttons button:nth-child(5) {
+  margin-right: -10px !important;
 }
 
 .btn-primary {
