@@ -88,25 +88,33 @@
               <img src="assets/bolismorados.webp" alt="Bolis Fruta Natural" loading="lazy" />
               <span class="badge">-20%</span>
             </div>
+
             <div class="product-info">
               <h3>Bolis Naturales</h3>
-              <div class="price-row">
-                <span class="price">$1.500</span>
-                <button
-                  class="add-btn"
-                  (click)="
-                    onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp')
-                  "
-                >
-                  Comprar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section class="promo-banner secondary">
+              <div class="purchase-row">
+            <span class="price">$1.500</span>
+
+                <!-- Contador compacto -->
+    <div class="qty-mini">
+      <button (click)="pQty.value = (+pQty.value > 1 ? +pQty.value - 1 : 1).toString()">-</button>
+      <input #pQty type="number" value="1" readonly>
+      <button (click)="pQty.value = (+pQty.value + 1).toString()">+</button>
+    </div>
+
+         <button class="add-btn" 
+  (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp', pQty.value)">
+  COMPRAR
+</button>
+
+     
+    </div>
+    </div>
+    </div>
+     </div>
+    </section>
+
+    <section class="promo-banner secondary">
         <div class="promo-content">
           <h2>Consiente tu paladar</h2>
           <button (click)="irAWhatsApp()" class="btn-registrar">

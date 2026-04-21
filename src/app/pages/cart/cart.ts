@@ -20,9 +20,13 @@ export class CartComponent {
 
   constructor(public cartService: CartService) {}
 
-  total = computed(() => {
-    return this.cartService.cartItems().reduce((acc, item) => acc + item.price, 0);
-  });
+  // Reemplaza tu actual computed total por este:
+total = computed(() => {
+  return this.cartService.cartItems().reduce((acc, item) => {
+    return acc + (item.price * (item.quantity || 1));
+  }, 0);
+});
+
 
   onDelete(index: number) {
     this.cartService.cartItems.update((prev) => prev.filter((_, i) => i !== index));

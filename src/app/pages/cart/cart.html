@@ -12,9 +12,15 @@
         @for (item of cartService.cartItems(); track $index) {
           <div class="cart-item">
             <img [src]="item.image" [alt]="item.name" />
+
             <div class="item-info">
               <h3>{{ item.name }}</h3>
-              <p class="price">{{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}</p>
+              <p class="price">
+                {{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}
+                <span style="font-size: 0.9rem; color: #666; font-weight: bold; margin-left: 8px">
+                  x {{ item.quantity || 1 }}
+                </span>
+              </p>
             </div>
 
             <button class="delete-btn" (click)="onDelete($index)">
@@ -42,10 +48,6 @@
 
       <div class="cart-summary">
         <div class="totals">
-          <div class="total-row">
-            <span>Resumen de compra</span>
-            <span>{{ cartService.cartItems().length }} items</span>
-          </div>
           <div class="total-row main-total">
             <span>Total a pagar</span>
             <span>{{ total() | currency: 'USD' : 'symbol' : '1.0-0' }}</span>

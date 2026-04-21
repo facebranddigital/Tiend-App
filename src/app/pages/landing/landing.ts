@@ -47,21 +47,24 @@ export class LandingComponent {
     window.open(url, '_blank');
   }
 
-  onAddToCart(name: string, price: number, category: string, image: string) {
-    const newProduct = { name, price, category, image };
-    this.cartService.addToCart(newProduct);
+  // Actualiza la función para que reciba "quantity"
+onAddToCart(name: string, price: any, category: string, image: string, quantity: any = 1) {
+  // Convertimos la cantidad a número por si acaso
+  const qty = parseInt(quantity);
+  const pPrice = parseInt(price); // Aseguramos que el precio sea número
+ 
+  const newProduct = { name, price: pPrice, category, image, quantity: qty };
+  this.cartService.addToCart(newProduct);
 
-    // Usamos el SweetAlert para confirmar
-    Swal.fire({
-      title: '¡Excelente elección!',
-      text: `Añadido al carrito: ${name}`,
-      icon: 'success',
-      confirmButtonColor: '#ff6b00',
-      timer: 2000,
-      showConfirmButton: false,
-    });
-  }
-
+  Swal.fire({
+    title: '¡Excelente elección!',
+    text: `${name} x${qty} unidades`, // Ahora el mensaje dice cuántos llevas
+    icon: 'success',
+    confirmButtonColor: '#ff6b00',
+    timer: 1500,
+    showConfirmButton: false,
+  });
+}
   onSubmit() {
     if (this.registerForm.valid) {
       // Si el formulario es válido, podemos mandarlos a WhatsApp
