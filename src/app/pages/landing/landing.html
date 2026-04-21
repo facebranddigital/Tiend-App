@@ -74,107 +74,114 @@
               (click)="
                 onAddToCart('Bolis de Leche', 2000, 'Postres', 'assets/bracasfoodbolis.webp')
               "
-              >Comprar</button>
-               </div>
-              </div>
-              </div>
-            
-         
+            >
+              Comprar
+            </button>
+          </div>
+        </div>
+      </div>
+
       <section id="bolis-naturales" class="featured-products">
-      <div class="product-grid">
-      <div class="product-card">
-      <div class="product-image">
-      <img src="assets/bolismorados.webp" alt="Bolis Fruta Natural" loading="lazy" />
-      <span class="badge">-20%</span>
-      </div>
-      <div class="product-info">
-      <h3>Bolis Naturales</h3>
-      <div class="price-row">
-      <span class="price">$1.500</span>
-      <button
-      class="add-btn"
-      (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp')"
-      >Comprar</button> 
-      </div>
-      </div>
-      </div>
-      </div>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-image">
+              <img src="assets/bolismorados.webp" alt="Bolis Fruta Natural" loading="lazy" />
+              <span class="badge">-20%</span>
+            </div>
+            <div class="product-info">
+              <h3>Bolis Naturales</h3>
+              <div class="price-row">
+                <span class="price">$1.500</span>
+                <button
+                  class="add-btn"
+                  (click)="
+                    onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp')
+                  "
+                >
+                  Comprar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-  <section class="promo-banner secondary">
-    <div class="promo-content">
-      <h2>Consiente tu paladar</h2>
-      <button (click)="irAWhatsApp()" class="btn-registrar">
-        HAZ TU PEDIDO AQUI<i class="fas fa-arrow-alt-square-right"></i>
-      </button>
+      <section class="promo-banner secondary">
+        <div class="promo-content">
+          <h2>Consiente tu paladar</h2>
+          <button (click)="irAWhatsApp()" class="btn-registrar">
+            HAZ TU PEDIDO AQUI<i class="fas fa-arrow-alt-square-right"></i>
+          </button>
+        </div>
+      </section>
     </div>
+
+    @if (showModal()) {
+      <div class="modal-overlay" (click)="toggleModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <button class="close-btn" (click)="toggleModal()">&times;</button>
+          <h2>Nuestras Líneas</h2>
+          <div class="collections-summary">
+            <div class="collection-item">
+              <h3>BracasFood</h3>
+              <p>Snacks, pasabocas y alimentos rápidos para tu día a día.</p>
+            </div>
+            <div class="collection-item">
+              <h3>Bolis Gourmet</h3>
+              <p>Sabores cremosos y frutales para refrescar tu paladar.</p>
+            </div>
+          </div>
+          <button class="btn-modal-footer" (click)="toggleModal()">Cerrar</button>
+        </div>
+      </div>
+    }
+
+    @if (showRegisterModal()) {
+      <div class="modal-overlay" (click)="toggleRegisterModal()">
+        <div class="modal-content register-modal" (click)="$event.stopPropagation()">
+          <button class="close-btn" (click)="toggleRegisterModal()">&times;</button>
+          <h2>Únete a nuestra comunidad</h2>
+          <p style="margin-bottom: 2rem; color: #666">
+            Regístrate para recibir promociones exclusivas de BracasFood.
+          </p>
+
+          <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nombres</label>
+                <input type="text" formControlName="firstName" placeholder="Ej: Juan" />
+              </div>
+              <div class="form-group">
+                <label>Apellidos</label>
+                <input type="text" formControlName="lastName" placeholder="Ej: Pérez" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Correo Electrónico</label>
+              <input type="email" formControlName="email" placeholder="correo@ejemplo.com" />
+            </div>
+
+            <div class="form-group">
+              <label>Número Celular</label>
+              <input type="tel" formControlName="phone" placeholder="+57 300..." />
+            </div>
+
+            <button type="submit" class="btn-registrar">REGISTRARME</button>
+            <p class="terms">Al registrarte, aceptas nuestros <a href="#">Términos</a>.</p>
+          </form>
+
+          <div class="social-networks" style="text-align: center; margin-top: 1rem">
+            <a
+              href="https://facebook.com/BracasFood"
+              target="_blank"
+              style="color: #1877f2; font-size: 1.5rem"
+            >
+              <i class="fab fa-facebook"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    }
   </section>
 </div>
-
-@if (showModal()) {
-  <div class="modal-overlay" (click)="toggleModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <button class="close-btn" (click)="toggleModal()">&times;</button>
-      <h2>Nuestras Líneas</h2>
-      <div class="collections-summary">
-        <div class="collection-item">
-          <h3>BracasFood</h3>
-          <p>Snacks, pasabocas y alimentos rápidos para tu día a día.</p>
-        </div>
-        <div class="collection-item">
-          <h3>Bolis Gourmet</h3>
-          <p>Sabores cremosos y frutales para refrescar tu paladar.</p>
-        </div>
-      </div>
-      <button class="btn-modal-footer" (click)="toggleModal()">Cerrar</button>
-    </div>
-  </div>
-}
-
-@if (showRegisterModal()) {
-  <div class="modal-overlay" (click)="toggleRegisterModal()">
-    <div class="modal-content register-modal" (click)="$event.stopPropagation()">
-      <button class="close-btn" (click)="toggleRegisterModal()">&times;</button>
-      <h2>Únete a nuestra comunidad</h2>
-      <p style="margin-bottom: 2rem; color: #666">
-        Regístrate para recibir promociones exclusivas de BracasFood.
-      </p>
-
-      <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Nombres</label>
-            <input type="text" formControlName="firstName" placeholder="Ej: Juan" />
-          </div>
-          <div class="form-group">
-            <label>Apellidos</label>
-            <input type="text" formControlName="lastName" placeholder="Ej: Pérez" />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Correo Electrónico</label>
-          <input type="email" formControlName="email" placeholder="correo@ejemplo.com" />
-        </div>
-
-        <div class="form-group">
-          <label>Número Celular</label>
-          <input type="tel" formControlName="phone" placeholder="+57 300..." />
-        </div>
-
-        <button type="submit" class="btn-registrar">REGISTRARME</button>
-        <p class="terms">Al registrarte, aceptas nuestros <a href="#">Términos</a>.</p>
-      </form>
-
-      <div class="social-networks" style="text-align: center; margin-top: 1rem">
-        <a
-          href="https://facebook.com/BracasFood"
-          target="_blank"
-          style="color: #1877f2; font-size: 1.5rem"
-        >
-          <i class="fab fa-facebook"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-}
