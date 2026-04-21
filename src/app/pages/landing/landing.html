@@ -1,20 +1,27 @@
 <div class="landing-container">
   <section class="hero">
-    <img src="assets/bracasfoodlogo.jpeg" alt="Bracas Food Logo"
-      
+    <img
+      src="assets/bracasfoodlogo.jpeg"
+      alt="Bracas Food Logo"
       class="hero-img"
       fetchpriority="high"
       loading="eager"
     />
     <div class="hero-overlay"></div>
     <div class="hero-content">
-
       <div class="cta-buttons">
-        <button class="btn-primary">Papitas Mix</button>
-        <button class="btn-secondary">TocinetaMix</button>
-        <button class="btn-secondary">Platanitosss</button>
-        <button class="btn-primary">Bolis Frutas</button>
-        <button class="btn-primary">Bolis Leches</button>
+        <button class="btn-primary">Bolis D'Leche</button>
+        <button class="btn-secondary">Papitas BF</button>
+        <button class="btn-secondary">Tocineta BF</button>
+        <button class="btn-primary">Platanos BF</button>
+        <button
+          class="btn-primary"
+          onclick="
+            document.getElementById('bolis-naturales').scrollIntoView({ behavior: 'smooth' })
+          "
+        >
+          Bolis Natural
+        </button>
       </div>
     </div>
   </section>
@@ -64,41 +71,42 @@
             <span class="price">$2.000</span>
             <button
               class="add-btn"
-              (click)="onAddToCart('Bolis de Leche', 2000, 'Postres', 'assets/bracasfoodbolis.webp')"
-            >
-              Comprar
-            </button>
-          </div>
-        </div>
-      </div>
-
+              (click)="
+                onAddToCart('Bolis de Leche', 2000, 'Postres', 'assets/bracasfoodbolis.webp')
+              "
+              >Comprar</button>
+               </div>
+              </div>
+              </div>
+            
+         
+      <section id="bolis-naturales" class="featured-products">
+      <div class="product-grid">
       <div class="product-card">
-        <div class="product-image">
-          <img src="assets/bolismorados.webp" alt="Bolis Fruta Natural" loading="lazy" />
-          <span class="badge">-20%</span>
-        </div>
-        <div class="product-info">
-          <span class="category"></span>
-          <h3>Bolis Naturales</h3>
-          <div class="price-row">
-            <span class="price">$1.500</span>
-            <button
-              class="add-btn"
-              (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp')"
-            >
-              Comprar
-            </button>
-          </div>
-        </div>
+      <div class="product-image">
+      <img src="assets/bolismorados.webp" alt="Bolis Fruta Natural" loading="lazy" />
+      <span class="badge">-20%</span>
       </div>
-    </div>
-  </section>
+      <div class="product-info">
+      <h3>Bolis Naturales</h3>
+      <div class="price-row">
+      <span class="price">$1.500</span>
+      <button
+      class="add-btn"
+      (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp')"
+      >Comprar</button> 
+      </div>
+      </div>
+      </div>
+      </div>
+      </section>
 
   <section class="promo-banner secondary">
     <div class="promo-content">
       <h2>Consiente tu paladar</h2>
-      <button (click)="irAWhatsApp()" 
-      class="btn-registrar">HAZ TU PEDIDO AQUI<i class="fas fa-arrow-alt-square-right    "></i></button>
+      <button (click)="irAWhatsApp()" class="btn-registrar">
+        HAZ TU PEDIDO AQUI<i class="fas fa-arrow-alt-square-right"></i>
+      </button>
     </div>
   </section>
 </div>
@@ -157,9 +165,13 @@
         <button type="submit" class="btn-registrar">REGISTRARME</button>
         <p class="terms">Al registrarte, aceptas nuestros <a href="#">Términos</a>.</p>
       </form>
-      
+
       <div class="social-networks" style="text-align: center; margin-top: 1rem">
-        <a href="https://facebook.com/BracasFood" target="_blank" style="color: #1877f2; font-size: 1.5rem">
+        <a
+          href="https://facebook.com/BracasFood"
+          target="_blank"
+          style="color: #1877f2; font-size: 1.5rem"
+        >
           <i class="fab fa-facebook"></i>
         </a>
       </div>

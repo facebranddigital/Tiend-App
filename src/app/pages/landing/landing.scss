@@ -1,6 +1,6 @@
 .hero-container {
   // O la clase que envuelva todo el Hero
-  display: relative; /* Antes decía 'center' (error) */
+  display: flex; /* Antes decía 'center' (error) */
   flex-direction: column; /* Antes decía 'over' (error) */
   justify-content: center;
   align-items: center;
@@ -21,7 +21,18 @@
   position: relative;
 
   /* --- Media Query para pantallas de computadora (ancho > 1024px) --- */
-  @media screen and (min-width: 200px) {
+  @media screen and (min-width: 1025px) {
+    :host .cta-buttons {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-end !important; /* Clave: alinea todos los botones hacia el logo */
+      gap: 12px !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 48% !important;
+      transform: translate(-105%, -50%) !important; /* Los posiciona a la izquierda del logo */
+    }
+    
   }
 
   /* AJUSTE LOGO MÓVIL: En pantallas pequeñas centramos más el contenido */
@@ -55,72 +66,91 @@
 .hero-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: -20px; /* Sube un poco todo el bloque si es necesario */
+  align-items: left;
+  margin-top: -30px; /* Sube un poco todo el bloque si es necesario */
 }
 
 /* CONTENEDOR DE BOTONES */
 
-@media screen and (min-width: 1025px) {   /* --- Media Query para pantallas de computadora (Escritorio) --- */
-     :host .cta-buttons {
+@media screen and (min-width: 1025px) {
+  /* --- Media Query para pantallas de computadora (Escritorio) --- */
+  :host .cta-buttons {
     display: flex !important;
     flex-direction: column !important;
-    gap: 9px !important;
+    align-items: flex-end !important; /* Alinea los botones hacia el logo */
+    gap: 12px !important; /* Esto separa los botones entre sí */
     position: absolute !important;
     top: 50% !important;
-    left: 55% !important;
-    /* Ajusta este valor (ej. 130% a 145%) para separar el bloque del logo */
-    transform: translate(135%, -50%) !important; 
-    z-index: 100 !important;
-    align-items: flex-start !important;
-  }
-  /* --- CURVA CORRECTA: PARÉNTESIS DE CIERRE ")" --- */
 
-  /* El botón 3 (CENTRAL): Es el que debe estar pegado al logo */
-  :host .cta-buttons button:nth-child(3) {
-    margin-left: 28px !important;
-  }
-
-  /* Los botones 2 y 4 (INTERMEDIOS): Se alejan un poco hacia la derecha */
-  :host .cta-buttons button:nth-child(2),
-  :host .cta-buttons button:nth-child(4) {
-    margin-left: 28px !important;
-  }
-
-  /* Los botones 1 y 5 (EXTREMOS): Son los que más se alejan a la derecha */
-  :host .cta-buttons button:nth-child(1),
-  :host .cta-buttons button:nth-child(5) {
-    margin-left: 10px !important;
+    /* --- CAMBIOS CLAVE PARA MOVER A LA IZQUIERDA --- */
+    left: 35% !important; /* Bajamos el % para que empiece antes del logo */
+    transform: translate(100%, -50%) !important; /* El valor negativo lo lanza a la IZQUIERDA */
+    width: auto !important;
   }
 }
-  
+/* --La curva ahora usa margin-right para empujar hacia el logo-- */
+:host .cta-buttons button {
+  width: min-content !important; /* LA CLAVE: El botón se estira según el texto */
+  min-width: 140px !important; /* Para que no se vean flacos */
+  padding: 9px 7px !important; /* Grosor del botón */
+  font-size: 1.3rem !important; /* Tamaño de letra legible en PC */
+  white-space: nowrap !important; /* Evita que la palabra se parta en dos */
+}
+:host .cta-buttons button:nth-child(1) {
+  margin-left: -58px !important;
+}
+:host .cta-buttons button:nth-child(2) {
+  margin-left: -25px !important;
+}
+:host .cta-buttons button:nth-child(3) {
+  margin-left: -11px !important;
+}
+:host .cta-buttons button:nth-child(4) {
+  margin-left: -12px !important;
+}
+:host .cta-buttons button:nth-child(5) {
+  margin-left: -35px !important;
+}
+
 /* DISEÑO MÓVIL (Los botones bajan y se centran) */
-@media screen and (max-width: 1020px) {
-   .cta-buttons button {
-    width: 175px !important;
-    height: 34px !important;
+@media screen and (max-width: 1025px) {
+  .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px !important; /* Esto separa los botones entre sí */
+    margin-top: -5px; /* Esto baja el bloque de botones */
+  }
+
+  .cta-buttons button {
+    width: 90% !important;
+    max-width: 250px;
+    height: auto !important;
+    padding: 7px 3px !important; /* Más espacio interno para que el texto respire */
+    font-size: 1.8rem !important; /* Reduce de 1.6rem a 1.1rem para que quepan las palabras */
+    white-space: nowrap; /* Evita que el texto salte de línea si no quieres */
     transition: all 0.6s ease;
   }
 
   /* El botón del centro (3) queda recto */
   .cta-buttons button:nth-child(3) {
-    transform: scale(0.98); /* El del medio un poco más grande para resaltar */
+    transform: scale(0.99); /* El del medio un poco más grande para resaltar */
   }
 
   /* Los de arriba y abajo se encogen un pelín para dar sensación de profundidad circular */
   .cta-buttons button:nth-child(1),
   .cta-buttons button:nth-child(5) {
-    transform: scale(1.1);
+    transform: scale(1);
     opacity: 0.9;
   }
 }
-  
+
 .btn-primary {
   background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   color: white;
-  padding: 1px 1px; // Grosor & largor of the buttons //
+  padding: 1.1px 1px; // Grosor & largor of the buttons //
   border: none;
   border-radius: 40px; // Forma de cápsula para que resalte //
   font-weight: 800; // +/- Grosor Text //
@@ -128,6 +158,10 @@
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(4, 0, 8, 0.3);
   transition: all 0.3s ease;
+  width: fit-content !important; /* El botón solo mide lo que mide el texto */
+  min-width: 100px; /* Un mínimo para que no se vean diminutos */
+  padding: 8px 20px !important; /* Controla el espacio extra a los lados del texto */
+  white-space: nowrap !important; /* Obliga a que el texto esté en una sola línea */
 
   &:hover {
     transform: translateY(-2px);
@@ -149,6 +183,10 @@
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(238, 127, 1, 0.3);
   transition: all 0.3s ease;
+  width: fit-content !important; /* El botón solo mide lo que mide el texto */
+  min-width: 100px; /* Un mínimo para que no se vean diminutos */
+  padding: 8px 20px !important; /* Controla el espacio extra a los lados del texto */
+  white-space: nowrap !important; /* Obliga a que el texto esté en una sola línea */
 
   &:hover {
     transform: translateY(-2px);
@@ -236,7 +274,10 @@
   .product-grid {
     display: grid;
     /* Cambiamos minmax para que en celulares pequeños no se rompa */
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); // Configuracion products cuadro //
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, 280px), 1fr)
+    ); // Configuracion products cuadro //
     gap: 10px;
   }
 
@@ -251,7 +292,7 @@
   }
 
   color: #6e3a07; /* Un café cálido para que sea fácil de leer */
-  font-size: 1.0rem;
+  font-size: 1rem;
   font-weight: 500;
   margin-top: 1px;
 }
