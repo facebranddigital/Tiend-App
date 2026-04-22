@@ -2,23 +2,29 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1ch 1%;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
+  padding: 1rem;
+  background: #191818;  /* Fondo negro para que resalte el logo */
+   
+  backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
   z-index: 1000;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.0);
+  box-shadow: 0 4px 12px rgba(4, 0, 4, 0.10);
+  /* Opcional: una línea finita abajo para que se note el borde */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
-  .logo {
-    font-size: 1.2rem;
-    font-weight: 800;
-    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+   // El texto de la marca (esquina izquierda) */
+
+
+  .logo span {
+    font-size: 1.6rem;
+    font-weight: bold;
+    background: #ff8c00;
     background-clip: text; /* Agregamos la estándar por buena práctica */
     -webkit-background-clip: text ;
     -webkit-text-fill-color: transparent;
-    text-transform: uppercase;
+    text-transform: none;
     cursor: pointer;
     letter-spacing: -0.5px;
     transition: filter 0.3s ease;
@@ -31,19 +37,20 @@
 
     a {
       text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      transition: color 0.3s;
+      color: #ffffff;  /* Letras blancas */
+      font-weight: 600;
+      transition: color 0.5s;
+      margin: 0 15px;
 
       &:hover {
-        color: #ff41f8;
+        color: #ff8c00;   /* Cambia a naranja al pasar el mouse */
       }
     }
   }
 
   .nav-actions {
     display: flex;
-    gap: 1.5rem;
+    gap: 2.5rem;
     align-items: center;
 
     .icon-btn {

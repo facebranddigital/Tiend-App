@@ -396,7 +396,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: space-between; /* Separa precio, contador y botón */
-  gap: 2px;
+  gap: 5px;
   width: 100%;
   margin-top: 10px;
   flex-wrap: nowrap; /* Forces everything to stay on one line */
@@ -407,8 +407,26 @@ h3 {
   align-items: center;
   background: #f0f0f0;
   border-radius: 20px; /* Bordes redondeados para que combine con tu botón */
-  padding: 2px 4px;
-  min-width: 70px;   /* Fixed size so it doesn't push the button */
+  padding: 4px 8px;
+  min-width: 80px;   /* Fixed size so it doesn't push the button */
+
+  /* --- ESTO ES LO QUE DEBES AGREGAR PARA CELULARES --- */
+@media (max-width: 480px) {
+  .qty-mini {
+    min-width: 100px; /* Lo hace más largo en celular */
+    padding: 8px 12px; /* Más espacio interno para que sea fácil de tocar */
+  }
+
+  .qty-mini button {
+    font-size: 1.5rem; /* Hace que el + y el - sean más grandes */
+    padding: 5px 10px;
+  }
+
+  .qty-mini span {
+    font-size: 1.4rem; /* El número se verá más grande */
+    margin: 0 10px;
+  }
+}
 
   button {
     background: none;

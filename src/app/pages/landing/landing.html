@@ -46,7 +46,7 @@
       </div>
 
       <!-- Producto 2: Bolis de Leche -->
-      <div class="product-card" id="bolisleche">
+      <div class="product-card" id="bracasfoodbolis">
         <div class="product-image">
           <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
           <span class="badge">Nuevo</span>
@@ -60,7 +60,7 @@
               <input #pQty2 type="number" value="1" readonly>
               <button (click)="pQty2.value = (+pQty2.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Bolis de Leche', 2000, 'Pasabocas', 'assets/bolis.webp', pQty2.value)">
+            <button class="add-btn" (click)="onAddToCart('Bolis de Leche', 2000, 'Pasabocas', 'assets/bracasfoodbolis.webp', pQty2.value)">
               COMPRAR
             </button>
           </div>
