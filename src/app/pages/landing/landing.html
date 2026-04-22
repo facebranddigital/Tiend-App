@@ -10,29 +10,29 @@
     />
     <div class="hero-overlay"></div>
     <div class="hero-content">
-    <div class="cta-buttons">
-  <!-- Apunta a #bolisLeche -->
-  <button class="btn-primary" (click)="bolisLeche.scrollIntoView({ behavior: 'smooth' })">
-    Bolis D'Leche
-  </button>
-
-  <!-- Estos tres apuntan a #pasabocasCard -->
-  <button class="btn-secondary" (click)="pasabocasCard.scrollIntoView({ behavior: 'smooth' })">
-    Papitas BF
-  </button>
-  <button class="btn-secondary" (click)="pasabocasCard.scrollIntoView({ behavior: 'smooth' })">
-    Tocineta BF
-  </button>
-  <button class="btn-primary" (click)="pasabocasCard.scrollIntoView({ behavior: 'smooth' })">
-    Platanos BF
-  </button>
-
-  <!-- Este es el que ya te funciona perfecto -->
-  <button class="btn-primary" (click)="bolisNatural.scrollIntoView({ behavior: 'smooth' })">
-    Bolis Natural
-  </button>
-</div>
-
+      <div class="cta-buttons">
+        <button class="btn-primary" (click)="bolisLeche.scrollIntoView({ behavior: 'smooth' })">
+          Bolis D'Leche
+        </button>
+        <button
+          class="btn-secondary"
+          (click)="pasabocasCard.scrollIntoView({ behavior: 'smooth' })"
+        >
+          Papitas BF
+        </button>
+        <button
+          class="btn-secondary"
+          (click)="pasabocasCard.scrollIntoView({ behavior: 'smooth' })"
+        >
+          Tocineta BF
+        </button>
+        <button class="btn-primary" (click)="pasabocasCard.scrollIntoView({ behavior: 'smooth' })">
+          Platanos BF
+        </button>
+        <button class="btn-primary" (click)="bolisNatural.scrollIntoView({ behavior: 'smooth' })">
+          Bolis Natural
+        </button>
+      </div>
     </div>
   </section>
 
@@ -45,9 +45,9 @@
     <div class="product-grid">
       <!-- Producto 1: Pasabocas -->
       <div class="product-card" #pasabocasCard>
-  <div class="product-image">
-    <img src="assets/bracasfood2.webp" alt="Pasabocas Variados" loading="lazy" />
-  </div>
+        <div class="product-image">
+          <img src="assets/bracasfood2.webp" alt="Pasabocas Variados" loading="lazy" />
+        </div>
         <div class="product-info">
           <h3>Pasabocas</h3>
           <div class="purchase-row">
@@ -72,12 +72,9 @@
       </div>
 
       <!-- Producto 2: Bolis de Leche -->
-
       <div class="product-card" #bolisLeche id="bracasfoodbolis">
-      <div class="product-image">
-        <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
-        </div>
-          
+        <div class="product-image">
+          <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
         </div>
         <div class="product-info">
           <h3>Bolis de Leche</h3>
@@ -155,7 +152,7 @@
     </div>
   </section>
 
-  <!-- MODALES (Angular Control Flow) -->
+  <!-- MODALES -->
   @if (showModal()) {
     <div class="modal-overlay" (click)="toggleModal()">
       <div class="modal-content" (click)="$event.stopPropagation()">
