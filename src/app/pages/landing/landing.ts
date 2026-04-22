@@ -15,6 +15,16 @@ declare var Swal: any;
 export class LandingComponent {
   showModal = signal(false);
   showRegisterModal = signal(false);
+  qty2 = signal(1); // Esta es la señal para el contador de unidades
+  // Función para subir o bajar la cantidad
+  updateQty(amount: number) {
+    this.qty2.update(v => {
+      const newValue = v + amount;
+      return newValue < 1 ? 1 : newValue; // Evita que baje de 1
+    });
+  }
+
+  // Tu función onAddToCart ya está perfecta, solo asegúrate de pasarle this.qty2()
 
   constructor(public cartService: CartService) {}
 
