@@ -294,15 +294,12 @@
       }
     }
   }
-
+  /* Esto hace que en celular se vea 1 columna y en PC se vean 3 */
   .product-grid {
     display: grid;
-    /* Cambiamos minmax para que en celulares pequeños no se rompa */
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(min(100%, 280px), 1fr)
-    ); // Configuracion products cuadro //
-    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px;
   }
 
   .product-card {
@@ -331,6 +328,7 @@
 img {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover; /* Evita que la foto se estire */
   transition: transform 0.3s ease;
 }

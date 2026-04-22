@@ -1,18 +1,38 @@
 <div class="landing-container">
   <!-- HERO SECTION -->
   <section class="hero">
-    <img src="assets/bracasfoodlogo.jpeg" alt="Bracas Food Logo" class="hero-img" fetchpriority="high" loading="eager" />
+    <img
+      src="assets/bracasfoodlogo.jpeg"
+      alt="Bracas Food Logo"
+      class="hero-img"
+      fetchpriority="high"
+      loading="eager"
+    />
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="cta-buttons">
-        <button class="btn-primary">Bolis D'Leche</button>
-        <button class="btn-secondary">Papitas BF</button>
-        <button class="btn-secondary">Tocineta BF</button>
-        <button class="btn-primary">Platanos BF</button>
-        <button class="btn-primary" (click)="bolisNatural.scrollIntoView({ behavior: 'smooth' })">
-          Bolis Natural
-        </button>
-      </div>
+    <div class="cta-buttons">
+  <!-- Apunta a #bolisLeche -->
+  <button class="btn-primary" (click)="bolisLeche.scrollIntoView({ behavior: 'smooth' })">
+    Bolis D'Leche
+  </button>
+
+  <!-- Estos tres apuntan a #pasabocasCard -->
+  <button class="btn-secondary" (click)="pasabocasCard.scrollIntoView({ behavior: 'smooth' })">
+    Papitas BF
+  </button>
+  <button class="btn-secondary" (click)="pasabocasCard.scrollIntoView({ behavior: 'smooth' })">
+    Tocineta BF
+  </button>
+  <button class="btn-primary" (click)="pasabocasCard.scrollIntoView({ behavior: 'smooth' })">
+    Platanos BF
+  </button>
+
+  <!-- Este es el que ya te funciona perfecto -->
+  <button class="btn-primary" (click)="bolisNatural.scrollIntoView({ behavior: 'smooth' })">
+    Bolis Natural
+  </button>
+</div>
+
     </div>
   </section>
 
@@ -23,22 +43,28 @@
   <!-- PRODUCTOS -->
   <section class="featured-products">
     <div class="product-grid">
-      
       <!-- Producto 1: Pasabocas -->
-      <div class="product-card">
-        <div class="product-image">
-          <img src="assets/bracasfood2.webp" alt="Pasabocas Variados" loading="lazy" />
-        </div>
+      <div class="product-card" #pasabocasCard>
+  <div class="product-image">
+    <img src="assets/bracasfood2.webp" alt="Pasabocas Variados" loading="lazy" />
+  </div>
         <div class="product-info">
           <h3>Pasabocas</h3>
           <div class="purchase-row">
             <span class="price">$2.500</span>
             <div class="qty-mini">
-              <button (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()">-</button>
-              <input #pQty1 type="number" value="1" readonly>
+              <button (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()">
+                -
+              </button>
+              <input #pQty1 type="number" value="1" readonly />
               <button (click)="pQty1.value = (+pQty1.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Pasabocas', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)">
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart('Pasabocas', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)
+              "
+            >
               COMPRAR
             </button>
           </div>
@@ -46,21 +72,36 @@
       </div>
 
       <!-- Producto 2: Bolis de Leche -->
-      <div class="product-card" id="bracasfoodbolis">
-        <div class="product-image">
-          <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
-          <span class="badge">Nuevo</span>
+
+      <div class="product-card" #bolisLeche id="bracasfoodbolis">
+      <div class="product-image">
+        <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
+        </div>
+          
         </div>
         <div class="product-info">
           <h3>Bolis de Leche</h3>
           <div class="purchase-row">
             <span class="price">$2.000</span>
             <div class="qty-mini">
-              <button (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()">-</button>
-              <input #pQty2 type="number" value="1" readonly>
+              <button (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()">
+                -
+              </button>
+              <input #pQty2 type="number" value="1" readonly />
               <button (click)="pQty2.value = (+pQty2.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Bolis de Leche', 2000, 'Pasabocas', 'assets/bracasfoodbolis.webp', pQty2.value)">
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart(
+                  'Bolis de Leche',
+                  2000,
+                  'Pasabocas',
+                  'assets/bracasfoodbolis.webp',
+                  pQty2.value
+                )
+              "
+            >
               COMPRAR
             </button>
           </div>
@@ -78,17 +119,29 @@
           <div class="purchase-row">
             <span class="price">$1.500</span>
             <div class="qty-mini">
-              <button (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()">-</button>
-              <input #pQty3 type="number" value="1" readonly>
+              <button (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()">
+                -
+              </button>
+              <input #pQty3 type="number" value="1" readonly />
               <button (click)="pQty3.value = (+pQty3.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp', pQty3.value)">
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart(
+                  'Bolis Naturales',
+                  1500,
+                  'Postres',
+                  'assets/bolismorados.webp',
+                  pQty3.value
+                )
+              "
+            >
               COMPRAR
             </button>
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
