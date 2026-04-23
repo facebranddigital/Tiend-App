@@ -1,14 +1,14 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart';
-
+import { FormsModule } from '@angular/forms'; // <-- IMPORTANTE: Añade esto para el buscador
 declare var Swal: any;
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './landing.html',
   styleUrls: ['./landing.scss'],
 })
@@ -17,7 +17,26 @@ export class LandingComponent {
   showRegisterModal = signal(false);
   qty2 = signal(1); // Esta es la señal para el contador de unidades
   // Función para subir o bajar la cantidad
+   // 1. Añade la señal para el texto de búsqueda
+  searchTerm = signal('');
+  // 2. Define tus productos en una lista para que el buscador los encuentre
+  products = [
+    { id: 'platanos', name: 'Platanos BF', price: 2500, category: 'Snacks', image: 'assets/bracasfood2.webp' },
+    { id: 'bolis-leche', name: 'Bolis de Leche', price: 2000, category: 'Pasabocas', image: 'assets/bracasfoodbolis.webp' },
+    { id: 'bolis-natural', name: 'Bolis Naturales', price: 1500, category: 'Postres', image: 'assets/bolismorados.webp' },
+    { id: 'papitas', name: 'Papitas BF', price: 2500, category: 'Snacks', image: 'assets/papasbf.webp' },
+    { id: 'tocineta', name: 'Tocineta BF', price: 2500, category: 'Snacks', image: 'assets/tocinetabf.webp' },
+  ];
 
+  // 3. Esta función filtrará automáticamente mientras escribes
+  filteredProducts = computed(() => {
+    const term = this.searchTerm().toLowerCase();
+    if (!term) return [];
+    return this.products.filter(p => p.name.toLowerCase().includes(term));
+  });
+  getTotalUnits(): number {
+    return this.cartService.cartItems().reduce((acc, item) => acc + (item.quantity || 1), 0);
+  }
 scrollTo(sectionId: string) {
   const element = document.getElementById(sectionId);
   if (element) {
@@ -25,6 +44,12 @@ scrollTo(sectionId: string) {
   } else {
     console.warn(`Ojo: No encontré la sección con el ID: ${sectionId}`);
   }
+}
+scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
 }
   updateQty(amount: number) {
     this.qty2.update((v) => {
