@@ -16,16 +16,19 @@
   padding: 4rem 2rem;
   color: #666;
 
-  p { font-size: 1.2rem; margin-bottom: 1.5rem; }
+  p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
 
   .btn-primary {
-    background: linear-gradient(95deg, #FF6B00 20%, #FFB800 80%);
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
 
     color: white;
     border: none;
     padding: 0.75rem 2rem;
     border-radius: 0.5rem;
-    font-size: 1.0rem;
+    font-size: 1rem;
     cursor: pointer;
   }
 }
@@ -53,21 +56,30 @@
   background: white;
   border-radius: 1rem;
   padding: 1rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
 
   img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 0.5rem;
-    background: linear-gradient(95deg, #FF6B00 20%, #FFB800 80%);
-
+    width: 60px;
+    height: 60px;
+    object-fit: cover;    /* Esto hace que la foto se vea bien sin deformarse */
+    border-radius:8px;
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    display: block;    /* Asegura que no esté oculta */
   }
 
   .item-info {
     flex: 1;
-    h3 { font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; }
-    .price { color: #a15804; font-weight: 700; font-size: 1.1rem; margin: 0; }
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 0.25rem;
+    }
+    .price {
+      color: #a15804;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin: 0;
+    }
   }
 
   .delete-btn {
@@ -78,7 +90,9 @@
     padding: 0.5rem;
     border-radius: 0.5rem;
     transition: background 0.2s;
-    &:hover { background: #fee2e2; }
+    &:hover {
+      background: #fee2e2;
+    }
   }
 }
 
@@ -86,10 +100,12 @@
   background: white;
   border-radius: 1rem;
   padding: 1.5rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
   height: fit-content;
 
-  .totals { margin-bottom: 1.5rem; }
+  .totals {
+    margin-bottom: 1.5rem;
+  }
 
   .total-row {
     display: flex;
@@ -110,7 +126,7 @@
 
   .btn-checkout {
     width: 100%;
-    background: linear-gradient(95deg, #FF6B00 20%, #FFB800 80%);
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
 
     color: white;
     border: none;
@@ -121,9 +137,10 @@
     cursor: pointer;
     margin-bottom: 0.75rem;
     transition: background 0.2s;
-    &:hover { background: #FF6B00; }
-    background: linear-gradient(95deg, #FF6B00 20%, #FFB800 80%);
-
+    &:hover {
+      background: #ff6b00;
+    }
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
   }
 
   .btn-clear {
@@ -136,6 +153,8 @@
     font-size: 0.9rem;
     cursor: pointer;
     transition: all 0.2s;
-    &:hover { background: #fef5e2; }
+    &:hover {
+      background: #fef5e2;
+    }
   }
 }

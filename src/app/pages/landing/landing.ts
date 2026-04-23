@@ -18,7 +18,7 @@ export class LandingComponent {
   qty2 = signal(1); // Esta es la señal para el contador de unidades
   // Función para subir o bajar la cantidad
   updateQty(amount: number) {
-    this.qty2.update(v => {
+    this.qty2.update((v) => {
       const newValue = v + amount;
       return newValue < 1 ? 1 : newValue; // Evita que baje de 1
     });
@@ -57,24 +57,31 @@ export class LandingComponent {
     window.open(url, '_blank');
   }
 
-  // Actualiza la función para que reciba "quantity"
-onAddToCart(name: string, price: any, category: string, image: string, quantity: any = 1) {
-  // Convertimos la cantidad a número por si acaso
-  const qty = parseInt(quantity);
-  const pPrice = parseInt(price); // Aseguramos que el precio sea número
- 
-  const newProduct = { name, price: pPrice, category, image, quantity: qty };
-  this.cartService.addToCart(newProduct);
+  // Asegúrate de que tu función reciba el valor del input del HTML
+  onAddToCart(name: string, price: any, category: string, image: string, quantity: any) {
+    const qty = parseInt(quantity) || 1; // Si por algo llega nulo, ponemos 1
+    const pPrice = parseInt(price);
 
-  Swal.fire({
-    title: '¡Excelente elección!',
-    text: `${name} x${qty} unidades`, // Ahora el mensaje dice cuántos llevas
-    icon: 'success',
-    confirmButtonColor: '#ff6b00',
-    timer: 1500,
-    showConfirmButton: false,
-  });
-}
+    const newProduct: any = {
+      name,
+      price: pPrice,
+      category,
+      imageUrl: image, // Cambia 'image' por 'imageUrl'
+      quantity: qty,
+    };
+
+    this.cartService.addToCart(newProduct);
+
+    Swal.fire({
+      title: '¡Excelente elección!',
+      text: `Agregaste ${qty} unidad(es) de ${name}`,
+      icon: 'success',
+      confirmButtonColor: '#ff6b00',
+      timer: 1500,
+      showConfirmButton: false,
+    });
+  }
+
   onSubmit() {
     if (this.registerForm.valid) {
       // Si el formulario es válido, podemos mandarlos a WhatsApp

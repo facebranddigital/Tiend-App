@@ -11,7 +11,12 @@
       <div class="cart-items">
         @for (item of cartService.cartItems(); track $index) {
           <div class="cart-item">
-            <img [src]="item.image" [alt]="item.name" />
+           <!-- cart.component.html -->
+<img [src]="item.imageUrl" 
+     [alt]="item.name" 
+     class="cart-img" 
+     (error)="item.imageUrl = 'assets/tocinetabf.webp'"> 
+
 
             <div class="item-info">
               <h3>{{ item.name }}</h3>
