@@ -17,6 +17,15 @@ export class LandingComponent {
   showRegisterModal = signal(false);
   qty2 = signal(1); // Esta es la señal para el contador de unidades
   // Función para subir o bajar la cantidad
+
+scrollTo(sectionId: string) {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    console.warn(`Ojo: No encontré la sección con el ID: ${sectionId}`);
+  }
+}
   updateQty(amount: number) {
     this.qty2.update((v) => {
       const newValue = v + amount;

@@ -11,21 +11,17 @@
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <div class="cta-buttons">
-        <button class="btn-primary" (click)="scrollTo('bolis-leche')">Bolis D'Leche</button>
+        <button class="btn-primary" (click)="scrollTo('bolis-leche')">Bolis D'Leche</button> 
         <button class="btn-secondary" (click)="scrollTo('papitas')">Papitas BF</button>
         <button class="btn-secondary" (click)="scrollTo('tocineta')">Tocineta BF</button>
         <button class="btn-primary" (click)="scrollTo('platanos')">Platanos BF</button>
         <button class="btn-primary" (click)="scrollTo('bolis-natural')">Bolis Natural</button>
       </div>
-
-      <h1 class="hero-title">Bracas Food</h1>
-      <p class="hero-subtitle">Sabor que conquista, calidad que perdura.</p>
-      <button class="btn-registrar" (click)="toggleRegisterModal()">REGÍSTRATE</button>
     </div>
   </section> <!-- Aquí se cierra el Hero correctamente -->
 
   <div class="promo-banner">
-    <h2>La mejor nutrición para tu salud <i class="fas fa-apple-alt"></i></h2>
+  <h2>La mejor nutrición para tu salud <i class="fas fa-apple-alt"></i></h2>
   </div>
 
   <!-- PRODUCTOS -->
@@ -34,7 +30,7 @@
       <!-- Producto 1: Platanos -->
       <div class="product-card" id="platanos" #pasabocasCard>
         <div class="product-image">
-          <img src="assets/bracasfood2.webp" alt="Pasabocas Variados" loading="lazy" />
+          <img src="assets/bracasfood2.webp" alt="Platanos BF" loading="lazy" />
         </div>
         <div class="product-info">
           <h3>Platanos BF</h3>
@@ -45,7 +41,7 @@
               <input #pQty1 type="number" value="1" readonly />
               <button (click)="pQty1.value = (+pQty1.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Pasabocas', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)">COMPRAR</button>
+            <button class="add-btn" (click)="onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)">COMPRAR</button>
           </div>
         </div>
       </div>
@@ -111,7 +107,7 @@
       <!-- Producto 5: Tocineta BF -->
       <div class="product-card" id="tocineta" #tocinetaCard>
         <div class="product-image">
-          <img src="assets/tocinetabf.jpg" alt="Tocineta BF" loading="lazy" />
+          <img src="assets/tocinetabf.webp" alt="Tocineta BF" loading="lazy" />
         </div>
         <div class="product-info">
           <h3>Tocineta BF</h3>
@@ -122,7 +118,7 @@
               <input #pQty5 type="number" value="1" readonly />
               <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.jpg', pQty5.value)">COMPRAR</button>
+            <button class="add-btn" (click)="onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)">COMPRAR</button>
           </div>
         </div>
       </div>
