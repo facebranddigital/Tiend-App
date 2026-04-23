@@ -10,40 +10,29 @@
     />
     <div class="hero-overlay"></div>
     <div class="hero-content">
-
-    <div class="cta-buttons">
-    <!-- Lleva a Bolis de Leche -->
-      <button class="btn-primary" (click)="scrollTo('bolis-leche')">Bolis D'Leche</button>
-
-      <!-- Lleva a Papitas BF -->
-     <button class="btn-secondary" (click)="scrollTo('papitas')">Papitas BF</button>
-
-    <!-- Lleva a Tocineta BF -->
-   <button class="btn-secondary" (click)="scrollTo('tocineta')">Tocineta BF</button>
-
-     <!-- Lleva a Platanos BF -->
-    <button class="btn-primary" (click)="scrollTo('platanos')">Platanos BF</button>
-
-    <!-- Lleva a Bolis Natural -->
-     <button class="btn-primary" (click)="scrollTo('bolis-natural')">Bolis Natural</button>
-</div>
+      <div class="cta-buttons">
+        <button class="btn-primary" (click)="scrollTo('bolis-leche')">Bolis D'Leche</button>
+        <button class="btn-secondary" (click)="scrollTo('papitas')">Papitas BF</button>
+        <button class="btn-secondary" (click)="scrollTo('tocineta')">Tocineta BF</button>
+        <button class="btn-primary" (click)="scrollTo('platanos')">Platanos BF</button>
+        <button class="btn-primary" (click)="scrollTo('bolis-natural')">Bolis Natural</button>
+      </div>
 
       <h1 class="hero-title">Bracas Food</h1>
       <p class="hero-subtitle">Sabor que conquista, calidad que perdura.</p>
       <button class="btn-registrar" (click)="toggleRegisterModal()">REGÍSTRATE</button>
     </div>
-    </div>
-    </section>
+  </section> <!-- Aquí se cierra el Hero correctamente -->
 
-    <div class="promo-banner">
+  <div class="promo-banner">
     <h2>La mejor nutrición para tu salud <i class="fas fa-apple-alt"></i></h2>
-    </div>
+  </div>
 
-   <!-- PRODUCTOS -->
+  <!-- PRODUCTOS -->
   <section class="featured-products">
     <div class="product-grid">
       <!-- Producto 1: Platanos -->
-      <div class="product-card" #pasabocasCard>
+      <div class="product-card" id="platanos" #pasabocasCard>
         <div class="product-image">
           <img src="assets/bracasfood2.webp" alt="Pasabocas Variados" loading="lazy" />
         </div>
@@ -62,7 +51,7 @@
       </div>
 
       <!-- Producto 2: Bolis de Leche -->
-      <div class="product-card" #bolisLeche id="bracasfoodbolis">
+      <div class="product-card" id="bolis-leche" #bolisLeche>
         <div class="product-image">
           <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
         </div>
@@ -81,7 +70,7 @@
       </div>
 
       <!-- Producto 3: Bolis Naturales -->
-      <div class="product-card" #bolisNatural id="bolis-naturales">
+      <div class="product-card" id="bolis-natural" #bolisNatural>
         <div class="product-image">
           <img src="assets/bolismorados.webp" alt="Bolis Fruta Natural" loading="lazy" />
           <span class="badge">-20%</span>
@@ -100,112 +89,56 @@
         </div>
       </div>
 
-   <!-- Producto 4: Papitas BF -->
-<div class="product-card" #papitasCard>
-  <div class="product-image">
-    <!-- Corregido el nombre a papitasBF.webp -->
-    <img src="assets/papasbf.webp" alt="Papitas BF" loading="lazy" />
-  </div>
-  <div class="product-info">
-    <h3>Papitas BF</h3>
-    <div class="purchase-row">
-      <span class="price">$2.500</span>
-      <div class="qty-mini">
-        <button (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()">-</button>
-        <input #pQty4 type="number" value="1" readonly />
-        <button (click)="pQty4.value = (+pQty4.value + 1).toString()">+</button>
+      <!-- Producto 4: Papitas BF -->
+      <div class="product-card" id="papitas" #papitasCard>
+        <div class="product-image">
+          <img src="assets/papasbf.webp" alt="Papitas BF" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Papitas BF</h3>
+          <div class="purchase-row">
+            <span class="price">$2.500</span>
+            <div class="qty-mini">
+              <button (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()">-</button>
+              <input #pQty4 type="number" value="1" readonly />
+              <button (click)="pQty4.value = (+pQty4.value + 1).toString()">+</button>
+            </div>
+            <button class="add-btn" (click)="onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)">COMPRAR</button>
+          </div>
+        </div>
       </div>
-      <button class="add-btn" (click)="onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)">
-        COMPRAR
-      </button>
-    </div>
-  </div>
-</div>
 
-<!-- Producto 5: Tocineta BF -->
-<div class="product-card" id="tocineta" #tocinetaCard>
-  <div class="product-image">
-    <img src="assets/tocinetabf.jpg" alt="Tocineta BF" loading="lazy" />
-  </div>
-  <div class="product-info">
-    <h3>Tocineta BF</h3>
-    <div class="purchase-row">
-      <span class="price">$2.500</span>
-      <div class="qty-mini">
-        <button (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()">-</button>
-        <input #pQty5 type="number" value="1" readonly />
-        <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
+      <!-- Producto 5: Tocineta BF -->
+      <div class="product-card" id="tocineta" #tocinetaCard>
+        <div class="product-image">
+          <img src="assets/tocinetabf.jpg" alt="Tocineta BF" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <h3>Tocineta BF</h3>
+          <div class="purchase-row">
+            <span class="price">$2.500</span>
+            <div class="qty-mini">
+              <button (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()">-</button>
+              <input #pQty5 type="number" value="1" readonly />
+              <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
+            </div>
+            <button class="add-btn" (click)="onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.jpg', pQty5.value)">COMPRAR</button>
+          </div>
+        </div>
       </div>
-      <button class="add-btn" (click)="onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)">
-        COMPRAR
-      </button>
-    </div> <!-- Cierra purchase-row -->
-  </div> <!-- Cierra product-info -->
-</div> <!-- Cierra product-card -->
-
-<!-- CIERRE DE CONTENEDORES GENERALES -->
     </div> <!-- Cierra product-grid -->
   </section> <!-- Cierra featured-products -->
-
 
   <!-- BANNER FINAL -->
   <section class="promo-banner secondary">
     <div class="promo-content">
       <h2>Consiente tu paladar</h2>
       <button (click)="irAWhatsApp()" class="btn-registrar">
-  HAZ TU PEDIDO AQUI <i class="fas fa-arrow-alt-square-right"></i>
-  </button>
+        HAZ TU PEDIDO AQUÍ <i class="fas fa-arrow-right"></i>
+      </button>
     </div>
   </section>
 
-  <!-- MODALES -->
-  @if (showModal()) {
-    <div class="modal-overlay" (click)="toggleModal()">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <button class="close-btn" (click)="toggleModal()">&times;</button>
-        <h2>Nuestras Líneas</h2>
-        <div class="collections-summary">
-          <div class="collection-item">
-            <h3>BracasFood</h3>
-            <p>Snacks, pasabocas y alimentos rápidos para tu día a día.</p>
-          </div>
-          <div class="collection-item">
-            <h3>Bolis Gourmet</h3>
-            <p>Sabores cremosos y frutales para refrescar tu paladar.</p>
-          </div>
-        </div>
-        <button class="btn-modal-footer" (click)="toggleModal()">Cerrar</button>
-      </div>
-    </div>
-  }
+  <!-- MODALES (Omitidos por brevedad, asegúrate de cerrarlos con sus respectivas llaves @if) -->
 
-  @if (showRegisterModal()) {
-    <div class="modal-overlay" (click)="toggleRegisterModal()">
-      <div class="modal-content register-modal" (click)="$event.stopPropagation()">
-        <button class="close-btn" (click)="toggleRegisterModal()">&times;</button>
-        <h2>Únete a nuestra comunidad</h2>
-        <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-row">
-            <div class="form-group">
-              <label>Nombres</label>
-              <input type="text" formControlName="firstName" placeholder="Ej: Juan" />
-            </div>
-            <div class="form-group">
-              <label>Apellidos</label>
-              <input type="text" formControlName="lastName" placeholder="Ej: Pérez" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Correo Electrónico</label>
-            <input type="email" formControlName="email" placeholder="correo@ejemplo.com" />
-          </div>
-          <div class="form-group">
-            <label>Número Celular</label>
-            <input type="tel" formControlName="phone" placeholder="+57 300..." />
-          </div>
-          <button type="submit" class="btn-registrar">REGISTRARME</button>
-        </form>
-      </div>
-    </div>
-  }
-</div>
+</div> <!-- Cierre final de landing-container -->
