@@ -30,6 +30,7 @@
     <!-- PRODUCTOS -->
     <section class="featured-products">
       <div class="product-grid">
+        
         <!-- Producto 1: Platanos -->
         <div class="product-card" id="platanos" #pasabocasCard>
           <div class="product-image">
@@ -206,14 +207,11 @@
         </button>
       </div>
     </section>
-
-    <!-- BOTÓN FLOTANTE CON ICONO DE CARRITO -->
-    <button class="scroll-to-top" (click)="scrollToTop()">
-  <img src="assets/bracasfoodlogo.jpeg" alt="Logo" class="mini-logo-btn" />
-  <span class="cart-badge-mini" *ngIf="getTotalUnits() > 0">
-    {{ getTotalUnits() }}
+  </div>
+  </div>
+<button class="bracas-float-btn" (click)="scrollToTop()">
+  <img src="assets/bracasfoodlogo.jpeg" alt="Logo" class="bracas-float-img" />
+  <span class="bracas-float-badge" *ngIf="cartService.count() > 0">
+    {{ cartService.count() }}
   </span>
-  </button>
-  </div>
-  <!-- Aquí cierra el landing-container -->
-  </div>
+</button>

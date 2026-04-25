@@ -22,11 +22,12 @@
               <h3>{{ item.name }}</h3>
               <p class="price">
                 {{ item.price | currency: 'USD' : 'symbol' : '1.0-0' }}
-                <span style="font-size: 0.9rem; color: #666; font-weight: bold; margin-left: 8px">
-                  x {{ item.quantity || 1 }}
-                </span>
-              </p>
-            </div>
+                 <!-- Aquí es donde se muestran las unidades totales por ese producto -->
+             <span style="font-size: 0.9rem; color: #ff6b00; font-weight: bold; margin-left: 8px">
+          x {{ item.quantity }}
+          </span>
+          </p>
+          </div>
 
             <button class="delete-btn" (click)="onDelete($index)">
               <svg
@@ -55,7 +56,7 @@
         <div class="totals">
           <div class="total-row main-total">
             <span>Total a pagar</span>
-            <span>{{ total() | currency: 'USD' : 'symbol' : '1.0-0' }}</span>
+            <span>{{ cartService.total() | currency: 'USD' : 'symbol' : '1.0-0' }}</span>
           </div>
         </div>
 

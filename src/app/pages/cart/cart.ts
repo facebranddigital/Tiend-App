@@ -1,10 +1,7 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, inject, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { CartService } from '../../services/cart';
-import { environment } from '../../../environments/environment';
-
-declare var MercadoPago: any;
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -14,22 +11,16 @@ declare var MercadoPago: any;
   styleUrls: ['./cart.scss'],
 })
 export class CartComponent {
+  public cartService = inject(CartService);
+
   paymentMethods = ['Mercado Pago', 'Tarjeta de Crédito'];
   selectedPaymentMethod = signal('Mercado Pago');
   paymentSuccess = signal(false);
 
-  constructor(public cartService: CartService) {}
-
-  // Reemplaza tu actual computed total por este:
-total = computed(() => {
-  return this.cartService.cartItems().reduce((acc, item) => {
-    return acc + (item.price * (item.quantity || 1));
-  }, 0);
-});
-
+  total = computed(() => this.cartService.total());
 
   onDelete(index: number) {
-    this.cartService.cartItems.update((prev) => prev.filter((_, i) => i !== index));
+    this.cartService.removeFromCart(index);
   }
 
   onClear() {
@@ -40,6 +31,7 @@ total = computed(() => {
     this.selectedPaymentMethod.set(method);
   }
 
+  // ESTA FUNCIÓN ESTABA AFUERA, YA LA METÍ EN LA CLASE:
   onCheckout() {
     const totalAmount = this.total();
     const urlFirebase = 'https://us-central1-tiend-app.cloudfunctions.net/createPreference';
@@ -48,7 +40,7 @@ total = computed(() => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        title: 'Productos Tiend-App',
+        title: 'Productos Bracasfood', // Cambiado para tu marca
         price: totalAmount,
         quantity: 1,
       }),
@@ -58,23 +50,17 @@ total = computed(() => {
         return res.json();
       })
       .then((data) => {
-        // VALIDACIÓN CLAVE: Si data.id no existe, el SDK dará error 404
         if (!data.id) {
           console.error('No se recibió un ID de preferencia:', data);
           return;
         }
 
-        console.log('ID recibido con éxito:', data.id);
-
         const mp = new (window as any).MercadoPago('TEST-1a7af8d6-a414-4308-ba67-bd36d379818b', {
           locale: 'es-CO',
         });
 
-        // Aseguramos que el objeto preference solo tenga el ID
         mp.checkout({
-          preference: {
-            id: data.id,
-          },
+          preference: { id: data.id },
           autoOpen: true,
         });
       })
@@ -82,4 +68,4 @@ total = computed(() => {
         console.error('Error detallado:', err);
       });
   }
-}
+} // <--- ESTA LLAVE CIERRA LA CLASE (Asegúrate de que esté al final)

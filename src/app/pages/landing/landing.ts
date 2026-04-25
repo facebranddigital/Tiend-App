@@ -1,7 +1,7 @@
 import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CartService } from '../../services/cart';
+import { CartService } from '../../services/cart.service';
 import { FormsModule } from '@angular/forms'; // <-- IMPORTANTE: Añade esto para el buscador
 declare var Swal: any;
 
@@ -35,8 +35,8 @@ export class LandingComponent {
     return this.products.filter(p => p.name.toLowerCase().includes(term));
   });
   getTotalUnits(): number {
-    return this.cartService.cartItems().reduce((acc, item) => acc + (item.quantity || 1), 0);
-  }
+     return this.cartService.cartItems().reduce((acc, item) => acc + (item.quantity || 1), 0);
+}
 scrollTo(sectionId: string) {
   const element = document.getElementById(sectionId);
   if (element) {

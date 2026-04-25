@@ -15,21 +15,20 @@
   display: flex;
   justify-content: flex-start; /* Centra verticalmente en el espacio disponible */
   align-items: center; /* Up/Down */
-  height: 444px;           /* Dale una altura fija razonable para PC */
+  height: 444px; /* Dale una altura fija razonable para PC */
   gap: 10px; /* Espacio entre logo y botones */ /* Ajusta esto para que no sea tan alto y el texto de abajo suba */
   padding-left: 200px; /* +/- espacio entre Header/Navbar y el logo (afect both)*/
   position: relative;
-  overflow: hidden;  /* Corta lo que se salga */
-  
-.hero-img {
-  max-width: 450px !important; /* Ajusta este número hasta que el logo se vea entero */
-  width: 550px;
-  height: auto !important;
-  object-fit: contain;      /* Obliga a la imagen a caber entera sin deformarse */
-  margin: 0 auto;
-  
-}
-    /* --- Media Query para pantallas de celular (Móvil) --- */
+  overflow: hidden; /* Corta lo que se salga */
+
+  .hero-img {
+    max-width: 450px !important; /* Ajusta este número hasta que el logo se vea entero */
+    width: 550px;
+    height: auto !important;
+    object-fit: contain; /* Obliga a la imagen a caber entera sin deformarse */
+    margin: 0 auto;
+  }
+  /* --- Media Query para pantallas de celular (Móvil) --- */
 }
 @media screen and (max-width: 668px) {
   .hero {
@@ -38,32 +37,32 @@
     justify-content: flex-start; /* Deja espacio entre ellos */
     align-items: center;
     gap: 180px !important; /* Pegamos los botones al borde del logo */
-    padding: 0px 10px !important;          /* 0 arriba para que no haya espacio */
-    margin-top: -35px !important;          /* ESTO lo sube hacia el navbar */
+    padding: 0px 10px !important; /* 0 arriba para que no haya espacio */
+    margin-top: -35px !important; /* ESTO lo sube hacia el navbar */
     min-height: 250px !important; /* Altura suficiente para que quepan los 5 botones */
     position: relative;
     overflow: hidden;
   }
-    // Here I've got solved it on celular//
+  // Here I've got solved it on celular//
   .hero-img {
-    width: 360px !important;  /* Reducimos el logo a la mitad del ancho */
+    width: 360px !important; /* Reducimos el logo a la mitad del ancho */
     height: 198%; /* Ajusta según prefieras el tamaño del logo */
-    max-width: 85% !important;  /* Ajusta tamaño logo nel compu */
+    max-width: 85% !important; /* Ajusta tamaño logo nel compu */
     margin: 0 !important; /* Quitamos el auto para que no se centre solo */
-    position: absolute; 
+    position: absolute;
     margin-left: -2px !important;
   }
   /* El contenedor que organiza los botones respecto al logo */
-.hero-wrapper {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  width: 100%;
-  max-width: 1200px; /* Evita que en laptops pro se alejen demasiado */
-  justify-content: flex-start; /* Manda los botones a la derecha */
-  padding: 1 50px;
-}
-.cta-buttons button {
+  .hero-wrapper {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    width: 100%;
+    max-width: 1200px; /* Evita que en laptops pro se alejen demasiado */
+    justify-content: flex-start; /* Manda los botones a la derecha */
+    padding: 1 50px;
+  }
+  .cta-buttons button {
     width: 90% !important; /* Que el botón solo ocupe lo que necesita el texto */
     min-width: 100px !important;
     font-size: 1rem !important; /* Bajamos un poco la letra para que no se amontone */
@@ -99,10 +98,10 @@
     align-items: flex-start !important; /* Alinea los botones hacia el logo */
     gap: 3px !important; /* Esto separa los botones entre sí */
     position: absolute !important;
-    top: 60% !important;     /* AUMENTA este número (ej. 58% o 60%) para BAJAR los botones */
+    top: 160% !important; /* AUMENTA este número (ej. 58% o 60%) para BAJAR los botones */
     margin-top: 12px !important; /* Ajusta la altura de los botones para que alineen con el logo */
     /* --- CAMBIOS CLAVE PARA MOVER A LA IZQUIERDA --- */
-    right: 130% !important;    /* Ajusta para acercar/alejar del borde derecho */
+    right: 130% !important; /* Ajusta para acercar/alejar del borde derecho */
     transform: translate(130%, -100%) !important; /* El valor negativo lo lanza a la IZQUIERDA */
     width: auto !important;
   }
@@ -122,7 +121,8 @@
 :host .cta-buttons button:nth-child(2) {
   margin-right: 200px !important;
 }
-:host .cta-buttons button:nth-child(3) {    // Here I reolve both views//
+:host .cta-buttons button:nth-child(3) {
+  // Here I reolve both views//
   margin-right: 197px !important;
 }
 :host .cta-buttons button:nth-child(4) {
@@ -134,23 +134,21 @@
 
 /* DISEÑO MÓVIL (Los botones bajan y se centran) */
 
+/* --- Media Query para pantallas de celular (Móvil) --- */
 
-  /* --- Media Query para pantallas de celular (Móvil) --- */
-  
-  :host .cta-buttons {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important; /* Alinea los botones hacia el logo */
-    gap: 10px !important; /* Esto separa los botones entre sí */
-    position: absolute !important;
-    top: 50% !important;
-   /* --- CAMBIOS CLAVE PARA MOVER A LA IZQUIERDA --- */
-    right: 74% !important; /* Bajamos el % para que empiece antes del logo */
-    transform: translate(100%, -50%) !important; /* El valor negativo lo lanza a la IZQUIERDA */
-    margin-top: 10px;
-    width: 100% !important;
+:host .cta-buttons {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important; /* Alinea los botones hacia el logo */
+  gap: 10px !important; /* Esto separa los botones entre sí */
+  position: absolute !important;
+  top: 50% !important;
+  /* --- CAMBIOS CLAVE PARA MOVER A LA IZQUIERDA --- */
+  right: 74% !important; /* Bajamos el % para que empiece antes del logo */
+  transform: translate(100%, -50%) !important; /* El valor negativo lo lanza a la IZQUIERDA */
+  margin-top: 10px;
+  width: 100% !important;
 }
-
 
 /* --La curva ahora usa margin-right para empujar hacia el logo-- */
 :host .cta-buttons button {
@@ -167,7 +165,8 @@
 :host .cta-buttons button:nth-child(2) {
   margin-left: 201px !important;
 }
-:host .cta-buttons button:nth-child(3) {   // compu ok //
+:host .cta-buttons button:nth-child(3) {
+  // compu ok //
   margin-left: 204px !important;
 }
 :host .cta-buttons button:nth-child(4) {
@@ -413,25 +412,25 @@ h3 {
   background: #f0f0f0;
   border-radius: 20px; /* Bordes redondeados para que combine con tu botón */
   padding: 4px 8px;
-  min-width: 80px;   /* Fixed size so it doesn't push the button */
+  min-width: 80px; /* Fixed size so it doesn't push the button */
 
   /* --- ESTO ES LO QUE DEBES AGREGAR PARA CELULARES --- */
-@media (max-width: 480px) {
-  .qty-mini {
-    min-width: 100px; /* Lo hace más largo en celular */
-    padding: 8px 12px; /* Más espacio interno para que sea fácil de tocar */
-  }
+  @media (max-width: 480px) {
+    .qty-mini {
+      min-width: 100px; /* Lo hace más largo en celular */
+      padding: 8px 12px; /* Más espacio interno para que sea fácil de tocar */
+    }
 
-  .qty-mini button {
-    font-size: 1.5rem; /* Hace que el + y el - sean más grandes */
-    padding: 5px 10px;
-  }
+    .qty-mini button {
+      font-size: 1.5rem; /* Hace que el + y el - sean más grandes */
+      padding: 5px 10px;
+    }
 
-  .qty-mini span {
-    font-size: 1.4rem; /* El número se verá más grande */
-    margin: 0 10px;
+    .qty-mini span {
+      font-size: 1.4rem; /* El número se verá más grande */
+      margin: 0 10px;
+    }
   }
-}
 
   button {
     background: none;
@@ -455,7 +454,7 @@ h3 {
     appearance: textfield;
     -moz-appearance: textfield;
   }
-  
+
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -469,7 +468,6 @@ h3 {
   color: #8b4513; /* O el color café que estás usando */
   margin: 0;
 }
-
 
 .add-btn {
   width: auto !important; /* Deja de ser un círculo fijo */
@@ -588,7 +586,7 @@ h3 {
 }
 /* Estilo para el botón de WhatsApp y Registro */
 .btn-registrar {
-  background: linear-gradient(90deg, #FF6B00 0%, #FFD700 100%) !important;
+  background: linear-gradient(90deg, #ff6b00 0%, #ffd700 100%) !important;
   color: white;
   border: none;
   padding: 9px 20px;
@@ -660,16 +658,7 @@ h3 {
   &:hover {
     transform: scale(1.05);
   }
-
-  .cart-count-badge {
-    background: white;
-    color: #f44336;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-size: 1rem;
-  }
 }
-
 /* El botón flotante que ya tienes configurado */
 .floating-cart-btn {
   position: fixed;
@@ -678,52 +667,54 @@ h3 {
   z-index: 2100;
   /* ... resto de tu estilo ... */
 }
-.scroll-to-top {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 65px;  /* Un poco más grande para que se note */
-  height: 65px;
-  background: linear-gradient(135deg, #ff6b00, #ffb800); /* Degradado de tu marca */
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  padding: 0; // Para que la imagen ocupe bien el espacio
-  overflow: visible; // Para que el numerito rojo no se corte
+//* --- BOTÓN FLOTANTE INDESTRUCTIBLE --- */
+/* --- AISLAMIENTO TOTAL DEL BOTÓN FLOTANTE --- */
+.bracas-float-btn {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  width: 60px !important; /* Tamaño fijo del círculo */
+  height: 60px !important; /* Tamaño fijo del círculo */
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  border: 2px solid #ff8c00 !important;
+  z-index: 999999 !important; /* Por encima de todo */
+  padding: 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  overflow: visible !important;
 
-   .mini-logo-btn {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%; /* Lo hace redondo como el botón */
-    border: 2px solid #ff6b00; /* Un borde para que resalte */
+  .bracas-float-img {
+    width: 60px !important; /* Forzamos el ancho */
+    height: 60px !important; /* Forzamos el alto */
+    min-width: 60px !important;
+    min-height: 60px !important;
+    max-width: 60px !important;
+    max-height: 60px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important; /* Para que no se estire */
+    position: static !important; /* Para que no use el position del Hero */
+    display: block !important;
   }
 
-  &:hover {
-    transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(255, 107, 0, 0.4);
-  }
-
-  /* El numerito rojo de productos */
-  .cart-badge-mini {
-    z-index: 10; /* Asegura que el número esté por encima del logo */
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: #e91e63;
-    color: white;
-    font-size: 11px;
-    padding: 2px 6px;
-    border-radius: 50%;
-    font-weight: bold;
-    border: 2px solid white;
+  .bracas-float-badge {
+    position: absolute !important;
+    top: -5px !important;
+    right: -5px !important;
+    background: #ff8c00 !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+    font-weight: bold !important;
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 2px solid #ffffff !important;
   }
 }
-
