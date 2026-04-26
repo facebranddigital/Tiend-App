@@ -1,281 +1,122 @@
-.hero-container {
-  // O la clase que envuelva todo el Hero
-  display: flex; /* Antes decía 'center' (error) */
-  flex-direction: column; /* Antes decía 'over' (error) */
-  justify-content: center;
-  align-items: center;
-  min-height: 20vh;
-  width: 150px;
-  position: relative; /* Antes decía 'over' (error) */
-  overflow: hidden;
-}
+/* =======================================================
+   AJUSTE FINAL: LOGO PEQUEÑO Y BOTONES PRO (A50)
+   ======================================================= */
+@media screen and (max-width: 992px) {
 
-/* HERO */
-.hero {
-  display: flex;
-  justify-content: flex-start; /* Centra verticalmente en el espacio disponible */
-  align-items: center; /* Up/Down */
-  height: 444px; /* Dale una altura fija razonable para PC */
-  gap: 10px; /* Espacio entre logo y botones */ /* Ajusta esto para que no sea tan alto y el texto de abajo suba */
-  padding-left: 200px; /* +/- espacio entre Header/Navbar y el logo (afect both)*/
-  position: relative;
-  overflow: hidden; /* Corta lo que se salga */
-
-  .hero-img {
-    max-width: 450px !important; /* Ajusta este número hasta que el logo se vea entero */
-    width: 550px;
-    height: auto !important;
-    object-fit: contain; /* Obliga a la imagen a caber entera sin deformarse */
-    margin: 0 auto;
-  }
-  /* --- Media Query para pantallas de celular (Móvil) --- */
-}
-@media screen and (max-width: 668px) {
-  .hero {
+  /* 1. CONTENEDOR MAESTRO: Más compacto para evitar espacios muertos */
+  .hero-container {
     display: flex !important;
-    flex-direction: row !important; /* Logo a la izquierda, botones a la derecha */
-    justify-content: flex-start; /* Deja espacio entre ellos */
-    align-items: center;
-    gap: 180px !important; /* Pegamos los botones al borde del logo */
-    padding: 0px 10px !important; /* 0 arriba para que no haya espacio */
-    margin-top: -35px !important; /* ESTO lo sube hacia el navbar */
-    min-height: 250px !important; /* Altura suficiente para que quepan los 5 botones */
-    position: relative;
-    overflow: hidden;
+    height: 320px !important; 
+    position: relative !important;
+    overflow: visible !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0 !important;
   }
-  // Here I've got solved it on celular//
+  /* 2. EL LOGO: Tamaño reducido (xxxpx) para que respire el diseño */
   .hero-img {
-    width: 360px !important; /* Reducimos el logo a la mitad del ancho */
-    height: 198%; /* Ajusta según prefieras el tamaño del logo */
-    max-width: 85% !important; /* Ajusta tamaño logo nel compu */
-    margin: 0 !important; /* Quitamos el auto para que no se centre solo */
-    position: absolute;
-    margin-left: -2px !important;
+    width: 244px !important; /* Un poco más grande para el G72 */
+    height: 244px !important;
+    z-index: 10 !important;
+    margin-left: -8px !important; /* Lo alejamos para que los botones no lo asfixien */
+    margin-top: 0 !important;
+    border-radius: 50% !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
   }
-  /* El contenedor que organiza los botones respecto al logo */
-  .hero-wrapper {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    width: 100%;
-    max-width: 1200px; /* Evita que en laptops pro se alejen demasiado */
-    justify-content: flex-start; /* Manda los botones a la derecha */
-    padding: 1 50px;
-  }
-  .cta-buttons button {
-    width: 90% !important; /* Que el botón solo ocupe lo que necesita el texto */
-    min-width: 100px !important;
-    font-size: 1rem !important; /* Bajamos un poco la letra para que no se amontone */
-    padding: 5px 10px !important;
-    display: grid;
-    flex-direction: column;
-    gap: 2px !important;
-  }
-}
-.hero-overlay {
-  position: center;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(232, 23, 23, 0.1), rgba(0, 0, 0, 0.4));
-  z-index: 2;
-}
 
-.hero-content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: -30px; /* Sube un poco todo el bloque si es necesario */
-  width: 100%;
-  padding: 10px;
-}
-
-/* CONTENEDOR DE BOTONES */
-/* --- Media Query para pantallas de celular (Móvil) --- */
-@media screen and (min-width: 668px) {
-  :host .cta-buttons {
-    display: flex !important;
-    flex-direction: column;
-    align-items: flex-start !important; /* Alinea los botones hacia el logo */
-    gap: 3px !important; /* Esto separa los botones entre sí */
+    /* 3. CONTENEDOR DE BOTONES: Centrado vertical perfecto */
+    :host .cta-buttons {
     position: absolute !important;
-    top: 160% !important; /* AUMENTA este número (ej. 58% o 60%) para BAJAR los botones */
-    margin-top: 12px !important; /* Ajusta la altura de los botones para que alineen con el logo */
-    /* --- CAMBIOS CLAVE PARA MOVER A LA IZQUIERDA --- */
-    right: 130% !important; /* Ajusta para acercar/alejar del borde derecho */
-    transform: translate(130%, -100%) !important; /* El valor negativo lo lanza a la IZQUIERDA */
+    right: 5px !important; 
+    top: 27% !important;
+    transform: translateY(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
     width: auto !important;
-  }
-}
-/* --La curva ahora usa margin-right para empujar hacia el logo-- */
-:host .cta-buttons button {
-  width: min-content !important; /* LA CLAVE: El botón se estira según el texto */
-  min-width: 130px !important; /* Para que no se vean flacos */
-  padding: 6px 12px !important; /* Grosor del botón */
-  font-size: 1.1rem !important; /* Tamaño de letra legible en PC */
-  border-radius: 25px; /* Les da más vida */
-  white-space: nowrap !important; /* Evita que la palabra se parta en dos */
-}
-:host .cta-buttons button:nth-child(1) {
-  margin-right: 228px !important;
-}
-:host .cta-buttons button:nth-child(2) {
-  margin-right: 200px !important;
-}
-:host .cta-buttons button:nth-child(3) {
-  // Here I reolve both views//
-  margin-right: 197px !important;
-}
-:host .cta-buttons button:nth-child(4) {
-  margin-right: 199px !important;
-}
-:host .cta-buttons button:nth-child(5) {
-  margin-right: 206px !important;
-}
-
-/* DISEÑO MÓVIL (Los botones bajan y se centran) */
-
-/* --- Media Query para pantallas de celular (Móvil) --- */
-
-:host .cta-buttons {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important; /* Alinea los botones hacia el logo */
-  gap: 10px !important; /* Esto separa los botones entre sí */
-  position: absolute !important;
-  top: 50% !important;
-  /* --- CAMBIOS CLAVE PARA MOVER A LA IZQUIERDA --- */
-  right: 74% !important; /* Bajamos el % para que empiece antes del logo */
-  transform: translate(100%, -50%) !important; /* El valor negativo lo lanza a la IZQUIERDA */
-  margin-top: 10px;
-  width: 100% !important;
-}
-
-/* --La curva ahora usa margin-right para empujar hacia el logo-- */
-:host .cta-buttons button {
-  width: min-content !important; /* LA CLAVE: El botón se estira según el texto */
-  min-width: 140px !important; /* Para que no se vean flacos */
-  padding: 9px 7px !important; /* Grosor del botón */
-  font-size: 1.3rem !important; /* Tamaño de letra legible en PC */
-  white-space: nowrap !important; /* Evita que la palabra se parta en dos */
-}
-
-:host .cta-buttons button:nth-child(1) {
-  margin-left: 200px !important;
-}
-:host .cta-buttons button:nth-child(2) {
-  margin-left: 201px !important;
-}
-:host .cta-buttons button:nth-child(3) {
-  // compu ok //
-  margin-left: 204px !important;
-}
-:host .cta-buttons button:nth-child(4) {
-  margin-left: 185px !important;
-}
-:host .cta-buttons button:nth-child(5) {
-  margin-left: 145px !important;
-}
-
-.btn-primary {
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: white;
-  padding: 1.1px 1px; // Grosor & largor of the buttons //
-  border: none;
-  border-radius: 40px; // Forma de cápsula para que resalte //
-  font-weight: 800; // +/- Grosor Text //
-  font-size: 1.6rem; // General button size //
-  cursor: pointer;
-  box-shadow: 0 10px 20px rgba(4, 0, 8, 0.3);
-  transition: all 0.3s ease;
-  width: fit-content !important; /* El botón solo mide lo que mide el texto */
-  min-width: 100px; /* Un mínimo para que no se vean diminutos */
-  padding: 8px 20px !important; /* Controla el espacio extra a los lados del texto */
-  white-space: nowrap !important; /* Obliga a que el texto esté en una sola línea */
-
-  &:hover {
-    transform: translateY(-2px);
-    opacity: 0.8;
-    background: rgba(225, 136, 4, 0.829);
-  }
-}
-
-.btn-secondary {
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: white;
-  padding: 1.1px 1px; // Grosor & largor of the buttons //
-  border: none;
-  border-radius: 40px; // Forma de cápsula para que resalte //
-  font-weight: 800; // +/- Grosor Text //
-  font-size: 1.6rem;
-  cursor: pointer;
-  box-shadow: 0 10px 20px rgba(238, 127, 1, 0.3);
-  transition: all 0.3s ease;
-  width: fit-content !important; /* El botón solo mide lo que mide el texto */
-  min-width: 100px; /* Un mínimo para que no se vean diminutos */
-  padding: 8px 20px !important; /* Controla el espacio extra a los lados del texto */
-  white-space: nowrap !important; /* Obliga a que el texto esté en una sola línea */
-
-  &:hover {
-    transform: translateY(-2px);
-    opacity: 0.8;
-    background: rgba(225, 136, 4, 0.829);
-  }
-}
-
-/* BANNER */
-.promo-banner {
-  padding: 20px 5%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-
-  h2 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin: 0;
-    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 60%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    z-index: 100 !important;
   }
 
-  p {
-    font-size: 0.9rem;
-    color: #e58217;
-    max-width: 800px;
-    margin: 0;
-  }
+  /* 4. BOTONES XL PARA EL G72 */
+  :host .cta-buttons button {
 
-  .promo-btn {
-    margin-top: 10px;
-    padding: 15px 45px;
+      /* 1. LA FORMA DE PÍLDORA */
+    width: 121px !important;      /* Botones más cortos para que quepan */
+    height: 35px !important;      /* Más grosor */
+    border-radius: 25px;       /* Lo que hace que las puntas sean redondas */
+    
+    /* 2. EL COLOR (Degradado naranja de tu marca) */
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-    border: none;
-    border-radius: 50px;
-    color: white;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
+    color: white;              /* Letras blancas */
+    
+     /* 3. EL BORDE Y LA SOMBRA (Lo que les da el estilo "sticker") */
+    border: 2px solid #000;    /* El borde negro marcado que se ve en la foto */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* La sombra negra hacia abajo y
+    
+     /* 4. EL TEXTO */
+    font-size: 1.1rem;           /* Tamaño de la letra */
+    font-weight: 900;          /* Super negrita */
+    text-transform: none;      /* O uppercase si las quieres en mayúsculas */
+    white-space: nowrap;       /* Evita que el texto se parta en dos renglones */
+  
+    /* 5. ALINEACIÓN INTERNA */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+  }
 
-    &:hover {
-      transform: scale(1.05);
-      box-shadow: 0 15px 30px rgba(230, 145, 8, 0.4);
-    }
+  /* El 1 y el 5 se meten más a la izquierda, el 3 se queda fuera */
+  :host .cta-buttons button:nth-child(1) { transform: translateX(-24px); }
+  :host .cta-buttons button:nth-child(2) { transform: translateX(-5px); }
+  :host .cta-buttons button:nth-child(3) { transform: translateX(0px); } 
+  :host .cta-buttons button:nth-child(4) { transform: translateX(-9px); }
+  :host .cta-buttons button:nth-child(5) { transform: translateX(-32px); }
+  }
+
+.promo-banner h2 {
+  /* 1. Colores de los botones (Degradado) */
+  background: linear-gradient(95deg, #ff6b00 35%, #ffb800 65%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px !important; /* Que no empuje nada hacia abajo */
+  margin-top: 50px !important; /* Esto separa el texto de los botones del logo */
+  ///* 2. Estilo de fuente *///
+  font-size: 1.7rem !important; /* Más grande para que resalte */
+  font-weight: 900 !important; /* Super negrita */
+  text-align: center;
+  text-transform: uppercase; /* En mayúsculas se ve más imponente */
+  letter-spacing: 0.5px;
+
+  /* 3. Espaciado y Sombra */
+  margin: 7px 0 2px 0 !important; /* Bajamos el margen superior e inferior al mínimo */
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1)); /* Sombra suave para dar profundidad */
+
+  /* Animación opcional para que "vibre" un poco de vida */
+  animation: subtlePulse 3s infinite ease-in-out;
+}
+
+@keyframes subtlePulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
   }
 }
+
 /* PRODUCTOS */
 .featured-products {
-  padding: 20px 5% 50px;
+  padding-top: 0px !important; /* Quitamos el espacio de arriba */
+  margin-top: -20px !important; /* ¡ESTO es lo que la sube de verdad! */
+  padding-bottom: 50px;
 
-  @media (max-width: 900px) {
-    padding-bottom: 1rem;
+  @media (max-width: 767px) {
+    padding-bottom: 1rem; /* Esto déjalo, está bien para el espacio de abajo */
   }
 
   .section-header {
@@ -284,7 +125,7 @@
     margin-bottom: 10px;
 
     /* En móvil alineamos el "Ver más" al centro */
-    @media (max-width: 1020px) {
+    @media (max-width: 767px) {
       justify-content: center;
     }
 
@@ -304,7 +145,7 @@
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    gap: 15px;
     padding: 20px;
   }
 
@@ -599,6 +440,13 @@ h3 {
   box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
   display: inline-block;
   margin-top: 0.5rem;
+
+  display: block !important; /* Cambiamos inline-block por block */
+  width: max-content !important; /* Para que no ocupe todo el ancho */
+  margin-left: auto !important; /* Margen automático a la izquierda */
+  margin-right: auto !important; /* Margen automático a la derecha */
+
+  text-align: center !important;
 }
 
 .btn-registrar:hover {
@@ -624,7 +472,7 @@ h3 {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-  display: inline-block;
+  display: center;
   margin-top: 0.5rem;
 }
 /* --- SECCIÓN CARRITO RÁPIDO (Añadir al final) --- */
@@ -717,4 +565,136 @@ h3 {
     justify-content: center !important;
     border: 2px solid #ffffff !important;
   }
+
+  /* --- ARREGLO FINAL PARA LAPTOP (PC) --- */
+  @media screen and (min-width: 1024px) {
+    /* Forzamos al contenedor a ser una fila centrada y con altura suficiente */
+    .hero-container {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: center !important;
+      align-items: center !important;
+      height: 150px !important; /* Altura para que el logo respire */
+      width: 100% !important;
+      position: relative !important;
+      gap: 15px !important; /* Espacio entre logo y botones */
+      margin: 20px 0 !important;
+      background: transparent !important;
+      overflow: visible !important;
+      padding: 10px;
+    }
+
+    /* EL LOGO: Tamaño fijo y controlado */
+    .hero-img {
+      position: relative !important; /* En PC no necesitamos absolute */
+      left: auto !important;
+      top: auto !important;
+      transform: none !important;
+
+      /* Candado de tamaño para que no se vea gigante */
+      width: 250px !important;
+      height: 250px !important;
+      max-width: 320px !important;
+      min-width: 200px !important;
+
+      border-radius: 50% !important;
+      object-fit: contain !important; /* Evita que la imagen se estire */
+      z-index: 10 !important;
+      display: block !important;
+      margin: 0 !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    /* LOS BOTONES: Columna a la derecha */
+    :host .cta-buttons {
+      position: relative !important;
+      right: auto !important;
+      top: auto !important;
+      transform: none !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 6px !important; /* Más espacio entre botones en PC */
+      width: 250px !important;
+      align-items: flex-start !important;
+      z-index: 100 !important;
+    }
+
+    /* BOTONES MÁS GRANDES PARA PC */
+    :host .cta-buttons button {
+      font-size: 1.2rem !important;
+      padding: 15px 25px !important;
+      border-radius: 30px !important;
+    }
+
+    /* CURVA AMPLIA PARA EL LOGO DE 320px */
+    :host .cta-buttons button:nth-child(1) {
+      transform: translateX(50px);
+    }
+    :host .cta-buttons button:nth-child(2) {
+      transform: translateX(-25px);
+    }
+    :host .cta-buttons button:nth-child(3) {
+      transform: translateX(-40px);
+    }
+    :host .cta-buttons button:nth-child(4) {
+      transform: translateX(-25px);
+    }
+    :host .cta-buttons button:nth-child(5) {
+      transform: translateX(50px);
+    }
+  }
+}
+
+/* =======================================================
+   AJUSTE FINAL: LOGO PEQUEÑO Y BOTONES PRO (G72) % bigger
+   ======================================================= */
+@media screen and (min-width: 481px) and (max-width: 1092px) {
+  .hero-img {
+    width: 350px !important;
+    height: 350px !important;
+    margin-top: 10px !important;
+    margin-left: 5px !important;
+  }
+    .hero {
+    display: flex !important; /* Esto hace que el grid ignore este div intermedio */
+  }
+  :host .cta-buttons {
+    right: 10px !important;
+    gap: 12px !important; /* Más espacio entre botones grandes */
+    top: 23.5% !important;
+    transform: translateY(-50%) !important;
+  }
+
+  :host .cta-buttons button {
+    width: 180px !important;      /* BOTÓN MUCHO MÁS ANCHO */
+    height: 48px !important;       /* BOTÓN MÁS ALTO (Gordito) */
+    font-size: 1.5rem !important;  /* LETRA GRANDE Y CLARA */
+    font-weight: 900 !important;   /* Letra super gruesa */
+    border-radius: 25px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding-right: 20px !important;
+    
+     /* 2. EL COLOR (Degradado naranja de tu marca) */
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    color: white;              /* Letras blancas */
+    
+     /* 3. EL BORDE Y LA SOMBRA (Lo que les da el estilo "sticker") */
+    border: 2px solid #000;    /* El borde negro marcado que se ve en la foto */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* La sombra negra hacia abajo y
+  }
+
+  /* 4. CURVA XL: Ajustada para botones más anchos */
+  :host .cta-buttons button:nth-child(1) { transform: translateX(-25
+    px); }
+  :host .cta-buttons button:nth-child(2) { transform: translateX(7px); }
+  :host .cta-buttons button:nth-child(3) { transform: translateX(20px); } 
+  :host .cta-buttons button:nth-child(4) { transform: translateX(1px); }
+  :host .cta-buttons button:nth-child(5) { transform: translateX(-23px); }
+  
+  .promo-banner h2 {
+    margin-top: 70px !important; /* El empujón para el G72 */
+  }
+}
 }
