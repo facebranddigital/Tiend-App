@@ -49,6 +49,41 @@
       color: #444;
       font-size: 0.9rem;
     }
+.password-wrapper {
+      position: relative; // Vital para que el ojo flote
+      display: flex;
+      align-items: center;
+
+      input {
+        width: 100%;
+        padding-right: 50px !important; // Para que el texto no tape el ojo
+      }
+
+      .toggle-eye {
+        position: absolute;
+        right: 15px; // Alineado a la derecha dentro del input
+        background: transparent; // ELIMINA EL FONDO NEGRO
+        border: none; // ELIMINA EL BORDE DEL CUADRO
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #666; // Color del icono
+        outline: none; // Quita el borde azul al hacer clic
+
+        &:hover {
+          color: #111;
+        }
+
+        svg {
+          display: block; // Asegura que el SVG no tenga espacios extra
+        }
+      }
+    }
+
+
 
     input {
       padding: 14px 18px;

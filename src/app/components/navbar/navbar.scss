@@ -7,7 +7,7 @@
   align-items: center;
   background: #191818;
   padding: 0 5%;
-  height: 80px; /* Altura cómoda para PC */
+  height: 60px; /* Altura cómoda para PC */
   backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
@@ -16,19 +16,19 @@
 }
 
 .logo span {
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-weight: bold;
   background: linear-gradient(95deg, #ff6b00, #ffb800);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   cursor: pointer;
-  letter-spacing: -0.5px;
+  letter-spacing: 0px;
 }
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 12px !important;
   list-style: none;
 }
 
@@ -101,13 +101,14 @@
    ======================================================= */
 @media screen and (max-width: 768px) {
   .navbar {
-    height: 50px !important; /* Más delgada para no robar pantalla */
-    padding: 0 10px !important;
+    height: 60px !important; /* Más delgada para no robar pantalla */
+    padding: 0 15px !important;
     justify-content: space-between !important;
   }
 
   .logo span {    /* Evita que el nombre choque con los iconos */
-    font-size: 1.6rem !important; /* Bracasfood más pequeño */
+    font-size: 1.2rem !important; /* Bracasfood más pequeño */
+    letter-spacing: 0px;
   }
 
   .nav-links {
@@ -115,17 +116,82 @@
   }
 
   .nav-actions {
-    gap: 10px !important; /* Iconos más pegados */
+    gap: 12px !important; /* Iconos más pegados */
   }
 
   .cart-btn-custom svg {
-    width: 24px !important; /* Icono de carrito más pequeño */
-    height: 24px !important;
+    width: 22px !important; /* Icono de carrito más pequeño */
+    height: 22px !important;
   }
 
   .login-btn {
-    padding: 0.4rem 0.7rem !important;
-    font-size: 0.7rem !important; /* Botón Login compacto */
-    border-radius: 12px !important;
+    padding: 5px 10px !important;
+    font-size: 0.65rem !important; /* Botón Login compacto */ // Menos redondeado se ve más limpio en pequeño
+    border-radius: 8px !important;
+  }
+}
+/* --- LÓGICA DE BÚSQUEDA EXPANDIBLE --- */
+.search-container {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 30px;
+  padding: 4px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  .search-input {
+    width: 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: white;
+    font-size: 0.85rem;
+    transition: width 0.3s ease;
+    padding: 0;
+    &::placeholder { color: rgba(255,255,255,0.4); }
+  }
+
+  .search-btn-custom {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    padding: 6px;
+    svg {
+      stroke: #ffffff;
+      width: 24px;
+      height: 24px;
+      transition: stroke 0.3s ease;
+    }
+  }
+
+  // ESTADO ACTIVO (Cuando haces clic)
+  &.active {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #ff8c00;
+    padding: 4px 12px;
+
+    .search-input {
+      width: 140px; // Se abre
+      padding: 0 5px;
+    }
+
+    .search-btn-custom svg {
+      stroke: #ff8c00; // Lupa naranja al estar abierta
+    }
+  }
+}
+
+/* AJUSTE PARA MÓVIL */
+@media screen and (max-width: 768px) {
+  .search-container.active {
+    .search-input {
+      width: 90px; // Más corto en móvil
+    }
+  }
+  .search-btn-custom svg {
+    width: 20px !important;
+    height: 20px !important;
   }
 }

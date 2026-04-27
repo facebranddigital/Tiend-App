@@ -18,6 +18,10 @@ export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  // Variables para la visibilidad de las contraseñas
+  showPassword = false;
+  showConfirmPassword = false;
+
   registerForm: FormGroup = this.fb.group({
     name: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
@@ -33,14 +37,18 @@ export class RegisterComponent {
       ? null : { mismatch: true };
   }
 
+  // Funciones para alternar los ojos
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
   onSubmit() {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
-      return;
-    }
-
-    if (typeof window !== 'undefined' && (window as any).Cypress) {
-      this.router.navigate(['/products']);
       return;
     }
 

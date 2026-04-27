@@ -16,9 +16,30 @@ export class NavbarComponent {
   public cartService = inject(CartService);
   private router = inject(Router);
 
+  isSearchActive = false;
+
+  toggleSearch() {
+    this.isSearchActive = !this.isSearchActive;
+    if (this.isSearchActive) {
+      // Enfoca el input automáticamente al abrir
+      setTimeout(() => {
+        const input = document.querySelector<HTMLElement>('.search-input');
+        input?.focus();
+      }, 300);
+    }
+  }
+
+  // Buscador funcional
+  onSearch(termino: string) {
+    if (termino.trim().length > 0) {
+      this.router.navigate(['/products'], { queryParams: { q: termino } });
+      this.isSearchActive = false; // Cierra la barra tras buscar
+    }
+  }
+
   onLogout() {
     this.authService.logout().then(() => {
       this.router.navigate(['/login']);
     });
   }
-}
+} // <--- Asegúrate de que esta llave cierre todo al final
