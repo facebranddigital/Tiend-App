@@ -28,175 +28,128 @@
     </div>
 
     <!-- PRODUCTOS -->
-    <section class="featured-products">
-      <div class="product-grid">
-        
-        <!-- Producto 1: Platanos -->
-        <div class="product-card" id="platanos" #pasabocasCard>
-          <div class="product-image">
-            <img src="assets/bracasfood2.webp" alt="Platanos BF" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <h3>Platanos BF</h3>
-            <div class="purchase-row">
-              <span class="price">$2.500</span>
-              <div class="qty-mini">
-                <button
-                  (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()"
-                >
-                  -
-                </button>
-                <input #pQty1 type="number" value="1" readonly />
-                <button (click)="pQty1.value = (+pQty1.value + 1).toString()">+</button>
-              </div>
-              <button
-                class="add-btn"
-                (click)="
-                  onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)
-                "
-              >
-                COMPRAR
-              </button>
-            </div>
-          </div>
+<section class="featured-products">
+  <div class="product-grid">
+    
+    <!-- Producto 1: Platanos -->
+    <div class="product-card" id="platanos" #pasabocasCard>
+      <div class="product-image">
+        <img src="assets/bracasfood2.webp" alt="Platanos BF" loading="lazy" />
+      </div>
+      <div class="product-info">
+        <div class="text-group">
+          <h3>Platanos BF</h3>
+          <span class="price">$2.500</span>
         </div>
-
-        <!-- Producto 2: Bolis de Leche -->
-        <div class="product-card" id="bolis-leche" #bolisLeche>
-          <div class="product-image">
-            <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
+        <div class="purchase-row">
+          <div class="qty-mini">
+            <button (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()">-</button>
+            <input #pQty1 type="number" value="1" readonly />
+            <button (click)="pQty1.value = (+pQty1.value + 1).toString()">+</button>
           </div>
-          <div class="product-info">
-            <h3>Bolis de Leche</h3>
-            <div class="purchase-row">
-              <span class="price">$2.000</span>
-              <div class="qty-mini">
-                <button
-                  (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()"
-                >
-                  -
-                </button>
-                <input #pQty2 type="number" value="1" readonly />
-                <button (click)="pQty2.value = (+pQty2.value + 1).toString()">+</button>
-              </div>
-              <button
-                class="add-btn"
-                (click)="
-                  onAddToCart(
-                    'Bolis de Leche',
-                    2000,
-                    'Pasabocas',
-                    'assets/bracasfoodbolis.webp',
-                    pQty2.value
-                  )
-                "
-              >
-                COMPRAR
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Producto 3: Bolis Naturales -->
-        <div class="product-card" id="bolis-natural" #bolisNatural>
-          <div class="product-image">
-            <img src="assets/bolismorados.webp" alt="Bolis Fruta Natural" loading="lazy" />
-            <span class="badge">-20%</span>
-          </div>
-          <div class="product-info">
-            <h3>Bolis Naturales</h3>
-            <div class="purchase-row">
-              <span class="price">$1.500</span>
-              <div class="qty-mini">
-                <button
-                  (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()"
-                >
-                  -
-                </button>
-                <input #pQty3 type="number" value="1" readonly />
-                <button (click)="pQty3.value = (+pQty3.value + 1).toString()">+</button>
-              </div>
-              <button
-                class="add-btn"
-                (click)="
-                  onAddToCart(
-                    'Bolis Naturales',
-                    1500,
-                    'Postres',
-                    'assets/bolismorados.webp',
-                    pQty3.value
-                  )
-                "
-              >
-                COMPRAR
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Producto 4: Papitas BF -->
-        <div class="product-card" id="papitas" #papitasCard>
-          <div class="product-image">
-            <img src="assets/papasbf.webp" alt="Papitas BF" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <h3>Papitas BF</h3>
-            <div class="purchase-row">
-              <span class="price">$2.500</span>
-              <div class="qty-mini">
-                <button
-                  (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()"
-                >
-                  -
-                </button>
-                <input #pQty4 type="number" value="1" readonly />
-                <button (click)="pQty4.value = (+pQty4.value + 1).toString()">+</button>
-              </div>
-              <button
-                class="add-btn"
-                (click)="
-                  onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)
-                "
-              >
-                COMPRAR
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Producto 5: Tocineta BF -->
-        <div class="product-card" id="tocineta" #tocinetaCard>
-          <div class="product-image">
-            <img src="assets/tocinetabf.webp" alt="Tocineta BF" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <h3>Tocineta BF</h3>
-            <div class="purchase-row">
-              <span class="price">$2.500</span>
-              <div class="qty-mini">
-                <button
-                  (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()"
-                >
-                  -
-                </button>
-                <input #pQty5 type="number" value="1" readonly />
-                <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
-              </div>
-              <button
-                class="add-btn"
-                (click)="
-                  onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)
-                "
-              >
-                COMPRAR
-              </button>
-            </div>
-          </div>
+          <button class="add-btn" (click)="onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)">
+            COMPRAR
+          </button>
         </div>
       </div>
-      <!-- Cierra product-grid -->
-    </section>
-    <!-- Cierra featured-products -->
+    </div>
+
+    <!-- Producto 2: Bolis de Leche -->
+    <div class="product-card" id="bolis-leche" #bolisLeche>
+      <div class="product-image">
+        <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
+      </div>
+      <div class="product-info">
+        <div class="text-group">
+          <h3>Bolis de Leche</h3>
+          <span class="price">$2.000</span>
+        </div>
+        <div class="purchase-row">
+          <div class="qty-mini">
+            <button (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()">-</button>
+            <input #pQty2 type="number" value="1" readonly />
+            <button (click)="pQty2.value = (+pQty2.value + 1).toString()">+</button>
+          </div>
+          <button class="add-btn" (click)="onAddToCart('Bolis de Leche', 2000, 'Pasabocas', 'assets/bracasfoodbolis.webp', pQty2.value)">
+            COMPRAR
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto 3: Bolis Naturales -->
+    <div class="product-card" id="bolis-natural" #bolisNatural>
+      <div class="product-image">
+        <img src="assets/bolismorados.webp" alt="Bolis Fruta Natural" loading="lazy" />
+        <span class="badge">-20%</span>
+      </div>
+      <div class="product-info">
+        <div class="text-group">
+          <h3>Bolis Naturales</h3>
+          <span class="price">$1.500</span>
+        </div>
+        <div class="purchase-row">
+          <div class="qty-mini">
+            <button (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()">-</button>
+            <input #pQty3 type="number" value="1" readonly />
+            <button (click)="pQty3.value = (+pQty3.value + 1).toString()">+</button>
+          </div>
+          <button class="add-btn" (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp', pQty3.value)">
+            COMPRAR
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto 4: Papitas BF -->
+    <div class="product-card" id="papitas" #papitasCard>
+      <div class="product-image">
+        <img src="assets/papasbf.webp" alt="Papitas BF" loading="lazy" />
+      </div>
+      <div class="product-info">
+        <div class="text-group">
+          <h3>Papitas BF</h3>
+          <span class="price">$2.500</span>
+        </div>
+        <div class="purchase-row">
+          <div class="qty-mini">
+            <button (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()">-</button>
+            <input #pQty4 type="number" value="1" readonly />
+            <button (click)="pQty4.value = (+pQty4.value + 1).toString()">+</button>
+          </div>
+          <button class="add-btn" (click)="onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)">
+            COMPRAR
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producto 5: Tocineta BF -->
+    <div class="product-card" id="tocineta" #tocinetaCard>
+      <div class="product-image">
+        <img src="assets/tocinetabf.webp" alt="Tocineta BF" loading="lazy" />
+      </div>
+      <div class="product-info">
+        <div class="text-group">
+          <h3>Tocineta BF</h3>
+          <span class="price">$2.500</span>
+        </div>
+        <div class="purchase-row">
+          <div class="qty-mini">
+            <button (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()">-</button>
+            <input #pQty5 type="number" value="1" readonly />
+            <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
+          </div>
+          <button class="add-btn" (click)="onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)">
+            COMPRAR
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 
     <!-- BANNER FINAL -->
     <section class="promo-banner secondary">

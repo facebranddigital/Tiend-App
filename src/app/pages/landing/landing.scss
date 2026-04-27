@@ -1,12 +1,11 @@
 /* =======================================================
-   AJUSTE FINAL: LOGO PEQUEÑO Y BOTONES PRO (A50)
+        HERO SECCIÓN: LOGO Y BOTONES FLOTANTES (G72)
    ======================================================= */
 @media screen and (max-width: 992px) {
-
   /* 1. CONTENEDOR MAESTRO: Más compacto para evitar espacios muertos */
   .hero-container {
     display: flex !important;
-    height: 320px !important; 
+    height: 320px !important;
     position: relative !important;
     overflow: visible !important;
     justify-content: center !important;
@@ -21,13 +20,15 @@
     margin-left: -8px !important; /* Lo alejamos para que los botones no lo asfixien */
     margin-top: 0 !important;
     border-radius: 50% !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
   }
-
-    /* 3. CONTENEDOR DE BOTONES: Centrado vertical perfecto */
-    :host .cta-buttons {
+  /* =======================================================
+        DEFECTO BOTONES "LOCO LUCAS" (BRILLO Y 3D)
+   ======================================================= */
+  /* 3. CONTENEDOR DE BOTONES: Centrado vertical perfecto */
+  :host .cta-buttons {
     position: absolute !important;
-    right: 5px !important; 
+    right: 5px !important;
     top: 27% !important;
     transform: translateY(-50%) !important;
     display: flex !important;
@@ -39,40 +40,48 @@
 
   /* 4. BOTONES XL PARA EL G72 */
   :host .cta-buttons button {
+    /* 1. LA FORMA DE PÍLDORA */
+    width: 121px !important; /* Botones más cortos para que quepan */
+    height: 35px !important; /* Más grosor */
+    border-radius: 25px; /* Lo que hace que las puntas sean redondas */
 
-      /* 1. LA FORMA DE PÍLDORA */
-    width: 121px !important;      /* Botones más cortos para que quepan */
-    height: 35px !important;      /* Más grosor */
-    border-radius: 25px;       /* Lo que hace que las puntas sean redondas */
-    
     /* 2. EL COLOR (Degradado naranja de tu marca) */
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-    color: white;              /* Letras blancas */
-    
-     /* 3. EL BORDE Y LA SOMBRA (Lo que les da el estilo "sticker") */
-    border: 2px solid #000;    /* El borde negro marcado que se ve en la foto */
+    color: white; /* Letras blancas */
+
+    /* 3. EL BORDE Y LA SOMBRA (Lo que les da el estilo "sticker") */
+    border: 2px solid #000; /* El borde negro marcado que se ve en la foto */
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* La sombra negra hacia abajo y
     
      /* 4. EL TEXTO */
-    font-size: 1.1rem;           /* Tamaño de la letra */
-    font-weight: 900;          /* Super negrita */
-    text-transform: none;      /* O uppercase si las quieres en mayúsculas */
-    white-space: nowrap;       /* Evita que el texto se parta en dos renglones */
-  
+    font-size: 1.1rem; /* Tamaño de la letra */
+    font-weight: 900; /* Super negrita */
+    text-transform: none; /* O uppercase si las quieres en mayúsculas */
+    white-space: nowrap; /* Evita que el texto se parta en dos renglones */
+
     /* 5. ALINEACIÓN INTERNA */
     display: flex;
     align-items: center;
     justify-content: center;
-  
   }
 
   /* El 1 y el 5 se meten más a la izquierda, el 3 se queda fuera */
-  :host .cta-buttons button:nth-child(1) { transform: translateX(-24px); }
-  :host .cta-buttons button:nth-child(2) { transform: translateX(-5px); }
-  :host .cta-buttons button:nth-child(3) { transform: translateX(0px); } 
-  :host .cta-buttons button:nth-child(4) { transform: translateX(-9px); }
-  :host .cta-buttons button:nth-child(5) { transform: translateX(-32px); }
+  :host .cta-buttons button:nth-child(1) {
+    transform: translateX(-24px);
   }
+  :host .cta-buttons button:nth-child(2) {
+    transform: translateX(-5px);
+  }
+  :host .cta-buttons button:nth-child(3) {
+    transform: translateX(0px);
+  }
+  :host .cta-buttons button:nth-child(4) {
+    transform: translateX(-9px);
+  }
+  :host .cta-buttons button:nth-child(5) {
+    transform: translateX(-32px);
+  }
+}
 
 .promo-banner h2 {
   /* 1. Colores de los botones (Degradado) */
@@ -109,11 +118,12 @@
   }
 }
 
-/* PRODUCTOS */
+/* =======================================================
+                  SECCIÓN DE PRODUCTOS 
+   ======================================================= */
 .featured-products {
-  padding-top: 0px !important; /* Quitamos el espacio de arriba */
-  margin-top: -20px !important; /* ¡ESTO es lo que la sube de verdad! */
-  padding-bottom: 50px;
+  margin-top: -30px !important;
+  padding: 30px; // item size //
 
   @media (max-width: 767px) {
     padding-bottom: 1rem; /* Esto déjalo, está bien para el espacio de abajo */
@@ -145,18 +155,19 @@
   .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 15px;
+    gap: 20px;
     padding: 20px;
   }
 
   .product-card {
     background: #ffffff;
-    border-radius: 20px; /* Bordes redondos */
+    border-radius: 25px; /* Bordes redondos del cuadro del item*/
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); /* Transición suave */
     position: relative;
     border: 1px solid #f0f0f0; /* Borde sutil */
     cursor: pointer;
+    padding-bottom: 15px; // distancia entre cuadros //
   }
 
   color: #6e3a07; /* Un café cálido para que sea fácil de leer */
@@ -164,47 +175,36 @@
   font-weight: 500;
   margin-top: 1px;
 }
-
 /* LA IMAGEN CUADRADA */
 .product-image {
   width: 100%;
   aspect-ratio: 1 / 1; /* Esto fuerza a que sea un cuadrado perfecto */
   overflow: hidden;
 }
-
 img {
   width: 100%;
-  height: 100%;
+  height: 100% !important;
   display: block;
   object-fit: cover; /* Evita que la foto se estire */
   transition: transform 0.3s ease;
 }
-
-/* 2. QUITAR LA DESCRIPCIÓN (Papas, platanitos, etc.) */
-/* Buscamos el párrafo de descripción y lo ocultamos */
-
-/* 3. AJUSTE DE CATEGORÍA Y TÍTULO */
+/* AJUSTE DE CATEGORÍA Y TÍTULO */
 .product-info {
-  padding: 10px;
-  text-align: left;
-}
-
-/* El texto de arriba (Snacks, Postres) */
-.category-label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #3e1f01; /* Color oscuro que pediste */
-  text-transform: uppercase;
-  margin-bottom: 4px;
+  display: grid;
+  grid-template-columns: 1fr auto; /* 👈 Izquierda: Texto (flexible) / Derecha: Botones (auto) */
+  align-items: center; /* Centra verticalmente el texto con los botones */
+  gap: 15px;
+  padding: 15px;
 }
 
 /* El texto de abajo (Papas, Platanitos) */
 .product-title {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.8rem;
+  font-weight: 900;
   color: #3e1f01; /* Color oscuro que pediste */
   margin-bottom: 5px;
+  margin: 5px 0 !important;
+  -webkit-text-fill-color: initial !important; /* Quita degradados previos */
 }
 .badge {
   position: absolute;
@@ -218,140 +218,150 @@ img {
   font-size: 1rem;
 }
 
-// --- ESTILO DE LA INFORMACIÓN DEL PRODUCTO ---
+/* =======================================================
+   ESTRUCTURA PRO: Descripcion Izq & Botones Der
+   ======================================================= */
 .product-info {
-  display: cover; /* Esto elimina el texto de los ingredientes */
-}
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 15px 20px;
+  background: #fff;
+  gap: 10px;
 
-h3 {
-  margin: 8px 0;
-  font-size: 1.4rem; // Tamaño del nombre del producto (Pasabocas, etc.)
-  background: linear-gradient(90deg, #0f0a01 0%, #6d5006 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  /* --- BLOQUE IZQUIERDO (ESTILO PRO) --- */
+  .text-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    flex: 1;
 
-  font-size: 1.8rem;
-  font-weight: 900;
-  margin-bottom: 8px;
-  text-transform: capitalize; /* Asegura que la primera sea mayúscula */
-}
+    h3 {
+      font-size: 1.7rem !important; /* Nombre grande y claro */
+      font-weight: 900 !important;
+      color: #1a1a1a;
+      margin: 0 !important;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
 
-.purchase-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* Separa precio, contador y botón */
-  gap: 5px;
-  width: 100%;
-  margin-top: 10px;
-  flex-wrap: nowrap; /* Forces everything to stay on one line */
-}
+     .price {
+      font-size: 1.5rem !important; /* Precio resaltado */
+      font-weight: 800 !important;
+      color: #ff6b00; /* Naranja Bracasfood */
+      margin-top: 4px !important;
+      display: block;
+    }
+  }
+  /* =======================================================
+   ESTRUCTURA: Contador
+   ======================================================= */
+    .purchase-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 130px; /* Ancho fijo para consistencia */
+    align-items: stretch;
 
-.qty-mini {
-  display: flex;
-  align-items: center;
-  background: #f0f0f0;
-  border-radius: 20px; /* Bordes redondeados para que combine con tu botón */
-  padding: 4px 8px;
-  min-width: 80px; /* Fixed size so it doesn't push the button */
-
-  /* --- ESTO ES LO QUE DEBES AGREGAR PARA CELULARES --- */
-  @media (max-width: 480px) {
+    /* Contador limpio y flaco */
     .qty-mini {
-      min-width: 100px; /* Lo hace más largo en celular */
-      padding: 8px 12px; /* Más espacio interno para que sea fácil de tocar */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f4f4f4;
+      border-radius: 20px;
+      height: 38px !important;
+      padding: 0 8px;
+      border: 1px solid #e0e0e0;
+
+      /* 👈 ESTA ES LA MIERDA QUE DEBÍAS ARREGLAR: EL INPUT */
+     input {
+        width: 30px !important;
+        background: transparent !important;
+        border: none !important;
+        text-align: center !important;
+        font-size: 1.2rem !important;
+        font-weight: 900 !important;
+        color: #333 !important;
+        padding: 0 !important;
+
+        /* Quita las flechitas feas de los números */
+        appearance: textfield;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+
+      button {
+        background: none !important;
+        color: #ff6b00 !important;
+        font-size: 1.8rem !important;
+        font-weight: bold;
+        border: none !important;
+        cursor: pointer;
+        line-height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &::after { display: none !important; }
+        
+      }
     }
 
-    .qty-mini button {
-      font-size: 1.5rem; /* Hace que el + y el - sean más grandes */
-      padding: 5px 10px;
+    .add-btn {
+      width: 100% !important;
+      height: 42px !important;
+      border-radius: 25px !important;
+      background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
+      color: white !important;
+      font-weight: 900;
+      font-size: 0.95rem !important;
+      border: 2px solid #000 !important;
+      box-shadow: 0 4px 0 #8b4513 !important;
+      
+      overflow: hidden;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -150%;
+        width: 80%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: rotate(35deg);
+        animation: flashShine 3s infinite;
+      }
     }
-
-    .qty-mini span {
-      font-size: 1.4rem; /* El número se verá más grande */
-      margin: 0 10px;
-    }
-  }
-
-  button {
-    background: none;
-    border: none;
-    font-size: 1rem;
-    color: #ff6b00;
-    cursor: pointer;
-    padding: 0 4px;
-    font-weight: bold;
-  }
-
-  input {
-    width: 20px;
-    border: none;
-    background: none;
-    text-align: center;
-    font-weight: bold;
-    font-size: 0.85rem;
-    outline: none;
-    /* Quita las flechitas por defecto del input number */
-    appearance: textfield;
-    -moz-appearance: textfield;
-  }
-
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
   }
 }
 
-.price {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: #8b4513; /* O el color café que estás usando */
-  margin: 0;
-}
-
-.add-btn {
-  width: auto !important; /* Deja de ser un círculo fijo */
-  height: auto !important;
-  border-radius: 50px !important; /* Forma de cápsula */
-  padding: 6px 12px !important; /* Smaller button to fit the row */
-  font-size: 0.75rem !important;
-  white-space: nowrap; /* Keeps the text "COMPRAR" in one line */
-
-  /* Color y Texto */
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-  color: white !important;
-  font-weight: 800;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-
-  /* Alineación */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-
-  &:hover {
-    transform: translateY(-2px);
-    opacity: 1.5;
-    background: rgba(225, 136, 4, 0.829);
+@keyframes flashShine {
+  0% {
+    left: -150%;
+  }
+  30% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
   }
 }
 
+/* MODAL (Mantenlo al final) */
 .modal-overlay {
   position: fixed;
-  top: 10;
+  top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-  // Fondo oscuro
+  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro traslúcido */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; // Super importante para que tape el Hero
+  z-index: 1000;
   backdrop-filter: blur(5px);
 }
 
@@ -359,8 +369,8 @@ h3 {
   background: #ffffff; //
   padding: 10px;
   border-radius: 30px;
-  width: 90%;
-  max-width: 450px;
+  width: 50%;
+  max-width: 50px;
   position: relative;
   text-align: left; // Alineado a la izquierda como en la foto
   box-shadow: 0 20px 50px rgba(222, 141, 3, 0.15);
@@ -427,6 +437,7 @@ h3 {
 }
 /* Estilo para el botón de WhatsApp y Registro */
 .btn-registrar {
+  // Haz tu pedido aqui //
   background: linear-gradient(90deg, #ff6b00 0%, #ffd700 100%) !important;
   color: white;
   border: none;
@@ -438,7 +449,7 @@ h3 {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-  display: inline-block;
+  display: block !important;
   margin-top: 0.5rem;
 
   display: block !important; /* Cambiamos inline-block por block */
@@ -447,6 +458,14 @@ h3 {
   margin-right: auto !important; /* Margen automático a la derecha */
 
   text-align: center !important;
+
+  /* 👇 ESTO ES LO QUE HACE EL TRUCO */
+  position: relative !important;
+  z-index: 100 !important; /* Lo pone por encima del color negro */
+  margin-bottom: -19px !important; /* interception entre negro y blanco */
+
+  /* Opcional: quita el margin-top para que toque el borde de la sección blanca */
+  margin-top: 0.5 !important;
 }
 
 .btn-registrar:hover {
@@ -566,7 +585,9 @@ h3 {
     border: 2px solid #ffffff !important;
   }
 
-  /* --- ARREGLO FINAL PARA LAPTOP (PC) --- */
+  /* =======================================================
+                     DESKTOP VIEW
+   ======================================================= */
   @media screen and (min-width: 1024px) {
     /* Forzamos al contenedor a ser una fila centrada y con altura suficiente */
     .hero-container {
@@ -646,55 +667,147 @@ h3 {
 }
 
 /* =======================================================
-   AJUSTE FINAL: LOGO PEQUEÑO Y BOTONES PRO (G72) % bigger
+                    MOTO G72 VIEW
    ======================================================= */
 @media screen and (min-width: 481px) and (max-width: 1092px) {
   .hero-img {
     width: 350px !important;
     height: 350px !important;
     margin-top: 10px !important;
-    margin-left: 5px !important;
+    margin-left: 1px !important;
   }
-    .hero {
+  .hero {
     display: flex !important; /* Esto hace que el grid ignore este div intermedio */
   }
   :host .cta-buttons {
-    right: 10px !important;
-    gap: 12px !important; /* Más espacio entre botones grandes */
-    top: 23.5% !important;
+    position: absolute !important;
+    right: 17px !important;
+    gap: 8px !important; /* Más espacio entre botones grandes */
+    top: 25% !important;
     transform: translateY(-50%) !important;
   }
 
   :host .cta-buttons button {
-    width: 180px !important;      /* BOTÓN MUCHO MÁS ANCHO */
-    height: 48px !important;       /* BOTÓN MÁS ALTO (Gordito) */
-    font-size: 1.5rem !important;  /* LETRA GRANDE Y CLARA */
-    font-weight: 900 !important;   /* Letra super gruesa */
-    border-radius: 25px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding-right: 20px !important;
-    
-     /* 2. EL COLOR (Degradado naranja de tu marca) */
+    width: 150px !important;
+    height: 48px !important;
+    border-radius: 25px;
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-    color: white;              /* Letras blancas */
-    
-     /* 3. EL BORDE Y LA SOMBRA (Lo que les da el estilo "sticker") */
-    border: 2px solid #000;    /* El borde negro marcado que se ve en la foto */
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* La sombra negra hacia abajo y
+    color: rgb(255, 255, 255);
+    font-size: 1.3rem !important;
+    font-weight: 900;
+    text-transform: none;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    cursor: pointer;
+    position: relative; /* Necesario para el efecto de brillo */
+    overflow: hidden; /* Para que el brillo no se salga del botón */
+    transition: all 0.3s ease;
+
+    /* --- EFECTO DE ALTURA (BOTÓN 3D) --- */
+    border: 2.5px solid #000; /* Borde negro marcado */
+    box-shadow:
+      0 4px 0 #8b4513,
+      /* Sombra sólida café (le da grosor al botón) */ 4px 6px 12px rgba(0, 0, 0, 0.5); /* Sombra difuminada para profundidad */
+
+    /* --- ANIMACIÓN DE BRILLO LOCO --- */
+    &::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -150%; /* Empieza fuera del botón */
+      width: 50%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: rotate(30deg);
+      transition: none;
+      animation: flashShine 3s infinite; /* El brillo pasa cada 3 segundos */
+    }
+
+    /* --- EFECTO AL PASAR EL MOUSE (HOVER) --- */
+    &:hover {
+      transform: scale(1.05) translateY(-2px); /* Se agranda y sube un poco */
+      filter: brightness(1.2); /* Brilla más en general */
+      box-shadow:
+        0 6px 0 #8b4513,
+        6px 8px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    /* --- EFECTO AL DAR CLIC (ACTIVE) --- */
+    &:active {
+      transform: translateY(2px); /* Se hunde al presionarlo */
+      box-shadow: 0 1px 0 #8b4513; /* Desaparece la sombra de altura */
+    }
+  }
+
+  /* LA MAGIA DEL BRILLO PASANDO */
+  @keyframes flashShine {
+    0% {
+      left: -150%;
+    }
+    20% {
+      left: 150%;
+    } /* Pasa rápido */
+    100% {
+      left: 150%;
+    } /* Se queda esperando fuera */
   }
 
   /* 4. CURVA XL: Ajustada para botones más anchos */
-  :host .cta-buttons button:nth-child(1) { transform: translateX(-25
-    px); }
-  :host .cta-buttons button:nth-child(2) { transform: translateX(7px); }
-  :host .cta-buttons button:nth-child(3) { transform: translateX(20px); } 
-  :host .cta-buttons button:nth-child(4) { transform: translateX(1px); }
-  :host .cta-buttons button:nth-child(5) { transform: translateX(-23px); }
-  
+
+  :host .cta-buttons button:nth-child(1) {
+    transform: translateX(-18px);
+  } /* Antes -24 */
+  :host .cta-buttons button:nth-child(2) {
+    transform: translateX(3px);
+  } /* Antes -5 */
+  :host .cta-buttons button:nth-child(3) {
+    transform: translateX(8px);
+  } /* Lo sacamos un poco más */
+  :host .cta-buttons button:nth-child(4) {
+    transform: translateX(-3px);
+  } /* Antes -9 */
+  :host .cta-buttons button:nth-child(5) {
+    transform: translateX(-30px);
+  } /* Antes -32 */
+
   .promo-banner h2 {
-    margin-top: 70px !important; /* El empujón para el G72 */
+    margin-top: 40px !important; /* El empujón para el G72 */
   }
 }
+/* =======================================================
+                       ANIMACIONES
+   ======================================================= */
+@keyframes flashShine {
+  0% {
+    left: -150%;
+  }
+  30% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+@keyframes subtlePulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+/* BANNER PROMOCIONAL */
+.promo-banner h2 {
+  font-size: 1.8rem !important;
+  font-weight: 900 !important;
+  text-align: center;
+  color: #ff6b00;
+  text-transform: uppercase;
+  animation: subtlePulse 3s infinite ease-in-out;
 }

@@ -1,5 +1,5 @@
 .products-container {
-  max-width: 1200px;
+  max-width: 1200px; // Regresamos a 1200px para que no se vea como un fideo
   margin: 0 auto;
   padding: 40px 20px;
 }
@@ -13,130 +13,90 @@
   margin-bottom: 32px;
 
   .header-content h1 { font-size: 2.2rem; font-weight: 800; color: #111; }
-  .header-content p { color: #666; }
-
-  .search-container {
-    flex: 1;
-    max-width: 400px;
-    position: relative;
-    &::before {
-      content: '🔍';
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      opacity: 0.5;
-      z-index: 1;
-    }
-    .search-input {
-      width: 100%;
-      padding: 12px 15px 12px 45px;
-      border-radius: 12px;
-      border: 1px solid #eee;
-      background: #fafafa;
-      font-size: 1rem;
-      &:focus { outline: none; border-color: #111; background: white; }
-    }
-  }
-
+  
+  /* --- BOTÓN AGREGAR PRODUCTO (ESTILO LOCO LUCAS) --- */
   .btn-add {
-    background: #111;
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
     color: white;
     padding: 12px 24px;
     border-radius: 12px;
-    font-weight: 600;
-    white-space: nowrap; 
+    font-weight: 900;
     cursor: pointer;
-    border: none;
+    border: 2px solid #000 !important; // Borde negro marcado
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s;
-    &:hover { background: #333; transform: translateY(-2px); }
+    
+    /* EFECTO 3D Y BRILLO */
+    position: relative !important;
+    overflow: hidden !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 0 #8b4513, 0 5px 10px rgba(0,0,0,0.3);
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -150%;
+      width: 60%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.6);
+      transform: rotate(30deg);
+      animation: flashShine 3s infinite;
+    }
+
+    &:hover { 
+      transform: scale(1.03) translateY(-2px);
+      box-shadow: 0 6px 0 #8b4513, 0 8px 15px rgba(0,0,0,0.4);
+    }
+
+    &:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #8b4513;
+    }
   }
 }
 
-/* --- ESTILOS DE LA TABLA --- */
+/* --- TABLA DE INVENTARIO --- */
 .table-card {
   background: white;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
   border: 1px solid #f0f0f0;
   overflow: hidden;
-}
 
-.table-responsive {
-  overflow-x: auto; // Permite scroll lateral en móviles
-}
+  .products-table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    th { padding: 20px; background: #fcfcfc; color: #666; font-weight: 600; border-bottom: 1px solid #f0f0f0; }
+    td { padding: 20px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
 
-.products-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-
-  th {
-    padding: 20px;
-    background: #fcfcfc;
-    color: #666;
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    border-bottom: 1px solid #f0f0f0;
-  }
-
-  td {
-    padding: 20px;
-    border-bottom: 1px solid #f0f0f0;
-    vertical-align: middle;
-  }
-
-  .col-image img {
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
-    object-fit: cover;
-    background: #f5f5f5;
-  }
-
-  .status-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    &.status-in-stock { background: #e8f5e9; color: #2e7d32; }
-    &.status-out-of-stock { background: #ffebee; color: #c62828; }
-    &.status-default { background: #f5f5f5; color: #666; }
-  }
-
-  .col-actions {
-    display: flex;
-    gap: 8px;
-    .btn-icon {
-      background: none;
+    .col-image img {
+      width: 60px; // Un poco más grande para que se vea el producto
+      height: 60px;
+      border-radius: 10px;
+      object-fit: cover;
       border: 1px solid #eee;
-      padding: 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      color: #666;
-      &:hover { background: #f5f5f5; color: #000; }
-      &.delete:hover { color: red; border-color: #ffcccc; }
-      svg { width: 18px; height: 18px; }
     }
   }
 }
 
-.empty-state {
-  padding: 40px;
-  text-align: center;
-  color: #999;
+/* LA ANIMACIÓN (Siempre afuera de todo) */
+@keyframes flashShine {
+  0% { left: -150%; }
+  25% { left: 150%; }
+  100% { left: 150%; }
 }
 
-/* --- MÓVIL --- */
+/* --- AJUSTES PARA CELULAR --- */
 @media (max-width: 768px) {
   .products-header {
     flex-direction: column;
-    align-items: stretch;
-    .search-container { max-width: none; }
-    .btn-add { width: 100%; justify-content: center; }
+    text-align: center;
+    .btn-add { width: 100%; justify-content: center; font-size: 1.2rem; }
   }
+  
+  /* En móvil la tabla permite scroll lateral */
+  .table-responsive { overflow-x: auto; }
 }
