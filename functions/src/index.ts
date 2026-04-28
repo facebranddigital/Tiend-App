@@ -4,7 +4,7 @@ import { MercadoPagoConfig, Preference } from 'mercadopago';
 
 // 1. RECOMENDACIÓN: Cambia a APP_USR- cuando estés listo para cobrar real.
 const client = new MercadoPagoConfig({
-  accessToken: 'APP_USR-5621799547530270-041415-af5c04d17db166edc291a72528f51d99-3333158014',
+  accessToken: process.env.MP_ACCESS_TOKEN as string,
 });
 // vercel update //
 export const createPreference = onRequest({ cors: true }, async (req, res) => {
@@ -25,7 +25,7 @@ export const createPreference = onRequest({ cors: true }, async (req, res) => {
 
     const cleanPrice = Math.round(parsedPrice);
     const preference = new Preference(client);
-    
+
     const result = await preference.create({
       body: {
         items: [
@@ -41,29 +41,28 @@ export const createPreference = onRequest({ cors: true }, async (req, res) => {
         payment_methods: {
           installments: 1, // Nequi no acepta cuotas
           excluded_payment_types: [
-            { id: "ticket" } // Opcional: quita Efecty para que Nequi resalte
+            { id: 'ticket' }, // Opcional: quita Efecty para que Nequi resalte
           ],
         },
         // --- SEGURIDAD ---
         // Evita que el usuario cambie el precio en el checkout
-        binary_mode: true, 
+        binary_mode: true,
         auto_return: 'approved',
         back_urls: {
           success: 'https://tiend-app.vercel.app/success',
           failure: 'https://tiend-app.vercel.app/cart',
-          pending: 'https://tiend-app.vercel.app/success' // Nequi a veces queda pendiente unos segundos
+          pending: 'https://tiend-app.vercel.app/success', // Nequi a veces queda pendiente unos segundos
         },
       },
     });
 
     logger.info('Preferencia creada con éxito:', result.id);
     res.status(200).json({ id: result.id });
-
   } catch (error: any) {
     logger.error('Error al crear preferencia en Mercado Pago:', error);
     res.status(500).json({
       error: 'Fallo al crear el pago',
-      detalles: error.response?.data || error.message
+      detalles: error.response?.data || error.message,
     });
   }
 });
