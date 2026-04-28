@@ -6,7 +6,7 @@ import { MercadoPagoConfig, Preference } from 'mercadopago';
 const client = new MercadoPagoConfig({
   accessToken: 'APP_USR-5621799547530270-041415-af5c04d17db166edc291a72528f51d99-3333158014',
 });
-
+// vercel update //
 export const createPreference = onRequest({ cors: true }, async (req, res) => {
   try {
     if (req.method === 'OPTIONS') {
