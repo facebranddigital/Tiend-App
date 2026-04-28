@@ -34,13 +34,15 @@ export class CartComponent {
   // ESTA FUNCIÓN ESTABA AFUERA, YA LA METÍ EN LA CLASE:
   onCheckout() {
     const totalAmount = this.total();
-    const urlFirebase = 'https://us-central1-tiend-app.cloudfunctions.net/createPreference';
+    // NUEVA URL (la que te dio la terminal hace un momento)
+    // DEBE SER LA URL COMPLETA:
+    const urlFirebase = 'https://createpreference-tc6z4zcquq-uc.a.run.app';
 
     fetch(urlFirebase, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        title: 'Productos Bracasfood', // Cambiado para tu marca
+        title: 'Productos Bracasfood',
         price: totalAmount,
         quantity: 1,
       }),
@@ -55,7 +57,9 @@ export class CartComponent {
           return;
         }
 
-        const mp = new (window as any).MercadoPago('TEST-1a7af8d6-a414-4308-ba67-bd36d379818b', {
+        // CAMBIO VITAL: Usa tu PUBLIC_KEY de PRODUCCIÓN (la ves en la ventana amarilla)
+        // No uses la que empieza por TEST- porque ya estamos en real.
+        const mp = new (window as any).MercadoPago('APP_USR-67d98341-35d0-4751-87a3-b9211d231170', {
           locale: 'es-CO',
         });
 
@@ -66,6 +70,7 @@ export class CartComponent {
       })
       .catch((err) => {
         console.error('Error detallado:', err);
+        alert('Hubo un problema al conectar con el pago. Revisa la consola.');
       });
   }
-} // <--- ESTA LLAVE CIERRA LA CLASE (Asegúrate de que esté al final)
+}
