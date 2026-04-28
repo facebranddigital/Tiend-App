@@ -12,25 +12,68 @@
 }
 
 .empty-cart {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px;
 
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
+  .vibe-img {
+  width: 180px; 
+  aspect-ratio: 1/1; /* Force it to be a square */
+  object-fit: contain; /* Keeps the whole icon visible; use 'cover' to fill the circle */
+  background-color: #fff; /* Optional: adds a background if the icon is transparent */
+  border-radius: 50%; /* The magic for the circle */
+  padding: 20px; /* Optional: gives the icon some breathing room inside the circle */
+  
+  display: block;
+  margin-bottom: 25px;
+    
+
+    /* --- EFECTO 3D LOCO --- */
+    /* 1. Sombra pro que da profundidad real */
+    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.2)); 
+    
+    /* 2. Un poquito de inclinación para que no se vea plana */
+    transform: perspective(500px) rotateY(10deg); 
+
+    /* 3. La animación de flotar (la que ya tenías) */
+    animation: float3D 4s ease-in-out infinite; 
   }
+
+/* --- AJUSTAMOS LA ANIMACIÓN PARA QUE SEA MÁS 3D --- */
+@keyframes float3D {
+  0%, 100% { 
+    transform: perspective(500px) translateY(0) rotateY(10deg); 
+  }
+  50% { 
+    /* Sube y se endereza un poquito al flotar */
+    transform: perspective(500px) translateY(-20px) rotateY(0deg); 
+  }
+}
 
   .btn-primary {
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-
     color: white;
-    border: none;
-    padding: 0.75rem 2rem;
-    border-radius: 0.5rem;
-    font-size: 1rem;
+    border: 2px solid #000;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 900;
+    text-transform: uppercase;
+    box-shadow: 0 4px 0 #8b4513;
     cursor: pointer;
   }
+}
+
+/* 👈 LA ANIMACIÓN SIEMPRE VA AFUERA DE TODO */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  } /* Sube un poco más para que se note */
 }
 
 .cart-content {
@@ -61,10 +104,10 @@
   img {
     width: 60px;
     height: 60px;
-    object-fit: cover;    /* Esto hace que la foto se vea bien sin deformarse */
-    border-radius:8px;
+    object-fit: cover; /* Esto hace que la foto se vea bien sin deformarse */
+    border-radius: 8px;
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-    display: block;    /* Asegura que no esté oculta */
+    display: block; /* Asegura que no esté oculta */
   }
 
   .item-info {
