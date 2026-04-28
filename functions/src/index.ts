@@ -2,14 +2,15 @@ import { onRequest } from 'firebase-functions/v2/https';
 import * as logger from 'firebase-functions/logger';
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 
-// 1. RECOMENDACIÓN: Cambia a APP_USR- cuando estés listo para cobrar real.
-const client = new MercadoPagoConfig({
-  accessToken: process.env.MP_ACCESS_TOKEN as string,
-});
-// vercel update //
+
 export const createPreference = onRequest(
   { cors: true, secrets: ['MP_ACCESS_TOKEN'] },
   async (req, res) => {
+
+        const client = new MercadoPagoConfig({
+      accessToken: process.env.MP_ACCESS_TOKEN as string,
+    }); 
+    
     try {
       if (req.method === 'OPTIONS') {
         res.status(204).send('');
