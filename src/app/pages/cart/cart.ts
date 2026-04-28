@@ -59,9 +59,10 @@ export class CartComponent {
 
         // CAMBIO VITAL: Usa tu PUBLIC_KEY de PRODUCCIÓN (la ves en la ventana amarilla)
         // No uses la que empieza por TEST- porque ya estamos en real.
-        const mp = new (window as any).MercadoPago('APP_USR-67d98341-35d0-4751-87a3-b9211d231170', {
+        const mp = new (window as any).MercadoPago('APP_USR-a4b2b46c-9047-47a1-8d55-6bf852a18759', {
           locale: 'es-CO',
         });
+        // CAMBIO VITAL
 
         mp.checkout({
           preference: { id: data.id },
