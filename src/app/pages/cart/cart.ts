@@ -13,29 +13,33 @@ import { CartService } from '../../services/cart.service';
 export class CartComponent {
   public cartService = inject(CartService);
 
+  // --- VARIABLES PARA EL BOTÓN DE WHATSAPP ---
+  showErrorHelp = signal(false);
+  whatsappNumber = '573001234567'; // Sin el símbolo +
+
   paymentMethods = ['Mercado Pago', 'Tarjeta de Crédito'];
   selectedPaymentMethod = signal('Mercado Pago');
-  paymentSuccess = signal(false);
-
   total = computed(() => this.cartService.total());
 
-  onDelete(index: number) {
-    this.cartService.removeFromCart(index);
+  // Función para generar el link dinámico de WhatsApp
+  getWhatsAppUrl() {
+    const totalMsg = this.total().toLocaleString('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      maximumFractionDigits: 0,
+    });
+
+    const text = this.showErrorHelp()
+      ? `¡Hola! Tuve un problema al pagar mi pedido de ${totalMsg} en la web de BracasFood. ¿Me ayudan?`
+      : `Hola BracasFood! Quiero pedir mi carrito de ${totalMsg}.`;
+
+    // CORREGIDO: Uso de backticks (``) y sintaxis ${} correcta
+    return `https://wa.me{this.whatsappNumber}?text=${encodeURIComponent(text)}`;
   }
 
-  onClear() {
-    this.cartService.clearCart();
-  }
-
-  onSelectMethod(method: string) {
-    this.selectedPaymentMethod.set(method);
-  }
-
-  // ESTA FUNCIÓN ESTABA AFUERA, YA LA METÍ EN LA CLASE:
   onCheckout() {
+    this.showErrorHelp.set(false);
     const totalAmount = this.total();
-    // NUEVA URL (la que te dio la terminal hace un momento)
-    // DEBE SER LA URL COMPLETA:
     const urlFirebase = 'https://createpreference-tc6z4zcquq-uc.a.run.app';
 
     fetch(urlFirebase, {
@@ -48,22 +52,14 @@ export class CartComponent {
       }),
     })
       .then((res) => {
-        if (!res.ok) throw new Error('Error en el servidor de Firebase');
+        if (!res.ok) throw new Error('Error en el servidor');
         return res.json();
       })
       .then((data) => {
-        if (!data.id) {
-          console.error('No se recibió un ID de preferencia:', data);
-          return;
-        }
-
-        // CAMBIO VITAL: Usa tu PUBLIC_KEY de PRODUCCIÓN (la ves en la ventana amarilla)
-        // No uses la que empieza por TEST- porque ya estamos en real.
+        // Inicialización de Mercado Pago
         const mp = new (window as any).MercadoPago('APP_USR-a4b2b46c-9047-47a1-8d55-6bf852a18759', {
           locale: 'es-CO',
         });
-        // CAMBIO VITAL
-
         mp.checkout({
           preference: { id: data.id },
           autoOpen: true,
@@ -71,7 +67,20 @@ export class CartComponent {
       })
       .catch((err) => {
         console.error('Error detallado:', err);
-        alert('Hubo un problema al conectar con el pago. Revisa la consola.');
+        // Si hay error en la conexión o el servidor, activamos la alerta visual
+        this.showErrorHelp.set(true);
       });
+  }
+
+  onDelete(index: number) {
+    this.cartService.removeFromCart(index);
+  }
+
+  onClear() {
+    this.cartService.clearCart();
+  }
+
+  onSelectMethod(method: string) {
+    this.selectedPaymentMethod.set(method);
   }
 }

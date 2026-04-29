@@ -95,3 +95,32 @@
     </div>
   }
 </div>
+<!-- BOTÓN FLOTANTE DE RESCATE (WHATSAPP) -->
+<a href="https://wa.me" class="bracas-wa-float" target="_blank">
+  <div class="wa-message-bubble">
+    <span>¿Problemas con el pago?</span>
+    <strong>¡Toca aquí para ayudarte!</strong>
+  </div>
+
+  <div class="wa-icon-circle">
+    <img src="https://wikimedia.org" alt="WhatsApp" />
+  </div>
+</a>
+<!-- BOTÓN FLOTANTE INTELIGENTE -->
+@if (cartService.cartItems().length > 0) {
+  <a
+    [href]="getWhatsAppUrl()"
+    class="bracas-wa-float"
+    [class.is-error]="showErrorHelp()"
+    target="_blank"
+  >
+    <div class="wa-message-bubble">
+      <span>{{ showErrorHelp() ? '¡LO SENTIMOS!' : '¿PROBLEMAS CON EL PAGO?' }}</span>
+      <strong>{{ showErrorHelp() ? 'Toca para soporte' : '¡Toca aquí para ayudarte!' }}</strong>
+    </div>
+
+    <div class="wa-icon-circle">
+      <img src="assets/whatsapp.webp" alt="WhatsApp" class="wa-img-fix" />
+    </div>
+  </a>
+}

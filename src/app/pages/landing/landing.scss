@@ -51,7 +51,7 @@
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* La sombra negra hacia abajo y /
     
      /* 4. EL TEXTO */
-    font-size: 1.1rem; /* Tamaño de la letra */
+    font-size: 1rem; /* Tamaño de la letra *Desktop / 
     font-weight: 900; /* Super negrita */
     text-transform: none; /* O uppercase si las quieres en mayúsculas */
     white-space: nowrap; /* Evita que el texto se parta en dos renglones */
@@ -89,8 +89,8 @@
   margin-bottom: 10px !important; /* Que no empuje nada hacia abajo */
   margin-top: 50px !important; /* Esto separa el texto de los botones del logo */
   ///* 2. Estilo de fuente *///
-  font-size: 1.7rem !important; /* Más grande para que resalte */
-  font-weight: 900 !important; /* Super negrita */
+  font-size: 1rem !important; /* Más grande para que resalte */
+  font-weight: 1000 !important; /* Super negrita */
   text-align: center;
   text-transform: uppercase; /* En mayúsculas se ve más imponente */
   letter-spacing: 0.5px;
@@ -167,36 +167,35 @@
     padding-bottom: 15px; // distancia entre cuadros //
 
     /* 1. ELIMINA EL DESTELLO AZUL EN MÓVILES */
-  -webkit-tap-highlight-color: rgba(255, 107, 0, 0.2); /* Naranja transparente al tocar */
+    -webkit-tap-highlight-color: rgba(255, 107, 0, 0.2); /* Naranja transparente al tocar */
 
-  /* 2. EFECTO AL HACER CLIC (Mantiene el estilo pero en naranja) */
-  &:active {
-    
-    transform: scale(0.97); /* Efecto de presionado */
-    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.2); /* Brillo naranja suave */
-    background-color: #fffaf5;
-    transition: all 0.1s ease;
-    border-color: #ff6b00; /* Agregué esto para que el borde también se pinte */
-  }
+    /* 2. EFECTO AL HACER CLIC (Mantiene el estilo pero en naranja) */
+    &:active {
+      transform: scale(0.97); /* Efecto de presionado */
+      box-shadow: 0 5px 15px rgba(255, 107, 0, 0.2); /* Brillo naranja suave */
+      background-color: #fffaf5;
+      transition: all 0.1s ease;
+      border-color: #ff6b00; /* Agregué esto para que el borde también se pinte */
+    }
 
-  /* 3. QUITA EL BORDE AZUL DE ENFOQUE */
-  &:focus {
-    outline: none;
-    border-color: #ff6b00; /* Cambia el borde gris por naranja al seleccionar */
+    /* 3. QUITA EL BORDE AZUL DE ENFOQUE */
+    &:focus {
+      outline: none;
+      border-color: #ff6b00; /* Cambia el borde gris por naranja al seleccionar */
+    }
   }
-}
-/* LA IMAGEN CUADRADA */
-.product-image {
-  width: 100%;
-  aspect-ratio: 1 / 1; /* Esto fuerza a que sea un cuadrado perfecto */
-  overflow: hidden;
-}
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Evita que la foto se estire */
-  transition: transform 0.5s ease;
-}
+  /* LA IMAGEN CUADRADA */
+  .product-image {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Esto fuerza a que sea un cuadrado perfecto */
+    overflow: hidden;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Evita que la foto se estire */
+    transition: transform 0.5s ease;
+  }
 }
 /* Efecto extra: La imagen se acerca un poco al pasar el mouse */
 .product-card:hover .product-image img {
@@ -214,7 +213,7 @@ img {
 /* El texto de abajo (Papas, Platanitos) */
 .product-title {
   font-size: 1.8rem;
-  font-weight: 900;
+  font-weight: 1000;
   color: #3e1f01; /* Color oscuro que pediste */
   margin-bottom: 5px;
   margin: 5px 0 !important;
@@ -229,7 +228,7 @@ img {
   padding: 5px 15px;
   border-radius: 20px;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.5rem;
 }
 
 /* =======================================================
@@ -252,25 +251,25 @@ img {
 
     h3 {
       font-size: 1.7rem !important; /* Nombre grande y claro */
-      font-weight: 900 !important;
+      font-weight: 1000 !important;
       color: #1a1a1a;
       margin: 0 !important;
       line-height: 1.1;
       letter-spacing: -0.5px;
     }
 
-     .price {
-      font-size: 1.5rem !important; /* Precio resaltado */
-      font-weight: 800 !important;
+    .price {    // cop  //
+      font-size: 1.8rem !important; /* Precio resaltado */
+      font-weight: 950 !important;
       color: #ff6b00; /* Naranja Bracasfood */
       margin-top: 4px !important;
       display: block;
     }
   }
   /* =======================================================
-   ESTRUCTURA: Contador
+                    ESTRUCTURA: Contador
    ======================================================= */
-    .purchase-row {
+  .purchase-row {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -288,8 +287,7 @@ img {
       padding: 0 8px;
       border: 1px solid #e0e0e0;
 
-      /* 👈 ESTA ES LA MIERDA QUE DEBÍAS ARREGLAR: EL INPUT */
-     input {
+      input {
         width: 30px !important;
         background: transparent !important;
         border: none !important;
@@ -319,8 +317,9 @@ img {
         display: flex;
         align-items: center;
         justify-content: center;
-        &::after { display: none !important; }
-        
+        &::after {
+          display: none !important;
+        }
       }
     }
 
@@ -334,7 +333,7 @@ img {
       font-size: 0.95rem !important;
       border: 2px solid #000 !important;
       box-shadow: 0 4px 0 #8b4513 !important;
-      
+
       overflow: hidden;
 
       &::after {
@@ -391,9 +390,8 @@ img {
 
   h2 {
     color: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-    // El morado del título
-    font-size: 2.2rem;
-    font-weight: 900;
+    font-size: 2rem;
+    font-weight: 1000;
     margin-bottom: 1rem;
   }
 
@@ -603,57 +601,78 @@ img {
                      DESKTOP VIEW
    ======================================================= */
   @media screen and (min-width: 468px) {
-  .hero {
-  display: flex !important;
-  justify-content: center !important; /* Centra el logo horizontalmente */
-  align-items: center !important;     /* Centra el logo verticalmente */
-  height: 350px !important;           /* Altura suficiente para el círculo */
-  position: relative !important;
-  background: #fff !important;        /* Fondo blanco como en tu foto */
-  overflow: visible !important;
-  padding: 0 !important;
-}
+    .hero {
+      display: flex !important;
+      justify-content: center !important; /* Centra el logo horizontalmente */
+      align-items: center !important; /* Centra el logo verticalmente */
+      height: 350px !important; /* Altura suficiente para el círculo */
+      position: relative !important;
+      background: #fff !important; /* Fondo blanco como en tu foto */
+      overflow: visible !important;
+      padding: 0 !important;
+    }
 
-.hero-img {
-  width: 280px !important;            /* Tamaño grande y circular */
-  height: 280px !important;
-  border-radius: 50% !important;
-  object-fit: contain !important;     /* Evita que se estire o se corte */
-  z-index: 5 !important;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
+    .hero-img {
+      width: 280px !important; /* Tamaño grande y circular */
+      height: 280px !important;
+      border-radius: 50% !important;
+      object-fit: contain !important; /* Evita que se estire o se corte */
+      z-index: 5 !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
 
-/* 2. LOS BOTONES FLOTANTES A LA DERECHA */
-.cta-buttons {
-  position: absolute !important;
-  right: 15px !important;             /* Pegados al borde derecho */
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 8px !important;
-  z-index: 10 !important;             /* Por encima de todo */
-}
+    /* 2. LOS BOTONES FLOTANTES A LA DERECHA */
+    .cta-buttons {
+      position: absolute !important;
+      right: 15px !important; /* Pegados al borde derecho */
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      z-index: 10 !important; /* Por encima de todo */
+    }
 
-.cta-buttons button {
-  width: 120px !important; 
-  height: 35px !important;
-  border-radius: 20px !important;
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-  color: white !important;
-  border: 2px solid #000 !important;
-  box-shadow: 3px 3px 0px #000 !important;
-  font-size: 0.85rem !important;
-  font-weight: 900 !important;
-  white-space: nowrap;
-}
+    .cta-buttons button {
+      width: 120px !important;
+      height: 35px !important;
+      border-radius: 20px !important;
+      background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+      color: white !important;
+      border: 2px solid #000 !important;
+      box-shadow: 3px 3px 0px #000 !important;
+      font-size: 0.85rem !important;
+      font-weight: 900 !important;
+      white-space: nowrap;
+    }
 
-.cta-buttons button:nth-child(1) { transform: translateX(-15px); }
-.cta-buttons button:nth-child(2) { transform: translateX(-5px); }
-.cta-buttons button:nth-child(3) { transform: translateX(5px); }
-.cta-buttons button:nth-child(4) { transform: translateX(-5px); }
-.cta-buttons button:nth-child(5) { transform: translateX(-15px); }
+    .cta-buttons button:nth-child(1) {
+      transform: translateX(-15px);
+    }
+    .cta-buttons button:nth-child(2) {
+      transform: translateX(-5px);
+    }
+    .cta-buttons button:nth-child(3) {
+      transform: translateX(5px);
+    }
+    .cta-buttons button:nth-child(4) {
+      transform: translateX(-5px);
+    }
+    .cta-buttons button:nth-child(5) {
+      transform: translateX(-15px);
+    }
   }
+}
+/* BANNER PROMOCIONAL */
+.promo-banner h2 {
+  // Desktop //
+  font-size: 0.5rem !important;
+  font-weight: 1000 !important;
+  text-align: center;
+  color: #ff6b00;
+  text-transform: uppercase;
+  animation: subtlePulse 3s infinite ease-in-out;
+  margin-top: 50px !important;
 }
 
 /* =======================================================
@@ -683,7 +702,7 @@ img {
     border-radius: 25px;
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
     color: rgb(255, 255, 255);
-    font-size: 1.3rem !important;
+    font-size: 1.5rem !important; // letra cel //
     font-weight: 900;
     text-transform: none;
     white-space: nowrap;
@@ -764,7 +783,13 @@ img {
   } /* Antes -32 */
 
   .promo-banner h2 {
-    margin-top: 40px !important; /* El empujón para el G72 */
+    margin-top: 50px !important; /* El empujón para el G72 */
+    font-size: 0.5rem !important;
+    font-weight: 1000 !important;
+    text-align: center;
+    color: #ff6b00;
+    text-transform: uppercase;
+    animation: subtlePulse 3s infinite ease-in-out;
   }
 }
 /* =======================================================
@@ -794,12 +819,14 @@ img {
 
 /* BANNER PROMOCIONAL */
 .promo-banner h2 {
-  font-size: 1.8rem !important;
-  font-weight: 900 !important;
+  // Desktop //
+  font-size: 0.5rem !important;
+  font-weight: 1000 !important;
   text-align: center;
   color: #ff6b00;
   text-transform: uppercase;
   animation: subtlePulse 3s infinite ease-in-out;
+  margin-top: 50px !important;
 }
 
 /* =======================================================
@@ -808,7 +835,7 @@ img {
 
 @media screen and (min-width: 993px) {
   .hero-container {
-    height: 550px !important; 
+    height: 550px !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
@@ -816,7 +843,7 @@ img {
     background: #fff !important;
   }
 
-    .hero-img {
+  .hero-img {
     position: relative !important; /* VITAL para que el brillo sepa dónde estar */
     overflow: hidden !important; /* CORTA el brillo para que no se salga del círculo */
     width: 350px !important; /* Subimos de 320 a 350 */
@@ -825,30 +852,35 @@ img {
     margin: 0 auto !important; /* Mantiene el centro perfecto */
     border-radius: 50% !important;
     margin-left: 32% !important; /* Entre más alto el %, más a la derecha se mueve */
-    margin-right: 0 !important;   /* Quitamos el auto de la derecha */
-
+    margin-right: 0 !important; /* Quitamos el auto de la derecha */
   }
 
-    /* 2. EL DESTELLO PARA EL LOGO */
-.hero-img::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -150%;
-  width: 50%;
-  height: 200%;
-  background: rgba(255, 255, 255, 0.3); /* Brillo blanco suave */
-  transform: rotate(30deg);
-  animation: flashShineLogo 4s infinite; /* Un poco más lento que los botones */
-  z-index: 15;
-}
+  /* 2. EL DESTELLO PARA EL LOGO */
+  .hero-img::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -150%;
+    width: 50%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.3); /* Brillo blanco suave */
+    transform: rotate(30deg);
+    animation: flashShineLogo 4s infinite; /* Un poco más lento que los botones */
+    z-index: 15;
+  }
 
-/* 3. ANIMACIÓN ESPECÍFICA PARA EL LOGO */
-@keyframes flashShineLogo {
-  0% { left: -150%; }
-  20% { left: 150%; } /* El brillo cruza el círculo */
-  100% { left: 150%; }
-}
+  /* 3. ANIMACIÓN ESPECÍFICA PARA EL LOGO */
+  @keyframes flashShineLogo {
+    0% {
+      left: -150%;
+    }
+    20% {
+      left: 150%;
+    } /* El brillo cruza el círculo */
+    100% {
+      left: 150%;
+    }
+  }
 
   :host .cta-buttons {
     position: absolute !important;
@@ -857,7 +889,7 @@ img {
     transform: translateY(-50%) !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 8px !important;  // Separacion botones //
+    gap: 8px !important; // Separacion botones //
     z-index: 100 !important;
   }
 
@@ -868,18 +900,20 @@ img {
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
     color: white !important;
     border: 2.5px solid #000 !important;
-    box-shadow: 0 4px 0 #8b4513, 4px 6px 12px rgba(0, 0, 0, 0.5) !important;
+    box-shadow:
+      0 4px 0 #8b4513,
+      4px 6px 12px rgba(0, 0, 0, 0.5) !important;
 
-     /* --- TAMAÑO DE LETRA --- */
+    /* --- TAMAÑO DE LETRA --- */
     font-size: 1.5rem !important; /* <--- Súbelo de 1.1 a 1.3 o 1.4 */
-    font-weight: 1000 !important;  /* Super negrita para que resalte */
+    font-weight: 1000 !important; /* Super negrita para que resalte */
 
-        /* --- AJUSTE DE BOTÓN (Para que quepa la letra grande) --- */
-    width: 180px !important;      /* Lo hacemos un poco más ancho */
-    height: 45px !important;      /* Lo hacemos un poco más alto */
+    /* --- AJUSTE DE BOTÓN (Para que quepa la letra grande) --- */
+    width: 180px !important; /* Lo hacemos un poco más ancho */
+    height: 45px !important; /* Lo hacemos un poco más alto */
 
-      //  (naranja, 3D, etc.)  //
-    text-transform: none; 
+    //  (naranja, 3D, etc.)  //
+    text-transform: none;
     white-space: nowrap;
     display: flex;
     align-items: center;
@@ -900,23 +934,45 @@ img {
   }
 
   /* VAIVÉN (CURVA) */
-  :host .cta-buttons button:nth-child(1) { transform: translateX(-15px); }
-  :host .cta-buttons button:nth-child(2) { transform: translateX(9.5px); }
-  :host .cta-buttons button:nth-child(3) { transform: translateX(16px); }
-  :host .cta-buttons button:nth-child(4) { transform: translateX(9px); }
-  :host .cta-buttons button:nth-child(5) { transform: translateX(-25px); }
+  :host .cta-buttons button:nth-child(1) {
+    transform: translateX(-15px);
+  }
+  :host .cta-buttons button:nth-child(2) {
+    transform: translateX(9.5px);
+  }
+  :host .cta-buttons button:nth-child(3) {
+    transform: translateX(16px);
+  }
+  :host .cta-buttons button:nth-child(4) {
+    transform: translateX(9px);
+  }
+  :host .cta-buttons button:nth-child(5) {
+    transform: translateX(-25px);
+  }
 } /* <--- ESTA LLAVE CIERRA EL MEDIA QUERY */
 
 /* ANMACIÓN (PONLA AL FINAL DE TODO EL ARCHIVO) */
 @keyframes flashShine {
-  0% { left: -150%; }
-  30% { left: 150%; }
-  100% { left: 150%; }
+  0% {
+    left: -150%;
+  }
+  30% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
 }
 
-  .promo-banner h2 {
-    margin-top: 40px !important; /* El empujón para el G72 */
-  }
+.promo-banner h2 {
+  font-size: 0.5rem !important; 
+  font-weight: 1000 !important;
+  text-align: center;
+  color: #ff6b00;
+  text-transform: uppercase;
+  animation: subtlePulse 3s infinite ease-in-out;
+  margin-top: 50px !important;
+}
 
 /* =======================================================
                        ANIMACIONES
@@ -945,10 +1001,11 @@ img {
 
 /* BANNER PROMOCIONAL */
 .promo-banner h2 {
-  font-size: 1.8rem !important;
-  font-weight: 900 !important;
+  font-size: 2.3rem !important; // ambos //
+  font-weight: 1000 !important;
   text-align: center;
-  color: #ff6b00;
+  color:linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
   text-transform: uppercase;
   animation: subtlePulse 3s infinite ease-in-out;
+  margin-top: 15px !important;
 }

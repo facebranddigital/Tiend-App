@@ -19,38 +19,38 @@
   padding: 100px 20px;
 
   .vibe-img {
-  width: 180px; 
-  aspect-ratio: 1/1; /* Force it to be a square */
-  object-fit: contain; /* Keeps the whole icon visible; use 'cover' to fill the circle */
-  background-color: #fff; /* Optional: adds a background if the icon is transparent */
-  border-radius: 50%; /* The magic for the circle */
-  padding: 20px; /* Optional: gives the icon some breathing room inside the circle */
-  
-  display: block;
-  margin-bottom: 25px;
-    
+    width: 180px;
+    aspect-ratio: 1/1; /* Force it to be a square */
+    object-fit: contain; /* Keeps the whole icon visible; use 'cover' to fill the circle */
+    background-color: #fff; /* Optional: adds a background if the icon is transparent */
+    border-radius: 50%; /* The magic for the circle */
+    padding: 20px; /* Optional: gives the icon some breathing room inside the circle */
+
+    display: block;
+    margin-bottom: 25px;
 
     /* --- EFECTO 3D LOCO --- */
     /* 1. Sombra pro que da profundidad real */
-    filter: drop-shadow(0 20px 30px rgba(0,0,0,0.2)); 
-    
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+
     /* 2. Un poquito de inclinación para que no se vea plana */
-    transform: perspective(500px) rotateY(10deg); 
+    transform: perspective(500px) rotateY(10deg);
 
     /* 3. La animación de flotar (la que ya tenías) */
-    animation: float3D 4s ease-in-out infinite; 
+    animation: float3D 4s ease-in-out infinite;
   }
 
-/* --- AJUSTAMOS LA ANIMACIÓN PARA QUE SEA MÁS 3D --- */
-@keyframes float3D {
-  0%, 100% { 
-    transform: perspective(500px) translateY(0) rotateY(10deg); 
+  /* --- AJUSTAMOS LA ANIMACIÓN PARA QUE SEA MÁS 3D --- */
+  @keyframes float3D {
+    0%,
+    100% {
+      transform: perspective(500px) translateY(0) rotateY(10deg);
+    }
+    50% {
+      /* Sube y se endereza un poquito al flotar */
+      transform: perspective(500px) translateY(-20px) rotateY(0deg);
+    }
   }
-  50% { 
-    /* Sube y se endereza un poquito al flotar */
-    transform: perspective(500px) translateY(-20px) rotateY(0deg); 
-  }
-}
 
   .btn-primary {
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
@@ -198,6 +198,137 @@
     transition: all 0.2s;
     &:hover {
       background: #fef5e2;
+    }
+  }
+}
+/* --- BOTÓN FLOTANTE WHATSAPP --- */
+.bracas-wa-float {
+  position: fixed !important;
+  bottom: 30px;
+  right: 30px;
+  display: flex !important; // Asegura que se vea
+  align-items: center;
+  z-index: 999999;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  /* El Círculo del Icono */
+  .wa-icon-circle {
+    width: 70px !important;
+    height: 70px !important;
+    background: #25d366 !important;
+    border: 2.5px solid #000;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important; /* <--- ESTO EVITA QUE EL TEXTO LO APLASTE */
+    z-index: 2;
+    overflow: hidden;
+
+    .wa-img-fix {
+      width: 45px !important; /* <--- TAMAÑO DEL LOGO */
+      height: 45px !important;
+      display: block !important;
+      object-fit: contain !important;
+    }
+  }
+
+  /* El Globo de Texto */
+  .wa-message-bubble {
+    background: white;
+    border: 2.5px solid #000;
+    padding: 10px 20px;
+    border-radius: 15px;
+    margin-right: -30px; // Ajuste para que se solape bien
+    padding-right: 40px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 6px 0px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.5s ease forwards;
+
+    span {
+      color: #666;
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    strong {
+      color: #ff6b00;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+  }
+
+  /* --- ESTOS DEBEN IR DENTRO DE .bracas-wa-float --- */
+  &:hover {
+    transform: scale(1.05) translateY(-5px);
+    .wa-icon-circle {
+      background: #128c7e !important;
+    }
+  }
+
+  &:active {
+    transform: translateY(4px);
+    .wa-icon-circle {
+      box-shadow: 0 0px 0 #128c7e;
+    }
+  }
+
+  /* MODO ERROR (NARANJA) */
+  &.is-error {
+    .wa-icon-circle {
+      background: #ff6b00 !important;
+      animation: pulseError 1.5s infinite;
+    }
+    .wa-message-bubble {
+      border-color: #ff6b00;
+      strong {
+        color: #d32f2f;
+      }
+    }
+  }
+}
+
+/* --- ANIMACIONES (SIEMPRE AL FINAL Y FUERA) --- */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseError {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 107, 0, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 15px rgba(255, 107, 0, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 107, 0, 0);
+  }
+}
+
+/* Responsivo para móviles */
+@media screen and (max-width: 480px) {
+  .bracas-wa-float {
+    bottom: 20px;
+    right: 20px;
+    .wa-message-bubble {
+      display: none;
+    }
+    .wa-icon-circle {
+      width: 60px !important;
+      height: 60px !important;
     }
   }
 }
