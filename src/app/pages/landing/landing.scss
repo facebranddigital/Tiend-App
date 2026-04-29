@@ -1,6 +1,3 @@
-/* =======================================================
-        HERO SECCIÓN: LOGO Y BOTONES FLOTANTES (G72)
-   ======================================================= */
 @media screen and (max-width: 992px) {
   /* 1. CONTENEDOR MAESTRO: Más compacto para evitar espacios muertos */
   .hero-container {
@@ -51,7 +48,7 @@
 
     /* 3. EL BORDE Y LA SOMBRA (Lo que les da el estilo "sticker") */
     border: 2px solid #000; /* El borde negro marcado que se ve en la foto */
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* La sombra negra hacia abajo y
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* La sombra negra hacia abajo y /
     
      /* 4. EL TEXTO */
     font-size: 1.1rem; /* Tamaño de la letra */
@@ -64,7 +61,7 @@
     align-items: center;
     justify-content: center;
   }
-/// Botones A50 ///
+
   /* El 1 y el 5 se meten más a la izquierda, el 3 se queda fuera */
   :host .cta-buttons button:nth-child(1) {
     transform: translateX(-18px);
@@ -551,14 +548,14 @@ img {
   z-index: 2100;
   /* ... resto de tu estilo ... */
 }
-//* --- BOTÓN FLOTANTE INDESTRUCTIBLE --- */
-/* --- AISLAMIENTO TOTAL DEL BOTÓN FLOTANTE --- */
+//* --- BOTÓN FLOTANTE scroll up --- */
+
 .bracas-float-btn {
   position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  width: 60px !important; /* Tamaño fijo del círculo */
-  height: 60px !important; /* Tamaño fijo del círculo */
+  bottom: 40px !important;
+  right: 33px !important;
+  width: 80px !important; /* Tamaño fijo del círculo */
+  height: 80px !important; /* Tamaño fijo del círculo */
   border-radius: 50% !important;
   background: #ffffff !important;
   border: 2px solid #ff8c00 !important;
@@ -573,12 +570,12 @@ img {
   overflow: visible !important;
 
   .bracas-float-img {
-    width: 60px !important; /* Forzamos el ancho */
-    height: 60px !important; /* Forzamos el alto */
-    min-width: 60px !important;
-    min-height: 60px !important;
-    max-width: 60px !important;
-    max-height: 60px !important;
+    width: 80px !important; /* Forzamos el ancho */
+    height: 80px !important; /* Forzamos el alto */
+    min-width: 80px !important;
+    min-height: 80px !important;
+    max-width: 80px !important;
+    max-height: 80px !important;
     border-radius: 50% !important;
     object-fit: cover !important; /* Para que no se estire */
     position: static !important; /* Para que no use el position del Hero */
@@ -605,81 +602,57 @@ img {
   /* =======================================================
                      DESKTOP VIEW
    ======================================================= */
-  @media screen and (min-width: 1024px) {
-    /* Forzamos al contenedor a ser una fila centrada y con altura suficiente */
-    .hero-container {
-      display: flex !important;
-      flex-direction: row !important;
-      justify-content: center !important;
-      align-items: center !important;
-      height: 150px !important; /* Altura para que el logo respire */
-      width: 100% !important;
-      position: relative !important;
-      gap: 15px !important; /* Espacio entre logo y botones */
-      margin: 20px 0 !important;
-      background: transparent !important;
-      overflow: visible !important;
-      padding: 10px;
-    }
+  @media screen and (min-width: 468px) {
+  .hero {
+  display: flex !important;
+  justify-content: center !important; /* Centra el logo horizontalmente */
+  align-items: center !important;     /* Centra el logo verticalmente */
+  height: 350px !important;           /* Altura suficiente para el círculo */
+  position: relative !important;
+  background: #fff !important;        /* Fondo blanco como en tu foto */
+  overflow: visible !important;
+  padding: 0 !important;
+}
 
-    /* EL LOGO: Tamaño fijo y controlado */
-    .hero-img {
-      position: relative !important; /* En PC no necesitamos absolute */
-      left: auto !important;
-      top: auto !important;
-      transform: none !important;
+.hero-img {
+  width: 280px !important;            /* Tamaño grande y circular */
+  height: 280px !important;
+  border-radius: 50% !important;
+  object-fit: contain !important;     /* Evita que se estire o se corte */
+  z-index: 5 !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
 
-      /* Candado de tamaño para que no se vea gigante */
-      width: 250px !important;
-      height: 250px !important;
-      max-width: 320px !important;
-      min-width: 200px !important;
+/* 2. LOS BOTONES FLOTANTES A LA DERECHA */
+.cta-buttons {
+  position: absolute !important;
+  right: 15px !important;             /* Pegados al borde derecho */
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  z-index: 10 !important;             /* Por encima de todo */
+}
 
-      border-radius: 50% !important;
-      object-fit: contain !important; /* Evita que la imagen se estire */
-      z-index: 10 !important;
-      display: block !important;
-      margin: 0 !important;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
-    }
+.cta-buttons button {
+  width: 120px !important; 
+  height: 35px !important;
+  border-radius: 20px !important;
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  color: white !important;
+  border: 2px solid #000 !important;
+  box-shadow: 3px 3px 0px #000 !important;
+  font-size: 0.85rem !important;
+  font-weight: 900 !important;
+  white-space: nowrap;
+}
 
-    /* LOS BOTONES: Columna a la derecha */
-    :host .cta-buttons {
-      position: relative !important;
-      right: auto !important;
-      top: auto !important;
-      transform: none !important;
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 6px !important; /* Más espacio entre botones en PC */
-      width: 250px !important;
-      align-items: flex-start !important;
-      z-index: 100 !important;
-    }
-
-    /* BOTONES MÁS GRANDES PARA PC */
-    :host .cta-buttons button {
-      font-size: 1.2rem !important;
-      padding: 15px 25px !important;
-      border-radius: 30px !important;
-    }
-
-    /* CURVA AMPLIA PARA EL LOGO DE 320px */
-    :host .cta-buttons button:nth-child(1) {
-      transform: translateX(40px);
-    }
-    :host .cta-buttons button:nth-child(2) {
-      transform: translateX(-28px);
-    }
-    :host .cta-buttons button:nth-child(3) {
-      transform: translateX(-40px);
-    }
-    :host .cta-buttons button:nth-child(4) {
-      transform: translateX(-25px);
-    }
-    :host .cta-buttons button:nth-child(5) {
-      transform: translateX(50px);
-    }
+.cta-buttons button:nth-child(1) { transform: translateX(-15px); }
+.cta-buttons button:nth-child(2) { transform: translateX(-5px); }
+.cta-buttons button:nth-child(3) { transform: translateX(5px); }
+.cta-buttons button:nth-child(4) { transform: translateX(-5px); }
+.cta-buttons button:nth-child(5) { transform: translateX(-15px); }
   }
 }
 
@@ -794,6 +767,157 @@ img {
     margin-top: 40px !important; /* El empujón para el G72 */
   }
 }
+/* =======================================================
+                       ANIMACIONES
+   ======================================================= */
+@keyframes flashShine {
+  0% {
+    left: -150%;
+  }
+  30% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+@keyframes subtlePulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+/* BANNER PROMOCIONAL */
+.promo-banner h2 {
+  font-size: 1.8rem !important;
+  font-weight: 900 !important;
+  text-align: center;
+  color: #ff6b00;
+  text-transform: uppercase;
+  animation: subtlePulse 3s infinite ease-in-out;
+}
+
+/* =======================================================
+                        Desktop View 
+   ======================================================= */
+
+@media screen and (min-width: 993px) {
+  .hero-container {
+    height: 550px !important; 
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: relative !important;
+    background: #fff !important;
+  }
+
+    .hero-img {
+    position: relative !important; /* VITAL para que el brillo sepa dónde estar */
+    overflow: hidden !important; /* CORTA el brillo para que no se salga del círculo */
+    width: 350px !important; /* Subimos de 320 a 350 */
+    height: 350px !important;
+    object-fit: contain !important;
+    margin: 0 auto !important; /* Mantiene el centro perfecto */
+    border-radius: 50% !important;
+    margin-left: 32% !important; /* Entre más alto el %, más a la derecha se mueve */
+    margin-right: 0 !important;   /* Quitamos el auto de la derecha */
+
+  }
+
+    /* 2. EL DESTELLO PARA EL LOGO */
+.hero-img::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 50%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.3); /* Brillo blanco suave */
+  transform: rotate(30deg);
+  animation: flashShineLogo 4s infinite; /* Un poco más lento que los botones */
+  z-index: 15;
+}
+
+/* 3. ANIMACIÓN ESPECÍFICA PARA EL LOGO */
+@keyframes flashShineLogo {
+  0% { left: -150%; }
+  20% { left: 150%; } /* El brillo cruza el círculo */
+  100% { left: 150%; }
+}
+
+  :host .cta-buttons {
+    position: absolute !important;
+    right: 31% !important; /* Ajústalo para acercarlos al logo */
+    top: 35% !important;
+    transform: translateY(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;  // Separacion botones //
+    z-index: 100 !important;
+  }
+
+  :host .cta-buttons button {
+    position: relative !important;
+    overflow: hidden !important; /* VITAL para el brillo */
+    border-radius: 25px !important;
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
+    color: white !important;
+    border: 2.5px solid #000 !important;
+    box-shadow: 0 4px 0 #8b4513, 4px 6px 12px rgba(0, 0, 0, 0.5) !important;
+
+     /* --- TAMAÑO DE LETRA --- */
+    font-size: 1.5rem !important; /* <--- Súbelo de 1.1 a 1.3 o 1.4 */
+    font-weight: 1000 !important;  /* Super negrita para que resalte */
+
+        /* --- AJUSTE DE BOTÓN (Para que quepa la letra grande) --- */
+    width: 180px !important;      /* Lo hacemos un poco más ancho */
+    height: 45px !important;      /* Lo hacemos un poco más alto */
+
+      //  (naranja, 3D, etc.)  //
+    text-transform: none; 
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* EL DESTELLO DE LUZ */
+  :host .cta-buttons button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -150%;
+    width: 50%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: rotate(30deg);
+    animation: flashShine 3s infinite;
+  }
+
+  /* VAIVÉN (CURVA) */
+  :host .cta-buttons button:nth-child(1) { transform: translateX(-15px); }
+  :host .cta-buttons button:nth-child(2) { transform: translateX(9.5px); }
+  :host .cta-buttons button:nth-child(3) { transform: translateX(16px); }
+  :host .cta-buttons button:nth-child(4) { transform: translateX(9px); }
+  :host .cta-buttons button:nth-child(5) { transform: translateX(-25px); }
+} /* <--- ESTA LLAVE CIERRA EL MEDIA QUERY */
+
+/* ANMACIÓN (PONLA AL FINAL DE TODO EL ARCHIVO) */
+@keyframes flashShine {
+  0% { left: -150%; }
+  30% { left: 150%; }
+  100% { left: 150%; }
+}
+
+  .promo-banner h2 {
+    margin-top: 40px !important; /* El empujón para el G72 */
+  }
+
 /* =======================================================
                        ANIMACIONES
    ======================================================= */
