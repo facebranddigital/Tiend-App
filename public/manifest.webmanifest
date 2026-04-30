@@ -1,9 +1,12 @@
 {
   "name": "Bracasfood Tienda Oficial",
   "short_name": "Bracasfood",
+  "description": "¡El sabor auténtico de Bracasfood en tu celular! Pide las mejores salchipapas, papitas, plátanos con tocineta, papaborrajada y bolis fresquitos.",
+  "theme_color": "#ff6b00",
+  "background_color": "#ffffff",
   "display": "standalone",
-  "scope": "./",
-  "start_url": "./",
+  "scope": "/",
+  "start_url": "/",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
@@ -48,7 +51,7 @@
       "purpose": "maskable any"
     },
     {
-      "src": "icons/icon-512x512.png",  
+      "src": "icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
