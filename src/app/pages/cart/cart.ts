@@ -30,8 +30,8 @@ export class CartComponent {
     });
 
     const text = this.showErrorHelp()
-      ? `¡Hola! Tuve un problema al pagar mi pedido de ${totalMsg} en la web de BracasFood. ¿Me ayudan?`
-      : `Hola BracasFood! Quiero pedir mi carrito de ${totalMsg}.`;
+      ? `¡Hola! Tuve un problema al pagar mi pedido de ${totalMsg} en la web de Bracasfood. ¿Me ayudan?`
+      : `Hola Bracasfood! Deseo hacer el pago de   ${totalMsg}.`;
 
     // CORREGIDO: Uso de backticks (``) y sintaxis ${} correcta
     return `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(text)}`;

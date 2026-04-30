@@ -12,11 +12,11 @@
 /* Botones Flotantes */
 .action-buttons {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 25px; // Un poquito más arriba del borde
+  right: 25px;
   display: flex;
-  flex-direction: column;
-  gap: 15px; // Espacio entre el robot y el whatsapp
+  flex-direction: column; // Uno arriba del otro
+  gap: 12px; // Espacio entre ellos
   z-index: 9999;
 }
 
@@ -46,7 +46,7 @@
   }
 
   &.ai {
-    background-color: #ff6b00; /* Color específico para el botón de BracasBot (IA) */
+    background-color: #ff6b00 !important; /* Color específico para el botón de BracasBot (IA) */
 
     // Estilo cuando el chat está abierto (botón activo)
     &.active {
@@ -55,11 +55,11 @@
   }
 }
 .whatsapp-float {
-  position: fixed;
+  position: relative !important;
   width: 60px;
   height: 60px;
   bottom: 20px; // Distancia desde abajo
-  right: 20px; // Distancia desde la derecha
+  right: auto !important; // Distancia desde la derecha
   background-color: #25d366; // El verde oficial de WhatsApp
   color: #fff;
   border-radius: 50px; // Lo hace redondo
@@ -112,6 +112,9 @@
   overflow: hidden; // Evita que el contenido se salga de las esquinas redondeadas
   border: 1px solid rgba(255, 255, 255, 0.4);
   animation: slideUp 0.3s ease-out; // Animación de entrada
+  position: fixed;
+  bottom: 100px; // Sube la ventana para que no tape los botones de abajo
+  right: 25px;
 }
 
 .chat-header {

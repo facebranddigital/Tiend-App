@@ -1,14 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core'; // Añadimos OnInit
 import { RouterOutlet } from '@angular/router';
-// 1. Importas el archivo que acabamos de crear
-import { ChatAiComponent } from './components/chat-ai/chat-ai.component'; // 1. Importación física
+import { ChatAiComponent } from './components/chat-ai/chat-ai.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, ChatAiComponent], // 2. Lo agregas a la lista de imports aquí abajo
+  imports: [RouterOutlet, ChatAiComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.scss',
 })
-export class AppComponent {
-  title = 'tiend-app';
-}
+export class AppComponent implements OnInit {
+  // Implementamos la interfaz
+  title = 'Bracasfood';
+
+  ngOnInit() {
+    // Esto mantiene la pantalla de carga activa por 1.5 segundos extras
+    setTimeout(() => {
+      console.log('App lista y cargada');
+    }, 1500);
+  }
+} // <--- La llave de cierre de la clase debe ir al final de TODO
