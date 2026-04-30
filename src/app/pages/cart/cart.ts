@@ -12,10 +12,10 @@ import { CartService } from '../../services/cart.service';
 })
 export class CartComponent {
   public cartService = inject(CartService);
-
+  paymentSuccess = signal(false);
   // --- VARIABLES PARA EL BOTÓN DE WHATSAPP ---
   showErrorHelp = signal(false);
-  whatsappNumber = '573001234567'; // Sin el símbolo +
+  whatsappNumber = '573218119383'; // Sin el símbolo +
 
   paymentMethods = ['Mercado Pago', 'Tarjeta de Crédito'];
   selectedPaymentMethod = signal('Mercado Pago');
@@ -34,7 +34,7 @@ export class CartComponent {
       : `Hola BracasFood! Quiero pedir mi carrito de ${totalMsg}.`;
 
     // CORREGIDO: Uso de backticks (``) y sintaxis ${} correcta
-    return `https://wa.me{this.whatsappNumber}?text=${encodeURIComponent(text)}`;
+    return `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(text)}`;
   }
 
   onCheckout() {
