@@ -7,7 +7,7 @@
   align-items: center;
   background: #191818;
   padding: 0 5%;
-  height: 60px; /* Altura cómoda para PC */
+  height: 60px;
   backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
@@ -23,25 +23,23 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   cursor: pointer;
-  letter-spacing: 0px;
 }
 
 .nav-links {
   display: flex;
   gap: 12px !important;
   list-style: none;
-}
 
-.nav-links a {
-  text-decoration: none;
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: color 0.3s;
-}
-
-.nav-links a:hover {
-  color: #ff8c00;
+  a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+    &:hover {
+      color: #ff8c00;
+    }
+  }
 }
 
 .nav-actions {
@@ -58,27 +56,24 @@
   cursor: pointer;
   display: flex;
   padding: 4px;
+  svg {
+    stroke: #ffffff;
+    width: 28px;
+    height: 28px;
+  }
 }
 
-.cart-btn-custom svg {
-  stroke: #ffffff;
-  width: 28px;
-  height: 28px;
-}
-
-/* --- AJUSTE BURBUJA CARRITO --- */
 .cart-badge-custom {
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #ff6b00; // Naranja Bracasfood
+  background: #ff6b00;
   color: white;
   font-size: 11px;
   font-weight: bold;
   padding: 2px 6px;
   border-radius: 50%;
   border: 2px solid white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .login-btn {
@@ -93,148 +88,120 @@
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  letter-spacing: 0.5px;
 
   &:hover {
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
     filter: brightness(1.1);
   }
-
-  &:active {
-    transform: scale(0.95);
-  }
 }
+
+/* --- BOTÓN NUEVO PRODUCTO (INVENTARIO) --- */
+.btn-add {
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+  width: fit-content;
+  margin: 0 auto;
+}
+
 /* --- BOTÓN SALIR (LOGOUT) --- */
 .logout-btn-styled {
   background: #fffafa;
-  border: 1.5px solid #ef5350;
-  color: #ef5350;
-  width: 42px;
-  height: 42px;
+  border: 1.5px solid #ff6b00;
+  color: #ff6b00;
+  width: 25px; // Tamaño base
+  height: 25px; // Tamaño base
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-left: 8px;
-
+  svg {
+    width: 18px;
+    height: 18px;
+    transition: stroke 0.3s;
+  }
   &:hover {
-    background: #ef5350;
+    background: #ff6b00;
     color: white;
-    transform: rotate(-10deg); // Un toque juguetón al salir
-
     svg {
-      stroke: white; // El icono cambia a blanco al hacer hover
+      stroke: white;
     }
   }
-
-  svg {
-    transition: stroke 0.3s ease;
-  }
 }
 
-/* =======================================================
-   2. AJUSTE PARA CELULARES (Motorola A50, G72, etc.)
-   ======================================================= */
-@media screen and (max-width: 768px) {
-  .navbar {
-    height: 60px !important; /* Más delgada para no robar pantalla */
-    padding: 0 15px !important;
-    justify-content: space-between !important;
-  }
-
-  .logo span {
-    /* Evita que el nombre choque con los iconos */
-    font-size: 1.2rem !important; /* Bracasfood más pequeño */
-    letter-spacing: 0px;
-  }
-
-  .nav-links {
-    display: none !important; /* Escondemos los links de texto */
-  }
-
-  .nav-actions {
-    gap: 12px !important; /* Iconos más pegados */
-  }
-
-  .cart-btn-custom svg {
-    width: 22px !important; /* Icono de carrito más pequeño */
-    height: 22px !important;
-  }
-
-  .login-btn {
-    padding: 10px 22px;
-    font-size: 0.65rem !important; /* Botón Login compacto */ // Menos redondeado se ve más limpio en pequeño
-    border-radius: 12px !important;
-    letter-spacing: 0.5px;
-  }
-}
-/* --- LÓGICA DE BÚSQUEDA EXPANDIBLE --- */
+/* --- BUSCADOR EXPANDIBLE --- */
 .search-container {
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 30px;
   padding: 4px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s;
   border: 1px solid rgba(255, 255, 255, 0.1);
-
   .search-input {
     width: 0;
     border: none;
     background: transparent;
-    outline: none;
     color: white;
-    font-size: 0.85rem;
     transition: width 0.3s ease;
-    padding: 0;
-    &::placeholder {
-      color: rgba(255, 255, 255, 0.4);
-    }
   }
-
-  .search-btn-custom {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    padding: 6px;
-    svg {
-      stroke: #ffffff;
-      width: 24px;
-      height: 24px;
-      transition: stroke 0.3s ease;
-    }
-  }
-
-  // ESTADO ACTIVO (Cuando haces clic)
   &.active {
     background: rgba(255, 255, 255, 0.12);
     border-color: #ff8c00;
-    padding: 4px 12px;
-
     .search-input {
-      width: 140px; // Se abre
-      padding: 0 5px;
-    }
-
-    .search-btn-custom svg {
-      stroke: #ff8c00; // Lupa naranja al estar abierta
+      width: 140px;
+      padding: 0 10px;
     }
   }
 }
 
-/* AJUSTE PARA MÓVIL */
+/* =======================================================
+   2. AJUSTE PARA CELULARES (Motorola, etc.)
+   ======================================================= */
 @media screen and (max-width: 768px) {
-  .search-container.active {
-    .search-input {
-      width: 90px; // Más corto en móvil
-    }
+  .navbar {
+    height: 60px !important;
+    padding: 0 15px !important;
   }
-  .search-btn-custom svg {
-    width: 20px !important;
+  .nav-links {
+    display: none !important;
+  }
+  .nav-actions {
+    gap: 12px !important;
+  } // Iconos más juntos en móvil
+
+  /* BOTÓN SALIR MINI EN MÓVIL */
+  .logout-btn-styled {
+    width: 20px !important; // Aún más pequeño en móvil
     height: 20px !important;
+    border-radius: 8px !important;
+    svg {
+      width: 14px !important;
+      height: 14px !important;
+    } // Icono pequeño
+  }
+
+  .cart-btn-custom svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .login-btn {
+    padding: 8px 16px;
+    font-size: 0.7rem !important;
+  }
+
+  .search-container.active .search-input {
+    width: 90px;
   }
 }

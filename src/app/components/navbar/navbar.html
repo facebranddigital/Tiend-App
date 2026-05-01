@@ -9,86 +9,58 @@
         >Inicio</a
       >
     </li>
-    <!-- El link de Productos solo aparece si eres admin -->
-    <li *ngIf="authService.isLoggedIn$ | async">
-      <a routerLink="/products" routerLinkActive="active">Inventario</a>
+
+    <!-- NIVEL SALESFORCE ADMIN: Solo aparece si el correo está en la lista blanca -->
+    <li *ngIf="isAdmin$ | async">
+      <a routerLink="/products" routerLinkActive="active">Inventario Admin</a>
     </li>
+
     <li><a href="#">Categorías</a></li>
     <li><a href="#">Ofertas</a></li>
   </ul>
 
   <div class="nav-actions">
-    <!-- Botón de búsqueda -->
+    <!-- Buscador Expandible -->
     <div class="search-container" [class.active]="isSearchActive">
       <input
         type="text"
-        placeholder="Buscar..."
+        placeholder="Buscar producto..."
         class="search-input"
         #searchInput
         (keyup.enter)="onSearch(searchInput.value)"
       />
-
       <button class="search-btn-custom" (click)="toggleSearch()">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
       </button>
     </div>
 
-    <!-- CARRITO con burbuja inteligente -->
+    <!-- Carrito -->
     <button class="cart-btn-custom" routerLink="/cart">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="30"
-        height="30"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="white"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <circle cx="9" cy="21" r="1"></circle>
-        <circle cx="20" cy="21" r="1"></circle>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <path d="M16 10a4 4 0 0 1-8 0"></path>
       </svg>
-
-      <!-- Cambiado a .length para que sea compatible con tu CartService -->
-      <span class="cart-badge-custom" *ngIf="cartService.cartItems().length > 0">
-        {{ cartService.cartItems().length }}
+      <span class="cart-badge-custom" *ngIf="(cartService.cart$ | async)?.length">
+        {{ (cartService.cart$ | async)?.length }}
       </span>
     </button>
 
-    <!-- Lógica de Auth mejorada -->
-    <ng-container *ngIf="authService.isLoggedIn$ | async; else noAuth">
-      <button class="icon-btn logout-btn-styled" (click)="onLogout()" title="Cerrar Sesión">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#ef5350"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-          <polyline points="16 17 21 12 16 7" />
-          <line x1="21" y1="12" x2="9" y2="12" />
+    <!-- Auth Actions -->
+    <ng-container *ngIf="authService.user$ | async as user; else loginBtn">
+      <button class="logout-btn-styled" (click)="onLogout()" title="Cerrar Sesión">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
         </svg>
       </button>
     </ng-container>
 
-    <ng-template #noAuth>
+    <ng-template #loginBtn>
       <button class="login-btn" routerLink="/login">Entrar</button>
     </ng-template>
   </div>
