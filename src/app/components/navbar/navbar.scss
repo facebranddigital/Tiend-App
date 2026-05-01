@@ -7,7 +7,7 @@
   align-items: center;
   background: #191818;
   padding: 0 5%;
-  height: 60px;
+  height: 60px; /* Altura cómoda para PC */
   backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
@@ -23,23 +23,25 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   cursor: pointer;
+  letter-spacing: 0px;
 }
 
 .nav-links {
   display: flex;
   gap: 12px !important;
   list-style: none;
+}
 
-  a {
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 1.1rem;
-    transition: color 0.3s;
-    &:hover {
-      color: #ff8c00;
-    }
-  }
+.nav-links a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ff8c00;
 }
 
 .nav-actions {
@@ -55,153 +57,175 @@
   border: none;
   cursor: pointer;
   display: flex;
-  padding: 4px;
-  svg {
-    stroke: #ffffff;
-    width: 28px;
-    height: 28px;
-  }
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }
 
+.cart-btn-custom svg {
+    stroke: #ffffff !important; // Blanco para que resalte en el fondo oscuro
+    width: 26px !important;
+    height: 26px !important;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); // Sombra para que tenga relieve
+  }
+
+/* --- AJUSTE BURBUJA CARRITO --- */
 .cart-badge-custom {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -2px;
+  right: -2px;
   background: #ff6b00;
   color: white;
-  font-size: 11px;
-  font-weight: bold;
-  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 5px;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 1.5px solid #191818; // Borde oscuro para que resalte del botón
 }
 
 .login-btn {
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
   color: white !important;
-  border: none;
-  padding: 10px 22px;
-  border-radius: 12px;
-  font-weight: 800;
-  font-size: 0.85rem;
+  border: none !important;
+  padding: 10px 22px !important;
+  border-radius: 12px !important;
+  font-weight: 800 !important;
+  font-size: 0.85rem !important;
   text-transform: uppercase;
-  cursor: pointer;
   box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
 
   &:hover {
     transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
     filter: brightness(1.1);
   }
-}
 
-/* --- BOTÓN NUEVO PRODUCTO (INVENTARIO) --- */
-.btn-add {
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-weight: 800;
-  text-transform: uppercase;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-  width: fit-content;
-  margin: 0 auto;
+  &:active {
+    transform: scale(0.95);
+  }
 }
-
 /* --- BOTÓN SALIR (LOGOUT) --- */
 .logout-btn-styled {
-  background: #fffafa;
-  border: 1.5px solid #ff6b00;
-  color: #ff6b00;
-  width: 25px; // Tamaño base
-  height: 25px; // Tamaño base
+  background: linear-gradient(95deg, #ff4112 20%, #ff6b00 80%) !important; // Un tono más rojizo pero pro
+  border: none !important;
+  color: white !important;
+  width: 42px;
+  height: 42px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  svg {
-    width: 18px;
-    height: 18px;
-    transition: stroke 0.3s;
-  }
+  transition: all 0.3s ease;
+  margin-left: 8px;
+
   &:hover {
-    background: #ff6b00;
+    background: #ef5350;
     color: white;
+    transform: rotate(-10deg); // Un toque juguetón al salir
+
     svg {
-      stroke: white;
+    stroke: white !important; // Icono blanco
+    width: 20px !important;
+    height: 20px !important;
     }
   }
 }
 
-/* --- BUSCADOR EXPANDIBLE --- */
+/* =======================================================
+   2. AJUSTE PARA CELULARES (Motorola A50, G72, etc.)
+   ======================================================= */
+@media screen and (max-width: 768px) {
+  .navbar {
+    height: 60px !important; /* Más delgada para no robar pantalla */
+    padding: 0 15px !important;
+    justify-content: space-between !important;
+  }
+
+  .logo span {
+    /* Evita que el nombre choque con los iconos */
+    font-size: 1.2rem !important; /* Bracasfood más pequeño */
+    letter-spacing: 0px;
+  }
+
+  .nav-links {
+    display: none !important; /* Escondemos los links de texto */
+  }
+
+  .nav-actions {
+    gap: 12px !important; /* Iconos más pegados */
+  }
+
+  .cart-btn-custom svg {
+    width: 28px !important; /* Icono de carrito más pequeño */
+    height: 28px !important;
+  }
+
+  .login-btn {
+    padding: 11px 15px !important; // izq altura der anchura //
+    font-size: 0.9rem !important; /* Botón Login compacto */ // Menos redondeado se ve más limpio en pequeño
+    border-radius: 12px !important;
+    letter-spacing: 0.5px;
+  }
+}
+
+  .logout-btn-styled {
+    padding: 10px 7px !important;
+}
+
+/* --- LÓGICA DE BÚSQUEDA EXPANDIBLE --- */
 .search-container {
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 30px;
   padding: 4px;
-  transition: all 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(255, 255, 255, 0.1);
+
   .search-input {
     width: 0;
     border: none;
     background: transparent;
+    outline: none;
     color: white;
+    font-size: 0.85rem;
     transition: width 0.3s ease;
+    padding: 0;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
   }
+
+  .search-btn-custom {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    padding: 6px;
+    svg {
+      stroke: #ffffff;
+      width: 24px;
+      height: 24px;
+      transition: stroke 0.3s ease;
+    }
+  }
+
+  // ESTADO ACTIVO (Cuando haces clic)
   &.active {
     background: rgba(255, 255, 255, 0.12);
     border-color: #ff8c00;
+    padding: 4px 12px;
+
     .search-input {
-      width: 140px;
-      padding: 0 10px;
+      width: 140px; // Se abre
+      padding: 0 5px;
     }
-  }
-}
 
-/* =======================================================
-   2. AJUSTE PARA CELULARES (Motorola, etc.)
-   ======================================================= */
-@media screen and (max-width: 768px) {
-  .navbar {
-    height: 60px !important;
-    padding: 0 15px !important;
-  }
-  .nav-links {
-    display: none !important;
-  }
-  .nav-actions {
-    gap: 12px !important;
-  } // Iconos más juntos en móvil
-
-  /* BOTÓN SALIR MINI EN MÓVIL */
-  .logout-btn-styled {
-    width: 20px !important; // Aún más pequeño en móvil
-    height: 20px !important;
-    border-radius: 8px !important;
-    svg {
-      width: 14px !important;
-      height: 14px !important;
-    } // Icono pequeño
-  }
-
-  .cart-btn-custom svg {
-    width: 22px !important;
-    height: 22px !important;
-  }
-
-  .login-btn {
-    padding: 8px 16px;
-    font-size: 0.7rem !important;
-  }
-
-  .search-container.active .search-input {
-    width: 90px;
+    .search-btn-custom svg {
+      stroke: #ff8c00; // Lupa naranja al estar abierta
+    }
   }
 }
