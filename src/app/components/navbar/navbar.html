@@ -1,26 +1,29 @@
 <nav class="navbar">
-  <div class="logo" routerLink="/">
+  <!-- LOGO -->
+  <div class="logo" routerLink="/" aria-label="Volver al inicio">
     <span>Bracasfood</span>
   </div>
 
+  <!-- LINKS DE NAVEGACIÓN -->
   <ul class="nav-links">
     <li>
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-        >Inicio</a
-      >
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        Inicio
+      </a>
     </li>
 
-    <!-- NIVEL SALESFORCE ADMIN: Solo aparece si el correo está en la lista blanca -->
+    <!-- SALESFORCE ADMIN: Acceso exclusivo para dueños -->
     <li *ngIf="isAdmin$ | async">
       <a routerLink="/products" routerLinkActive="active">Inventario Admin</a>
     </li>
 
-    <li><a href="#">Categorías</a></li>
-    <li><a href="#">Ofertas</a></li>
+    <li><a routerLink="/categorias">Categorías</a></li>
+    <li><a routerLink="/ofertas">Ofertas</a></li>
   </ul>
 
+  <!-- ACCIONES (Buscador, Carrito, Auth) -->
   <div class="nav-actions">
-    <!-- Buscador Expandible -->
+    <!-- BUSCADOR EXPANDIBLE -->
     <div class="search-container" [class.active]="isSearchActive">
       <input
         type="text"
@@ -29,7 +32,7 @@
         #searchInput
         (keyup.enter)="onSearch(searchInput.value)"
       />
-      <button class="search-btn-custom" (click)="toggleSearch()">
+      <button class="search-btn-custom" (click)="toggleSearch()" aria-label="Abrir buscador">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
@@ -37,19 +40,20 @@
       </button>
     </div>
 
-    <!-- Carrito -->
-    <button class="cart-btn-custom" routerLink="/cart">
+    <!-- CARRITO: Reactividad con Signals -->
+    <button class="cart-btn-custom" routerLink="/cart" aria-label="Ver carrito">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
         <line x1="3" y1="6" x2="21" y2="6"></line>
         <path d="M16 10a4 4 0 0 1-8 0"></path>
       </svg>
-      <span class="cart-badge-custom" *ngIf="(cartService.cart$ | async)?.length">
-        {{ (cartService.cart$ | async)?.length }}
+      <!-- El badge se actualiza automáticamente gracias a la Signal count() -->
+      <span class="cart-badge-custom" *ngIf="cartService.count() > 0">
+        {{ cartService.count() }}
       </span>
     </button>
 
-    <!-- Auth Actions -->
+    <!-- ACCIONES DE AUTENTICACIÓN -->
     <ng-container *ngIf="authService.user$ | async as user; else loginBtn">
       <button class="logout-btn-styled" (click)="onLogout()" title="Cerrar Sesión">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -60,6 +64,7 @@
       </button>
     </ng-container>
 
+    <!-- Botón entrar si no hay sesión -->
     <ng-template #loginBtn>
       <button class="login-btn" routerLink="/login">Entrar</button>
     </ng-template>
