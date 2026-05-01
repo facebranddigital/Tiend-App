@@ -41,7 +41,9 @@ export class CartComponent {
       ? `¡Hola! Tuve un problema al pagar mi pedido de ${totalMsg} en la web de Bracasfood. ¿Me ayudan?`
       : `¡Hola Bracasfood! 🍟 Quiero pedir: ${productos}. Total: ${totalMsg}. ¿Cual es la forma de pago?`;
 
-    return `https://wa.me{this.whatsappNumber}?text=${encodeURIComponent(text)}`;
+    return `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(text)}`;
+
+
   }
 
   onCheckout() {
