@@ -62,7 +62,11 @@ export class ProductFormComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-
+  removeImage() {
+    this.imagePreview = null;
+    this.selectedFile = null;
+    this.productForm.get('imageUrl')?.setValue('');
+  }
   async uploadImage(file: File): Promise<string> {
     const filePath = `products/${Date.now()}_${file.name}`;
     const fileRef = ref(this.storage, filePath);
