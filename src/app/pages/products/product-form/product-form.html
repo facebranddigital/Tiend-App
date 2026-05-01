@@ -2,58 +2,155 @@
   <div class="form-card">
     <header class="form-header">
       <button class="btn-back" [routerLink]="['/products']">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
         Volver
       </button>
       <h1>{{ isEditMode ? 'Editar Producto' : 'Nuevo Producto' }}</h1>
-      <p>{{ isEditMode ? 'Actualiza la información de tu producto.' : 'Completa los campos para añadir un nuevo producto al stock.' }}</p>
+      <p>
+        {{
+          isEditMode
+            ? 'Actualiza la información de tu producto.'
+            : 'Completa los campos para añadir un nuevo producto al stock.'
+        }}
+      </p>
     </header>
 
     <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
       <div class="form-grid">
+        <!-- Nombre -->
         <div class="form-group full-width">
           <label for="name">Nombre del Producto</label>
-          <input type="text" id="name" formControlName="name" placeholder="Ej. Zapatillas Running Pro" [class.error]="productForm.get('name')?.invalid && productForm.get('name')?.touched">
-          <span class="error-msg" *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched">Es obligatorio y debe tener al menos 3 caracteres.</span>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            placeholder="Ej. Salchipapa Bracas Especial"
+            [class.error]="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+          />
+          <span
+            class="error-msg"
+            *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+          >
+            Es obligatorio y debe tener al menos 3 caracteres.
+          </span>
         </div>
 
+        <!-- Descripción -->
         <div class="form-group full-width">
           <label for="description">Descripción</label>
-          <textarea id="description" formControlName="description" rows="4" placeholder="Describe brevemente el producto..." [class.error]="productForm.get('description')?.invalid && productForm.get('description')?.touched"></textarea>
-          <span class="error-msg" *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched">Es obligatoria y debe tener al menos 10 caracteres.</span>
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="4"
+            placeholder="Describe los ingredientes o detalles..."
+            [class.error]="
+              productForm.get('description')?.invalid && productForm.get('description')?.touched
+            "
+          ></textarea>
+          <span
+            class="error-msg"
+            *ngIf="
+              productForm.get('description')?.invalid && productForm.get('description')?.touched
+            "
+          >
+            Es obligatoria y debe tener al menos 10 caracteres.
+          </span>
         </div>
 
+        <!-- Precio -->
         <div class="form-group">
-          <label for="price">Valor (USD)</label>
-          <input type="number" id="price" formControlName="price" step="0.01" placeholder="0.00" [class.error]="productForm.get('price')?.invalid && productForm.get('price')?.touched">
-          <span class="error-msg" *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched">Precio mayor a 0 es requerido.</span>
+          <label for="price">Valor (COP)</label>
+          <input
+            type="number"
+            id="price"
+            formControlName="price"
+            placeholder="0"
+            [class.error]="productForm.get('price')?.invalid && productForm.get('price')?.touched"
+          />
+          <span
+            class="error-msg"
+            *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched"
+          >
+            Precio mayor a 0 es requerido.
+          </span>
         </div>
 
+        <!-- Stock -->
         <div class="form-group">
           <label for="stock">Stock Inicial</label>
-          <input type="number" id="stock" formControlName="stock" placeholder="0" [class.error]="productForm.get('stock')?.invalid && productForm.get('stock')?.touched">
-          <span class="error-msg" *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched">Stock es requerido (min 0).</span>
+          <input
+            type="number"
+            id="stock"
+            formControlName="stock"
+            placeholder="0"
+            [class.error]="productForm.get('stock')?.invalid && productForm.get('stock')?.touched"
+          />
+          <span
+            class="error-msg"
+            *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched"
+          >
+            Stock es requerido (min 0).
+          </span>
         </div>
 
+        <!-- Estado -->
         <div class="form-group">
           <label for="status">Estado</label>
-          <select id="status" formControlName="status" [class.error]="productForm.get('status')?.invalid && productForm.get('status')?.touched">
+          <select id="status" formControlName="status">
             <option value="In Stock">In Stock</option>
             <option value="Out of Stock">Out of Stock</option>
           </select>
         </div>
 
-        <div class="form-group">
-          <label for="imageUrl">URL de la Imagen</label>
-          <input type="text" id="imageUrl" formControlName="imageUrl" placeholder="https://ejemplo.com/imagen.jpg" [class.error]="productForm.get('imageUrl')?.invalid && productForm.get('imageUrl')?.touched">
-          <span class="error-msg" *ngIf="productForm.get('imageUrl')?.invalid && productForm.get('imageUrl')?.touched">La URL de la imagen es obligatoria.</span>
+        <!-- SECCIÓN DE IMAGEN -->
+        <div class="form-group full-width">
+          <label>Imagen del Producto</label>
+          <div class="image-upload-container">
+            <!-- Previsualización -->
+            <div class="preview-box" *ngIf="imagePreview">
+              <img [src]="imagePreview" alt="Vista previa" />
+              <button type="button" class="btn-remove" (click)="removeImage()">×</button>
+            </div>
+
+            <!-- Botón de subida -->
+            <div class="upload-placeholder" *ngIf="!imagePreview">
+              <input
+                type="file"
+                id="fileInput"
+                (change)="onFileSelected($event)"
+                accept="image/*"
+                hidden
+                #fileInput
+              />
+              <button type="button" class="btn-upload" (click)="fileInput.click()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+                Seleccionar foto de galería
+              </button>
+            </div>
+
+            <div *ngIf="isUploading" class="upload-progress">
+              <p>Subiendo imagen... por favor espera.</p>
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- BOTONES DE ACCIÓN -->
       <div class="form-actions">
         <button type="button" class="btn-cancel" [routerLink]="['/products']">Cancelar</button>
-        <button type="submit" class="btn-submit" [disabled]="loading">
-          {{ loading ? 'Guardando...' : (isEditMode ? 'Actualizar Producto' : 'Registrar Producto') }}
+        <button
+          type="submit"
+          class="btn-submit"
+          [disabled]="productForm.invalid || loading || isUploading"
+        >
+          {{ loading ? 'Guardando...' : isEditMode ? 'Actualizar Producto' : 'Registrar Producto' }}
         </button>
       </div>
     </form>

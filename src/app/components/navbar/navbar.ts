@@ -9,7 +9,7 @@ import { CartService } from '../../services/cart.service';
   standalone: true,
   imports: [RouterModule, CommonModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss'
+  styleUrl: './navbar.scss',
 })
 export class NavbarComponent {
   public authService = inject(AuthService);

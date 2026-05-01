@@ -73,7 +73,7 @@
     td { padding: 20px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
 
     .col-image img {
-      width: 60px; // Un poco más grande para que se vea el producto
+      width: 40px; // Un poco más grande para que se vea el producto
       height: 60px;
       border-radius: 10px;
       object-fit: cover;
@@ -94,7 +94,7 @@
   .products-header {
     flex-direction: column;
     text-align: center;
-    .btn-add { width: 100%; justify-content: center; font-size: 1.2rem; }
+    .btn-add { width: 100%; justify-content: center; font-size: 2rem; }
   }
   
   /* En móvil la tabla permite scroll lateral */

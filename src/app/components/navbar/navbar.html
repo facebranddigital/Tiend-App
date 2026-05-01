@@ -1,11 +1,18 @@
 <nav class="navbar">
-  <div class="logo">
+  <div class="logo" routerLink="/">
     <span>Bracasfood</span>
   </div>
 
   <ul class="nav-links">
-    <li><a routerLink="/">Inicio</a></li>
-    <li *ngIf="authService.isLoggedIn$ | async"><a routerLink="/products">Productos</a></li>
+    <li>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+        >Inicio</a
+      >
+    </li>
+    <!-- El link de Productos solo aparece si eres admin -->
+    <li *ngIf="authService.isLoggedIn$ | async">
+      <a routerLink="/products" routerLinkActive="active">Inventario</a>
+    </li>
     <li><a href="#">Categorías</a></li>
     <li><a href="#">Ofertas</a></li>
   </ul>
@@ -13,39 +20,67 @@
   <div class="nav-actions">
     <!-- Botón de búsqueda -->
     <div class="search-container" [class.active]="isSearchActive">
-    <input 
-      type="text" 
-      placeholder="Buscar..." 
-      class="search-input"
-      #searchInput
-      (keyup.enter)="onSearch(searchInput.value)"> 
-    
-    <button class="search-btn-custom" (click)="toggleSearch()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-    </button>
-  </div>
+      <input
+        type="text"
+        placeholder="Buscar..."
+        class="search-input"
+        #searchInput
+        (keyup.enter)="onSearch(searchInput.value)"
+      />
 
-     <!-- CARRITO (Corregido el xmlns y la estructura) -->
+      <button class="search-btn-custom" (click)="toggleSearch()">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- CARRITO con burbuja inteligente -->
     <button class="cart-btn-custom" routerLink="/cart">
-      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="30"
+        height="30"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <circle cx="9" cy="21" r="1"></circle>
         <circle cx="20" cy="21" r="1"></circle>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
       </svg>
-    
-    <!-- Burbuja Naranja -->
-    <span class="cart-badge-custom" *ngIf="cartService.count() > 0">
-  {{ cartService.count() }}
-</span>
+
+      <!-- Cambiado a .length para que sea compatible con tu CartService -->
+      <span class="cart-badge-custom" *ngIf="cartService.cartItems().length > 0">
+        {{ cartService.cartItems().length }}
+      </span>
     </button>
 
-      <!-- Lógica de Auth (Login/User) -->
-     <ng-container *ngIf="authService.isLoggedIn$ | async; else noAuth">
-      <button class="icon-btn user-btn" (click)="onLogout()" title="Cerrar Sesión">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Lógica de Auth mejorada -->
+    <ng-container *ngIf="authService.isLoggedIn$ | async; else noAuth">
+      <button class="icon-btn logout-btn-styled" (click)="onLogout()" title="Cerrar Sesión">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#ef5350"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
           <polyline points="16 17 21 12 16 7" />
           <line x1="21" y1="12" x2="9" y2="12" />
@@ -54,7 +89,7 @@
     </ng-container>
 
     <ng-template #noAuth>
-      <button class="login-btn" routerLink="/login">Login</button>
+      <button class="login-btn" routerLink="/login">Entrar</button>
     </ng-template>
-  </div> <!-- Cierre único y correcto de nav-actions -->
+  </div>
 </nav>

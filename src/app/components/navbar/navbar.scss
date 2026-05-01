@@ -66,34 +66,73 @@
   height: 28px;
 }
 
+/* --- AJUSTE BURBUJA CARRITO --- */
 .cart-badge-custom {
   position: absolute;
-  top: -2px;
-  right: -2px;
-  background: linear-gradient(95deg, #ff6b00, #ffb800);
+  top: -5px;
+  right: -5px;
+  background: #ff6b00; // Naranja Bracasfood
   color: white;
   font-size: 11px;
-  width: 18px;
-  height: 18px;
+  font-weight: bold;
+  padding: 2px 6px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid #191818;
+  border: 2px solid white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .login-btn {
   background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
   color: white !important;
   border: none;
-  padding: 0.6rem 1.4rem;
-  border-radius: 15px;
+  padding: 10px 22px;
+  border-radius: 12px;
   font-weight: 800;
   font-size: 0.85rem;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(255, 107, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  letter-spacing: 0.5px;
+
+  &:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+    filter: brightness(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+/* --- BOTÓN SALIR (LOGOUT) --- */
+.logout-btn-styled {
+  background: #fffafa;
+  border: 1.5px solid #ef5350;
+  color: #ef5350;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   transition: all 0.3s ease;
+  margin-left: 8px;
+
+  &:hover {
+    background: #ef5350;
+    color: white;
+    transform: rotate(-10deg); // Un toque juguetón al salir
+
+    svg {
+      stroke: white; // El icono cambia a blanco al hacer hover
+    }
+  }
+
+  svg {
+    transition: stroke 0.3s ease;
+  }
 }
 
 /* =======================================================
@@ -106,7 +145,8 @@
     justify-content: space-between !important;
   }
 
-  .logo span {    /* Evita que el nombre choque con los iconos */
+  .logo span {
+    /* Evita que el nombre choque con los iconos */
     font-size: 1.2rem !important; /* Bracasfood más pequeño */
     letter-spacing: 0px;
   }
@@ -125,9 +165,10 @@
   }
 
   .login-btn {
-    padding: 5px 10px !important;
+    padding: 10px 22px;
     font-size: 0.65rem !important; /* Botón Login compacto */ // Menos redondeado se ve más limpio en pequeño
-    border-radius: 8px !important;
+    border-radius: 12px !important;
+    letter-spacing: 0.5px;
   }
 }
 /* --- LÓGICA DE BÚSQUEDA EXPANDIBLE --- */
@@ -149,7 +190,9 @@
     font-size: 0.85rem;
     transition: width 0.3s ease;
     padding: 0;
-    &::placeholder { color: rgba(255,255,255,0.4); }
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
   }
 
   .search-btn-custom {
