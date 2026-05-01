@@ -10,33 +10,35 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './admin-finanzas.scss',
 })
 export class AdminFinanzasComponent {
-  // --- ENTRADAS (Signals) ---
+  // --- ESTADO (Signals: Los datos que el usuario ingresa) ---
   costoInsumos = signal<number>(0);
   cantidadProducida = signal<number>(1);
   gastoServicios = signal<number>(0);
   otrosGastos = signal<number>(0);
-  margenDeseado = signal<number>(40); // 40% por defecto
+  ventasTotalesDia = signal<number>(0);
+  gananciaObjetivo = signal<number>(100000);
 
-  // --- CÁLCULOS (Computed - Se actualizan solos) ---
-  costoUnitarioMP = computed(() => 
-    this.costoInsumos() / (this.cantidadProducida() || 1)
-  );
+  // --- LÓGICA DE CÁLCULO (Equivalente a tus Subprocesos de PSeInt) ---
 
-  cifUnitario = computed(() => 
-    (this.gastoServicios() + this.otrosGastos()) / (this.cantidadProducida() || 1)
-  );
-
-  costoTotalReal = computed(() => 
-    this.costoUnitarioMP() + this.cifUnitario()
-  );
-
-  precioVentaSugerido = computed(() => {
-    const costo = this.costoTotalReal();
-    const margen = this.margenDeseado() / 100;
-    return costo / (1 - margen);
+  // 1. Calcular Costo Base (Como tu Subproceso calcularSuperficie)
+  costoBaseUnitario = computed(() => {
+    const totalGastos = this.costoInsumos() + this.gastoServicios() + this.otrosGastos();
+    return totalGastos / (this.cantidadProducida() || 1);
   });
 
-  gananciaPorUnidad = computed(() => 
-    this.precioVentaSugerido() - this.costoTotalReal()
-  );
+  // 2. Calcular Precio Sugerido (Subproceso para margen del 40%)
+  precioSugerido = computed(() => this.costoBaseUnitario() / 0.6);
+
+  // 3. Calcular Ganancia Neta Diaria (Cierre de caja)
+  gananciaNetaDia = computed(() => {
+    const totalGastos = this.costoInsumos() + this.gastoServicios() + this.otrosGastos();
+    return this.ventasTotalesDia() - totalGastos;
+  });
+
+  // 4. Calcular Meta (Subproceso: ¿Cuántas unidades vender para ganar X?)
+  unidadesParaMeta = computed(() => {
+    const gananciaPorUnidad = this.precioSugerido() - this.costoBaseUnitario();
+    if (gananciaPorUnidad <= 0) return 0;
+    return Math.ceil(this.gananciaObjetivo() / gananciaPorUnidad);
+  });
 }

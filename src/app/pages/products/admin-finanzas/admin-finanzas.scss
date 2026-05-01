@@ -1,54 +1,116 @@
 .admin-finanzas-container {
-  padding: 30px 15px;
-  max-width: 900px;
+  padding: 30px 20px;
+  max-width: 1100px;
   margin: 0 auto;
 
   .calc-header {
     text-align: center;
     margin-bottom: 30px;
-    h1 { font-weight: 900; color: #1a1a1a; }
-    p { color: #ff6b00; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
+    h1 {
+      font-weight: 900;
+      font-size: 2.2rem;
+      color: #1a1a1a;
+    }
+    p {
+      color: #ff6b00;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+  }
+
+  .menu-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    justify-content: center;
+    .tab-btn {
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: 2px solid #eee;
+      background: white;
+      font-weight: 700;
+      &.active {
+        background: #1a1a1a;
+        color: white;
+        border-color: #1a1a1a;
+      }
+    }
   }
 
   .calc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
   }
 
   .card {
     background: white;
     padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    h3 { margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; font-size: 1.1rem; }
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    h3 {
+      margin-bottom: 20px;
+      font-weight: 800;
+      border-bottom: 2px solid #f8f8f8;
+      padding-bottom: 10px;
+    }
   }
 
   .form-group {
     margin-bottom: 15px;
-    label { font-size: 0.8rem; color: #666; display: block; margin-bottom: 5px; }
-    .input-wrapper {
-      display: flex; align-items: center; background: #f5f5f5; border-radius: 10px; padding: 0 12px;
-      span { color: #ff6b00; font-weight: 900; }
-      input { border: none; background: transparent; padding: 10px; width: 100%; font-weight: 700; outline: none; }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 5px;
     }
-    input[type="number"]:not(.input-wrapper input) {
-        width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #eee; background: #f5f5f5; font-weight: 700;
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 2px solid #f0f0f0;
+      font-weight: 800;
+      font-size: 1.1rem;
+      outline: none;
+      &:focus {
+        border-color: #ff6b00;
+      }
     }
   }
 
-  .result-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.9rem; }
-
-  .total-row {
-    background: #1a1a1a; color: white; padding: 15px; border-radius: 12px;
-    display: flex; justify-content: space-between; align-items: center; margin: 15px 0;
-    .price-total { color: #ff6b00; font-weight: 900; font-size: 1.3rem; }
+  .result-box {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    h2 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      margin: 0;
+    }
+    &.plus {
+      background: #e6fffa;
+      color: #234e52;
+    }
+    &.minus {
+      background: #fff5f5;
+      color: #c53030;
+    }
   }
 
-  .suggested-box {
-    background: linear-gradient(95deg, #ff6b00, #ffb800);
-    padding: 20px; border-radius: 15px; color: white; text-align: center;
-    h2 { font-size: 2rem; font-weight: 900; margin: 5px 0; }
-    p { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+  .goal-card {
+    border: 2px dashed #ff6b00;
+    .units-badge {
+      background: #1a1a1a;
+      color: #ff6b00;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 1.5rem;
+      font-weight: 900;
+      text-align: center;
+      margin-top: 10px;
+    }
   }
 }
