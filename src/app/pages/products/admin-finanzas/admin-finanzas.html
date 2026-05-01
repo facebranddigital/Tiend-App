@@ -1,0 +1,73 @@
+<div class="admin-finanzas-container">
+  <header class="calc-header">
+    <h1>📊 Calculadora Bracas</h1>
+    <p>Control de Rentabilidad y CIF</p>
+  </header>
+
+  <div class="calc-grid">
+    <!-- ENTRADAS -->
+    <div class="card input-section">
+      <h3>📥 Gastos de Producción</h3>
+
+      <div class="form-group">
+        <label>Gasto en Materia Prima ($)</label>
+        <div class="input-wrapper">
+          <span>$</span>
+          <input type="number" [(ngModel)]="costoInsumos" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Unidades Producidas</label>
+        <input type="number" [(ngModel)]="cantidadProducida" />
+      </div>
+
+      <div class="form-group">
+        <label>CIF: Gas y Luz ($)</label>
+        <div class="input-wrapper">
+          <span>$</span>
+          <input type="number" [(ngModel)]="gastoServicios" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>CIF: Arriendo y Otros ($)</label>
+        <div class="input-wrapper">
+          <span>$</span>
+          <input type="number" [(ngModel)]="otrosGastos" />
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div class="card results-section">
+      <h3>📈 Resultados Reales</h3>
+
+      <div class="result-row">
+        <span>Costo Unitario Insumos:</span>
+        <strong>{{ costoUnitarioMP() | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+      </div>
+
+      <div class="result-row">
+        <span>Carga CIF por unidad:</span>
+        <strong>{{ cifUnitario() | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+      </div>
+
+      <div class="total-row">
+        <span>COSTO TOTAL REAL:</span>
+        <span class="price-total">{{
+          costoTotalReal() | currency: 'USD' : 'symbol' : '1.0-0'
+        }}</span>
+      </div>
+
+      <div class="suggested-box">
+        <p>Precio de Venta (Margen {{ margenDeseado() }}%):</p>
+        <h2>{{ precioVentaSugerido() | currency: 'USD' : 'symbol' : '1.0-0' }}</h2>
+        <small
+          >Ganancia libre: {{ gananciaPorUnidad() | currency: 'USD' : 'symbol' : '1.0-0' }} /
+          unidad</small
+        >
+      </div>
+    </div>
+  </div>
+</div>
