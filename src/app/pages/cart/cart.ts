@@ -22,6 +22,7 @@ export class CartComponent {
   total = computed(() => this.cartService.total());
 
   // Función para generar el link dinámico de WhatsApp
+  // Función para generar el link dinámico de WhatsApp con lista de productos
   getWhatsAppUrl() {
     const totalMsg = this.total().toLocaleString('es-CO', {
       style: 'currency',
@@ -29,12 +30,18 @@ export class CartComponent {
       maximumFractionDigits: 0,
     });
 
+    // 1. Aquí generas la lista de lo que hay en el carrito
+    const productos = this.cartService
+      .cartItems()
+      .map((item) => `${item.name} (x${item.quantity})`)
+      .join(', ');
+
+    // 2. Aquí armas el mensaje final
     const text = this.showErrorHelp()
       ? `¡Hola! Tuve un problema al pagar mi pedido de ${totalMsg} en la web de Bracasfood. ¿Me ayudan?`
-      : `Hola Bracasfood! Deseo hacer el pago de   ${totalMsg}.`;
+      : `¡Hola Bracasfood! 🍟 Quiero pedir: ${productos}. Total: ${totalMsg}. ¿Cual es la forma de pago?`;
 
-    // CORREGIDO: Uso de backticks (``) y sintaxis ${} correcta
-    return `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(text)}`;
+    return `https://wa.me{this.whatsappNumber}?text=${encodeURIComponent(text)}`;
   }
 
   onCheckout() {
