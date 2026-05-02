@@ -2,6 +2,15 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+interface Insumo {
+  nombre: string;
+  costo: number;
+}
+interface Produccion {
+  nombre: string;
+  unidades: number;
+}
+
 @Component({
   selector: 'app-admin-finanzas',
   standalone: true,
@@ -10,35 +19,37 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './admin-finanzas.scss',
 })
 export class AdminFinanzasComponent {
-  // --- ESTADO (Signals: Los datos que el usuario ingresa) ---
-  costoInsumos = signal<number>(0);
-  cantidadProducida = signal<number>(1);
+  // --- ESTADO EDITABLE ---
+  insumos = signal<Insumo[]>([{ nombre: 'Insumo', costo: 0 }]);
+  produccion = signal<Produccion[]>([{ nombre: 'Producto final', unidades: 0 }]);
   gastoServicios = signal<number>(0);
-  otrosGastos = signal<number>(0);
   ventasTotalesDia = signal<number>(0);
-  gananciaObjetivo = signal<number>(100000);
 
-  // --- LÓGICA DE CÁLCULO (Equivalente a tus Subprocesos de PSeInt) ---
+  // --- CÁLCULOS DINÁMICOS ---
+  totalInsumos = computed(() => this.insumos().reduce((acc, i) => acc + (i.costo || 0), 0));
 
-  // 1. Calcular Costo Base (Como tu Subproceso calcularSuperficie)
-  costoBaseUnitario = computed(() => {
-    const totalGastos = this.costoInsumos() + this.gastoServicios() + this.otrosGastos();
-    return totalGastos / (this.cantidadProducida() || 1);
-  });
+  totalUnidades = computed(() => this.produccion().reduce((acc, p) => acc + (p.unidades || 0), 0));
 
-  // 2. Calcular Precio Sugerido (Subproceso para margen del 40%)
-  precioSugerido = computed(() => this.costoBaseUnitario() / 0.6);
+  costoTotalReal = computed(() => this.totalInsumos() + this.gastoServicios());
 
-  // 3. Calcular Ganancia Neta Diaria (Cierre de caja)
-  gananciaNetaDia = computed(() => {
-    const totalGastos = this.costoInsumos() + this.gastoServicios() + this.otrosGastos();
-    return this.ventasTotalesDia() - totalGastos;
-  });
+  costoPorUnidad = computed(() =>
+    this.totalUnidades() > 0 ? this.costoTotalReal() / this.totalUnidades() : 0,
+  );
 
-  // 4. Calcular Meta (Subproceso: ¿Cuántas unidades vender para ganar X?)
-  unidadesParaMeta = computed(() => {
-    const gananciaPorUnidad = this.precioSugerido() - this.costoBaseUnitario();
-    if (gananciaPorUnidad <= 0) return 0;
-    return Math.ceil(this.gananciaObjetivo() / gananciaPorUnidad);
-  });
+  gananciaNetaDia = computed(() => this.ventasTotalesDia() - this.costoTotalReal());
+
+  // --- ACCIONES ---
+  agregarInsumo() {
+    this.insumos.update((v) => [...v, { nombre: '', costo: 0 }]);
+  }
+  eliminarInsumo(index: number) {
+    this.insumos.update((v) => v.filter((_, i) => i !== index));
+  }
+
+  agregarProducto() {
+    this.produccion.update((v) => [...v, { nombre: '', unidades: 0 }]);
+  }
+  eliminarProducto(index: number) {
+    this.produccion.update((v) => v.filter((_, i) => i !== index));
+  }
 }

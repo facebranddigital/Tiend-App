@@ -1,116 +1,177 @@
 .admin-finanzas-container {
-  padding: 30px 20px;
-  max-width: 1100px;
+  padding: 20px;
+  max-width: 1200px;
   margin: 0 auto;
-
-  .calc-header {
-    text-align: center;
-    margin-bottom: 30px;
-    h1 {
-      font-weight: 900;
-      font-size: 2.2rem;
-      color: #1a1a1a;
-    }
-    p {
-      color: #ff6b00;
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-    }
-  }
-
-  .menu-tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
-    justify-content: center;
-    .tab-btn {
-      padding: 10px 20px;
-      border-radius: 30px;
-      border: 2px solid #eee;
-      background: white;
-      font-weight: 700;
-      &.active {
-        background: #1a1a1a;
-        color: white;
-        border-color: #1a1a1a;
-      }
-    }
-  }
 
   .calc-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 25px;
+    gap: 20px;
   }
 
   .card {
     background: white;
-    padding: 25px;
-    border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    h3 {
-      margin-bottom: 20px;
-      font-weight: 800;
-      border-bottom: 2px solid #f8f8f8;
-      padding-bottom: 10px;
-    }
-  }
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 
-  .form-group {
-    margin-bottom: 15px;
-    label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #666;
-      margin-bottom: 5px;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 2px solid #f0f0f0;
-      font-weight: 800;
-      font-size: 1.1rem;
-      outline: none;
-      &:focus {
-        border-color: #ff6b00;
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      h3 {
+        margin: 0;
+        color: #1a1a1a;
+        font-weight: 930;
       }
     }
   }
 
-  .result-box {
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    text-align: center;
-    h2 {
-      font-size: 2.2rem;
+  .editable-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    input {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1.5px solid #eee;
       font-weight: 900;
-      margin: 0;
+      &:first-child {
+        flex: 2;
+      }
+      &:nth-child(2) {
+        flex: 1;
+      }
     }
-    &.plus {
-      background: #e6fffa;
-      color: #234e52;
-    }
-    &.minus {
-      background: #fff5f5;
-      color: #c53030;
+    .btn-del {
+      background: #fee2e2;
+      color: #ef4444;
+      border: none;
+      border-radius: 8px;
+      width: 35px;
+      cursor: pointer;
     }
   }
 
-  .goal-card {
-    border: 2px dashed #ff6b00;
-    .units-badge {
-      background: #1a1a1a;
-      color: #ff6b00;
-      padding: 15px;
-      border-radius: 12px;
-      font-size: 1.5rem;
-      font-weight: 900;
-      text-align: center;
-      margin-top: 10px;
+  .btn-add-row {
+    background: #ff6b00;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .subtotal-row {
+    margin-top: 15px;
+    font-weight: 800;
+    color: #ff6b00;
+    text-align: right;
+  }
+
+  .results-box {
+    margin-top: 20px;
+    .res-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      &.plus h2 {
+        color: #10b981;
+      }
+      &.minus h2 {
+        color: #ff6b00;
+      }
+      h2 {
+        margin: 0;
+        font-size: 2.2rem;
+        font-weight: 900;
+      }
+    }
+  }
+}
+.input-modern {
+  display: flex;
+  align-items: center;
+  background: #f9f9f9;
+  border: 2px solid #eee;
+  border-radius: 12px;
+  padding: 0 15px;
+  margin-top: 8px;
+
+  span {
+    color: #ff6b00;
+    font-weight: 900;
+    font-size: 1.2rem;
+  }
+
+  input {
+    border: none;
+    background: transparent;
+    padding: 12px;
+    width: 100%;
+    font-weight: 900;
+    font-size: 1.2rem;
+    outline: none;
+    color: #1a1a1a;
+  }
+}
+
+.summary-card.highlight {
+  border: 2px solid #e46a07; // Para que resalte que es el resultado final
+}
+
+/* --- TEXTOS DE RESULTADOS SÚPER GRUESOS --- */
+
+/* --- ENGROSAR SUBTÍTULO DEL HEADER --- */
+.calc-header p {
+  font-weight: 900 !important; /* Máximo grosor */
+  font-size: 1.1rem !important; /* Un poco más grande */
+  color: #ff6b00 !important; /* Naranja Bracasfood */
+  text-transform: uppercase; /* Mayúsculas para que se vea más fuerte */
+  letter-spacing: 0.5px; /* Espaciado entre letras para legibilidad */
+  margin-top: 5px;
+  display: block; /* Asegura que tome el ancho */
+}
+
+.summary-card {
+  // El título "Balance del Día"
+  h3 {
+    font-weight: 930 !important;
+    font-size: 1.5rem !important;
+    color: #1a1a1a !important;
+  }
+
+  // Etiqueta "Ventas totales del día"
+  label {
+    font-weight: 950 !important;
+    font-size: 1rem !important;
+    color: #333 !important;
+    text-transform: uppercase;
+  }
+
+  // El texto "Costo real por unidad" y "GANANCIA NETA"
+  .res-item {
+    span {
+      font-weight: 930 !important; // Más grueso
+      font-size: 1.1rem !important;
+      color: #1a1a1a !important;
+    }
+
+    // El número del costo real
+    strong {
+      font-weight: 850 !important;
+      font-size: 1.4rem !important;
+      color: #ff6b00 !important; // En naranja Bracas
+    }
+
+    // El título de GANANCIA NETA
+    &.main span {
+      font-weight: 930 !important; // El máximo
+      font-size: 1.3rem !important;
+      letter-spacing: -0.5px;
     }
   }
 }
