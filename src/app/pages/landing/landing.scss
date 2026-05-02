@@ -552,12 +552,12 @@
 .bracas-float-btn {
   position: fixed !important;
   bottom: 40px !important;
-  right: 33px !important;
-  width: 80px !important; /* Tamaño fijo del círculo */
-  height: 80px !important; /* Tamaño fijo del círculo */
+  right: 25px !important;
+  width: 60px !important; /* Tamaño fijo del círculo */
+  height: 60px !important; /* Tamaño fijo del círculo */
   border-radius: 50% !important;
-  background: #ffffff !important;
-  border: 2px solid #ff8c00 !important;
+  background: #ff6b00 !important; /* Naranja de tu marca */
+  border: 3px solid #000 !important; /* Borde negro sticker */
   z-index: 999999 !important; /* Por encima de todo */
   padding: 0 !important;
   margin: 0 !important;
@@ -565,8 +565,18 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
   overflow: visible !important;
+  color: white !important;
+  font-size: 1.8rem !important; /* Para que la flecha se vea bien */
+  box-shadow: 4px 4px 0px #000 !important; /* Sombra sólida */
+
+  /* Estilo para el nuevo SVG */
+  .bracas-icon-up {
+    width: 28px; /* Tamaño similar al del carrito */
+    height: 28px;
+    stroke: #ffffff; /* Blanco para que resalte en el naranja */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
 
   .bracas-float-img {
     width: 80px !important; /* Forzamos el ancho */
@@ -596,6 +606,20 @@
     align-items: center !important;
     justify-content: center !important;
     border: 2px solid #ffffff !important;
+  }
+
+  .bracas-icon-cart {
+    // scroll up cart //
+    width: 35px !important; /* Un pelín más grande para que se note el carro */
+    height: 35px !important;
+    stroke: #ffffff !important; /* Blanco para que resalte */
+    filter: linear-gradient(135deg, #ff9800, #f44336);
+    display: block;
+  }
+
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px #000 !important;
   }
 
   /* =======================================================
@@ -1000,40 +1024,46 @@
   }
 }
 
-/* BANNER PROMOCIONAL */
+/* =======================================================
+         BANNER PROMOCIONAL (DISEÑO ÚNICO)
+   ======================================================= */
 .promo-banner h2 {
-  font-size: 2.3rem !important; // ambos //
+  font-size: 2.3rem !important;
   font-weight: 1000 !important;
   text-align: center;
-  color: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
+  /* Gradiente real para texto */
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   text-transform: uppercase;
   animation: subtlePulse 3s infinite ease-in-out;
   margin-top: 15px !important;
+  margin-bottom: 20px !important;
 }
+
 .btn-main {
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
   color: white !important;
-  padding: 18px 40px;
-  border-radius: 50px;
-  font-weight: 900;
-  font-size: 1.2rem;
+  padding: 14px 30px !important;
+  border-radius: 50px !important;
+  font-weight: 1000 !important;
+  font-size: 1.1rem !important;
   text-transform: uppercase;
-  border: 3px solid #000; // Estilo sticker/3D
-  box-shadow: 6px 6px 0px #000; // Sombra sólida tipo comic
+  border: 3px solid #000 !important;
+  box-shadow: 6px 6px 0px #000 !important;
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto -25px auto !important; /* El truco de la intersección */
+  position: relative;
+  z-index: 100;
   cursor: pointer;
   transition: all 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-
-  &:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 8px 8px 0px #000;
-  }
 
   &:active {
     transform: translate(4px, 4px);
-    box-shadow: 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px #000 !important;
   }
 }
 
@@ -1053,8 +1083,8 @@
 
 /* EL BOTÓN DEL ROBOT BLANCO */
 .float-btn.ai {
-  width: 65px !important;
-  height: 65px !important;
+  width: 75px !important;
+  height: 75px !important;
   border-radius: 50% !important;
   background: #ffffff !important;
   border: 3px solid #1a1a1a !important;
@@ -1067,9 +1097,9 @@
   padding: 0 !important;
 
   .bot-icon-img {
-    width: 85% !important;
-    height: 85% !important;
-    object-fit: contain !important;
+    width: 95% !important;
+    height: 95% !important;
+    object-fit: cover !important;
   }
 }
 
@@ -1160,5 +1190,27 @@
       border-radius: 10px !important;
       padding: 0 12px !important;
     }
+  }
+}
+/* ANIMACIONES GLOBALES */
+@keyframes flashShine {
+  0% {
+    left: -150%;
+  }
+  30% {
+    left: 150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+@keyframes subtlePulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
   }
 }

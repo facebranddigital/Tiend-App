@@ -216,68 +216,108 @@
     </section>
   </div>
 </div>
+<!-- BOTÓN DE SCROLL (Solo flecha estilo Bracas) -->
 <button class="bracas-float-btn" (click)="scrollToTop()">
-  <img src="assets/bracasfoodlogo.jpeg" alt="Logo" class="bracas-float-img" />
+  <!-- El mismo SVG exacto de tu navbar -->
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="bracas-icon-cart"
+  >
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+  </svg>
+
   <span class="bracas-float-badge" *ngIf="cartService.count() > 0">
     {{ cartService.count() }}
   </span>
 </button>
-  <!-- ASISTENTE VIRTUAL BRACASBOT -->
-  <!-- ASISTENTE VIRTUAL BRACASBOT -->
+
+<!-- ASISTENTE VIRTUAL CON LOGO -->
 <div class="chat-wrapper">
   <!-- Ventana del Chat -->
   <div class="chat-window" *ngIf="isOpen()">
     <div class="chat-header">
-      <div class="header-info" style="display: flex; align-items: center; gap: 8px;">
-        <img src="assets/robot-asistente.png" alt="Bot" style="width: 30px; height: 30px; border-radius: 50%; background: white; padding: 2px;">
+      <div class="header-info" style="display: flex; align-items: center; gap: 8px">
+        <!-- Logo en el cabezal -->
+        <img
+          src="assets/bracasfoodlogo.jpeg"
+          alt="Bracasfood"
+          style="width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #ff6b00"
+        />
         <p>BracasBot</p>
       </div>
       <button class="close-btn" (click)="toggleChat()">×</button>
     </div>
 
     <div class="chat-body">
-      <div *ngFor="let msg of messages()" 
-           [ngClass]="{'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model'}">
+      <div
+        *ngFor="let msg of messages()"
+        [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }"
+      >
         <div class="message-bubble">{{ msg.text }}</div>
       </div>
-      
+
       <!-- Indicador de carga -->
       <div class="bot-msg" *ngIf="isLoading()">
         <div class="message-bubble typing"><span></span><span></span><span></span></div>
       </div>
     </div>
 
-    <!-- 👇 AQUÍ AGREGAMOS EL BOTÓN DE CONFIRMACIÓN FINAL 👇 -->
-    <div *ngIf="step() === 3" style="padding: 10px; background: #f9f9f9; border-top: 1px solid #eee;">
-      <button (click)="confirmarPedidoFinal()" 
-              style="width: 100%; background: #25D366; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 8px;">
+    <!-- Botón de Confirmación -->
+    <div
+      *ngIf="step() === 3"
+      style="padding: 10px; background: #f9f9f9; border-top: 1px solid #eee"
+    >
+      <button
+        (click)="confirmarPedidoFinal()"
+        style="
+          width: 100%;
+          background: #25d366;
+          color: white;
+          border: none;
+          padding: 12px;
+          border-radius: 12px;
+          font-weight: 900;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        "
+      >
         CONFIRMAR PEDIDO EN WHATSAPP 🛵
       </button>
     </div>
 
     <div class="chat-footer">
-      <input 
-        type="text" 
-        [(ngModel)]="userInput" 
-        (keyup.enter)="sendMessage()" 
+      <input
+        type="text"
+        [(ngModel)]="userInput"
+        (keyup.enter)="sendMessage()"
         placeholder="¿Buscas bolis o pasabocas?"
         [disabled]="isLoading()"
       />
-      <button class="send-btn" (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">
+      <button
+        class="send-btn"
+        (click)="sendMessage()"
+        [disabled]="isLoading() || !userInput.trim()"
+      >
         ➤
       </button>
     </div>
   </div>
 
-  <!-- Botón Flotante con Imagen del Robot Nuevo -->
+  <!-- BOTÓN FLOTANTE CON TU LOGO -->
   <div class="action-buttons">
-    <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{'active': isOpen()}">
-      <span *ngIf="isOpen()" style="font-size: 2rem; font-weight: 900; color: white;">×</span>
-      <img *ngIf="!isOpen()" src="assets/robot-asistente.png" alt="Robot" class="bot-icon-img" />
+    <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
+      <span *ngIf="isOpen()" style="font-size: 2rem; font-weight: 900; color: white">×</span>
+      <img *ngIf="!isOpen()" src="assets/bracasfoodlogo.jpeg" alt="Logo" class="bot-icon-img" />
     </button>
   </div>
 </div>
-
-
-
-
