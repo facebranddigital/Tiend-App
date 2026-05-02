@@ -1,50 +1,57 @@
 <div class="admin-finanzas-container">
-  <header class="calc-header">
-    <h1>👨‍🍳 Ganancia Neta</h1>
-    <p>Calcular costos según ventas</p>
-  </header>
+  <!-- TÍTULO PRINCIPAL ESTILO BRACASFOOD -->
+  <div class="calc-header-main">
+    <h1>📈 Ganancia Neta</h1>
+    <p>CALCULAR COSTOS SEGÚN VENTAS</p>
+  </div>
 
   <div class="calc-grid">
-    <!-- SECCIÓN DE COMPRAS -->
+    <!-- TARJETA MATERIAS PRIMAS -->
     <div class="card">
       <div class="card-header">
         <h3>🛒 Materias Primas</h3>
-        <button class="btn-add-row" (click)="agregarInsumo()">+ Añadir</button>
+        <button class="btn-add-row" (click)="agregarInsumo()">Añadir</button>
       </div>
-      <div *ngFor="let item of insumos(); let i = index" class="editable-row">
-        <input [(ngModel)]="item.nombre" placeholder="Ej: Harina" />
-        <input type="number" [(ngModel)]="item.costo" placeholder="$" />
+
+      <div *ngFor="let insumo of insumos(); let i = index" class="editable-row">
+        <input type="text" [(ngModel)]="insumo.nombre" placeholder="Insumo" />
+        <input type="number" [(ngModel)]="insumo.costo" placeholder="0" />
         <button class="btn-del" (click)="eliminarInsumo(i)">×</button>
       </div>
+
       <div class="subtotal-row">
-        Total Compras: {{ totalInsumos() | currency: 'USD' : 'symbol' : '1.0-0' }}
+        Total Compras: <strong>{{ totalInsumos() | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
       </div>
     </div>
 
-    <!-- SECCIÓN DE PRODUCCIÓN -->
+    <!-- TARJETA UNIDADES PRODUCIDAS -->
     <div class="card">
       <div class="card-header">
         <h3>🍔 Unidades Producidas</h3>
-        <button class="btn-add-row" (click)="agregarProducto()">+ Añadir</button>
+        <button class="btn-add-row" (click)="agregarProducto()">Añadir</button>
       </div>
-      <div *ngFor="let prod of produccion(); let i = index" class="editable-row">
-        <input [(ngModel)]="prod.nombre" placeholder="Ej: Salchipapa" />
-        <input type="number" [(ngModel)]="prod.unidades" placeholder="Unds" />
+
+      <div *ngFor="let p of produccion(); let i = index" class="editable-row">
+        <input type="text" [(ngModel)]="p.nombre" placeholder="Producto Final" />
+        <input type="number" [(ngModel)]="p.unidades" placeholder="0" />
         <button class="btn-del" (click)="eliminarProducto(i)">×</button>
       </div>
-      <div class="subtotal-row">Total Unidades: {{ totalUnidades() }}</div>
+
+      <div class="subtotal-row">
+        Total Unidades: <strong>{{ totalUnidades() }}</strong>
+      </div>
     </div>
 
-    <!-- SECCIÓN DE Balance dia -->
-
+    <!-- TARJETA BALANCE DEL DÍA -->
     <div class="card summary-card highlight">
-      <h3>📊 Balance del Día</h3>
-      <div class="form-group">
-        <label>Ventas totales del día ($)</label>
-        <div class="input-modern">
-          <span>$</span>
-          <input type="number" [(ngModel)]="ventasTotalesDia" placeholder="0" />
-        </div>
+      <div class="card-header">
+        <h3>📊 Balance del Día</h3>
+      </div>
+
+      <label>VENTAS TOTALES DEL DÍA ($)</label>
+      <div class="input-modern">
+        <span>$</span>
+        <input type="number" [(ngModel)]="ventasTotalesDia" placeholder="0" />
       </div>
 
       <div class="results-box">
@@ -52,6 +59,9 @@
           <span>Costo real por unidad:</span>
           <strong>{{ costoPorUnidad() | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
         </div>
+
+        <hr style="border: 0.5px solid #eee; margin: 15px 0" />
+
         <div class="res-item main" [ngClass]="gananciaNetaDia() >= 0 ? 'plus' : 'minus'">
           <span>GANANCIA NETA:</span>
           <h2>{{ gananciaNetaDia() | currency: 'USD' : 'symbol' : '1.0-0' }}</h2>
@@ -59,4 +69,37 @@
       </div>
     </div>
   </div>
-</div>
+
+  <!-- --- ASISTENTE VIRTUAL BRACASBOT --- -->
+  <div class="chat-wrapper">
+    <!-- Ventana del Chat -->
+    <div class="chat-window" *ngIf="isOpen()">
+      <div class="chat-header">
+        <div class="header-info">
+          <span class="status-dot"></span>
+          <p>BracasBot 🍦</p>
+        </div>
+        <button class="close-btn" (click)="toggleChat()">×</button>
+      </div>
+
+      <div class="chat-body">
+        <div *ngFor="let msg of messages()" 
+             [ngClass]="{'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model'}">
+          <div class="message-bubble">{{ msg.text }}</div>
+        </div>
+        
+        <div class="bot-msg" *ngIf="isLoading()">
+          <div class="message-bubble typing"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+
+      <div class="chat-footer">
+        <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" 
+               placeholder="¿Buscas bolis o pasabocas?" [disabled]="isLoading()" />
+        <button class="send-btn" (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">
+          ➤
+        </button>
+      </div>
+    </div>
+
+    

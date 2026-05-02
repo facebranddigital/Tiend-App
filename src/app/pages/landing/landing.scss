@@ -1037,54 +1037,128 @@
   }
 }
 
-/* BOTÓN FLOTANTE (ESTILO BRACAS) */
-.bracas-float-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  width: 70px;
-  height: 70px;
-  background: white;
-  border-radius: 50%;
-  border: 3px solid #ff6b00;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+/* =======================================================
+                       Bracas Chat
+   ======================================================= */
 
-  &:hover {
-    transform: scale(1.1) rotate(10deg);
+.chat-wrapper {
+  position: fixed !important;
+  bottom: 39px !important;
+  left: 10px !important;
+  z-index: 1000000 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+}
+
+/* EL BOTÓN DEL ROBOT BLANCO */
+.float-btn.ai {
+  width: 65px !important;
+  height: 65px !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  border: 3px solid #1a1a1a !important;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+
+  .bot-icon-img {
+    width: 85% !important;
+    height: 85% !important;
+    object-fit: contain !important;
   }
 }
-.btn-main {
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-  color: white;
-  padding: 15px 30px;
-  border-radius: 50px;
-  font-weight: 800;
-  text-transform: uppercase;
-  border: none;
-  box-shadow: 0 10px 20px rgba(255, 107, 0, 0.3);
-  cursor: pointer;
-  transition: all 0.3s ease;
+
+/* LA VENTANA BLANCA (Corregida de llaves) */
+.chat-window {
+  width: 320px !important;
+  height: 450px !important;
+  background-color: white !important;
+  border: 3px solid #1a1a1a !important;
+  border-radius: 25px !important;
   display: flex !important;
-  margin: 0 auto !important; // Esto lo centra horizontalmente en el medio
+  flex-direction: column !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+  margin-bottom: 15px !important;
+  position: relative !important; /* Ya está dentro del fixed wrapper */
 
-  /* EL TRUCO MAGICO: */
-  position: relative; 
-  z-index: 10; // Para que quede por encima de ambas secciones
-  margin-bottom: -25px !important; // Empuja el botón hacia abajo
+  .chat-header {
+    background-color: #1a1a1a !important;
+    padding: 12px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-bottom: 3px solid #ff6b00 !important;
+    p {
+      color: #ff6b00 !important;
+      font-weight: 1000 !important;
+      margin: 0 !important;
+      text-transform: uppercase !important;
+    }
+    .close-btn {
+      color: white !important;
+      background: none !important;
+      border: none !important;
+      font-size: 1.5rem !important;
+      cursor: pointer !important;
+    }
+  }
 
-  .promo-banner {
-    overflow: visible !important;
-    padding-bottom: 0 !important; // Quitamos el espacio de abajo para que el botón mande
+  .chat-body {
+    flex: 1 !important;
+    background-color: #f9f9f9 !important;
+    overflow-y: auto !important;
+    padding: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    .message-bubble {
+      padding: 10px 14px !important;
+      border-radius: 18px !important;
+      font-weight: 800 !important;
+      font-size: 0.85rem !important;
+    }
+    .user-msg {
+      align-self: flex-end !important;
+      .message-bubble {
+        background-color: #ff6b00 !important;
+        color: white !important;
+      }
+    }
+    .bot-msg {
+      align-self: flex-start !important;
+      .message-bubble {
+        background-color: white !important;
+        border: 1px solid #eee !important;
+        color: #1a1a1a !important;
+      }
+    }
+  }
 
-    &:hover {
-      transform: scale(1.05);
-      box-shadow: 0 15px 25px rgba(255, 107, 0, 0.4);
+  .chat-footer {
+    background-color: white !important;
+    padding: 10px !important;
+    display: flex !important;
+    border-top: 1px solid #eee !important;
+    input {
+      flex: 1 !important;
+      border: 2px solid #eee !important;
+      border-radius: 10px !important;
+      padding: 8px !important;
+      outline: none !important;
+      font-weight: 700 !important;
+    }
+    .send-btn {
+      background-color: #ff6b00 !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 10px !important;
+      padding: 0 12px !important;
     }
   }
 }

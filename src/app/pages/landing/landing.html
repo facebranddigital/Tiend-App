@@ -222,3 +222,62 @@
     {{ cartService.count() }}
   </span>
 </button>
+  <!-- ASISTENTE VIRTUAL BRACASBOT -->
+  <!-- ASISTENTE VIRTUAL BRACASBOT -->
+<div class="chat-wrapper">
+  <!-- Ventana del Chat -->
+  <div class="chat-window" *ngIf="isOpen()">
+    <div class="chat-header">
+      <div class="header-info" style="display: flex; align-items: center; gap: 8px;">
+        <img src="assets/robot-asistente.png" alt="Bot" style="width: 30px; height: 30px; border-radius: 50%; background: white; padding: 2px;">
+        <p>BracasBot</p>
+      </div>
+      <button class="close-btn" (click)="toggleChat()">×</button>
+    </div>
+
+    <div class="chat-body">
+      <div *ngFor="let msg of messages()" 
+           [ngClass]="{'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model'}">
+        <div class="message-bubble">{{ msg.text }}</div>
+      </div>
+      
+      <!-- Indicador de carga -->
+      <div class="bot-msg" *ngIf="isLoading()">
+        <div class="message-bubble typing"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
+    <!-- 👇 AQUÍ AGREGAMOS EL BOTÓN DE CONFIRMACIÓN FINAL 👇 -->
+    <div *ngIf="step() === 3" style="padding: 10px; background: #f9f9f9; border-top: 1px solid #eee;">
+      <button (click)="confirmarPedidoFinal()" 
+              style="width: 100%; background: #25D366; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; gap: 8px;">
+        CONFIRMAR PEDIDO EN WHATSAPP 🛵
+      </button>
+    </div>
+
+    <div class="chat-footer">
+      <input 
+        type="text" 
+        [(ngModel)]="userInput" 
+        (keyup.enter)="sendMessage()" 
+        placeholder="¿Buscas bolis o pasabocas?"
+        [disabled]="isLoading()"
+      />
+      <button class="send-btn" (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">
+        ➤
+      </button>
+    </div>
+  </div>
+
+  <!-- Botón Flotante con Imagen del Robot Nuevo -->
+  <div class="action-buttons">
+    <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{'active': isOpen()}">
+      <span *ngIf="isOpen()" style="font-size: 2rem; font-weight: 900; color: white;">×</span>
+      <img *ngIf="!isOpen()" src="assets/robot-asistente.png" alt="Robot" class="bot-icon-img" />
+    </button>
+  </div>
+</div>
+
+
+
+

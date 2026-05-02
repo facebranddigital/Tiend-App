@@ -45,7 +45,7 @@
         flex: 1;
       }
       &:nth-child(2) {
-        flex: 0 0 90px;  // Izq Insumo Center Der 0 //
+        flex: 0 0 90px; // Izq Insumo Center Der 0 //
         text-align: left;
       }
     }
@@ -203,5 +203,25 @@
       font-size: 1.3rem !important;
       letter-spacing: -0.5px;
     }
+  }
+}
+/* --- TÍTULO PRINCIPAL ESTILO IZQUIERDA --- */
+.calc-header-main {
+  margin-bottom: 30px;
+
+  h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 950; // El máximo grosor posible
+    color: #1a1a1a;
+  }
+
+  p {
+    margin: 0;
+    color: #ff6b00; // El naranja de Bracasfood
+    font-weight: 950; // Súper grueso como pediste
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px; // Un poco de espacio para que se vea premium
   }
 }
