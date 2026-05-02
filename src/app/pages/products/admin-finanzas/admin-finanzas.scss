@@ -32,25 +32,47 @@
     display: flex;
     gap: 8px;
     margin-bottom: 10px;
+    width: 100%; // Asegura que use el ancho de la tarjeta
+
     input {
       padding: 10px;
       border-radius: 10px;
       border: 1.5px solid #eee;
       font-weight: 900;
+      min-width: 0; // <--- AGREGA ESTO (Vital para laptop)
+
       &:first-child {
-        flex: 2;
+        flex: 1;
       }
       &:nth-child(2) {
-        flex: 1;
+        flex: 0 0 90px;  // Izq Insumo Center Der 0 //
+        text-align: left;
       }
     }
     .btn-del {
+      // + añadir //
       background: #fee2e2;
       color: #ef4444;
       border: none;
       border-radius: 8px;
-      width: 35px;
+      flex-shrink: 0; // Evita que la X se aplaste si falta espacio
+
       cursor: pointer;
+      width: 35px; // Aumentado de 35px
+      height: 35px; // Añadido para que sea cuadrado y fácil de tocar
+      font-size: 1.7rem; // La 'x' ahora es mucho más grande
+      font-weight: 900; // 'x' bien gruesa para que combine con tu estilo
+
+      display: flex; // Centra la 'x' perfectamente
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+
+      &:active {
+        transform: scale(0.9); // Efecto visual de "hundirse" al tocarlo
+        background: #fecaca;
+      }
     }
   }
 
@@ -62,12 +84,20 @@
     border-radius: 15px;
     font-weight: 700;
     cursor: pointer;
+    white-space: nowrap; // Evita que el texto se rompa en dos líneas
+    width: 80px; // Define un ancho fijo aquí
+    height: 32px; // Opcional: define una altura para que se vea simétrico
+    // Para centrar el texto si usas ancho fijo:
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .subtotal-row {
+    // Totals //
     margin-top: 15px;
     font-weight: 800;
-    color: #ff6b00;
+    color: #060300;
     text-align: right;
   }
 
