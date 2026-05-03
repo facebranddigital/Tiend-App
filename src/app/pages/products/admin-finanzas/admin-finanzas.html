@@ -83,23 +83,34 @@
       </div>
 
       <div class="chat-body">
-        <div *ngFor="let msg of messages()" 
-             [ngClass]="{'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model'}">
+        <div
+          *ngFor="let msg of messages()"
+          [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }"
+        >
           <div class="message-bubble">{{ msg.text }}</div>
         </div>
-        
+
         <div class="bot-msg" *ngIf="isLoading()">
           <div class="message-bubble typing"><span></span><span></span><span></span></div>
         </div>
       </div>
 
       <div class="chat-footer">
-        <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" 
-               placeholder="¿Buscas bolis o pasabocas?" [disabled]="isLoading()" />
-        <button class="send-btn" (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">
+        <input
+          type="text"
+          [(ngModel)]="userInput"
+          (keyup.enter)="sendMessage()"
+          placeholder="¿Buscas bolis o pasabocas?"
+          [disabled]="isLoading()"
+        />
+        <button
+          class="send-btn"
+          (click)="sendMessage()"
+          [disabled]="isLoading() || !userInput.trim()"
+        >
           ➤
         </button>
       </div>
     </div>
-
-    
+  </div>
+</div>

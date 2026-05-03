@@ -238,16 +238,15 @@
   </span>
 </button>
 
-<!-- ASISTENTE VIRTUAL CON LOGO -->
+<!-- ASISTENTE VIRTUAL BRACASBOT: PUNTO DE VENTA -->
 <div class="chat-wrapper">
-  <!-- Ventana del Chat -->
+  <!-- VENTANA DEL CHAT -->
   <div class="chat-window" *ngIf="isOpen()">
     <div class="chat-header">
       <div class="header-info" style="display: flex; align-items: center; gap: 8px">
-        <!-- Logo en el cabezal -->
         <img
           src="assets/bracasfoodlogo.jpeg"
-          alt="Bracasfood"
+          alt="Logo"
           style="width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #ff6b00"
         />
         <p>BracasBot</p>
@@ -256,6 +255,7 @@
     </div>
 
     <div class="chat-body">
+      <!-- Bucle de mensajes históricos -->
       <div
         *ngFor="let msg of messages()"
         [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }"
@@ -263,44 +263,57 @@
         <div class="message-bubble">{{ msg.text }}</div>
       </div>
 
-      <!-- Indicador de carga -->
+      <!-- 1. SELECCIÓN DE PRODUCTO (BOTONES DINÁMICOS) -->
+      <div *ngIf="step() === 1 || step() === 3" class="bot-action-area">
+        <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #666">
+          SELECCIONA PARA AÑADIR:
+        </p>
+        <div class="bot-grid-buttons">
+          <button
+            *ngFor="let prod of products"
+            (click)="seleccionarProductoDesdeBot(prod)"
+            class="btn-bot-item"
+          >
+            + {{ prod.name }}
+          </button>
+        </div>
+
+        <!-- Botón para pasar a Dirección si ya hay algo en la lista -->
+        <button
+          *ngIf="pedidoTemporal().length > 0"
+          (click)="
+            step.set(4);
+            messages().push({
+              role: 'model',
+              text: '¡Entendido! Ahora dime tu dirección y barrio:',
+            })
+          "
+          class="btn-bot-confirm"
+        >
+          FINALIZAR Y ENVIAR 🏁
+        </button>
+      </div>
+
+      <!-- 2. RESUMEN Y BOTÓN FINAL DE WHATSAPP -->
+      <div *ngIf="step() === 6" class="confirm-container">
+        <button (click)="confirmarPedidoWhatsApp()" class="btn-whatsapp-final">
+          ENVIAR PEDIDO COMPLETO 🛵
+        </button>
+      </div>
+
+      <!-- Indicador de "Escribiendo..." -->
       <div class="bot-msg" *ngIf="isLoading()">
         <div class="message-bubble typing"><span></span><span></span><span></span></div>
       </div>
     </div>
 
-    <!-- Botón de Confirmación -->
-    <div
-      *ngIf="step() === 3"
-      style="padding: 10px; background: #f9f9f9; border-top: 1px solid #eee"
-    >
-      <button
-        (click)="confirmarPedidoFinal()"
-        style="
-          width: 100%;
-          background: #25d366;
-          color: white;
-          border: none;
-          padding: 12px;
-          border-radius: 12px;
-          font-weight: 900;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-        "
-      >
-        CONFIRMAR PEDIDO EN WHATSAPP 🛵
-      </button>
-    </div>
-
+    <!-- FOOTER: INPUT DE TEXTO -->
     <div class="chat-footer">
       <input
         type="text"
         [(ngModel)]="userInput"
         (keyup.enter)="sendMessage()"
-        placeholder="¿Buscas bolis o pasabocas?"
+        [placeholder]="step() === 2 ? 'Escribe la cantidad...' : '¿Buscas bolis o pasabocas?'"
         [disabled]="isLoading()"
       />
       <button
@@ -313,11 +326,18 @@
     </div>
   </div>
 
-  <!-- BOTÓN FLOTANTE CON TU LOGO -->
+  <!-- BOTÓN FLOTANTE DEL CHAT (LOGO) -->
   <div class="action-buttons">
     <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
-      <span *ngIf="isOpen()" style="font-size: 2rem; font-weight: 900; color: white">×</span>
-      <img *ngIf="!isOpen()" src="assets/bracasfoodlogo.jpeg" alt="Logo" class="bot-icon-img" />
+      <!-- El logo siempre está, solo cambia la opacidad si se abre -->
+      <img
+        src="assets/bracasfoodlogo.jpeg"
+        alt="Logo"
+        class="bot-icon-img"
+        [style.opacity]="isOpen() ? '0.3' : '1'"
+      />
+      <!-- La X aparece encima del logo cuando está abierto -->
+      <span *ngIf="isOpen()" class="close-icon-overlay">×</span>
     </button>
   </div>
 </div>
