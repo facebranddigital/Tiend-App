@@ -33,6 +33,7 @@
     gap: 5px !important;
     width: auto !important;
     z-index: 100 !important;
+    animation: subtlePulse 3s infinite ease-in-out;
   }
 
   /* 4. BOTONES XL PARA EL G72 */
@@ -41,6 +42,7 @@
     width: 121px !important; /* Botones más cortos para que quepan */
     height: 35px !important; /* Más grosor */
     border-radius: 25px; /* Lo que hace que las puntas sean redondas */
+    animation: subtlePulse 3s infinite ease-in-out;
 
     /* 2. EL COLOR (Degradado naranja de tu marca) */
     background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
@@ -334,7 +336,7 @@
       font-size: 0.95rem !important;
       border: 2px solid #000 !important;
       box-shadow: 0 4px 0 #8b4513 !important;
-
+      animation: subtlePulse 3s infinite ease-in-out;
       overflow: hidden;
 
       &::after {
@@ -473,7 +475,7 @@
   text-align: center !important;
 
   /* 👇 ESTO ES LO QUE HACE EL TRUCO */
-  position: relative !important;
+  position: relative !important; //inter//
   z-index: 100 !important; /* Lo pone por encima del color negro */
   margin-bottom: -19px !important; /* interception entre negro y blanco */
 
@@ -1025,7 +1027,7 @@
 }
 
 /* =======================================================
-         BANNER PROMOCIONAL (DISEÑO ÚNICO)
+                    HAZ TU PEDIDO AQUI
    ======================================================= */
 .promo-banner h2 {
   font-size: 2.3rem !important;
@@ -1312,8 +1314,8 @@
 .message-bubble {
   white-space: pre-wrap; // Mantiene los saltos de línea y espacios
   font-family: 'Courier New', Courier, monospace !important; // Fuente tipo recibo para la tabla
-  font-size: 0.85rem !important; 
-  
+  font-size: 0.85rem !important;
+
   &.bot-msg {
     border-left: 4px solid #ff6b00;
   }
@@ -1397,4 +1399,17 @@
   width: 100%;
   max-width: 100% !important;
   box-sizing: border-box;
+}
+.btn-audio {
+  position: fixed;
+  bottom: 8px; // Encima del botón de WhatsApp
+  right: 11px;
+  z-index: 999;
+  background: #ff6b00;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }

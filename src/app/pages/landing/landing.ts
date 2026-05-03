@@ -26,6 +26,36 @@ interface Message {
 export class LandingComponent {
   public cartService = inject(CartService);
 
+  private musica = new Audio('assets/hozhohimno.mp3');
+  public musicaActiva = false;
+
+  constructor() {
+    // Escuchar el primer clic en la página para activar el audio
+    const activarAudio = () => {
+      this.musica.loop = true; // Para que se repita siempre
+      this.musica.volume = 0.2; // Volumen suave para no molestar
+      this.musica
+        .play()
+        .then(() => {
+          this.musicaActiva = true;
+          document.removeEventListener('click', activarAudio);
+        })
+        .catch((err) => console.log('Audio bloqueado temporalmente'));
+    };
+
+    document.addEventListener('click', activarAudio);
+  }
+
+  toggleMusica() {
+    if (this.musica.paused) {
+      this.musica.play();
+      this.musicaActiva = true;
+    } else {
+      this.musica.pause();
+      this.musicaActiva = false;
+    }
+  }
+
   // --- SEÑALES DE ESTADO ---
   showModal = signal(false);
   showRegisterModal = signal(false);
@@ -49,6 +79,7 @@ export class LandingComponent {
   };
 
   products = [
+    // chart info //
     // BOLIS DE LECHE (Subcategorías)
     { id: 'bolis-oreo', name: 'Bolis Oreo 🍪', price: 2000, category: 'Bolis' },
     { id: 'bolis-fresa', name: 'Bolis Fresa 🍓', price: 2000, category: 'Bolis' },
@@ -167,7 +198,7 @@ export class LandingComponent {
     // 1. Encabezado limpio y corto
     let tabla = '*RESUMEN DE COMPRA*\n\n';
     tabla += '```\n';
-    tabla += 'PRODUCTO (UND)    | TOTAL\n'; 
+    tabla += 'PRODUCTO (UND)    | TOTAL\n';
     tabla += '--------------------------\n';
 
     let totalPedido = 0;
@@ -186,7 +217,7 @@ export class LandingComponent {
 
     tabla += '--------------------------\n';
     tabla += `TOTAL: $${totalPedido.toLocaleString()}\n\`\`\`\n`;
-    
+
     // 4. Datos finales sin iconos para ahorrar ancho de línea
     tabla += `Dir: ${this.datosPedido.direccion}\n`;
     tabla += `Pago: ${this.datosPedido.pago}\n\n`;
@@ -195,11 +226,10 @@ export class LandingComponent {
     this.messages.update((prev) => [...prev, { role: 'model', text: tabla }]);
     this.isLoading.set(false);
     this.step.set(6);
-}
-
+  }
 
   confirmarPedidoWhatsApp() {
-    const telefono = '573116213800';
+    const telefono = '573218119383';
     let mensaje = `*📦 NUEVO PEDIDO BRACASFOOD*\n\n`;
     mensaje += `--------------------------\n`;
 
