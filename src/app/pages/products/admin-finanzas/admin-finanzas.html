@@ -69,48 +69,4 @@
       </div>
     </div>
   </div>
-
-  <!-- --- ASISTENTE VIRTUAL BRACASBOT --- -->
-  <div class="chat-wrapper">
-    <!-- Ventana del Chat -->
-    <div class="chat-window" *ngIf="isOpen()">
-      <div class="chat-header">
-        <div class="header-info">
-          <span class="status-dot"></span>
-          <p>BracasBot 🍦</p>
-        </div>
-        <button class="close-btn" (click)="toggleChat()">×</button>
-      </div>
-
-      <div class="chat-body">
-        <div
-          *ngFor="let msg of messages()"
-          [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }"
-        >
-          <div class="message-bubble">{{ msg.text }}</div>
-        </div>
-
-        <div class="bot-msg" *ngIf="isLoading()">
-          <div class="message-bubble typing"><span></span><span></span><span></span></div>
-        </div>
-      </div>
-
-      <div class="chat-footer">
-        <input
-          type="text"
-          [(ngModel)]="userInput"
-          (keyup.enter)="sendMessage()"
-          placeholder="¿Buscas bolis o pasabocas?"
-          [disabled]="isLoading()"
-        />
-        <button
-          class="send-btn"
-          (click)="sendMessage()"
-          [disabled]="isLoading() || !userInput.trim()"
-        >
-          ➤
-        </button>
-      </div>
-    </div>
-  </div>
 </div>

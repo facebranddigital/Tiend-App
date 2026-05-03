@@ -1413,3 +1413,36 @@
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+/* FUERZA BRUTA PARA LA CURVA EN MÓVIL */
+@media screen and (max-width: 1092px) {
+  :host .cta-buttons, .cta-buttons {
+    right: 25px !important; 
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  :host .cta-buttons button:nth-child(1), .cta-buttons button:nth-child(1) {
+    transform: translateX(-22px) rotate(-10deg) !important;
+  }
+  :host .cta-buttons button:nth-child(2), .cta-buttons button:nth-child(2) {
+    transform: translateX(0px) rotate(-5deg) !important;
+  }
+  :host .cta-buttons button:nth-child(3), .cta-buttons button:nth-child(3) {
+    transform: translateX(5px) !important;
+  }
+  :host .cta-buttons button:nth-child(4), .cta-buttons button:nth-child(4) {
+    transform: translateX(-11px) rotate(5deg) !important;
+  }
+  :host .cta-buttons button:nth-child(5), .cta-buttons button:nth-child(5) {
+    transform: translateX(-32px) rotate(10deg) !important;
+  }
+
+  /* EL BOTÓN DE PEDIDO (btn-main) DENTRO DEL MEDIA PARA MÓVIL */
+  .btn-main {
+    // Aquí puedes poner ajustes de tamaño para móvil si quieres
+    &:active {
+      transform: translate(6px, 6px) !important;
+      box-shadow: 0px 0px 0px #000 !important;
+    }
+  } 
+} /* <--- Este cierra el @media */
