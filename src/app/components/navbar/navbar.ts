@@ -24,6 +24,9 @@ export class NavbarComponent {
     'teveventaspasto@gmail.com',
     'eversozinho@gmail.com',
     'facebranddigital@gmail.com',
+    'anaportilla143@gmail.com',
+    'jbravo35@estudiantes.areandina.edu.co',
+    'yjairobravo@gmail.com',
   ];
 
   // 2. Validación de Admin (Observable para el *ngIf con pipe async)

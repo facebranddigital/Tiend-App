@@ -26,7 +26,7 @@ interface Message {
 export class LandingComponent {
   public cartService = inject(CartService);
 
-  private musica = new Audio('assets/hozhohimno.mp3');
+  private musica = new Audio('assets/hozhohimno.mp');
   public musicaActiva = false;
 
   constructor() {
