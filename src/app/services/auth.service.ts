@@ -25,8 +25,8 @@ export class AuthService {
     'jbravo35@estudiantes.areandina.edu.co',
     'yjairobravo@gmail.com', // Asegurate de poner el tuyo para probar
     'teveventaspasto@gmail.com',
-    'facebranddigital@gmail.com',
     'anaportilla143@gmail.com',
+    'facebranddigital@gmail.com',
   ];
 
   /**
