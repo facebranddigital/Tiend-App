@@ -313,9 +313,20 @@
         type="text"
         [(ngModel)]="userInput"
         (keyup.enter)="sendMessage()"
-        [placeholder]="step() === 2 ? 'Escribe la cantidad...' : '¿Buscas bolis o pasabocas?'"
-        [disabled]="isLoading()"
+        [placeholder]="
+          step() === 2
+            ? 'Escribe la cantidad...'
+            : step() === 3
+              ? 'Escribe 1 (Pedir) o 2 (Pagar)...'
+              : step() === 4
+                ? 'Escribe tu dirección de entrega...'
+                : step() === 5
+                  ? 'Efectivo, Nequi o Transfiya...'
+                  : '¿En qué puedo ayudarte?'
+        "
+        [disabled]="isLoading() || step() === 6"
       />
+
       <button
         class="send-btn"
         (click)="sendMessage()"

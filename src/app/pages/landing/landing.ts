@@ -109,7 +109,6 @@ export class LandingComponent {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
-
   // --- LÓGICA DEL CHAT BOT ---
   toggleChat() {
     this.isOpen.update((v) => !v);
@@ -120,7 +119,7 @@ export class LandingComponent {
           text: '¡Hola! Soy BracasBot 🤖. ¿Qué deseas hacer hoy? \n\n 1. **Hacer un pedido** 🛵 \n 2. **Pagar mi carrito** 💸',
         },
       ]);
-      this.step.set(3);
+      this.step.set(3); // Paso de decisión inicial
     }
   }
 
@@ -130,7 +129,7 @@ export class LandingComponent {
       ...prev,
       { role: 'model', text: `¿Cuántas unidades de *${prod.name}* deseas?` },
     ]);
-    this.step.set(2);
+    this.step.set(2); // Esperando cantidad
   }
 
   sendMessage() {
@@ -147,6 +146,7 @@ export class LandingComponent {
     setTimeout(() => {
       let response = '';
 
+      // PASO 2: Recibe cantidad
       if (this.step() === 2) {
         const cantidad = parseInt(originalInput);
         if (isNaN(cantidad) || cantidad <= 0) {
@@ -161,8 +161,10 @@ export class LandingComponent {
           response = `✅ Añadido: *${cantidad}x ${prod.name}*.\nTu total va en: *$${totalActual.toLocaleString()}*.\n\n¿Deseas **añadir otro** producto o prefieres **finalizar** el pedido para pagar?`;
           this.step.set(3);
         }
-      } else if (this.step() === 3) {
-        // CORRECCIÓN: Usamos items() que es lo común en CartService
+      }
+
+      // PASO 3: Decisión - ¿Seguir comprando o Pagar?
+      else if (this.step() === 3) {
         const itemsEnWeb = this.cartService.items ? this.cartService.items().length : 0;
         const itemsEnBot = this.pedidoTemporal().length;
 
@@ -189,16 +191,25 @@ export class LandingComponent {
         } else {
           response = '¿Qué te gustaría hacer? 🤔 \n 1. **Hacer pedido** \n 2. **Pagar**';
         }
-      } else if (this.step() === 4) {
+      }
+
+      // PASO 4: Recibe dirección
+      else if (this.step() === 4) {
         this.datosPedido.direccion = originalInput;
         response =
           '📍 Dirección anotada. Ahora dime, ¿cómo prefieres pagar? (Efectivo, Nequi o Transfiya) 💸';
         this.step.set(5);
-      } else if (this.step() === 5) {
+      }
+
+      // PASO 5: Recibe pago y genera el Cuadro Final
+      else if (this.step() === 5) {
         this.datosPedido.pago = originalInput;
         this.generarResumenFinal();
-        return;
-      } else {
+        return; // El resumen maneja la respuesta
+      }
+
+      // FLUJO POR DEFECTO
+      else {
         response = '¡Hola! Soy BracasBot 🤖. ¿Deseas **hacer un pedido** o prefieres **pagar**?';
         this.step.set(3);
       }
@@ -215,19 +226,18 @@ export class LandingComponent {
 
     let totalPedido = 0;
 
-    // Unificamos el carrito de la web y el del bot
+    // Unificamos el carrito de la web y el del bot para el cuadro de texto
     const productosCombinados = [
-      ...this.cartService
-        .items()
-        .map((item: any) => ({
-          name: item.name,
-          qty: item.quantity,
-          subtotal: item.price * item.quantity,
-        })),
+      ...this.cartService.items().map((item: any) => ({
+        name: item.name,
+        qty: item.quantity,
+        subtotal: item.price * item.quantity,
+      })),
       ...this.pedidoTemporal(),
     ];
 
     productosCombinados.forEach((item) => {
+      // Limpiamos emojis para que la tabla no se descuadre en el chat
       const nameSinEmoji = item.name.replace(/[^a-zA-Z0-9 ]/g, '').trim();
       const productoConCant = `${nameSinEmoji} (x${item.qty})`;
       const rowName = productoConCant.padEnd(18, ' ');
@@ -243,7 +253,7 @@ export class LandingComponent {
 
     this.messages.update((prev) => [...prev, { role: 'model', text: tabla }]);
     this.isLoading.set(false);
-    this.step.set(6);
+    this.step.set(6); // Paso final donde aparece el botón de WhatsApp
   }
 
   confirmarPedidoWhatsApp() {
@@ -252,14 +262,13 @@ export class LandingComponent {
     mensaje += `--------------------------\n`;
 
     let total = 0;
+    // Unificamos carritos para el mensaje de salida a WhatsApp
     const productosFinales = [
-      ...this.cartService
-        .items()
-        .map((item: any) => ({
-          name: item.name,
-          qty: item.quantity,
-          subtotal: item.price * item.quantity,
-        })),
+      ...this.cartService.items().map((item: any) => ({
+        name: item.name,
+        qty: item.quantity,
+        subtotal: item.price * item.quantity,
+      })),
       ...this.pedidoTemporal(),
     ];
 
@@ -277,6 +286,7 @@ export class LandingComponent {
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
 
+    // Resetear estados después de la compra
     this.step.set(0);
     this.pedidoTemporal.set([]);
   }
@@ -302,6 +312,7 @@ export class LandingComponent {
       imageUrl: image,
       quantity: qty,
     });
+
     Swal.fire({
       title: '¡Agregado!',
       text: `${qty}x ${name} al carrito`,
@@ -315,4 +326,4 @@ export class LandingComponent {
   updateQty(amount: number) {
     this.qty2.update((v) => (v + amount < 1 ? 1 : v + amount));
   }
-} // <--- ESTA ES LA LLAVE QUE CIERRA LA CLASE Y EVITA EL ERROR TS1005
+} // <--- CIERRE DEFINITIVO DE LA CLASE LandingComponent
