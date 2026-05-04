@@ -254,13 +254,14 @@
       <button class="close-btn" (click)="toggleChat()">×</button>
     </div>
 
-    <div class="chat-body">
+    <div class="chat-body"#scrollMe>
       <!-- Bucle de mensajes históricos -->
       <div
         *ngFor="let msg of messages()"
         [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }"
       >
-        <div class="message-bubble">{{ msg.text }}</div>
+        <!-- Usamos [innerHTML] y llamamos a una función formatText -->
+        <div class="message-bubble" [innerHTML]="formatText(msg.text)"></div>
       </div>
 
       <!-- 1. SELECCIÓN DE PRODUCTO (BOTONES DINÁMICOS) -->
@@ -278,14 +279,14 @@
           </button>
         </div>
 
-        <!-- Botón para pasar a Dirección si ya hay algo en la lista -->
+        <!-- Botón para pasar a Dirección -->
         <button
           *ngIf="pedidoTemporal().length > 0"
           (click)="
             step.set(4);
             messages().push({
               role: 'model',
-              text: '¡Entendido! Ahora dime tu dirección y barrio:',
+              text: '¡Entendido! Ahora dime tu **dirección y barrio**:',
             })
           "
           class="btn-bot-confirm"
@@ -295,11 +296,13 @@
       </div>
 
       <!-- 2. RESUMEN Y BOTÓN FINAL DE WHATSAPP -->
-      <div *ngIf="step() === 6" class="confirm-container">
-        <button (click)="confirmarPedidoWhatsApp()" class="btn-whatsapp-final">
-          ENVIAR PEDIDO COMPLETO 🛵
-        </button>
-      </div>
+      <!-- Solo se muestra cuando el pedido está listo (Paso 6) -->
+<div *ngIf="step() === 6" class="p-3 text-center">
+  <button (click)="confirmarPedidoWhatsApp()" class="btn-whatsapp">
+    Confirmar pedido en WhatsApp 🚀
+  </button>
+</div>
+
 
       <!-- Indicador de "Escribiendo..." -->
       <div class="bot-msg" *ngIf="isLoading()">

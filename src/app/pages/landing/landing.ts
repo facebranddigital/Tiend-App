@@ -10,6 +10,7 @@ import {
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service'; // FIX: Faltaba este import
 import { take } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router'; 
 
 declare var Swal: any;
 
@@ -28,14 +29,23 @@ interface Message {
 export class LandingComponent {
   public cartService = inject(CartService);
   public auth = inject(AuthService);
-  private musica = new Audio('assets/relaxshiva.mp3');
+  private musica = new Audio('assets/relaxshiva.mp'); // Asegúrate que sea .mp3
   public musicaActiva = false;
-
+  private route = inject(ActivatedRoute);
   constructor() {
-    // Escuchar el primer clic en la página para activar el audio
+
+      
+    // 3. Escucha la URL para abrir el bot automáticamente
+    this.route.queryParams.subscribe(params => {
+      if (params['openbot'] === 'true') {
+        setTimeout(() => {
+          this.toggleChat(); // Abre el chat automáticamente al cargar
+        }, 1500); // Pequeño delay para que cargue la web primero
+      }
+    });
     const activarAudio = () => {
-      this.musica.loop = true; // Para que se repita siempre
-      this.musica.volume = 0.4; // Volumen suave para no molestar
+      this.musica.loop = true;
+      this.musica.volume = 0.4;
       this.musica
         .play()
         .then(() => {
@@ -44,8 +54,21 @@ export class LandingComponent {
         })
         .catch((err) => console.log('Audio bloqueado temporalmente'));
     };
-
     document.addEventListener('click', activarAudio);
+  }
+
+  // --- FUNCIÓN DE FORMATO (DEBE IR AQUÍ AFUERA) ---
+  formatText(text: string): string {
+    if (!text) return '';
+    return (
+      text
+        // 1. Bloques de código (El ticket verde)
+        .replace(/```([\s\S]*?)```/g, '<pre class="ticket">$1</pre>')
+        // 2. Negritas con **
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // 3. Énfasis o cursivas con *
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    );
   }
 
   toggleMusica() {
@@ -64,11 +87,13 @@ export class LandingComponent {
   qty2 = signal(1);
   searchTerm = signal('');
 
-  // --- SEÑALES DEL CHAT (PUNTO DE VENTA) ---
+  // --- SEÑALES DEL CHAT ---
   isOpen = signal(false);
   isLoading = signal(false);
   userInput: string = '';
   messages = signal<Message[]>([]);
+
+  // ... resto de tu código (step, pedidoTemporal, etc.)
 
   // Pasos: 0:Inicio, 1:Selección, 2:Cantidad, 3:¿Algo más?, 4:Dirección, 5:Pago, 6:Resumen Final
   step = signal(0);
@@ -109,19 +134,33 @@ export class LandingComponent {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
-  // --- LÓGICA DEL CHAT BOT ---
+ 
+   // --- LÓGICA DEL CHAT BOT ---
   toggleChat() {
     this.isOpen.update((v) => !v);
+    
+    // Si el chat se abre y no hay mensajes, lanzamos el menú de inmediato
     if (this.isOpen() && this.messages().length === 0) {
       this.messages.set([
         {
           role: 'model',
-          text: '¡Hola! Soy BracasBot 🤖. ¿Qué deseas hacer hoy? \n\n 1. **Hacer un pedido** 🛵 \n 2. **Pagar mi carrito** 💸',
+          text: '¡Hola! Soy BracasBot 🤖. Aquí tienes nuestro menú para hoy: \n\n' +
+                '1. **Hacer un pedido** 🛵 \n' +
+                '2. **Pagar un pedido** 💸'
         },
       ]);
-      this.step.set(3); // Paso de decisión inicial
+      
+      // Seteamos el paso 1 para que el bot esté listo para recibir la selección
+      this.step.set(1); 
+      
+      // Opcional: Mostrar los productos de una vez en el chat
+      this.messages.update(prev => [
+        ...prev,
+        { role: 'model', text: 'Toca un producto de la lista para agregarlo a tu pedido.' }
+      ]);
     }
   }
+
 
   seleccionarProductoDesdeBot(prod: any) {
     this.productoEnCurso.set(prod);
@@ -174,11 +213,12 @@ export class LandingComponent {
           lowerText.includes('2')
         ) {
           if (itemsEnWeb > 0 || itemsEnBot > 0) {
-            response = '¡Excelente! 🛍️ Vamos a cerrar tu pedido. Dime tu **dirección de entrega**:';
+            response =
+              '¡Excelente! 🛍️ Vamos a procesar tu pedido. Dime la **dirección de entrega**:';
             this.step.set(4);
           } else {
             response =
-              'Tu carrito todavía está vacío. 🛒 Toca un producto para **hacer tu pedido**:';
+              'Tu carrito todavía está vacío. 🛒 Escoge un producto para **ayudarte a procesar tu pago**:';
             this.step.set(1);
           }
         } else if (
@@ -219,14 +259,13 @@ export class LandingComponent {
     }, 800);
   }
   generarResumenFinal() {
-    let tabla = '*RESUMEN DE COMPRA*\n\n';
-    tabla += '```\n';
-    tabla += 'PRODUCTO (UND) | TOTAL\n';
-    tabla += '--------------------------\n';
-
     let totalPedido = 0;
+    let tabla = '--- 🧾 RECIBO DE COMPRA --- \n';
+    tabla += '```\n';
+    tabla += 'PRODUCTO       | CANT | TOTAL\n';
+    tabla += '------------------------------\n';
 
-    // Unificamos el carrito de la web y el del bot para el cuadro de texto
+    // Unificamos productos de la web y del bot
     const productosCombinados = [
       ...this.cartService.items().map((item: any) => ({
         name: item.name,
@@ -237,23 +276,25 @@ export class LandingComponent {
     ];
 
     productosCombinados.forEach((item) => {
-      // Limpiamos emojis para que la tabla no se descuadre en el chat
-      const nameSinEmoji = item.name.replace(/[^a-zA-Z0-9 ]/g, '').trim();
-      const productoConCant = `${nameSinEmoji} (x${item.qty})`;
-      const rowName = productoConCant.padEnd(18, ' ');
-      tabla += `${rowName} | $${item.subtotal.toLocaleString()}\n`;
+      // Limpiamos nombre para que no descuadre la tabla
+      const name = item.name.replace(/[^a-zA-Z0-9 ]/g, '').substring(0, 12);
+      const row = `${name.padEnd(14, ' ')} | ${item.qty.toString().padStart(4, ' ')} | $${item.subtotal.toLocaleString()}\n`;
+      tabla += row;
       totalPedido += item.subtotal;
     });
 
-    tabla += '--------------------------\n';
-    tabla += `TOTAL: $${totalPedido.toLocaleString()}\n\`\`\`\n`;
-    tabla += `Direccion: ${this.datosPedido.direccion}\n`;
-    tabla += `Pago: ${this.datosPedido.pago}\n\n`;
-    tabla += `¿Todo correcto? Dale al botón verde.`;
+    tabla += '------------------------------\n';
+    tabla += `TOTAL A PAGAR:      $${totalPedido.toLocaleString()}\n`;
+    tabla += '------------------------------\n';
+    tabla += '```\n';
+    tabla += `📍 *Entrega:* ${this.datosPedido.direccion}\n`;
+    tabla += `💳 *Método:* ${this.datosPedido.pago}\n\n`;
+    tabla += '¡Gracias por elegir **BracasFood**! 🔥';
 
+    // Enviamos el mensaje final
     this.messages.update((prev) => [...prev, { role: 'model', text: tabla }]);
     this.isLoading.set(false);
-    this.step.set(6); // Paso final donde aparece el botón de WhatsApp
+    this.step.set(6); // Fin del flujo
   }
 
   confirmarPedidoWhatsApp() {

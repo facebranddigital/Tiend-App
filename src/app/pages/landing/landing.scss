@@ -495,20 +495,16 @@
 
 /* Estilo para el botón de WhatsApp y Registro */
 .btn-whatsapp {
-  background-color: #e4890a; /* El naranja de tu marca */
+  background-color: #25D366; /* Verde WhatsApp */
   color: white;
   border: none;
-  padding: 12px 24px;
-  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 25px;
   font-weight: bold;
-  text-transform: uppercase;
-  border-radius: 8px; /* Bordes redondeados */
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-  display: center;
-  margin-top: 0.5rem;
+  box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
 }
+
 /* --- SECCIÓN CARRITO RÁPIDO (Añadir al final) --- */
 .quick-cart-container {
   display: flex;
@@ -1149,25 +1145,67 @@
     display: flex !important;
     flex-direction: column !important;
     gap: 10px !important;
+    scroll-behavior: smooth;
+
     .message-bubble {
-      padding: 10px 14px !important;
-      border-radius: 18px !important;
-      font-weight: 800 !important;
-      font-size: 0.85rem !important;
+      padding: 12px 16px !important; // Un poco más de aire
+      border-radius: 20px !important;
+      font-size: 0.9rem !important;
+      font-weight: 500 !important; // 800 es muy pesado para leer párrafos, 500 es ideal
+      line-height: 1.5 !important; // <--- CLAVE: Da espacio entre líneas de texto
+      letter-spacing: 0.2px !important; // Hace la letra más elegante
+      font-family:
+        'Inter',
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        Roboto,
+        sans-serif !important;
+      white-space: pre-line !important; // <--- CLAVE: Respeta los saltos de línea de tu bot
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important; // Sombra sutil
+
+      // Estilo para cuando usas **negritas** en el bot
+      strong,
+      b {
+        color: #ff6b00 !important;
+        font-weight: 700 !important;
+      }
+
+      // Estilo para el cuadro de "Resumen de Compra" (el que tiene ``` )
+      code,
+      pre {
+        display: block;
+        background: #222 !important;
+        color: #00ff41 !important; // Color verde terminal
+        padding: 10px !important;
+        border-radius: 8px !important;
+        font-family: 'Courier New', monospace !important;
+        font-size: 0.75rem !important;
+        margin-top: 10px !important;
+        overflow-x: auto !important;
+      }
     }
+
     .user-msg {
       align-self: flex-end !important;
       .message-bubble {
-        background-color: #ff6b00 !important;
+        background: linear-gradient(135deg, #ff8c00, #ff6b00) !important; // Gradiente sutil
         color: white !important;
+        border-bottom-right-radius: 4px !important; // Efecto colita de mensaje
+
+        strong {
+          color: white !important;
+        } // En el mensaje del usuario la negrita es blanca
       }
     }
+
     .bot-msg {
       align-self: flex-start !important;
       .message-bubble {
         background-color: white !important;
-        border: 1px solid #eee !important;
-        color: #1a1a1a !important;
+        border: 1px solid #f0f0f0 !important;
+        color: #2d3436 !important;
+        border-bottom-left-radius: 4px !important; // Efecto colita de mensaje
       }
     }
   }
@@ -1267,22 +1305,33 @@
 /* BOTÓN FINALIZAR (NEGRO) */
 .btn-bot-confirm {
   width: 100%;
-  background: #1a1a1a;
-  color: #ff6b00 !important;
-  border: 2px solid #ff6b00;
-  border-radius: 12px;
+  margin-top: 15px;
   padding: 12px;
-  font-weight: 1000;
-  font-size: 0.85rem;
+  
+  // EL ESTILO DE "HAZ TU PEDIDO AQUÍ"
+  background: linear-gradient(90deg, #ff8c00 0%, #ff5e00 100%) !important;
+  color: white !important;
+  font-weight: 800 !important;
+  font-size: 0.9rem !important;
   text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  border: none !important;
+  border-radius: 50px !important; // Forma de píldora como el de la web
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  
+  // Sombra para dar profundidad
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4) !important;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.03); // Se agranda un poquito al pasar el mouse
+    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.6) !important;
+    filter: brightness(1.1);
+  }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.98);
   }
 }
 
@@ -1399,7 +1448,33 @@
   width: 100%;
   max-width: 100% !important;
   box-sizing: border-box;
+  pre.ticket {
+    background: #fdfdfd !important; // Color papel hueso/blanco
+    color: #1a1a1a !important; // Texto negro nítido
+    padding: 15px !important;
+    border-radius: 4px !important;
+    font-family: 'Courier New', Courier, monospace !important;
+    font-size: 0.8rem !important;
+    line-height: 1.2 !important;
+    border: 1px solid #ddd !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    margin: 12px 0 !important;
+    position: relative;
+    border-left: 4px solid #ff6b00 !important; // Detalle de marca
+    overflow-x: auto !important;
+
+    // Efecto de "papel cortado" abajo
+    &::after {
+      content: '******************************';
+      display: block;
+      text-align: center;
+      color: #ccc;
+      margin-top: 10px;
+      letter-spacing: 2px;
+    }
+  }
 }
+
 .btn-audio {
   position: fixed;
   bottom: 8px; // Encima del botón de WhatsApp
@@ -1415,25 +1490,31 @@
 }
 /* FUERZA BRUTA PARA LA CURVA EN MÓVIL */
 @media screen and (max-width: 1092px) {
-  :host .cta-buttons, .cta-buttons {
-    right: 25px !important; 
+  :host .cta-buttons,
+  .cta-buttons {
+    right: 25px !important;
     display: flex !important;
     flex-direction: column !important;
   }
 
-  :host .cta-buttons button:nth-child(1), .cta-buttons button:nth-child(1) {
+  :host .cta-buttons button:nth-child(1),
+  .cta-buttons button:nth-child(1) {
     transform: translateX(-22px) rotate(-10deg) !important;
   }
-  :host .cta-buttons button:nth-child(2), .cta-buttons button:nth-child(2) {
+  :host .cta-buttons button:nth-child(2),
+  .cta-buttons button:nth-child(2) {
     transform: translateX(0px) rotate(-5deg) !important;
   }
-  :host .cta-buttons button:nth-child(3), .cta-buttons button:nth-child(3) {
+  :host .cta-buttons button:nth-child(3),
+  .cta-buttons button:nth-child(3) {
     transform: translateX(5px) !important;
   }
-  :host .cta-buttons button:nth-child(4), .cta-buttons button:nth-child(4) {
+  :host .cta-buttons button:nth-child(4),
+  .cta-buttons button:nth-child(4) {
     transform: translateX(-11px) rotate(5deg) !important;
   }
-  :host .cta-buttons button:nth-child(5), .cta-buttons button:nth-child(5) {
+  :host .cta-buttons button:nth-child(5),
+  .cta-buttons button:nth-child(5) {
     transform: translateX(-32px) rotate(10deg) !important;
   }
 
@@ -1444,5 +1525,5 @@
       transform: translate(6px, 6px) !important;
       box-shadow: 0px 0px 0px #000 !important;
     }
-  } 
+  }
 } /* <--- Este cierra el @media */
