@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
-import { map } from 'rxjs/operators';
+import { map, filter, startWith } from 'rxjs/operators'; // Agregamos startWith
 import { Observable } from 'rxjs';
 
 @Component({
@@ -14,12 +14,11 @@ import { Observable } from 'rxjs';
   styleUrl: './navbar.scss',
 })
 export class NavbarComponent {
-  // Inyectamos los servicios (públicos para usarlos en el HTML)
   public authService = inject(AuthService);
   public cartService = inject(CartService);
   private router = inject(Router);
 
-  // 1. Lista de Owners autorizados
+  // 1. LISTA DE OWNERS (Mantenela siempre actualizada aquí)
   private readonly ADMIN_EMAILS: string[] = [
     'teveventaspasto@gmail.com',
     'eversozinho@gmail.com',
@@ -29,9 +28,36 @@ export class NavbarComponent {
     'yjairobravo@gmail.com',
   ];
 
-  // 2. Validación de Admin (Observable para el *ngIf con pipe async)
+  // 2. VALIDACIÓN DE ADMIN (Para mostrar/ocultar botones)
   public isAdmin$: Observable<boolean> = this.authService.user$.pipe(
-    map((user) => !!user?.email && this.ADMIN_EMAILS.includes(user.email)),
+    map((user) => !!user?.email && this.ADMIN_EMAILS.includes(user.email.toLowerCase())),
+  );
+
+   // 3. DISPARADOR INTELIGENTE (Inspirado en el botón de Inicio)
+  logoLink$: Observable<string> = this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    startWith(null),
+    map(() => {
+      const user = this.authService.getCurrentUser();
+      const email = user?.email?.toLowerCase();
+      const isAdmin = email && this.ADMIN_EMAILS.includes(email);
+
+      // Si NO es admin, siempre a la Landing
+      if (!isAdmin) return '/';
+
+      const url = this.router.url;
+      const isAtCalculadora = url.includes('/admin/finanzas');
+      const isAtInventario = url.includes('/products');
+
+      // LÓGICA DE RETROCESO:
+      if (isAtCalculadora) return '/products'; // De Calculadora al Inventario
+      
+      // SI ESTÁ EN INVENTARIO: Usamos la lógica del botón de Inicio que viste
+      if (isAtInventario) return '/'; 
+
+      // Si está en la Landing: Entra al Inventario
+      return '/products';
+    }),
   );
 
   isSearchActive = false;
@@ -39,11 +65,10 @@ export class NavbarComponent {
   toggleSearch(): void {
     this.isSearchActive = !this.isSearchActive;
     if (this.isSearchActive) {
-      // Usamos el setTimeout para esperar a que el DOM renderice el input
       setTimeout(() => {
         const input = document.querySelector<HTMLInputElement>('.search-input');
         input?.focus();
-      }, 100); // 100ms suele ser suficiente y más rápido
+      }, 100);
     }
   }
 

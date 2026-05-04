@@ -1,9 +1,9 @@
 <nav class="navbar">
-  <!-- LOGO -->
-  <div
+  <!-- LOGO DINÁMICO: Portal Secreto -->
+  <a
     class="logo"
-    [routerLink]="(isAdmin$ | async) ? '/products' : '/'"
-    style="cursor: pointer; text-decoration: none !important"
+    [routerLink]="logoLink$ | async"
+    style="text-decoration: none !important; cursor: pointer"
   >
     <span
       style="
@@ -16,7 +16,7 @@
       "
       >Bracasfood</span
     >
-  </div>
+  </a>
 
   <!-- LINKS DE NAVEGACIÓN -->
   <ul class="nav-links">

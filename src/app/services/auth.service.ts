@@ -17,28 +17,26 @@ export class AuthService {
   private auth = inject(Auth);
   user$: Observable<User | null> = authState(this.auth);
 
-  /**
-   * 1. LISTA DE ADMINS (Agregá aquí los correos que pueden usar la calculadora)
-   */
   private readonly ADMIN_EMAILS = [
     'eversozinho@gmail.com',
     'jbravo35@estudiantes.areandina.edu.co',
-    'yjairobravo@gmail.com', // Asegurate de poner el tuyo para probar
+    'yjairobravo@gmail.com',
     'teveventaspasto@gmail.com',
     'anaportilla143@gmail.com',
     'facebranddigital@gmail.com',
   ];
 
-  /**
-   * 2. DETECTOR DE ADMIN (Esto es lo que habilita el inventario en toda la app)
-   */
   isAdmin$: Observable<boolean> = this.user$.pipe(
     map((user) => !!user && !!user.email && this.ADMIN_EMAILS.includes(user.email.toLowerCase())),
   );
 
+  // --- NUEVA FUNCIÓN PARA CORREGIR EL ERROR DEL NAVBAR ---
+  getCurrentUser() {
+    return this.auth.currentUser;
+  }
+
   async register(email: string, pass: string) {
     const credential = await createUserWithEmailAndPassword(this.auth, email, pass);
-
     if (credential.user) {
       fetch('/api/send-welcome', {
         method: 'POST',
@@ -48,7 +46,6 @@ export class AuthService {
         .then(() => console.log('✅ Solicitud de correo enviada'))
         .catch((err) => console.error('❌ Error API:', err));
     }
-
     return credential;
   }
 
