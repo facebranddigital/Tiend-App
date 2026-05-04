@@ -8,6 +8,8 @@ import {
   FormsModule,
 } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
+import { AuthService } from '../../services/auth.service'; // FIX: Faltaba este import
+import { take } from 'rxjs/operators';
 
 declare var Swal: any;
 
@@ -25,15 +27,15 @@ interface Message {
 })
 export class LandingComponent {
   public cartService = inject(CartService);
-
-  private musica = new Audio('assets/hozhohimno.mp');
+  public auth = inject(AuthService);
+  private musica = new Audio('assets/relaxshiva.mp3');
   public musicaActiva = false;
 
   constructor() {
     // Escuchar el primer clic en la página para activar el audio
     const activarAudio = () => {
       this.musica.loop = true; // Para que se repita siempre
-      this.musica.volume = 0.2; // Volumen suave para no molestar
+      this.musica.volume = 0.4; // Volumen suave para no molestar
       this.musica
         .play()
         .then(() => {
@@ -113,8 +115,12 @@ export class LandingComponent {
     this.isOpen.update((v) => !v);
     if (this.isOpen() && this.messages().length === 0) {
       this.messages.set([
-        { role: 'model', text: '¡Hola! Soy BracasBot 🤖. ¿Te gustaría hacer un pedido ahora?' },
+        {
+          role: 'model',
+          text: '¡Hola! Soy BracasBot 🤖. ¿Qué deseas hacer hoy? \n\n 1. **Hacer un pedido** 🛵 \n 2. **Pagar mi carrito** 💸',
+        },
       ]);
+      this.step.set(3);
     }
   }
 
@@ -124,7 +130,7 @@ export class LandingComponent {
       ...prev,
       { role: 'model', text: `¿Cuántas unidades de *${prod.name}* deseas?` },
     ]);
-    this.step.set(2); // Esperando cantidad
+    this.step.set(2);
   }
 
   sendMessage() {
@@ -141,85 +147,97 @@ export class LandingComponent {
     setTimeout(() => {
       let response = '';
 
-      // PASO 2: Recibe la cantidad escrita por el usuario
       if (this.step() === 2) {
         const cantidad = parseInt(originalInput);
         if (isNaN(cantidad) || cantidad <= 0) {
-          response = 'Por favor, escribe un número válido para la cantidad.';
+          response = 'Por favor, escribe un número válido para la cantidad. 🔢';
         } else {
           const prod = this.productoEnCurso();
           this.pedidoTemporal.update((prev) => [
             ...prev,
-            {
-              name: prod.name,
-              qty: cantidad,
-              subtotal: prod.price * cantidad,
-            },
+            { name: prod.name, qty: cantidad, subtotal: prod.price * cantidad },
           ]);
-          response = `✅ Añadido: *${cantidad}x ${prod.name}*.\n\n¿Deseas añadir otro producto o prefieres finalizar el pedido?`;
+          const totalActual = this.pedidoTemporal().reduce((acc, item) => acc + item.subtotal, 0);
+          response = `✅ Añadido: *${cantidad}x ${prod.name}*.\nTu total va en: *$${totalActual.toLocaleString()}*.\n\n¿Deseas **añadir otro** producto o prefieres **finalizar** el pedido para pagar?`;
           this.step.set(3);
         }
-      }
-      // PASO 4: Recibe dirección
-      else if (this.step() === 4) {
+      } else if (this.step() === 3) {
+        // CORRECCIÓN: Usamos items() que es lo común en CartService
+        const itemsEnWeb = this.cartService.items ? this.cartService.items().length : 0;
+        const itemsEnBot = this.pedidoTemporal().length;
+
+        if (
+          lowerText.includes('pagar') ||
+          lowerText.includes('finalizar') ||
+          lowerText.includes('2')
+        ) {
+          if (itemsEnWeb > 0 || itemsEnBot > 0) {
+            response = '¡Excelente! 🛍️ Vamos a cerrar tu pedido. Dime tu **dirección de entrega**:';
+            this.step.set(4);
+          } else {
+            response =
+              'Tu carrito todavía está vacío. 🛒 Toca un producto para **hacer tu pedido**:';
+            this.step.set(1);
+          }
+        } else if (
+          lowerText.includes('pedido') ||
+          lowerText.includes('añadir') ||
+          lowerText.includes('1')
+        ) {
+          response = '¡Claro! 🛵 Toca el producto que quieres añadir a tu lista:';
+          this.step.set(1);
+        } else {
+          response = '¿Qué te gustaría hacer? 🤔 \n 1. **Hacer pedido** \n 2. **Pagar**';
+        }
+      } else if (this.step() === 4) {
         this.datosPedido.direccion = originalInput;
         response =
           '📍 Dirección anotada. Ahora dime, ¿cómo prefieres pagar? (Efectivo, Nequi o Transfiya) 💸';
         this.step.set(5);
-      }
-      // PASO 5: Recibe pago y genera el Cuadro Final
-      else if (this.step() === 5) {
+      } else if (this.step() === 5) {
         this.datosPedido.pago = originalInput;
         this.generarResumenFinal();
         return;
-      }
-      // FLUJO INICIAL
-      else {
-        if (
-          lowerText.includes('pedido') ||
-          lowerText.includes('quiero') ||
-          lowerText.includes('comprar') ||
-          lowerText.includes('si')
-        ) {
-          response = '¡Excelente! 🛵 Toca el producto que quieres añadir a tu lista:';
-          this.step.set(1);
-        } else {
-          response =
-            '¡Hola! Soy BracasBot. Puedes decirme "Quiero un pedido" para guiarte en tu compra. 🍦';
-        }
+      } else {
+        response = '¡Hola! Soy BracasBot 🤖. ¿Deseas **hacer un pedido** o prefieres **pagar**?';
+        this.step.set(3);
       }
 
       this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
       this.isLoading.set(false);
     }, 800);
   }
-
   generarResumenFinal() {
-    // 1. Encabezado limpio y corto
     let tabla = '*RESUMEN DE COMPRA*\n\n';
     tabla += '```\n';
-    tabla += 'PRODUCTO (UND)    | TOTAL\n';
+    tabla += 'PRODUCTO (UND) | TOTAL\n';
     tabla += '--------------------------\n';
 
     let totalPedido = 0;
-    this.pedidoTemporal().forEach((item) => {
-      // 2. Limpiamos el nombre: dejamos solo letras, números y espacios
+
+    // Unificamos el carrito de la web y el del bot
+    const productosCombinados = [
+      ...this.cartService
+        .items()
+        .map((item: any) => ({
+          name: item.name,
+          qty: item.quantity,
+          subtotal: item.price * item.quantity,
+        })),
+      ...this.pedidoTemporal(),
+    ];
+
+    productosCombinados.forEach((item) => {
       const nameSinEmoji = item.name.replace(/[^a-zA-Z0-9 ]/g, '').trim();
-
       const productoConCant = `${nameSinEmoji} (x${item.qty})`;
-
-      // 3. Reducimos el padding a 18 para que el TOTAL no se desborde a la derecha
       const rowName = productoConCant.padEnd(18, ' ');
-
       tabla += `${rowName} | $${item.subtotal.toLocaleString()}\n`;
       totalPedido += item.subtotal;
     });
 
     tabla += '--------------------------\n';
     tabla += `TOTAL: $${totalPedido.toLocaleString()}\n\`\`\`\n`;
-
-    // 4. Datos finales sin iconos para ahorrar ancho de línea
-    tabla += `Dir: ${this.datosPedido.direccion}\n`;
+    tabla += `Direccion: ${this.datosPedido.direccion}\n`;
     tabla += `Pago: ${this.datosPedido.pago}\n\n`;
     tabla += `¿Todo correcto? Dale al botón verde.`;
 
@@ -234,7 +252,18 @@ export class LandingComponent {
     mensaje += `--------------------------\n`;
 
     let total = 0;
-    this.pedidoTemporal().forEach((item) => {
+    const productosFinales = [
+      ...this.cartService
+        .items()
+        .map((item: any) => ({
+          name: item.name,
+          qty: item.quantity,
+          subtotal: item.price * item.quantity,
+        })),
+      ...this.pedidoTemporal(),
+    ];
+
+    productosFinales.forEach((item) => {
       mensaje += `• *${item.qty}x* ${item.name} ($${item.subtotal.toLocaleString()})\n`;
       total += item.subtotal;
     });
@@ -248,12 +277,10 @@ export class LandingComponent {
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
 
-    // Resetear todo tras enviar
     this.step.set(0);
     this.pedidoTemporal.set([]);
   }
 
-  // --- FUNCIONES DE LA LANDING (CARRITO NORMAL) ---
   hacerPedidoWhatsApp() {
     this.isOpen.set(true);
     this.messages.update((prev) => [
@@ -285,28 +312,7 @@ export class LandingComponent {
     });
   }
 
-  // --- FORMULARIO DE REGISTRO ---
-  registerForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl(''),
-  });
-
-  onSubmit() {
-    if (this.registerForm.valid) {
-      this.confirmarPedidoWhatsApp();
-      this.showRegisterModal.set(false);
-      this.registerForm.reset();
-    } else {
-      this.registerForm.markAllAsTouched();
-    }
-  }
-
-  toggleRegisterModal() {
-    this.showRegisterModal.update((v) => !v);
-  }
   updateQty(amount: number) {
     this.qty2.update((v) => (v + amount < 1 ? 1 : v + amount));
   }
-}
+} // <--- ESTA ES LA LLAVE QUE CIERRA LA CLASE Y EVITA EL ERROR TS1005
