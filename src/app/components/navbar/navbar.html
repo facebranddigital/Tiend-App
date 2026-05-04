@@ -1,7 +1,21 @@
 <nav class="navbar">
   <!-- LOGO -->
-  <div class="logo" routerLink="/" aria-label="Volver al inicio">
-    <span>Bracasfood</span>
+  <div
+    class="logo"
+    [routerLink]="(isAdmin$ | async) ? '/products' : '/'"
+    style="cursor: pointer; text-decoration: none !important"
+  >
+    <span
+      style="
+        display: inline-block;
+        background: linear-gradient(95deg, #ff6b00, #ffb800);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 1000;
+      "
+      >Bracasfood</span
+    >
   </div>
 
   <!-- LINKS DE NAVEGACIÓN -->
@@ -42,14 +56,21 @@
 
     <!-- CARRITO: Reactividad con Signals -->
     <button class="cart-btn-custom" routerLink="/cart" aria-label="Carrito">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="9" cy="21" r="1"></circle>
-    <circle cx="20" cy="21" r="1"></circle>
-    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-  </svg>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
       <!-- El badge se actualiza automáticamente gracias a la Signal count() -->
       <span class="cart-badge-custom" *ngIf="cartService.count() > 0">
-    {{ cartService.count() }}
+        {{ cartService.count() }}
       </span>
     </button>
 

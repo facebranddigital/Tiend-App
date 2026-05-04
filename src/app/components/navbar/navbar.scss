@@ -16,7 +16,7 @@
 }
 
 .logo span {
-  font-size: 1.2rem;
+  font-size: 2rem;
   font-weight: bold;
   background: linear-gradient(95deg, #ff6b00, #ffb800);
   -webkit-background-clip: text;
@@ -63,11 +63,11 @@
 }
 
 .cart-btn-custom svg {
-    stroke: #ffffff !important; // Blanco para que resalte en el fondo oscuro
-    width: 26px !important;
-    height: 26px !important;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); // Sombra para que tenga relieve
-  }
+  stroke: #ffffff !important; // Blanco para que resalte en el fondo oscuro
+  width: 26px !important;
+  height: 26px !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)); // Sombra para que tenga relieve
+}
 
 /* --- AJUSTE BURBUJA CARRITO --- */
 .cart-badge-custom {
@@ -84,7 +84,6 @@
 }
 
 .login-btn {
-  
   background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
   color: white !important;
   border: none !important;
@@ -108,7 +107,11 @@
 }
 /* --- BOTÓN SALIR (LOGOUT) --- */
 .logout-btn-styled {
-  background: linear-gradient(95deg, #ff4112 20%, #ff6b00 80%) !important; // Un tono más rojizo pero pro
+  background: linear-gradient(
+    95deg,
+    #ff4112 20%,
+    #ff6b00 80%
+  ) !important; // Un tono más rojizo pero pro
   border: none !important;
   color: white !important;
   width: 42px;
@@ -127,9 +130,9 @@
     transform: rotate(-10deg); // Un toque juguetón al salir
 
     svg {
-    stroke: white !important; // Icono blanco
-    width: 20px !important;
-    height: 20px !important;
+      stroke: white !important; // Icono blanco
+      width: 20px !important;
+      height: 20px !important;
     }
   }
 }
@@ -146,12 +149,12 @@
 
   .logo span {
     /* Evita que el nombre choque con los iconos */
-    font-size: 1.2rem !important; /* Bracasfood más pequeño */
+    font-size: 1.8rem !important; /* Bracasfood más pequeño */
     letter-spacing: 0px;
   }
 
   .nav-links {
-    display: none !important; /* Escondemos los links de texto */
+    display: none !important; /* Escondemos los links8 de texto */
   }
 
   .nav-actions {
@@ -171,8 +174,8 @@
   }
 }
 
-  .logout-btn-styled {
-    padding: 10px 7px !important;
+.logout-btn-styled {
+  padding: 10px 7px !important;
 }
 
 /* --- LÓGICA DE BÚSQUEDA EXPANDIBLE --- */

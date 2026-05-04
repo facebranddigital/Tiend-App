@@ -11,20 +11,20 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // 1. LISTA ACTUALIZADA (Copiada de tu AuthService)
+  //  LISTA  (permisos como owner)
   const ADMIN_EMAILS = [
     'eversozinho@gmail.com',
     'jbravo35@estudiantes.areandina.edu.co',
     'yjairobravo@gmail.com',
     'teveventaspasto@gmail.com',
     'facebranddigital@gmail.com',
-    'anaportilla143@gmail.com',
+    'anaportilla143@gmail.com', // sin la fucking , al final //
   ];
 
   return authService.user$.pipe(
     take(1),
     map((user) => {
-      // 2. Verificamos con la lista completa
+      //  Verificamos con la lista completa
       if (user && user.email && ADMIN_EMAILS.includes(user.email.toLowerCase())) {
         return true;
       } else {
