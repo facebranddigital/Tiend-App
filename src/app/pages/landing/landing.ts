@@ -29,7 +29,7 @@ interface Message {
 export class LandingComponent {
   public cartService = inject(CartService);
   public auth = inject(AuthService);
-  private musica = new Audio('assets/relaxshiva.mp'); // Asegúrate que sea .mp3
+  private musica = new Audio('assets/relaxshiva.mp3'); // Asegúrate que sea .mp3
   public musicaActiva = false;
   private route = inject(ActivatedRoute);
   constructor() {
