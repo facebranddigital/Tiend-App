@@ -1,363 +1,232 @@
 <div id="top" class="landing-container">
-  <div class="landing-container">
-    <!-- HERO SECTION -->
-    <section class="hero">
-      <img src="assets/bracasfoodlogo.jpeg" alt="Bracas Food Logo" class="hero-img" />
-      <div class="hero-overlay"></div>
-      <!-- Envolvemos todo en un contenedor flexible -->
-      <div class="hero-wrapper">
-        <div class="hero-logo-space">
-          <!-- Dejamos este espacio vacío para que el logo respire -->
-        </div>
-
-        <div class="hero-content">
-          <div class="cta-buttons">
-            <button class="btn-primary" (click)="scrollTo('bolis-leche')">Bolis Leche</button>
-            <button class="btn-secondary" (click)="scrollTo('papitas')">Papitas BF</button>
-            <button class="btn-secondary" (click)="scrollTo('tocineta')">Tocineta BF</button>
-            <button class="btn-primary" (click)="scrollTo('platanos')">Platanos BF</button>
-            <button class="btn-primary" (click)="scrollTo('bolis-natural')">Bolis Natural</button>
-          </div>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <img src="assets/bracasfoodlogo.jpeg" alt="Bracas Food Logo" class="hero-img" />
+    <div class="hero-overlay"></div>
+    <div class="hero-wrapper">
+      <div class="hero-logo-space"></div>
+      <div class="hero-content">
+        <div class="cta-buttons">
+          <button class="btn-primary" (click)="scrollTo('bolis-leche')">Bolis Leche</button>
+          <button class="btn-secondary" (click)="scrollTo('papitas')">Papitas BF</button>
+          <button class="btn-secondary" (click)="scrollTo('tocineta')">Tocineta BF</button>
+          <button class="btn-primary" (click)="scrollTo('platanos')">Platanos BF</button>
+          <button class="btn-primary" (click)="scrollTo('bolis-natural')">Bolis Natural</button>
         </div>
       </div>
-    </section>
-    <!-- Aquí se cierra el Hero correctamente -->
-
-    <div class="promo-banner">
-      <h2>¡Consiente tu paladar!<i class="fas fa-apple-alt"></i></h2>
     </div>
+  </section>
 
-    <!-- PRODUCTOS -->
-    <section class="featured-products">
-      <div class="product-grid">
-        <!-- Producto 1: Platanos -->
-        <div class="product-card" id="platanos" #pasabocasCard>
-          <div class="product-image">
-            <img src="assets/bracasfood2.webp" alt="Platanos BF" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <div class="text-group">
-              <h3>Platanos BF</h3>
-              <span class="price">$2.500</span>
-            </div>
-            <div class="purchase-row">
-              <div class="qty-mini">
-                <button
-                  (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()"
-                >
-                  -
-                </button>
-                <input #pQty1 type="number" value="1" readonly />
-                <button (click)="pQty1.value = (+pQty1.value + 1).toString()">+</button>
-              </div>
-              <button
-                class="add-btn"
-                (click)="
-                  onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)
-                "
-              >
-                COMPRAR
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Producto 2: Bolis de Leche -->
-        <div class="product-card" id="bolis-leche" #bolisLeche>
-          <div class="product-image">
-            <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <div class="text-group">
-              <h3>Bolis de Leche</h3>
-              <span class="price">$2.000</span>
-            </div>
-            <div class="purchase-row">
-              <div class="qty-mini">
-                <button
-                  (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()"
-                >
-                  -
-                </button>
-                <input #pQty2 type="number" value="1" readonly />
-                <button (click)="pQty2.value = (+pQty2.value + 1).toString()">+</button>
-              </div>
-              <button
-                class="add-btn"
-                (click)="
-                  onAddToCart(
-                    'Bolis de Leche',
-                    2000,
-                    'Pasabocas',
-                    'assets/bracasfoodbolis.webp',
-                    pQty2.value
-                  )
-                "
-              >
-                COMPRAR
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Producto 3: Bolis Naturales -->
-        <div class="product-card" id="bolis-natural" #bolisNatural>
-          <div class="product-image">
-            <img src="assets/bolismorados.webp" alt="Bolis Fruta Natural" loading="lazy" />
-            <span class="badge">-20%</span>
-          </div>
-          <div class="product-info">
-            <div class="text-group">
-              <h3>Bolis Naturales</h3>
-              <span class="price">$1.500</span>
-            </div>
-            <div class="purchase-row">
-              <div class="qty-mini">
-                <button
-                  (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()"
-                >
-                  -
-                </button>
-                <input #pQty3 type="number" value="1" readonly />
-                <button (click)="pQty3.value = (+pQty3.value + 1).toString()">+</button>
-              </div>
-              <button
-                class="add-btn"
-                (click)="
-                  onAddToCart(
-                    'Bolis Naturales',
-                    1500,
-                    'Postres',
-                    'assets/bolismorados.webp',
-                    pQty3.value
-                  )
-                "
-              >
-                COMPRAR
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Producto 4: Papitas BF -->
-        <div class="product-card" id="papitas" #papitasCard>
-          <div class="product-image">
-            <img src="assets/papasbf.webp" alt="Papitas BF" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <div class="text-group">
-              <h3>Papitas BF</h3>
-              <span class="price">$2.500</span>
-            </div>
-            <div class="purchase-row">
-              <div class="qty-mini">
-                <button
-                  (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()"
-                >
-                  -
-                </button>
-                <input #pQty4 type="number" value="1" readonly />
-                <button (click)="pQty4.value = (+pQty4.value + 1).toString()">+</button>
-              </div>
-              <button
-                class="add-btn"
-                (click)="
-                  onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)
-                "
-              >
-                COMPRAR
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Producto 5: Tocineta BF -->
-        <div class="product-card" id="tocineta" #tocinetaCard>
-          <div class="product-image">
-            <img src="assets/tocinetabf.webp" alt="Tocineta BF" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <div class="text-group">
-              <h3>Tocineta BF</h3>
-              <span class="price">$2.500</span>
-            </div>
-            <div class="purchase-row">
-              <div class="qty-mini">
-                <button
-                  (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()"
-                >
-                  -
-                </button>
-                <input #pQty5 type="number" value="1" readonly />
-                <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
-              </div>
-              <button
-                class="add-btn"
-                (click)="
-                  onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)
-                "
-              >
-                COMPRAR
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- BANNER FINAL -->
-    <section class="promo-banner secondary">
-      <div class="promo-content">
-        <h2>¡Consiente tu paladar!</h2>
-        <button class="btn-main" (click)="hacerPedidoWhatsApp()">
-          HAZ TU PEDIDO AQUÍ <i class="fas fa-arrow-right"></i>
-        </button>
-      </div>
-    </section>
+  <div class="promo-banner">
+    <h2>¡Consiente tu paladar! <i class="fas fa-apple-alt"></i></h2>
   </div>
-</div>
-<!-- BOTÓN DE SCROLL (Solo flecha estilo Bracas) -->
-<button class="bracas-float-btn" (click)="scrollToTop()">
-  <!-- El mismo SVG exacto de tu navbar -->
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    class="bracas-icon-cart"
-  >
-    <circle cx="9" cy="21" r="1"></circle>
-    <circle cx="20" cy="21" r="1"></circle>
-    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-  </svg>
 
-  <span class="bracas-float-badge" *ngIf="cartService.count() > 0">
-    {{ cartService.count() }}
-  </span>
-</button>
-
-<!-- ASISTENTE VIRTUAL BRACASBOT: PUNTO DE VENTA -->
-<div class="chat-wrapper">
-  <!-- VENTANA DEL CHAT -->
-  <div class="chat-window" *ngIf="isOpen()">
-    <div class="chat-header">
-      <div class="header-info" style="display: flex; align-items: center; gap: 8px">
-        <img
-          src="assets/bracasfoodlogo.jpeg"
-          alt="Logo"
-          style="width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #ff6b00"
-        />
-        <p>BracasBot</p>
+  <!-- SECCIÓN DE PRODUCTOS -->
+  <section class="featured-products">
+    <div class="product-grid">
+      <!-- Platanos BF -->
+      <div class="product-card" id="platanos">
+        <div class="product-image">
+          <img src="assets/bracasfood2.webp" alt="Platanos BF" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <div class="text-group">
+            <h3>Platanos BF</h3>
+            <span class="price">$2.500</span>
+          </div>
+          <div class="purchase-row">
+            <div class="qty-mini">
+              <button (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()">-</button>
+              <input #pQty1 type="number" value="1" readonly />
+              <button (click)="pQty1.value = (+pQty1.value + 1).toString()">+</button>
+            </div>
+            <button class="add-btn" (click)="onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)">
+              COMPRAR
+            </button>
+          </div>
+        </div>
       </div>
-      <button class="close-btn" (click)="toggleChat()">×</button>
+
+      <!-- Bolis de Leche -->
+      <div class="product-card" id="bolis-leche">
+        <div class="product-image">
+          <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <div class="text-group">
+            <h3>Bolis de Leche</h3>
+            <span class="price">$2.000</span>
+          </div>
+          <div class="purchase-row">
+            <div class="qty-mini">
+              <button (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()">-</button>
+              <input #pQty2 type="number" value="1" readonly />
+              <button (click)="pQty2.value = (+pQty2.value + 1).toString()">+</button>
+            </div>
+            <button class="add-btn" (click)="onAddToCart('Bolis de Leche', 2000, 'Postres', 'assets/bracasfoodbolis.webp', pQty2.value)">
+              COMPRAR
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bolis Naturales -->
+      <div class="product-card" id="bolis-natural">
+        <div class="product-image">
+          <img src="assets/bolismorados.webp" alt="Bolis Naturales" loading="lazy" />
+          <span class="badge">-20%</span>
+        </div>
+        <div class="product-info">
+          <div class="text-group">
+            <h3>Bolis Naturales</h3>
+            <span class="price">$1.500</span>
+          </div>
+          <div class="purchase-row">
+            <div class="qty-mini">
+              <button (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()">-</button>
+              <input #pQty3 type="number" value="1" readonly />
+              <button (click)="pQty3.value = (+pQty3.value + 1).toString()">+</button>
+            </div>
+            <button class="add-btn" (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp', pQty3.value)">
+              COMPRAR
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Papitas BF -->
+      <div class="product-card" id="papitas">
+        <div class="product-image">
+          <img src="assets/papasbf.webp" alt="Papitas BF" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <div class="text-group">
+            <h3>Papitas BF</h3>
+            <span class="price">$2.500</span>
+          </div>
+          <div class="purchase-row">
+            <div class="qty-mini">
+              <button (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()">-</button>
+              <input #pQty4 type="number" value="1" readonly />
+              <button (click)="pQty4.value = (+pQty4.value + 1).toString()">+</button>
+            </div>
+            <button class="add-btn" (click)="onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)">
+              COMPRAR
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tocineta BF -->
+      <div class="product-card" id="tocineta">
+        <div class="product-image">
+          <img src="assets/tocinetabf.webp" alt="Tocineta BF" loading="lazy" />
+        </div>
+        <div class="product-info">
+          <div class="text-group">
+            <h3>Tocineta BF</h3>
+            <span class="price">$2.500</span>
+          </div>
+          <div class="purchase-row">
+            <div class="qty-mini">
+              <button (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()">-</button>
+              <input #pQty5 type="number" value="1" readonly />
+              <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
+            </div>
+            <button class="add-btn" (click)="onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)">
+              COMPRAR
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="chat-body" #scrollMe>
-      <!-- Bucle de mensajes históricos -->
-      <div
-        *ngFor="let msg of messages()"
-        [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }"
-      >
-        <div class="message-bubble" [innerHTML]="formatText(msg.text)"></div>
+  <!-- BANNER FINAL -->
+  <section class="promo-banner secondary">
+    <div class="promo-content">
+      <h2>¡Consiente tu paladar!</h2>
+      <button class="btn-main" (click)="hacerPedidoWhatsApp()">
+        HAZ TU PEDIDO AQUÍ <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- BOTÓN DE SCROLL (Carrito flotante) -->
+  <button class="bracas-float-btn" (click)="scrollToTop()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="bracas-icon-cart">
+      <circle cx="9" cy="21" r="1"></circle>
+      <circle cx="20" cy="21" r="1"></circle>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+    </svg>
+    <span class="bracas-float-badge" *ngIf="cartService.count() > 0">
+      {{ cartService.count() }}
+    </span>
+  </button>
+
+  <!-- ASISTENTE VIRTUAL BRACASBOT -->
+  <div class="chat-wrapper">
+    <div class="chat-window" *ngIf="isOpen()">
+      <div class="chat-header">
+        <div class="header-info" style="display: flex; align-items: center; gap: 8px">
+          <img src="assets/bracasfoodlogo.jpeg" alt="Logo" style="width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #ff6b00" />
+          <p>BracasBot</p>
+        </div>
+        <button class="close-btn" (click)="toggleChat()">×</button>
       </div>
 
-      <!-- 1. SELECCIÓN DE PRODUCTO (BOTONES DINÁMICOS) -->
-      <div *ngIf="step() === 1 || step() === 3" class="bot-action-area">
-        <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #666">
-          SELECCIONA PARA AÑADIR:
-        </p>
-        <div class="bot-grid-buttons">
-          <button
-            *ngFor="let prod of products"
-            (click)="seleccionarProductoDesdeBot(prod)"
-            class="btn-bot-item"
-          >
-            + {{ prod.name }}
+      <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+        <div *ngFor="let msg of messages()" [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }">
+          <div class="message-bubble" [innerHTML]="formatText(msg.text)"></div>
+        </div>
+
+        <!-- Botones dinámicos del bot -->
+        <div *ngIf="step() === 1 || step() === 3" class="bot-action-area">
+          <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #666">SELECCIONA PARA AÑADIR:</p>
+          <div class="bot-grid-buttons">
+            <button *ngFor="let prod of products" (click)="seleccionarProductoDesdeBot(prod)" class="btn-bot-item">
+              + {{ prod.name }}
+            </button>
+          </div>
+          <button *ngIf="cartService.count() > 0" (click)="step.set(4)" class="btn-bot-confirm">
+            FINALIZAR Y PAGAR 🏁
           </button>
         </div>
 
-        <!-- Botón rápido para finalizar desde los productos -->
-        <button
-          *ngIf="pedidoTemporal().length > 0 || cartService.items().length > 0"
-          (click)="step.set(4)"
-          class="btn-bot-confirm"
-        >
-          FINALIZAR Y PAGAR 🏁
-        </button>
+        <!-- Acciones finales de pago -->
+        <div *ngIf="step() === 6" class="p-3 text-center">
+          <button *ngIf="datosPedido.pago.toLowerCase().includes('nequi')" (click)="confirmarPagoEnWhatsApp()" class="btn-whatsapp" style="background-color: #643193 !important">
+            Confirmar y recibir QR en WhatsApp 🚀
+          </button>
+          <button *ngIf="!datosPedido.pago.toLowerCase().includes('nequi')" (click)="confirmarPedidoWhatsApp()" class="btn-whatsapp">
+            Confirmar pedido en WhatsApp 🛵
+          </button>
+        </div>
+
+        <div class="bot-msg" *ngIf="isLoading()">
+          <div class="message-bubble typing"><span></span><span></span><span></span></div>
+        </div>
       </div>
 
-      <!-- 2. ACCIONES FINALES (PASO 6) -->
-      <div *ngIf="step() === 6" class="p-3">
-        <!-- BOTÓN PAGO EXPRESS (Nequi + Keyword para IA) -->
-        <button
-          *ngIf="datosPedido.pago.toLowerCase().includes('nequi')"
-          (click)="confirmarPagoEnWhatsApp()"
-          class="btn-whatsapp"
-          style="background-color: #643193 !important"
-        >
-          Confirmar y recibir QR en WhatsApp 🚀
-        </button>
-
-        <!-- BOTÓN PEDIDO NORMAL (Efectivo) -->
-        <button
-          *ngIf="!datosPedido.pago.toLowerCase().includes('nequi')"
-          (click)="confirmarPedidoWhatsApp()"
-          class="btn-whatsapp"
-        >
-          Confirmar pedido en WhatsApp 🛵
-        </button>
-      </div>
-
-      <!-- Indicador de "Escribiendo..." -->
-      <div class="bot-msg" *ngIf="isLoading()">
-        <div class="message-bubble typing"><span></span><span></span><span></span></div>
+      <div class="chat-footer">
+        <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" 
+               [placeholder]="step() === 2 ? '¿Cuántos quieres?' : step() === 4 ? 'Dime tu dirección...' : 'Escribe aquí...'" 
+               [disabled]="isLoading() || step() === 6" />
+        <button class="send-btn" (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">➤</button>
       </div>
     </div>
 
-    <!-- FOOTER: INPUT DE TEXTO -->
-    <div class="chat-footer">
-      <input
-        type="text"
-        [(ngModel)]="userInput"
-        (keyup.enter)="sendMessage()"
-        [placeholder]="
-          step() === 2
-            ? '¿Cuántos quieres?'
-            : step() === 4
-              ? 'Dime tu dirección y barrio...'
-              : step() === 5
-                ? '¿Efectivo o Nequi?'
-                : '¿Cómo puedo ayudarte?'
-        "
-        [disabled]="isLoading() || step() === 6"
-      />
-
-      <button
-        class="send-btn"
-        (click)="sendMessage()"
-        [disabled]="isLoading() || !userInput.trim()"
-      >
-        ➤
+    <!-- Botón flotante para abrir chat -->
+    <div class="action-buttons">
+      <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
+        <img src="assets/bracasfoodlogo.jpeg" alt="Logo" class="bot-icon-img" [style.opacity]="isOpen() ? '0.3' : '1'" />
+        <span *ngIf="isOpen()" class="close-icon-overlay">×</span>
       </button>
     </div>
   </div>
 
-  <!-- BOTÓN FLOTANTE DEL CHAT (LOGO) -->
-  <div class="action-buttons">
-    <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
-      <img
-        src="assets/bracasfoodlogo.jpeg"
-        alt="Logo"
-        class="bot-icon-img"
-        [style.opacity]="isOpen() ? '0.3' : '1'"
-      />
-      <span *ngIf="isOpen()" class="close-icon-overlay">×</span>
-    </button>
-  </div>
+  <!-- Control de música -->
+  <button (click)="toggleMusica()" class="btn-audio">
+    {{ musicaActiva ? '🔊' : '🔇' }}
+  </button>
 </div>
-
-<button (click)="toggleMusica()" class="btn-audio">
-  {{ musicaActiva ? '🔊' : '🔇' }}
-</button>

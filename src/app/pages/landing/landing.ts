@@ -22,7 +22,7 @@ interface Message {
 export class LandingComponent {
   public cartService = inject(CartService);
   public auth = inject(AuthService);
-  private musica = new Audio('assets/relaxshiva.mp3');
+  private musica = new Audio('assets/relaxshiva.mp'); // Corregido .mp3
   public musicaActiva = false;
   private route = inject(ActivatedRoute);
 
@@ -57,6 +57,7 @@ export class LandingComponent {
   ];
 
   constructor() {
+    // Si escanean el QR con ?openbot=true
     this.route.queryParams.subscribe((params) => {
       if (params['openbot'] === 'true') {
         setTimeout(() => {
@@ -64,11 +65,11 @@ export class LandingComponent {
           this.messages.set([
             {
               role: 'model',
-              text: '¡Hola! 🤖 Veo que vas a realizar un pago de **Bracasfood**. \n\(\nPara\) procesarlo rápido, por favor dime tu **dirección de entrega**: ',
+              text: '¡Hola! 🤖 Veo que quieres realizar un pago.\n\n¿Qué deseas hacer hoy? \n\n1️⃣ **Hacer un pedido** 🛵 \n2️⃣ **Pagar ahora** 💸',
             },
           ]);
-          this.step.set(4);
-        }, 1500);
+          this.step.set(1);
+        }, 1000);
       }
     });
 
@@ -81,7 +82,7 @@ export class LandingComponent {
           this.musicaActiva = true;
           document.removeEventListener('click', activarAudio);
         })
-        .catch(() => console.log('Audio bloqueado'));
+        .catch(() => console.log('Audio bloqueado por el navegador'));
     };
     document.addEventListener('click', activarAudio);
   }
@@ -124,10 +125,12 @@ export class LandingComponent {
       let response = '';
       if (this.step() === 1) {
         if (lowerText.includes('pagar') || lowerText.includes('2')) {
-          response = '¡Excelente! 🛍️ Dime la **dirección de entrega**:';
+          response =
+            '¡Excelente! 🛍️ Para procesar tu pago, primero dime tu **dirección de entrega**:';
           this.step.set(4);
         } else {
-          response = '¡Claro! 🛵 Toca un producto para añadirlo:';
+          response =
+            '¡Claro! 🛵 Elige tus productos favoritos de la lista y luego escribe "pagar".';
           this.step.set(1);
         }
       } else if (this.step() === 4) {
@@ -137,7 +140,7 @@ export class LandingComponent {
       } else if (this.step() === 5) {
         this.datosPedido.pago = originalInput;
         this.isLoading.set(false);
-        const msgCierre = `🚀 *¡PROCESO INICIADO!*\n\nPara recibir tu **QR de Nequi**:\n1️⃣ Toca el botón verde.\n2️⃣ Envía el mensaje.\n3️⃣ Mi asistente te pasará el QR.`;
+        const msgCierre = `🚀 *¡CASI LISTO!*\n\nPara recibir tu **QR de Nequi** automáticamente:\n1️⃣ Toca el botón morado de abajo.\n2️⃣ Envía el mensaje en WhatsApp.\n3️⃣ Recibirás el QR de inmediato.`;
         this.messages.update((prev) => [...prev, { role: 'model', text: msgCierre }]);
         this.step.set(6);
         return;
@@ -148,7 +151,7 @@ export class LandingComponent {
     }, 1000);
   }
 
-  // --- FUNCIONES QUE PIDE EL HTML (FIX) ---
+  // --- INTEGRACIÓN CON WHATSAPP ---
 
   hacerPedidoWhatsApp() {
     this.isOpen.set(true);
@@ -157,16 +160,23 @@ export class LandingComponent {
 
   confirmarPagoEnWhatsApp() {
     const telefono = '573218119383';
-    const keyword = 'PAGO_NEQUI_BRACAS';
-    const texto = `${keyword}\n📍 *Dirección:* ${this.datosPedido.direccion}\nDeseo el QR rápido.`;
-    window.open(`https://wa.me{telefono}?text=${encodeURIComponent(texto)}`, '_blank');
+    const keyword = 'PAGO_NEQUI_BRACAS'; // Esta clave activa tu bot de WA
+    const direccion = this.datosPedido.direccion || 'No especificada';
+
+    // Mensaje sin precios, solo detalles de proceso y dirección
+    const texto = `${keyword}\n\n📍 *Dirección:* ${direccion}\n🚀 *Acción:* Por favor envíame el QR para realizar mi pago.`;
+
+    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`, '_blank');
     this.resetearTodo();
   }
 
   confirmarPedidoWhatsApp() {
     const telefono = '573218119383';
-    let mensaje = `*📦 NUEVO PEDIDO BRACASFOOD*\n\n📍 *DIRECCIÓN:* ${this.datosPedido.direccion}\n💸 *PAGO:* ${this.datosPedido.pago}`;
-    window.open(`https://wa.me{telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+    const direccion = this.datosPedido.direccion || 'No especificada';
+    const metodo = this.datosPedido.pago || 'No especificado';
+
+    let mensaje = `*📦 NUEVO PEDIDO BRACASFOOD*\n\n📍 *DIRECCIÓN:* ${direccion}\n💸 *PAGO:* ${metodo}`;
+    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
     this.resetearTodo();
   }
 
@@ -185,23 +195,28 @@ export class LandingComponent {
     this.productoEnCurso.set(prod);
     this.messages.update((prev) => [
       ...prev,
-      { role: 'model', text: `¿Cuántas unidades de *${prod.name}*?` },
+      { role: 'model', text: `¿Cuántas unidades de *${prod.name}* quieres?` },
     ]);
     this.step.set(2);
   }
 
   toggleMusica() {
-    this.musica.paused ? this.musica.play() : this.musica.pause();
+    if (this.musica.paused) {
+      this.musica.play().catch((e) => console.log(e));
+    } else {
+      this.musica.pause();
+    }
     this.musicaActiva = !this.musica.paused;
   }
 
   updateQty(amount: number) {
-    this.qty2.update((v: number) => (v + amount < 1 ? 1 : v + amount));
+    this.qty2.update((v) => (v + amount < 1 ? 1 : v + amount));
   }
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
   scrollTo(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   }
@@ -210,5 +225,6 @@ export class LandingComponent {
     this.step.set(0);
     this.pedidoTemporal.set([]);
     this.isOpen.set(false);
+    this.datosPedido = { direccion: '', pago: '' };
   }
-} // <--- CIERRE ÚNICO DE LA CLASE
+}
