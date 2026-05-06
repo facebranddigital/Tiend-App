@@ -1559,7 +1559,7 @@
   color: #333;
   align-self: flex-start;
   border-bottom-left-radius: 2px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Burbuja del Usuario (Derecha) */
@@ -1568,7 +1568,7 @@
   color: #333;
   align-self: flex-end;
   border-bottom-right-radius: 2px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* --- BOTÓN DE PAGO NEQUI (DENTRO DEL CHAT) --- */
@@ -1591,7 +1591,7 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(100, 49, 147, 0.4);
   }
-  
+
   &:active {
     transform: scale(0.95);
   }
@@ -1639,7 +1639,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 8px;
   padding: 10px 0;
-  
+
   .btn-bot-item {
     background: #f3f4f6;
     border: 1px solid #e5e7eb;
@@ -1651,5 +1651,35 @@
       background: #ff6b00;
       color: white;
     }
+  }
+}
+/* Evita que el QR se estalle lateralmente */
+.bot-msg .message-bubble {
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Centra la imagen y el link
+  max-width: 280px; // Limita el ancho de la burbuja
+
+  img {
+    width: 150px !important; // Fuerza un tamaño fijo pequeño
+    height: 150px !important;
+    object-fit: contain;
+    border-radius: 12px;
+    margin: 10px 0;
+    border: 2px solid #643193;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  // Estilo para el link de Nequi
+  a.btn-nequi-link {
+    background: #643193;
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-align: center;
+    width: 90%;
   }
 }

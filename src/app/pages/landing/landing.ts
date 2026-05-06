@@ -261,19 +261,16 @@ export class LandingComponent {
           const montoTexto =
             totalFinal > 0 ? `por **$${totalFinal.toLocaleString()}**` : 'de tu compra';
 
-          const mensajeNequi = `
-✅ *¡FLUJO DE PAGO RÁPIDO!* 🚀
+         const mensajeNequi = `
+✅ *¡PAGO RÁPIDO BRACASFOOD!* 🚀
 
-Para pagar ${montoTexto}, elige una opción:
+1️⃣ *Copia este número:* \`321 811 9383\`
+2️⃣ Abre tu App Nequi y dale en "Enviar".
+3️⃣ Envía el total de **$${totalFinal.toLocaleString()}**.
 
-📲 *OPCIÓN 1 (MÁS FÁCIL):*
-Toca aquí para abrir Nequi:
-[👉 CLIC PARA PAGAR EN NEQUI](https://nequi.com.co) 
+_O si prefieres, escanea el QR que está aquí abajo._ 👇
 
-🖼️ *OPCIÓN 2:*
-Escanea el QR que verás abajo.
-
-⚠️ **IMPORTANTE:** Una vez pagues, dale al botón verde de abajo para enviarnos el soporte.`;
+⚠️ **IMPORTANTE:** Cuando termines, vuelve aquí y dale al botón verde para enviarnos el comprobante por WhatsApp.`;
 
           this.messages.update((prev) => [
             ...prev,
