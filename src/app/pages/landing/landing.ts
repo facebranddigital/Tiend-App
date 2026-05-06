@@ -65,10 +65,10 @@ export class LandingComponent {
           this.messages.set([
             {
               role: 'model',
-              text: '¡Hola! 🤖 Veo que quieres realizar un pago.\n\n¿Qué deseas hacer hoy? \n\n1️⃣ **Hacer un pedido** 🛵 \n2️⃣ **Pagar ahora** 💸',
+              text: '¡Hola! 🤖 Veo que vas a **pagar tu pedido**. \n\nPara agilizar, dime tu **dirección de entrega**: ',
             },
           ]);
-          this.step.set(1);
+          this.step.set(4); // Salto directo a la dirección
         }, 1000);
       }
     });
@@ -117,12 +117,15 @@ export class LandingComponent {
     const originalInput = this.userInput;
     const lowerText = text.toLowerCase();
 
+    // Agregar mensaje del usuario a la lista
     this.messages.update((prev) => [...prev, { role: 'user', text: originalInput }]);
     this.userInput = '';
     this.isLoading.set(true);
 
     setTimeout(() => {
       let response = '';
+
+      // --- PASO 1: DECISIÓN INICIAL ---
       if (this.step() === 1) {
         if (lowerText.includes('pagar') || lowerText.includes('2')) {
           response =
@@ -130,23 +133,52 @@ export class LandingComponent {
           this.step.set(4);
         } else {
           response =
-            '¡Claro! 🛵 Elige tus productos favoritos de la lista y luego escribe "pagar".';
+            '¡Claro! 🛵 Selecciona un producto de la lista arriba para añadirlo o escribe "pagar" para finalizar.';
           this.step.set(1);
         }
-      } else if (this.step() === 4) {
+      }
+
+      // --- PASO 2: PROCESAR CANTIDAD (FIX) ---
+      else if (this.step() === 2) {
+        const cantidad = parseInt(originalInput);
+        if (!isNaN(cantidad) && cantidad > 0) {
+          const prod = this.productoEnCurso();
+          // Añadimos al carrito real
+          this.onAddToCart(prod.name, prod.price, prod.category, '', cantidad);
+
+          response = `✅ Añadido **${cantidad}x ${prod.name}**. \n\n¿Deseas algo más o escribes **"pagar"**?`;
+          this.step.set(1); // Regresamos al menú principal
+        } else {
+          response = '⚠️ Por favor, dime un número válido (ejemplo: 2). ¿Cuántas unidades quieres?';
+        }
+      }
+
+      // --- PASO 4: DIRECCIÓN ---
+      else if (this.step() === 4) {
         this.datosPedido.direccion = originalInput;
-        response = '📍 Dirección anotada. ¿Cómo pagarás? (Efectivo o Nequi) 💸';
+        response = '📍 Dirección anotada. ¿Cómo pagarás? (**Efectivo** o **Nequi**) 💸';
         this.step.set(5);
-      } else if (this.step() === 5) {
+      }
+
+      // --- PASO 5: MÉTODO DE PAGO ---
+      else if (this.step() === 5) {
         this.datosPedido.pago = originalInput;
         this.isLoading.set(false);
-        const msgCierre = `🚀 *¡CASI LISTO!*\n\nPara recibir tu **QR de Nequi** automáticamente:\n1️⃣ Toca el botón morado de abajo.\n2️⃣ Envía el mensaje en WhatsApp.\n3️⃣ Recibirás el QR de inmediato.`;
+
+        const esNequi = lowerText.includes('nequi');
+        const colorBoton = esNequi ? 'morado' : 'verde';
+
+        const msgCierre = `🚀 *¡CASI LISTO!*\n\nPara finalizar tu pedido:\n1️⃣ Toca el botón **${colorBoton}** de abajo.\n2️⃣ Envía el mensaje en WhatsApp.\n3️⃣ ${esNequi ? 'Recibirás el QR de inmediato.' : 'Confirmaremos tu pedido pronto.'}`;
+
         this.messages.update((prev) => [...prev, { role: 'model', text: msgCierre }]);
         this.step.set(6);
         return;
       }
 
-      if (response) this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
+      // Enviar respuesta del bot si existe
+      if (response) {
+        this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
+      }
       this.isLoading.set(false);
     }, 1000);
   }
