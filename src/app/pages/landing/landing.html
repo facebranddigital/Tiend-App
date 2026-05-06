@@ -254,7 +254,7 @@
       <button class="close-btn" (click)="toggleChat()">×</button>
     </div>
 
-    <div class="chat-body"#scrollMe>
+    <div class="chat-body" #scrollMe>
       <!-- Bucle de mensajes históricos -->
       <div
         *ngFor="let msg of messages()"
@@ -297,12 +297,11 @@
 
       <!-- 2. RESUMEN Y BOTÓN FINAL DE WHATSAPP -->
       <!-- Solo se muestra cuando el pedido está listo (Paso 6) -->
-<div *ngIf="step() === 6" class="p-3 text-center">
-  <button (click)="confirmarPedidoWhatsApp()" class="btn-whatsapp">
-    Confirmar pedido en WhatsApp 🚀
-  </button>
-</div>
-
+      <div *ngIf="step() === 6" class="p-3 text-center">
+        <button (click)="confirmarPedidoWhatsApp()" class="btn-whatsapp">
+          Confirmar pedido en WhatsApp 🚀
+        </button>
+      </div>
 
       <!-- Indicador de "Escribiendo..." -->
       <div class="bot-msg" *ngIf="isLoading()">

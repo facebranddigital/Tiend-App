@@ -10,7 +10,7 @@ import {
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service'; // FIX: Faltaba este import
 import { take } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router'; 
+import { ActivatedRoute } from '@angular/router';
 
 declare var Swal: any;
 
@@ -33,14 +33,21 @@ export class LandingComponent {
   public musicaActiva = false;
   private route = inject(ActivatedRoute);
   constructor() {
-
-      
-    // 3. Escucha la URL para abrir el bot automáticamente
-    this.route.queryParams.subscribe(params => {
+    // Escucha la URL para detectar el escaneo del QR físico
+    this.route.queryParams.subscribe((params) => {
       if (params['openbot'] === 'true') {
         setTimeout(() => {
-          this.toggleChat(); // Abre el chat automáticamente al cargar
-        }, 1500); // Pequeño delay para que cargue la web primero
+          this.isOpen.set(true); // Abre el chat
+          this.messages.set([
+            {
+              role: 'model',
+              text:
+                '¡Hola! 🤖 Veo que vas a realizar un pago de **Bracasfood**. \n\n' +
+                'Para procesarlo rápido, por favor dime tu **dirección de entrega**: ',
+            },
+          ]);
+          this.step.set(4); // Salto directo al paso de Dirección
+        }, 1500);
       }
     });
     const activarAudio = () => {
@@ -60,15 +67,10 @@ export class LandingComponent {
   // --- FUNCIÓN DE FORMATO (DEBE IR AQUÍ AFUERA) ---
   formatText(text: string): string {
     if (!text) return '';
-    return (
-      text
-        // 1. Bloques de código (El ticket verde)
-        .replace(/```([\s\S]*?)```/g, '<pre class="ticket">$1</pre>')
-        // 2. Negritas con **
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        // 3. Énfasis o cursivas con *
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    );
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>'); // <--- AGREGA ESTA LÍNEA si no la tienes
   }
 
   toggleMusica() {
@@ -134,33 +136,33 @@ export class LandingComponent {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
- 
-   // --- LÓGICA DEL CHAT BOT ---
+
+  // --- LÓGICA DEL CHAT BOT ---
   toggleChat() {
     this.isOpen.update((v) => !v);
-    
+
     // Si el chat se abre y no hay mensajes, lanzamos el menú de inmediato
     if (this.isOpen() && this.messages().length === 0) {
       this.messages.set([
         {
           role: 'model',
-          text: '¡Hola! Soy BracasBot 🤖. Aquí tienes nuestro menú para hoy: \n\n' +
-                '1. **Hacer un pedido** 🛵 \n' +
-                '2. **Pagar un pedido** 💸'
+          text:
+            '¡Hola! Soy BracasBot 🤖. Aquí tienes nuestro menú para hoy: \n\n' +
+            '1. **Hacer un pedido** 🛵 \n' +
+            '2. **Pagar un pedido** 💸',
         },
       ]);
-      
+
       // Seteamos el paso 1 para que el bot esté listo para recibir la selección
-      this.step.set(1); 
-      
+      this.step.set(1);
+
       // Opcional: Mostrar los productos de una vez en el chat
-      this.messages.update(prev => [
+      this.messages.update((prev) => [
         ...prev,
-        { role: 'model', text: 'Toca un producto de la lista para agregarlo a tu pedido.' }
+        { role: 'model', text: 'Toca un producto de la lista para agregarlo a tu pedido.' },
       ]);
     }
   }
-
 
   seleccionarProductoDesdeBot(prod: any) {
     this.productoEnCurso.set(prod);
@@ -185,8 +187,21 @@ export class LandingComponent {
     setTimeout(() => {
       let response = '';
 
-      // PASO 2: Recibe cantidad
-      if (this.step() === 2) {
+      // --- PASO 1: Menú Inicial (Aquí permitimos el salto directo) ---
+      if (this.step() === 1) {
+        if (lowerText.includes('pagar') || lowerText.includes('2')) {
+          response = '¡Excelente! 🛍️ Vamos a procesar tu pago. Dime la **dirección de entrega**:';
+          this.step.set(4); // Salta directo a pedir dirección sin validar carrito
+        } else if (lowerText.includes('pedido') || lowerText.includes('1')) {
+          response = '¡Claro! 🛵 Toca el producto que quieres añadir a tu lista:';
+          this.step.set(1);
+        } else {
+          response = '¿Qué te gustaría hacer? 🤔 \n 1. **Hacer pedido** \n 2. **Pagar**';
+        }
+      }
+
+      // --- PASO 2: Recibe cantidad ---
+      else if (this.step() === 2) {
         const cantidad = parseInt(originalInput);
         if (isNaN(cantidad) || cantidad <= 0) {
           response = 'Por favor, escribe un número válido para la cantidad. 🔢';
@@ -202,62 +217,71 @@ export class LandingComponent {
         }
       }
 
-      // PASO 3: Decisión - ¿Seguir comprando o Pagar?
+      // --- PASO 3: Decisión (Pagar desde el flujo de compra) ---
       else if (this.step() === 3) {
-        const itemsEnWeb = this.cartService.items ? this.cartService.items().length : 0;
-        const itemsEnBot = this.pedidoTemporal().length;
-
         if (
           lowerText.includes('pagar') ||
           lowerText.includes('finalizar') ||
           lowerText.includes('2')
         ) {
-          if (itemsEnWeb > 0 || itemsEnBot > 0) {
-            response =
-              '¡Excelente! 🛍️ Vamos a procesar tu pedido. Dime la **dirección de entrega**:';
-            this.step.set(4);
-          } else {
-            response =
-              'Tu carrito todavía está vacío. 🛒 Escoge un producto para **ayudarte a procesar tu pago**:';
-            this.step.set(1);
-          }
-        } else if (
-          lowerText.includes('pedido') ||
-          lowerText.includes('añadir') ||
-          lowerText.includes('1')
-        ) {
+          response = '¡Excelente! 🛍️ Vamos a procesar tu pedido. Dime la **dirección de entrega**:';
+          this.step.set(4);
+        } else {
           response = '¡Claro! 🛵 Toca el producto que quieres añadir a tu lista:';
           this.step.set(1);
-        } else {
-          response = '¿Qué te gustaría hacer? 🤔 \n 1. **Hacer pedido** \n 2. **Pagar**';
         }
       }
 
-      // PASO 4: Recibe dirección
+      // --- PASO 4: Recibe dirección ---
       else if (this.step() === 4) {
         this.datosPedido.direccion = originalInput;
-        response =
-          '📍 Dirección anotada. Ahora dime, ¿cómo prefieres pagar? (Efectivo, Nequi o Transfiya) 💸';
+        response = '📍 Dirección anotada. Ahora dime, ¿cómo prefieres pagar? (Efectivo o Nequi) 💸';
         this.step.set(5);
       }
 
-      // PASO 5: Recibe pago y genera el Cuadro Final
+      // --- PASO 5: Pago y QR de Nequi ---
       else if (this.step() === 5) {
         this.datosPedido.pago = originalInput;
-        this.generarResumenFinal();
-        return; // El resumen maneja la respuesta
+        this.isLoading.set(false);
+
+        if (lowerText.includes('nequi')) {
+          const total = this.pedidoTemporal().reduce((acc, item) => acc + item.subtotal, 0);
+          const textoMonto = total > 0 ? `por **$${total.toLocaleString()}**` : 'de tu compra';
+
+          const mensajeNequi = `
+✅ *¡LISTO PARA PAGAR!* 🚀
+
+Para completar tu pedido ${textoMonto}, por favor:
+
+1️⃣ Escanea el **QR de Nequi** que ves abajo.
+2️⃣ Realiza el pago total.
+3️⃣ **ENVÍA EL PANTALLAZO** por aquí para confirmar.
+
+_¡Gracias por elegir Bracasfood!_ 🍔`;
+
+          this.messages.update((prev) => [
+            ...prev,
+            { role: 'model', text: mensajeNequi },
+            {
+              role: 'model',
+              text: '<img src="assets/nequiqr.jpeg" style="width: 100%; max-width: 150px; border-radius: 12px; margin: 5px auto; display: block; border: 2px solid #643193;">',
+            },
+          ]);
+          this.step.set(6);
+          return;
+        } else {
+          this.generarResumenFinal();
+          return;
+        }
       }
 
-      // FLUJO POR DEFECTO
-      else {
-        response = '¡Hola! Soy BracasBot 🤖. ¿Deseas **hacer un pedido** o prefieres **pagar**?';
-        this.step.set(3);
+      if (response) {
+        this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
       }
-
-      this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
       this.isLoading.set(false);
-    }, 800);
+    }, 1000);
   }
+
   generarResumenFinal() {
     let totalPedido = 0;
     let tabla = '--- 🧾 RECIBO DE COMPRA --- \n';
@@ -265,7 +289,6 @@ export class LandingComponent {
     tabla += 'PRODUCTO       | CANT | TOTAL\n';
     tabla += '------------------------------\n';
 
-    // Unificamos productos de la web y del bot
     const productosCombinados = [
       ...this.cartService.items().map((item: any) => ({
         name: item.name,
@@ -276,7 +299,6 @@ export class LandingComponent {
     ];
 
     productosCombinados.forEach((item) => {
-      // Limpiamos nombre para que no descuadre la tabla
       const name = item.name.replace(/[^a-zA-Z0-9 ]/g, '').substring(0, 12);
       const row = `${name.padEnd(14, ' ')} | ${item.qty.toString().padStart(4, ' ')} | $${item.subtotal.toLocaleString()}\n`;
       tabla += row;
@@ -291,10 +313,9 @@ export class LandingComponent {
     tabla += `💳 *Método:* ${this.datosPedido.pago}\n\n`;
     tabla += '¡Gracias por elegir **BracasFood**! 🔥';
 
-    // Enviamos el mensaje final
     this.messages.update((prev) => [...prev, { role: 'model', text: tabla }]);
     this.isLoading.set(false);
-    this.step.set(6); // Fin del flujo
+    this.step.set(6);
   }
 
   confirmarPedidoWhatsApp() {
@@ -303,7 +324,6 @@ export class LandingComponent {
     mensaje += `--------------------------\n`;
 
     let total = 0;
-    // Unificamos carritos para el mensaje de salida a WhatsApp
     const productosFinales = [
       ...this.cartService.items().map((item: any) => ({
         name: item.name,
@@ -326,10 +346,30 @@ export class LandingComponent {
 
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
+    this.resetearTodo();
+  }
 
-    // Resetear estados después de la compra
-    this.step.set(0);
-    this.pedidoTemporal.set([]);
+  confirmarPagoEnWhatsApp() {
+    const telefono = '573218119383';
+    // FIX: Cálculo manual del total
+    const totalBot = this.pedidoTemporal().reduce((acc, item) => acc + item.subtotal, 0);
+    const totalWeb = this.cartService
+      .items()
+      .reduce((acc: number, item: any) => acc + item.price * item.quantity, 0);
+    const totalFinal = totalBot > 0 ? totalBot : totalWeb;
+
+    const texto =
+      `¡Hola Bracasfood! 🍔\n\n` +
+      `Acabo de realizar mi pago por *${this.datosPedido.pago}*.\n` +
+      `📍 *Dirección:* ${this.datosPedido.direccion}\n` +
+      `💰 *Total:* $${totalFinal.toLocaleString()}\n\n` +
+      `Adjunto el pantallazo del comprobante. ✅`;
+
+    // URL CORREGIDA: Con barra y símbolo de dólar
+    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;
+
+    window.open(url, '_blank');
+    this.resetearTodo();
   }
 
   hacerPedidoWhatsApp() {
@@ -367,4 +407,10 @@ export class LandingComponent {
   updateQty(amount: number) {
     this.qty2.update((v) => (v + amount < 1 ? 1 : v + amount));
   }
-} // <--- CIERRE DEFINITIVO DE LA CLASE LandingComponent
+
+  private resetearTodo() {
+    this.step.set(0);
+    this.pedidoTemporal.set([]);
+    this.isOpen.set(false);
+  }
+} // <--- ESTA CIERRA LA CLASE LandingComponent (Debe ser la última)

@@ -495,7 +495,7 @@
 
 /* Estilo para el botón de WhatsApp y Registro */
 .btn-whatsapp {
-  background-color: #25D366; /* Verde WhatsApp */
+  background-color: #25d366; /* Verde WhatsApp */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -1307,7 +1307,7 @@
   width: 100%;
   margin-top: 15px;
   padding: 12px;
-  
+
   // EL ESTILO DE "HAZ TU PEDIDO AQUÍ"
   background: linear-gradient(90deg, #ff8c00 0%, #ff5e00 100%) !important;
   color: white !important;
@@ -1315,11 +1315,11 @@
   font-size: 0.9rem !important;
   text-transform: uppercase;
   letter-spacing: 1px;
-  
+
   border: none !important;
   border-radius: 50px !important; // Forma de píldora como el de la web
   cursor: pointer;
-  
+
   // Sombra para dar profundidad
   box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4) !important;
   transition: all 0.3s ease;
@@ -1527,3 +1527,11 @@
     }
   }
 } /* <--- Este cierra el @media */
+.qr-chat-mini {
+  width: 100%;
+  max-width: 150px;
+  border-radius: 10px;
+  display: block;
+  margin: 10px auto;
+  border: 2px solid #643193; // El color morado de Nequi
+}
