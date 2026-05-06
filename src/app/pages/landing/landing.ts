@@ -37,7 +37,7 @@ export class LandingComponent {
     this.route.queryParams.subscribe((params) => {
       if (params['openbot'] === 'true') {
         setTimeout(() => {
-          this.isOpen.set(true); // Abre el chat
+          this.isOpen.set(true);
           this.messages.set([
             {
               role: 'model',
@@ -46,10 +46,11 @@ export class LandingComponent {
                 'Para procesarlo rápido, por favor dime tu **dirección de entrega**: ',
             },
           ]);
-          this.step.set(4); // Salto directo al paso de Dirección
+          this.step.set(4);
         }, 1500);
       }
     });
+
     const activarAudio = () => {
       this.musica.loop = true;
       this.musica.volume = 0.4;
@@ -59,18 +60,25 @@ export class LandingComponent {
           this.musicaActiva = true;
           document.removeEventListener('click', activarAudio);
         })
-        .catch((err) => console.log('Audio bloqueado temporalmente'));
+        .catch(() => console.log('Audio bloqueado temporalmente'));
     };
     document.addEventListener('click', activarAudio);
   }
 
-  // --- FUNCIÓN DE FORMATO (DEBE IR AQUÍ AFUERA) ---
+  // --- FUNCIÓN DE FORMATO ---
   formatText(text: string): string {
     if (!text) return '';
-    return text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
-      .replace(/\n/g, '<br>'); // <--- AGREGA ESTA LÍNEA si no la tienes
+    return (
+      text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
+        // ESTA LÍNEA ES LA QUE ACTIVA EL BOTÓN MORADO:
+        .replace(
+          /\[(.*?)\]\((.*?)\)/g,
+          '<a href="$2" target="_blank" class="btn-nequi-link">$1</a>',
+        )
+        .replace(/\n/g, '<br>')
+    );
   }
 
   toggleMusica() {
@@ -97,9 +105,10 @@ export class LandingComponent {
 
   // ... resto de tu código (step, pedidoTemporal, etc.)
 
-  // Pasos: 0:Inicio, 1:Selección, 2:Cantidad, 3:¿Algo más?, 4:Dirección, 5:Pago, 6:Resumen Final
+  // Esto debe estar DENTRO de la clase
   step = signal(0);
   pedidoTemporal = signal<{ name: string; qty: number; subtotal: number }[]>([]);
+
   productoEnCurso = signal<any>(null);
 
   datosPedido = {
@@ -239,32 +248,40 @@ export class LandingComponent {
         this.step.set(5);
       }
 
-      // --- PASO 5: Pago y QR de Nequi ---
+      // --- PASO 5: Pago y Link de Nequi ---
       else if (this.step() === 5) {
         this.datosPedido.pago = originalInput;
         this.isLoading.set(false);
 
         if (lowerText.includes('nequi')) {
           const total = this.pedidoTemporal().reduce((acc, item) => acc + item.subtotal, 0);
-          const textoMonto = total > 0 ? `por **$${total.toLocaleString()}**` : 'de tu compra';
+          const totalWeb = this.cartService
+            .items()
+            .reduce((acc: number, item: any) => acc + item.price * item.quantity, 0);
+          const totalFinal = total > 0 ? total : totalWeb;
+          const montoTexto =
+            totalFinal > 0 ? `por **$${totalFinal.toLocaleString()}**` : 'de tu compra';
 
           const mensajeNequi = `
-✅ *¡LISTO PARA PAGAR!* 🚀
+✅ *¡FLUJO DE PAGO RÁPIDO!* 🚀
 
-Para completar tu pedido ${textoMonto}, por favor:
+Para pagar ${montoTexto}, elige una opción:
 
-1️⃣ Escanea el **QR de Nequi** que ves abajo.
-2️⃣ Realiza el pago total.
-3️⃣ **ENVÍA EL PANTALLAZO** por aquí para confirmar.
+📲 *OPCIÓN 1 (MÁS FÁCIL):*
+Toca aquí para abrir Nequi:
+[👉 CLIC PARA PAGAR EN NEQUI](https://nequi.com.co) 
 
-_¡Gracias por elegir Bracasfood!_ 🍔`;
+🖼️ *OPCIÓN 2:*
+Escanea el QR que verás abajo.
+
+⚠️ **IMPORTANTE:** Una vez pagues, dale al botón verde de abajo para enviarnos el soporte.`;
 
           this.messages.update((prev) => [
             ...prev,
             { role: 'model', text: mensajeNequi },
             {
               role: 'model',
-              text: '<img src="assets/nequiqr.jpeg" style="width: 100%; max-width: 150px; border-radius: 12px; margin: 5px auto; display: block; border: 2px solid #643193;">',
+              text: '<img src="assets/qr-nequi.png" style="width:100%; max-width:150px; border-radius:15px; margin:10px auto; display:block; border: 3px solid #643193;">',
             },
           ]);
           this.step.set(6);
@@ -322,7 +339,6 @@ _¡Gracias por elegir Bracasfood!_ 🍔`;
     const telefono = '573218119383';
     let mensaje = `*📦 NUEVO PEDIDO BRACASFOOD*\n\n`;
     mensaje += `--------------------------\n`;
-
     let total = 0;
     const productosFinales = [
       ...this.cartService.items().map((item: any) => ({
@@ -332,12 +348,10 @@ _¡Gracias por elegir Bracasfood!_ 🍔`;
       })),
       ...this.pedidoTemporal(),
     ];
-
     productosFinales.forEach((item) => {
       mensaje += `• *${item.qty}x* ${item.name} ($${item.subtotal.toLocaleString()})\n`;
       total += item.subtotal;
     });
-
     mensaje += `--------------------------\n`;
     mensaje += `💰 *TOTAL A PAGAR: $${total.toLocaleString()}*\n`;
     mensaje += `📍 *DIRECCIÓN:* ${this.datosPedido.direccion}\n`;
@@ -351,7 +365,6 @@ _¡Gracias por elegir Bracasfood!_ 🍔`;
 
   confirmarPagoEnWhatsApp() {
     const telefono = '573218119383';
-    // FIX: Cálculo manual del total
     const totalBot = this.pedidoTemporal().reduce((acc, item) => acc + item.subtotal, 0);
     const totalWeb = this.cartService
       .items()
@@ -365,9 +378,7 @@ _¡Gracias por elegir Bracasfood!_ 🍔`;
       `💰 *Total:* $${totalFinal.toLocaleString()}\n\n` +
       `Adjunto el pantallazo del comprobante. ✅`;
 
-    // URL CORREGIDA: Con barra y símbolo de dólar
     const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;
-
     window.open(url, '_blank');
     this.resetearTodo();
   }
@@ -393,7 +404,6 @@ _¡Gracias por elegir Bracasfood!_ 🍔`;
       imageUrl: image,
       quantity: qty,
     });
-
     Swal.fire({
       title: '¡Agregado!',
       text: `${qty}x ${name} al carrito`,
@@ -405,7 +415,7 @@ _¡Gracias por elegir Bracasfood!_ 🍔`;
   }
 
   updateQty(amount: number) {
-    this.qty2.update((v) => (v + amount < 1 ? 1 : v + amount));
+    this.qty2.update((v: number) => (v + amount < 1 ? 1 : v + amount));
   }
 
   private resetearTodo() {
@@ -413,4 +423,4 @@ _¡Gracias por elegir Bracasfood!_ 🍔`;
     this.pedidoTemporal.set([]);
     this.isOpen.set(false);
   }
-} // <--- ESTA CIERRA LA CLASE LandingComponent (Debe ser la última)
+}
