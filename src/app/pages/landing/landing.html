@@ -260,7 +260,6 @@
         *ngFor="let msg of messages()"
         [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }"
       >
-        <!-- Usamos [innerHTML] y llamamos a una función formatText -->
         <div class="message-bubble" [innerHTML]="formatText(msg.text)"></div>
       </div>
 
@@ -279,27 +278,35 @@
           </button>
         </div>
 
-        <!-- Botón para pasar a Dirección -->
+        <!-- Botón rápido para finalizar desde los productos -->
         <button
-          *ngIf="pedidoTemporal().length > 0"
-          (click)="
-            step.set(4);
-            messages().push({
-              role: 'model',
-              text: '¡Entendido! Ahora dime tu **dirección y barrio**:',
-            })
-          "
+          *ngIf="pedidoTemporal().length > 0 || cartService.items().length > 0"
+          (click)="step.set(4)"
           class="btn-bot-confirm"
         >
-          FINALIZAR Y ENVIAR 🏁
+          FINALIZAR Y PAGAR 🏁
         </button>
       </div>
 
-      <!-- 2. RESUMEN Y BOTÓN FINAL DE WHATSAPP -->
-      <!-- Solo se muestra cuando el pedido está listo (Paso 6) -->
-      <div *ngIf="step() === 6" class="p-3 text-center">
-        <button (click)="confirmarPedidoWhatsApp()" class="btn-whatsapp">
-          Confirmar pedido en WhatsApp 🚀
+      <!-- 2. ACCIONES FINALES (PASO 6) -->
+      <div *ngIf="step() === 6" class="p-3">
+        <!-- BOTÓN PAGO EXPRESS (Nequi + Keyword para IA) -->
+        <button
+          *ngIf="datosPedido.pago.toLowerCase().includes('nequi')"
+          (click)="confirmarPagoEnWhatsApp()"
+          class="btn-whatsapp"
+          style="background-color: #643193 !important"
+        >
+          Confirmar y recibir QR en WhatsApp 🚀
+        </button>
+
+        <!-- BOTÓN PEDIDO NORMAL (Efectivo) -->
+        <button
+          *ngIf="!datosPedido.pago.toLowerCase().includes('nequi')"
+          (click)="confirmarPedidoWhatsApp()"
+          class="btn-whatsapp"
+        >
+          Confirmar pedido en WhatsApp 🛵
         </button>
       </div>
 
@@ -317,14 +324,12 @@
         (keyup.enter)="sendMessage()"
         [placeholder]="
           step() === 2
-            ? 'Escribe la cantidad...'
-            : step() === 3
-              ? 'Escribe 1 (Pedir) o 2 (Pagar)...'
-              : step() === 4
-                ? 'Escribe tu dirección de entrega...'
-                : step() === 5
-                  ? 'Efectivo, Nequi o Transfiya...'
-                  : '¿En qué puedo ayudarte?'
+            ? '¿Cuántos quieres?'
+            : step() === 4
+              ? 'Dime tu dirección y barrio...'
+              : step() === 5
+                ? '¿Efectivo o Nequi?'
+                : '¿Cómo puedo ayudarte?'
         "
         [disabled]="isLoading() || step() === 6"
       />
@@ -342,18 +347,17 @@
   <!-- BOTÓN FLOTANTE DEL CHAT (LOGO) -->
   <div class="action-buttons">
     <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
-      <!-- El logo siempre está, solo cambia la opacidad si se abre -->
       <img
         src="assets/bracasfoodlogo.jpeg"
         alt="Logo"
         class="bot-icon-img"
         [style.opacity]="isOpen() ? '0.3' : '1'"
       />
-      <!-- La X aparece encima del logo cuando está abierto -->
       <span *ngIf="isOpen()" class="close-icon-overlay">×</span>
     </button>
   </div>
 </div>
+
 <button (click)="toggleMusica()" class="btn-audio">
   {{ musicaActiva ? '🔊' : '🔇' }}
 </button>

@@ -1683,3 +1683,55 @@
     width: 90%;
   }
 }
+/* --- ESTILO DE LAS BURBUJAS DEL BOT --- */
+.message-bubble {
+  line-height: 1.2; /* Junta las letras y líneas para que no se vean despegadas */
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: -3px; /* Estilo más moderno y compacto */
+  padding: 10px 14px;
+
+  strong {
+    color: #ff6b00; /* Naranja Bracas para resaltar lo importante */
+    font-weight: 700;
+  }
+}
+
+/* --- ESTILO DEL TICKET (PAGO EXPRESS) --- */
+.ticket-box {
+  background: #f9f9f9;
+  border-right: 3px solid #ff6b00;
+  padding: 3px;
+  margin: 8px 0;
+  font-family: 'Courier New', monospace; /* Tipo recibo real */
+  font-size: 0.9rem;
+  color: #333;
+  border-radius: 4px;
+}
+
+/* Alineación a la izquierda para que no "vuele" el texto */
+.bot-msg {
+  display: flex;
+  justify-content: center;
+  text-align: center !important;
+}
+.btn-whatsapp-express {
+  background-color: #643193 !important; // Color Nequi
+  color: white;
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-whatsapp-normal {
+  background-color: #25d366 !important; // Color WhatsApp
+  color: white;
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
