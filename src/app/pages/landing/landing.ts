@@ -247,18 +247,17 @@ export class LandingComponent {
         response = '📍 Dirección anotada. Ahora dime, ¿cómo prefieres pagar? (Efectivo o Nequi) 💸';
         this.step.set(5);
       }
-
       // --- PASO 5: Pago y Link de Nequi ---
       else if (this.step() === 5) {
         this.datosPedido.pago = originalInput;
         this.isLoading.set(false);
 
         if (lowerText.includes('nequi')) {
-          const total = this.pedidoTemporal().reduce((acc, item) => acc + item.subtotal, 0);
+          const totalBot = this.pedidoTemporal().reduce((acc, item) => acc + item.subtotal, 0);
           const totalWeb = this.cartService
             .items()
             .reduce((acc: number, item: any) => acc + item.price * item.quantity, 0);
-          const totalFinal = total > 0 ? total : totalWeb;
+          const totalFinal = totalBot > 0 ? totalBot : totalWeb;
           const montoTexto =
             totalFinal > 0 ? `por **$${totalFinal.toLocaleString()}**` : 'de tu compra';
 
@@ -281,7 +280,7 @@ Escanea el QR que verás abajo.
             { role: 'model', text: mensajeNequi },
             {
               role: 'model',
-              text: '<img src="assets/qr-nequi.png" style="width:100%; max-width:150px; border-radius:15px; margin:10px auto; display:block; border: 3px solid #643193;">',
+              text: '<img src="assets/nequiqr.jpeg" style="width:100%; max-width:150px; border-radius:15px; margin:10px auto; display:block; border: 3px solid #643193;">',
             },
           ]);
           this.step.set(6);
