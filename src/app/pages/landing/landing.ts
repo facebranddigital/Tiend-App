@@ -86,12 +86,14 @@ export class LandingComponent {
     document.addEventListener('click', activarAudio);
   }
 
+  // --- FUNCIONES DEL CHAT ---
+
   formatText(text: string): string {
     if (!text) return '';
     return text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>\$1</strong>')
-      .replace(/\*(.*?)\*/g, '<strong>\$1</strong>')
-      .replace(/```([\s\S]*?)```/g, '<div class="ticket-box">\$1</div>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<strong>$1</strong>')
+      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" class="btn-nequi-link">$1</a>')
       .replace(/\n/g, '<br>');
   }
 
@@ -120,38 +122,12 @@ export class LandingComponent {
 
     setTimeout(() => {
       let response = '';
-
       if (this.step() === 1) {
         if (lowerText.includes('pagar') || lowerText.includes('2')) {
           response = '¡Excelente! 🛍️ Dime la **dirección de entrega**:';
           this.step.set(4);
         } else {
           response = '¡Claro! 🛵 Toca un producto para añadirlo:';
-          this.step.set(1);
-        }
-      } else if (this.step() === 2) {
-        const cantidad = parseInt(originalInput);
-        if (isNaN(cantidad) || cantidad <= 0) {
-          response = 'Escribe un número válido. 🔢';
-        } else {
-          const prod = this.productoEnCurso();
-          this.pedidoTemporal.update((prev) => [
-            ...prev,
-            { name: prod.name, qty: cantidad, subtotal: prod.price * cantidad },
-          ]);
-          response = `✅ Añadido. ¿Deseas **añadir otro** o **finalizar** para pagar?`;
-          this.step.set(3);
-        }
-      } else if (this.step() === 3) {
-        if (
-          lowerText.includes('pagar') ||
-          lowerText.includes('finalizar') ||
-          lowerText.includes('2')
-        ) {
-          response = 'Dime la **dirección de entrega**:';
-          this.step.set(4);
-        } else {
-          response = 'Toca otro producto:';
           this.step.set(1);
         }
       } else if (this.step() === 4) {
@@ -161,7 +137,6 @@ export class LandingComponent {
       } else if (this.step() === 5) {
         this.datosPedido.pago = originalInput;
         this.isLoading.set(false);
-        this.generarResumenFinal(); // Llama a la lógica inteligente
         const msgCierre = `🚀 *¡PROCESO INICIADO!*\n\nPara recibir tu **QR de Nequi**:\n1️⃣ Toca el botón verde.\n2️⃣ Envía el mensaje.\n3️⃣ Mi asistente te pasará el QR.`;
         this.messages.update((prev) => [...prev, { role: 'model', text: msgCierre }]);
         this.step.set(6);
@@ -173,44 +148,25 @@ export class LandingComponent {
     }, 1000);
   }
 
-  generarResumenFinal() {
-    const tieneProductos = this.cartService.items().length > 0 || this.pedidoTemporal().length > 0;
-    if (tieneProductos) {
-      let totalPedido = 0;
-      let tabla = '--- 🧾 RECIBO --- \n```\n';
-      const productos = [
-        ...this.cartService
-          .items()
-          .map((item: any) => ({
-            name: item.name,
-            qty: item.quantity,
-            subtotal: item.price * item.quantity,
-          })),
-        ...this.pedidoTemporal(),
-      ];
-      productos.forEach((item) => {
-        const name = item.name.replace(/[^a-zA-Z0-9 ]/g, '').substring(0, 12);
-        tabla += `${name.padEnd(14, ' ')} | ${item.qty.toString().padStart(3, ' ')} | $${item.subtotal.toLocaleString()}\n`;
-        totalPedido += item.subtotal;
-      });
-      tabla += '------------------------------\n';
-      tabla += `TOTAL:              $${totalPedido.toLocaleString()}\n\`\`\`\n📍 *Entrega:* ${this.datosPedido.direccion}`;
-      this.messages.update((prev) => [...prev, { role: 'model', text: tabla }]);
-    }
+  // --- FUNCIONES QUE PIDE EL HTML (FIX) ---
+
+  hacerPedidoWhatsApp() {
+    this.isOpen.set(true);
+    this.step.set(1);
   }
 
   confirmarPagoEnWhatsApp() {
     const telefono = '573218119383';
     const keyword = 'PAGO_NEQUI_BRACAS';
     const texto = `${keyword}\n📍 *Dirección:* ${this.datosPedido.direccion}\nDeseo el QR rápido.`;
-    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`, '_blank');
+    window.open(`https://wa.me{telefono}?text=${encodeURIComponent(texto)}`, '_blank');
     this.resetearTodo();
   }
 
   confirmarPedidoWhatsApp() {
     const telefono = '573218119383';
     let mensaje = `*📦 NUEVO PEDIDO BRACASFOOD*\n\n📍 *DIRECCIÓN:* ${this.datosPedido.direccion}\n💸 *PAGO:* ${this.datosPedido.pago}`;
-    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+    window.open(`https://wa.me{telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
     this.resetearTodo();
   }
 
@@ -223,7 +179,6 @@ export class LandingComponent {
       imageUrl: image,
       quantity: qty,
     });
-    Swal.fire({ title: '¡Agregado!', icon: 'success', timer: 1500, showConfirmButton: false });
   }
 
   seleccionarProductoDesdeBot(prod: any) {
@@ -235,13 +190,13 @@ export class LandingComponent {
     this.step.set(2);
   }
 
-  updateQty(amount: number) {
-    this.qty2.update((v: number) => (v + amount < 1 ? 1 : v + amount));
-  }
-
   toggleMusica() {
     this.musica.paused ? this.musica.play() : this.musica.pause();
     this.musicaActiva = !this.musica.paused;
+  }
+
+  updateQty(amount: number) {
+    this.qty2.update((v: number) => (v + amount < 1 ? 1 : v + amount));
   }
 
   scrollToTop() {
@@ -256,4 +211,4 @@ export class LandingComponent {
     this.pedidoTemporal.set([]);
     this.isOpen.set(false);
   }
-}
+} // <--- CIERRE ÚNICO DE LA CLASE
