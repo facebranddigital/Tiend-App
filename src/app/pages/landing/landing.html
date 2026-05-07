@@ -181,17 +181,23 @@
         </div>
 
         <!-- Botones dinámicos del bot -->
-        <div *ngIf="step() === 1 || step() === 3" class="bot-action-area">
-          <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #666">SELECCIONA PARA AÑADIR:</p>
-          <div class="bot-grid-buttons">
-            <button *ngFor="let prod of products" (click)="seleccionarProductoDesdeBot(prod)" class="btn-bot-item">
-              + {{ prod.name }}
-            </button>
-          </div>
-          <button *ngIf="cartService.count() > 0" (click)="step.set(4)" class="btn-bot-confirm">
-            FINALIZAR Y PAGAR 🏁
-          </button>
-        </div>
+        <!-- Busca esta parte en tu chat-body -->
+<div *ngIf="(step() === 1 || step() === 3) && step() !== 6" class="bot-action-area">
+  <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #666">
+    SELECCIONA PARA AÑADIR:
+  </p>
+  <div class="bot-grid-buttons">
+    <button *ngFor="let prod of products" (click)="seleccionarProductoDesdeBot(prod)" class="btn-bot-item">
+      + {{ prod.name }}
+    </button>
+  </div>
+  
+  <!-- El botón de finalizar solo sale si realmente hay algo que finalizar -->
+  <button *ngIf="cartService.count() > 0" (click)="step.set(4)" class="btn-bot-confirm">
+    FINALIZAR Y PAGAR 🏁
+  </button>
+</div>
+
 
         <!-- Acciones finales de pago -->
         <div *ngIf="step() === 6" class="p-3 text-center">
@@ -216,17 +222,16 @@
       </div>
     </div>
 
-    <!-- Botón flotante para abrir chat -->
-    <div class="action-buttons">
-      <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
-        <img src="assets/bracasfoodlogo.jpeg" alt="Logo" class="bot-icon-img" [style.opacity]="isOpen() ? '0.3' : '1'" />
-        <span *ngIf="isOpen()" class="close-icon-overlay">×</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Control de música -->
-  <button (click)="toggleMusica()" class="btn-audio">
-    {{ musicaActiva ? '🔊' : '🔇' }}
+ <!-- BOTÓN FLOTANTE DEL CHAT -->
+<div class="action-buttons">
+  <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
+    <img
+      src="assets/bracasfoodlogo.jpeg"
+      alt="Logo"
+      class="bot-icon-img"
+      [style.opacity]="isOpen() ? '0.5' : '1'"
+    />
+    <!-- ⚠️ BORRA CUALQUIER SPAN O DIV QUE ESTÉ AQUÍ ADENTRO ⚠️ -->
   </button>
 </div>
+

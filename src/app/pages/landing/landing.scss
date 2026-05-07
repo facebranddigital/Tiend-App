@@ -1735,3 +1735,48 @@
   border: none;
   cursor: pointer;
 }
+// --- LIMPIEZA DE ELEMENTOS FANTASMA ---
+
+.action-buttons {
+  .float-btn.ai {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden; // Esto corta cualquier residuo que salga del círculo
+
+    .bot-icon-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+    }
+  }
+}
+
+// Regla de oro: Si un elemento está vacío, no debe ocupar espacio ni mostrarse
+span:empty, 
+div:empty, 
+p:empty {
+  display: none !important;
+}
+
+// Estilo para los puntos de carga (solo si existen)
+.typing {
+  display: flex;
+  gap: 4px;
+  padding: 10px;
+  span {
+    width: 6px;
+    height: 6px;
+    background: #ff6b00;
+    border-radius: 50%;
+    animation: bounce 1.4s infinite ease-in-out both;
+  }
+}
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}

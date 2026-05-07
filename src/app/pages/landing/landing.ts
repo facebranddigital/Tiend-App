@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CartService } from '../../services/cart.service';
@@ -19,16 +19,15 @@ interface Message {
   templateUrl: './landing.html',
   styleUrls: ['./landing.scss'],
 })
-export class LandingComponent {
+export class LandingComponent implements OnDestroy {
   public cartService = inject(CartService);
   public auth = inject(AuthService);
-  private musica = new Audio('assets/relaxshiva.mp'); // Corregido .mp3
+  private musica = new Audio('assets/relaxshiva.mp');
   public musicaActiva = false;
   private route = inject(ActivatedRoute);
 
   // --- SEÑALES DE ESTADO ---
   showModal = signal(false);
-  showRegisterModal = signal(false);
   qty2 = signal(1);
   searchTerm = signal('');
   isOpen = signal(false);
@@ -36,7 +35,7 @@ export class LandingComponent {
   userInput: string = '';
   messages = signal<Message[]>([]);
   step = signal(0);
-  pedidoTemporal = signal<{ name: string; qty: number; subtotal: number }[]>([]);
+  pedidoTemporal = signal<any[]>([]);
   productoEnCurso = signal<any>(null);
 
   datosPedido = {
@@ -57,7 +56,6 @@ export class LandingComponent {
   ];
 
   constructor() {
-    // Si escanean el QR con ?openbot=true
     this.route.queryParams.subscribe((params) => {
       if (params['openbot'] === 'true') {
         setTimeout(() => {
@@ -65,10 +63,13 @@ export class LandingComponent {
           this.messages.set([
             {
               role: 'model',
-              text: '¡Hola! 🤖 Veo que vas a **pagar tu pedido**. \n\nPara agilizar, dime tu **dirección de entrega**: ',
+              text: '¡Hola! ⚡Muchas gracias por tu compra ⚡ Proceso de **pago rápido** iniciado.\n\nToca el botón de abajo para recibir el QR de Nequi en WhatsApp.',
             },
           ]);
-          this.step.set(4); // Salto directo a la dirección
+          // Seteamos datos automáticos para que no los pida
+          this.datosPedido.direccion = 'PAGO EN PERSONA (LOCAL)';
+          this.datosPedido.pago = 'Nequi';
+          this.step.set(6); // Ir directo al botón de WhatsApp
         }, 1000);
       }
     });
@@ -82,9 +83,18 @@ export class LandingComponent {
           this.musicaActiva = true;
           document.removeEventListener('click', activarAudio);
         })
-        .catch(() => console.log('Audio bloqueado por el navegador'));
+        .catch(() => console.log('Audio bloqueado'));
     };
     document.addEventListener('click', activarAudio);
+  }
+
+  // --- LIMPIEZA DE AUDIO PARA EVITAR ECOS ---
+  ngOnDestroy() {
+    if (this.musica) {
+      this.musica.pause();
+      this.musica.src = '';
+      this.musica.load();
+    }
   }
 
   // --- FUNCIONES DEL CHAT ---
@@ -117,73 +127,51 @@ export class LandingComponent {
     const originalInput = this.userInput;
     const lowerText = text.toLowerCase();
 
-    // Agregar mensaje del usuario a la lista
     this.messages.update((prev) => [...prev, { role: 'user', text: originalInput }]);
     this.userInput = '';
     this.isLoading.set(true);
 
     setTimeout(() => {
       let response = '';
-
-      // --- PASO 1: DECISIÓN INICIAL ---
       if (this.step() === 1) {
         if (lowerText.includes('pagar') || lowerText.includes('2')) {
-          response =
-            '¡Excelente! 🛍️ Para procesar tu pago, primero dime tu **dirección de entrega**:';
+          response = '🛍️ Dime tu **dirección**';
           this.step.set(4);
         } else {
-          response =
-            '¡Claro! 🛵 Selecciona un producto de la lista arriba para añadirlo o escribe "pagar" para finalizar.';
+          response = '🛵 Toca un producto de la lista para añadirlo:';
           this.step.set(1);
         }
-      }
-
-      // --- PASO 2: PROCESAR CANTIDAD (FIX) ---
-      else if (this.step() === 2) {
+      } else if (this.step() === 2) {
         const cantidad = parseInt(originalInput);
         if (!isNaN(cantidad) && cantidad > 0) {
           const prod = this.productoEnCurso();
-          // Añadimos al carrito real
           this.onAddToCart(prod.name, prod.price, prod.category, '', cantidad);
-
-          response = `✅ Añadido **${cantidad}x ${prod.name}**. \n\n¿Deseas algo más o escribes **"pagar"**?`;
-          this.step.set(1); // Regresamos al menú principal
+          response = `✅ Añadido **${cantidad}x ${prod.name}**. ¿Algo más o escribes "pagar"?`;
+          this.step.set(1);
         } else {
-          response = '⚠️ Por favor, dime un número válido (ejemplo: 2). ¿Cuántas unidades quieres?';
+          response = '⚠️ Por favor, dime un número válido.';
         }
-      }
-
-      // --- PASO 4: DIRECCIÓN ---
-      else if (this.step() === 4) {
+      } else if (this.step() === 4) {
         this.datosPedido.direccion = originalInput;
-        response = '📍 Dirección anotada. ¿Cómo pagarás? (**Efectivo** o **Nequi**) 💸';
+        response = '✅ *¡LISTO!* ¿Pagarás con**Efectivo💸** o **Nequi**';
         this.step.set(5);
-      }
-
-      // --- PASO 5: MÉTODO DE PAGO ---
-      else if (this.step() === 5) {
+      } else if (this.step() === 5) {
         this.datosPedido.pago = originalInput;
         this.isLoading.set(false);
-
         const esNequi = lowerText.includes('nequi');
-        const colorBoton = esNequi ? 'morado' : 'verde';
-
-        const msgCierre = `🚀 *¡CASI LISTO!*\n\nPara finalizar tu pedido:\n1️⃣ Toca el botón **${colorBoton}** de abajo.\n2️⃣ Envía el mensaje en WhatsApp.\n3️⃣ ${esNequi ? 'Recibirás el QR de inmediato.' : 'Confirmaremos tu pedido pronto.'}`;
-
+        const color = esNequi ? 'morado' : 'verde';
+        const msgCierre = `🚀 *¡LISTO!*\n\n1️⃣ Toca el botón **${color}**.\n2️⃣ Envía el mensaje.\n3️⃣ Recibe tu QR o confirmación.`;
         this.messages.update((prev) => [...prev, { role: 'model', text: msgCierre }]);
         this.step.set(6);
         return;
       }
 
-      // Enviar respuesta del bot si existe
-      if (response) {
-        this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
-      }
+      if (response) this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
       this.isLoading.set(false);
     }, 1000);
   }
 
-  // --- INTEGRACIÓN CON WHATSAPP ---
+  // --- INTEGRACIÓN WHATSAPP ---
 
   hacerPedidoWhatsApp() {
     this.isOpen.set(true);
@@ -192,11 +180,20 @@ export class LandingComponent {
 
   confirmarPagoEnWhatsApp() {
     const telefono = '573218119383';
-    const keyword = 'PAGO_NEQUI_BRACAS'; // Esta clave activa tu bot de WA
-    const direccion = this.datosPedido.direccion || 'No especificada';
+    const keyword = 'PAGO_NEQUI_BRACAS';
+    const items = this.cartService.items();
 
-    // Mensaje sin precios, solo detalles de proceso y dirección
-    const texto = `${keyword}\n\n📍 *Dirección:* ${direccion}\n🚀 *Acción:* Por favor envíame el QR para realizar mi pago.`;
+    let texto = '';
+
+    if (items.length > 0) {
+      // Si compró algo por la web, sí mostramos detalles
+      const lista = items.map((i) => `• ${i.name} x${i.quantity}`).join('\n');
+      const total = items.reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
+      texto = `*${keyword}* 🚀\n\n📦 *PEDIDO:*\n${lista}\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *ENTREGA:* En el local`;
+    } else {
+      // PAGO EXPRESS (Lo que usa tu mamá en la calle)
+      texto = `*${keyword}* ⚡\n\n✅ *PAGO EXPRESS*\n📥 Descarga el QR  🖨️ Escanealo en Nequi   📲 Envianoa el comprobante\n\nSolicito el QR de Nequi.`;
+    }
 
     window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`, '_blank');
     this.resetearTodo();
@@ -205,12 +202,16 @@ export class LandingComponent {
   confirmarPedidoWhatsApp() {
     const telefono = '573218119383';
     const direccion = this.datosPedido.direccion || 'No especificada';
-    const metodo = this.datosPedido.pago || 'No especificado';
+    const items = this.cartService.items();
+    let lista =
+      items.length > 0 ? items.map((i) => `• ${i.name} x${i.quantity}`).join('\n') + '\n\n' : '';
 
-    let mensaje = `*📦 NUEVO PEDIDO BRACASFOOD*\n\n📍 *DIRECCIÓN:* ${direccion}\n💸 *PAGO:* ${metodo}`;
+    const mensaje = `*📦 NUEVO PEDIDO*\n\n${lista}📍 *DIR:* ${direccion}\n💸 *PAGO:* ${this.datosPedido.pago}`;
     window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
     this.resetearTodo();
   }
+
+  // --- UTILIDADES ---
 
   onAddToCart(name: string, price: any, category: string, image: string, quantity: any) {
     const qty = parseInt(quantity) || 1;
@@ -221,28 +222,44 @@ export class LandingComponent {
       imageUrl: image,
       quantity: qty,
     });
+
+    // NOTIFICACIÓN ESTILO BRACAS FOOD
+    Swal.fire({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      icon: 'success',
+      title: `¡Añadido!`,
+      html: `
+      <div style="display: flex; align-items: center; gap: 10px; text-align: left;">
+        <img src="assets/bracasfoodlogo.jpeg" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #ff6b00;">
+        <div>
+          <b style="color: #ff6b00;">${qty}x</b> ${name}<br>
+          <small style="color: #666;">Se sumó al carrito</small>
+        </div>
+      </div>
+    `,
+      background: '#fff',
+      color: '#333',
+      iconColor: '#ff6b00',
+      didOpen: (toast: any) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+    });
   }
 
   seleccionarProductoDesdeBot(prod: any) {
     this.productoEnCurso.set(prod);
-    this.messages.update((prev) => [
-      ...prev,
-      { role: 'model', text: `¿Cuántas unidades de *${prod.name}* quieres?` },
-    ]);
+    this.messages.update((prev) => [...prev, { role: 'model', text: `¿Cuántos *${prod.name}*?` }]);
     this.step.set(2);
   }
 
   toggleMusica() {
-    if (this.musica.paused) {
-      this.musica.play().catch((e) => console.log(e));
-    } else {
-      this.musica.pause();
-    }
+    this.musica.paused ? this.musica.play() : this.musica.pause();
     this.musicaActiva = !this.musica.paused;
-  }
-
-  updateQty(amount: number) {
-    this.qty2.update((v) => (v + amount < 1 ? 1 : v + amount));
   }
 
   scrollToTop() {
@@ -255,7 +272,6 @@ export class LandingComponent {
 
   private resetearTodo() {
     this.step.set(0);
-    this.pedidoTemporal.set([]);
     this.isOpen.set(false);
     this.datosPedido = { direccion: '', pago: '' };
   }
