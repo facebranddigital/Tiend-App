@@ -36,11 +36,18 @@
           </div>
           <div class="purchase-row">
             <div class="qty-mini">
-              <button (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()">-</button>
+              <button (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()">
+                -
+              </button>
               <input #pQty1 type="number" value="1" readonly />
               <button (click)="pQty1.value = (+pQty1.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)">
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)
+              "
+            >
               COMPRAR
             </button>
           </div>
@@ -59,11 +66,24 @@
           </div>
           <div class="purchase-row">
             <div class="qty-mini">
-              <button (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()">-</button>
+              <button (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()">
+                -
+              </button>
               <input #pQty2 type="number" value="1" readonly />
               <button (click)="pQty2.value = (+pQty2.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Bolis de Leche', 2000, 'Postres', 'assets/bracasfoodbolis.webp', pQty2.value)">
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart(
+                  'Bolis de Leche',
+                  2000,
+                  'Postres',
+                  'assets/bracasfoodbolis.webp',
+                  pQty2.value
+                )
+              "
+            >
               COMPRAR
             </button>
           </div>
@@ -83,11 +103,24 @@
           </div>
           <div class="purchase-row">
             <div class="qty-mini">
-              <button (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()">-</button>
+              <button (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()">
+                -
+              </button>
               <input #pQty3 type="number" value="1" readonly />
               <button (click)="pQty3.value = (+pQty3.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp', pQty3.value)">
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart(
+                  'Bolis Naturales',
+                  1500,
+                  'Postres',
+                  'assets/bolismorados.webp',
+                  pQty3.value
+                )
+              "
+            >
               COMPRAR
             </button>
           </div>
@@ -106,11 +139,18 @@
           </div>
           <div class="purchase-row">
             <div class="qty-mini">
-              <button (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()">-</button>
+              <button (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()">
+                -
+              </button>
               <input #pQty4 type="number" value="1" readonly />
               <button (click)="pQty4.value = (+pQty4.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)">
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)
+              "
+            >
               COMPRAR
             </button>
           </div>
@@ -129,11 +169,18 @@
           </div>
           <div class="purchase-row">
             <div class="qty-mini">
-              <button (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()">-</button>
+              <button (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()">
+                -
+              </button>
               <input #pQty5 type="number" value="1" readonly />
               <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
             </div>
-            <button class="add-btn" (click)="onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)">
+            <button
+              class="add-btn"
+              (click)="
+                onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)
+              "
+            >
               COMPRAR
             </button>
           </div>
@@ -154,7 +201,15 @@
 
   <!-- BOTÓN DE SCROLL (Carrito flotante) -->
   <button class="bracas-float-btn" (click)="scrollToTop()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="bracas-icon-cart">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="bracas-icon-cart"
+    >
       <circle cx="9" cy="21" r="1"></circle>
       <circle cx="20" cy="21" r="1"></circle>
       <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
@@ -169,42 +224,61 @@
     <div class="chat-window" *ngIf="isOpen()">
       <div class="chat-header">
         <div class="header-info" style="display: flex; align-items: center; gap: 8px">
-          <img src="assets/bracasfoodlogo.jpeg" alt="Logo" style="width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #ff6b00" />
+          <img
+            src="assets/bracasfoodlogo.jpeg"
+            alt="Logo"
+            style="width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #ff6b00"
+          />
           <p>BracasBot</p>
         </div>
         <button class="close-btn" (click)="toggleChat()">×</button>
       </div>
 
       <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-        <div *ngFor="let msg of messages()" [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }">
+        <div
+          *ngFor="let msg of messages()"
+          [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }"
+        >
           <div class="message-bubble" [innerHTML]="formatText(msg.text)"></div>
         </div>
 
         <!-- Botones dinámicos del bot -->
         <!-- Busca esta parte en tu chat-body -->
-<div *ngIf="(step() === 1 || step() === 3) && step() !== 6" class="bot-action-area">
-  <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #666">
-    SELECCIONA PARA AÑADIR:
-  </p>
-  <div class="bot-grid-buttons">
-    <button *ngFor="let prod of products" (click)="seleccionarProductoDesdeBot(prod)" class="btn-bot-item">
-      + {{ prod.name }}
-    </button>
-  </div>
-  
-  <!-- El botón de finalizar solo sale si realmente hay algo que finalizar -->
-  <button *ngIf="cartService.count() > 0" (click)="step.set(4)" class="btn-bot-confirm">
-    FINALIZAR Y PAGAR 🏁
-  </button>
-</div>
+        <div *ngIf="(step() === 1 || step() === 3) && step() !== 6" class="bot-action-area">
+          <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #666">
+            SELECCIONA PARA AÑADIR:
+          </p>
+          <div class="bot-grid-buttons">
+            <button
+              *ngFor="let prod of products"
+              (click)="seleccionarProductoDesdeBot(prod)"
+              class="btn-bot-item"
+            >
+              + {{ prod.name }}
+            </button>
+          </div>
 
+          <!-- El botón de finalizar solo sale si realmente hay algo que finalizar -->
+          <button *ngIf="cartService.count() > 0" (click)="step.set(4)" class="btn-bot-confirm">
+            FINALIZAR Y PAGAR 🏁
+          </button>
+        </div>
 
         <!-- Acciones finales de pago -->
         <div *ngIf="step() === 6" class="p-3 text-center">
-          <button *ngIf="datosPedido.pago.toLowerCase().includes('nequi')" (click)="confirmarPagoEnWhatsApp()" class="btn-whatsapp" style="background-color: #643193 !important">
+          <button
+            *ngIf="datosPedido.pago.toLowerCase().includes('nequi')"
+            (click)="confirmarPagoEnWhatsApp()"
+            class="btn-whatsapp"
+            style="background-color: #643193 !important"
+          >
             Confirmar y recibir QR en WhatsApp 🚀
           </button>
-          <button *ngIf="!datosPedido.pago.toLowerCase().includes('nequi')" (click)="confirmarPedidoWhatsApp()" class="btn-whatsapp">
+          <button
+            *ngIf="!datosPedido.pago.toLowerCase().includes('nequi')"
+            (click)="confirmarPedidoWhatsApp()"
+            class="btn-whatsapp"
+          >
             Confirmar pedido en WhatsApp 🛵
           </button>
         </div>
@@ -215,23 +289,35 @@
       </div>
 
       <div class="chat-footer">
-        <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" 
-               [placeholder]="step() === 2 ? '¿Cuántos quieres?' : step() === 4 ? 'Dime tu dirección...' : 'Escribe aquí...'" 
-               [disabled]="isLoading() || step() === 6" />
-        <button class="send-btn" (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">➤</button>
+        <input
+          type="text"
+          [(ngModel)]="userInput"
+          (keyup.enter)="sendMessage()"
+          [placeholder]="placeholderText()"
+          [disabled]="isLoading() || step() === 6"
+        />
+
+        <button
+          class="send-btn"
+          (click)="sendMessage()"
+          [disabled]="isLoading() || !userInput.trim()"
+        >
+          ➤
+        </button>
       </div>
     </div>
 
- <!-- BOTÓN FLOTANTE DEL CHAT -->
-<div class="action-buttons">
-  <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
-    <img
-      src="assets/bracasfoodlogo.jpeg"
-      alt="Logo"
-      class="bot-icon-img"
-      [style.opacity]="isOpen() ? '0.5' : '1'"
-    />
-    <!-- ⚠️ BORRA CUALQUIER SPAN O DIV QUE ESTÉ AQUÍ ADENTRO ⚠️ -->
-  </button>
+    <!-- BOTÓN FLOTANTE DEL CHAT -->
+    <div class="action-buttons">
+      <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
+        <img
+          src="assets/bracasfoodlogo.jpeg"
+          alt="Logo"
+          class="bot-icon-img"
+          [style.opacity]="isOpen() ? '0.5' : '1'"
+        />
+        <!-- ⚠️ BORRA CUALQUIER SPAN O DIV QUE ESTÉ AQUÍ ADENTRO ⚠️ -->
+      </button>
+    </div>
+  </div>
 </div>
-
