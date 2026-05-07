@@ -63,7 +63,7 @@ export class LandingComponent implements OnDestroy {
           this.messages.set([
             {
               role: 'model',
-              text: '¡Hola! ⚡Muchas gracias por tu compra ⚡ Proceso de **pago rápido** iniciado.\n\nToca el botón de abajo para recibir el QR de Nequi en WhatsApp.',
+              text: '¡Hola! ⚡ Proceso de **pago rápido** iniciado.\n\nToca el botón de abajo para recibir el QR de Nequi en WhatsApp.',
             },
           ]);
           // Seteamos datos automáticos para que no los pida
@@ -114,7 +114,7 @@ export class LandingComponent implements OnDestroy {
       this.messages.set([
         {
           role: 'model',
-          text: '¡Hola! Soy BracasBot 🤖. ¿Qué deseas hacer hoy? \n\n1️⃣ **Hacer un pedido** 🛵 \n2️⃣ **Pagar un pedido** 💸',
+          text: '¡Hola! Soy BracasBot 🤖. ¿Qué deseas hacer? \n\n1️⃣ **Hacer un pedido** 🛵 \n2️⃣ **Pagar un pedido** 💸',
         },
       ]);
       this.step.set(1);
@@ -135,7 +135,7 @@ export class LandingComponent implements OnDestroy {
       let response = '';
       if (this.step() === 1) {
         if (lowerText.includes('pagar') || lowerText.includes('2')) {
-          response = '🛍️ Dime tu **dirección**';
+          response = '🛍️ **¿Cual es tu dirección?**';
           this.step.set(4);
         } else {
           response = '🛵 Toca un producto de la lista para añadirlo:';
@@ -146,21 +146,21 @@ export class LandingComponent implements OnDestroy {
         if (!isNaN(cantidad) && cantidad > 0) {
           const prod = this.productoEnCurso();
           this.onAddToCart(prod.name, prod.price, prod.category, '', cantidad);
-          response = `✅ Añadido **${cantidad}x ${prod.name}**. ¿Algo más o escribes "pagar"?`;
+          response = `📥 Añadido **${cantidad}x ${prod.name}**Puedes agregar mas o escribes "pagar"`;
           this.step.set(1);
         } else {
           response = '⚠️ Por favor, dime un número válido.';
         }
       } else if (this.step() === 4) {
         this.datosPedido.direccion = originalInput;
-        response = '✅ *¡LISTO!* ¿Pagarás con**Efectivo💸** o **Nequi**';
+        response = '✅ *¡LISTO!* ¿Pagarás con**Efectivo💸** o **Nequi💱**';
         this.step.set(5);
       } else if (this.step() === 5) {
         this.datosPedido.pago = originalInput;
         this.isLoading.set(false);
         const esNequi = lowerText.includes('nequi');
         const color = esNequi ? 'morado' : 'verde';
-        const msgCierre = `🚀 *¡LISTO!*\n\n1️⃣ Toca el botón **${color}**.\n2️⃣ Envía el mensaje.\n3️⃣ Recibe tu QR o confirmación.`;
+        const msgCierre = `🎯 *¡LISTO!*\n1️⃣ Toca el botón **${color}**2️⃣ Envía el mensaje.\n3️⃣ Escanea el QR `;
         this.messages.update((prev) => [...prev, { role: 'model', text: msgCierre }]);
         this.step.set(6);
         return;
@@ -180,7 +180,7 @@ export class LandingComponent implements OnDestroy {
 
   confirmarPagoEnWhatsApp() {
     const telefono = '573218119383';
-    const keyword = 'PAGO_NEQUI_BRACAS';
+    const keyword = '💱PAGO_NEQUI_BRACAS';
     const items = this.cartService.items();
 
     let texto = '';
@@ -192,7 +192,7 @@ export class LandingComponent implements OnDestroy {
       texto = `*${keyword}* 🚀\n\n📦 *PEDIDO:*\n${lista}\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *ENTREGA:* En el local`;
     } else {
       // PAGO EXPRESS (Lo que usa tu mamá en la calle)
-      texto = `*${keyword}* ⚡\n\n✅ *PAGO EXPRESS*\n📥 Descarga el QR  🖨️ Escanealo en Nequi   📲 Envianoa el comprobante\n\nSolicito el QR de Nequi.`;
+      texto = `*${keyword}* ⚡\n\🚀*PAGO EXPRESS*\n📥 Descarga el QR    🖨️ Escanealo en Nequi     📲 Envianos el comprobante\n\nSolicito el QR de Nequi.`;
     }
 
     window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`, '_blank');
