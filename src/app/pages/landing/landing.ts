@@ -85,7 +85,7 @@ export class LandingComponent implements OnDestroy {
             },
           ]);
           // Seteamos datos automáticos para que no los pida
-          this.datosPedido.direccion = 'PAGO EN PERSONA (LOCAL)';
+          this.datosPedido.direccion = 'PAGO_NEQUI_BRACAS';
           this.datosPedido.pago = 'Nequi';
           this.step.set(6); // Ir directo al botón de WhatsApp
         }, 1000);
@@ -310,7 +310,11 @@ export class LandingComponent implements OnDestroy {
             .join('\n') + '\n\n'
         : '';
 
-    const mensaje = `*📦 NUEVO PEDIDO - Bracasfood*\n\n${lista}💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *Direccion:* ${direccion}\n💸 *PAGO:* ${this.datosPedido.pago}`;
+    const mensaje = `*💱PAGO_NEQUI_BRACAS ⚡
+🚀PAGO EXPRESS
+📥 Descarga el QR    🖨️ Escanealo en Nequi     📲 Envianos el comprobante
+
+Solicito el QR de Nequi.*\n\n${lista}💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *Direccion:* ${direccion}\n💸 *PAGO:* ${this.datosPedido.pago}`;
 
     this.dispararConfeti();
 
