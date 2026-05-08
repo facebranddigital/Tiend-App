@@ -296,25 +296,25 @@ export class LandingComponent implements OnDestroy {
 
   confirmarPedidoWhatsApp() {
     const telefono = '573218119383';
-    const direccion = this.datosPedido.direccion || 'No especificada';
     const items = this.cartService.items();
+    const direccion = this.datosPedido.direccion || 'Local / Por confirmar';
     const total = items.reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
 
-    let lista =
-      items.length > 0
-        ? items
-            .map(
-              (i) =>
-                `• ${i.name} x${i.quantity || 1} ($${(i.price * (i.quantity || 1)).toLocaleString('es-CO')})`,
-            )
-            .join('\n') + '\n\n'
-        : '';
+    // ESTA LÍNEA ES LA CLAVE: Debe ser idéntica al Pago Express para que tu IA reaccione
+    let mensaje = `*💱 PAGO_NEQUI_BRACAS* ⚡\n\n`;
 
-    const mensaje = `*💱PAGO_NEQUI_BRACAS ⚡
-🚀PAGO EXPRESS
-📥 Descarga el QR    🖨️ Escanealo en Nequi     📲 Envianos el comprobante
-
-Solicito el QR de Nequi.*\n\n${lista}💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *Direccion:* ${direccion}\n💸 *PAGO:* ${this.datosPedido.pago}`;
+    if (items.length > 0) {
+      mensaje += `📦 *DETALLES DEL PEDIDO:*\n`;
+      items.forEach((i) => {
+        mensaje += `• ${i.name} x${i.quantity || 1}\n`;
+      });
+      mensaje += `\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n`;
+      mensaje += `📍 *ENTREGA:* ${direccion}\n\n`;
+      mensaje += `*Solicito el QR de Nequi.*`; // Esta frase refuerza el comando de la IA
+    } else {
+      // Mensaje simplificado si por alguna razón no hay ítems
+      mensaje += `🚀 *PAGO EXPRESS INICIADO*\n\nSolicito el QR de Nequi.`;
+    }
 
     this.dispararConfeti();
 
