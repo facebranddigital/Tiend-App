@@ -85,7 +85,7 @@ export class LandingComponent implements OnDestroy {
             },
           ]);
           // Seteamos datos automáticos para que no los pida
-          this.datosPedido.direccion = 'PAGO_NEQUI_BRACAS';
+          this.datosPedido.direccion = 'PAGO EN PERSONA (LOCAL)';
           this.datosPedido.pago = 'Nequi';
           this.step.set(6); // Ir directo al botón de WhatsApp
         }, 1000);
@@ -234,27 +234,8 @@ export class LandingComponent implements OnDestroy {
     }, 800);
   }
 
-  // --- NAVEGACIÓN Y SELECCIÓN ---
-  scrollTo(elementId: string) {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
+  // ... termina tu sendMessage()
 
-  seleccionarProductoDesdeBot(producto: any) {
-    this.productoEnCurso.set(producto);
-    this.messages.update((prev) => [
-      ...prev,
-      {
-        role: 'model',
-        text: `¿Cuántos **${producto.name}** quieres llevar?`,
-      },
-    ]);
-    this.step.set(2);
-  }
-
-  // --- EFECTO DE CELEBRACIÓN ---
   dispararConfeti() {
     const duration = 3000;
     const animationEnd = Date.now() + duration;
@@ -267,68 +248,102 @@ export class LandingComponent implements OnDestroy {
       if (timeLeft <= 0) return clearInterval(interval);
 
       const particleCount = 50 * (timeLeft / duration);
-      const colors = ['#ff6b00', '#ffbb00', '#ffffff'];
 
-      confetti({
+      // Disparo izquierdo
+      (confetti as any)({
         ...defaults,
         particleCount,
-        colors,
+        colors: ['#ff6b00', '#ffbb00', '#ffffff'],
         origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
       });
-      confetti({
+      // Disparo derecho
+      (confetti as any)({
         ...defaults,
         particleCount,
-        colors,
+        colors: ['#ff6b00', '#ffbb00', '#ffffff'],
         origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
       });
     }, 250);
   }
 
   // --- INTEGRACIÓN WHATSAPP ---
+
   hacerPedidoWhatsApp() {
     this.isOpen.set(true);
+    this.step.set(1);
+    // Agregamos el mensaje inicial si el chat está vacío
     if (this.messages().length === 0) {
-      this.toggleChat();
-    } else {
-      this.step.set(1);
+      this.messages.set([
+        {
+          role: 'model',
+          text: '¡Hola! Soy BracasBot 🤖. ¿Qué deseas hacer? \n\n1️⃣ **Hacer un pedido** 🛵 \n2️⃣ **Pagar un pedido** 💸',
+        },
+      ]);
     }
+  }
+
+  confirmarPagoEnWhatsApp() {
+    const telefono = '573218119383';
+    const keyword = '💱PAGO_NEQUI_BRACAS';
+    const items = this.cartService.items();
+
+    let texto = '';
+
+    if (items.length > 0) {
+      // Si compró algo por la web, sí mostramos detalles
+      const lista = items.map((i) => `• ${i.name} x${i.quantity}`).join('\n');
+      const total = items.reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
+      texto = `*${keyword}* 🚀\n\n📦 *PEDIDO:*\n${lista}\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *ENTREGA:* En el local`;
+    } else {
+      // PAGO EXPRESS (Lo que usa tu mamá en la calle)
+      texto = `*${keyword}* ⚡\n\🚀*PAGO EXPRESS*\n📥 Descarga el QR    🖨️ Escanealo en Nequi     📲 Envianos el comprobante\n\nSolicito el QR de Nequi.`;
+    }
+
+    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`, '_blank');
+    this.resetearTodo();
   }
 
   confirmarPedidoWhatsApp() {
     const telefono = '573218119383';
     const items = this.cartService.items();
-    const direccion = this.datosPedido.direccion || 'Local / Por confirmar';
+    const direccion = this.datosPedido.direccion || 'Local / Para llevar';
+    const metodoPago = this.datosPedido.pago || 'No especificado';
+
+    // Calculamos el total
     const total = items.reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
 
-    // ESTA LÍNEA ES LA CLAVE: Debe ser idéntica al Pago Express para que tu IA reaccione
-    let mensaje = `*💱 PAGO_NEQUI_BRACAS* ⚡\n\n`;
+    // 1. Cabecera del mensaje
+    let mensaje = `*📦 NUEVO PEDIDO - BRACASFOOD*\n\n`;
 
+    // 2. Listado de productos
     if (items.length > 0) {
-      mensaje += `📦 *DETALLES DEL PEDIDO:*\n`;
+      mensaje += `*DETALLES:*\n`;
       items.forEach((i) => {
-        mensaje += `• ${i.name} x${i.quantity || 1}\n`;
+        mensaje += `• ${i.name} x${i.quantity || 1} ($${(i.price * (i.quantity || 1)).toLocaleString('es-CO')})\n`;
       });
-      mensaje += `\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n`;
-      mensaje += `📍 *ENTREGA:* ${direccion}\n\n`;
-      mensaje += `*Solicito el QR de Nequi.*`; // Esta frase refuerza el comando de la IA
+      mensaje += `\n💰 *TOTAL A PAGAR:* $${total.toLocaleString('es-CO')}\n`;
     } else {
-      // Mensaje simplificado si por alguna razón no hay ítems
-      mensaje += `🚀 *PAGO EXPRESS INICIADO*\n\nSolicito el QR de Nequi.`;
+      mensaje += `⚡ *PAGO RÁPIDO (EXPRESS)*\n`;
     }
 
-    this.dispararConfeti();
+    // 3. Datos de entrega y pago
+    mensaje += `\n📍 *ENTREGA:* ${direccion}`;
+    mensaje += `\n💸 *MÉTODO DE PAGO:* ${metodoPago}`;
 
-    setTimeout(() => {
-      window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
-      this.resetearTodo();
-    }, 1000);
-  }
+    if (metodoPago.toLowerCase().includes('nequi')) {
+      mensaje += `\n\n--- \nSolicito el QR para realizar el pago por Nequi. 💱`;
+    }
 
-  confirmarPagoEnWhatsApp() {
-    this.confirmarPedidoWhatsApp();
+    // Abrir WhatsApp
+    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+
+    // Limpiamos todo después de enviar
+    this.resetearTodo();
   }
 
   // --- UTILIDADES ---
+
   onAddToCart(name: string, price: any, category: string, image: string, quantity: any) {
     const qty = parseInt(quantity) || 1;
     this.cartService.addToCart({
@@ -339,29 +354,56 @@ export class LandingComponent implements OnDestroy {
       quantity: qty,
     });
 
+    // NOTIFICACIÓN ESTILO BRACAS FOOD
     Swal.fire({
       toast: true,
       position: 'top-end',
       showConfirmButton: false,
-      timer: 2000,
+      timer: 3000,
       timerProgressBar: true,
       icon: 'success',
-      title: `¡${name} añadido!`,
+      title: `¡Añadido!`,
+      html: `
+      <div style="display: flex; align-items: center; gap: 10px; text-align: left;">
+        <img src="assets/bracasfoodlogo.jpeg" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #ff6b00;">
+        <div>
+          <b style="color: #ff6b00;">${qty}x</b> ${name}<br>
+          <small style="color: #666;">Se sumó al carrito</small>
+        </div>
+      </div>
+    `,
       background: '#fff',
-      color: '#000',
+      color: '#333',
+      iconColor: '#ff6b00',
+      didOpen: (toast: any) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
     });
   }
 
-  resetearTodo() {
-    this.cartService.clearCart();
-    this.isOpen.set(false);
-    this.step.set(0);
-    this.messages.set([]);
-    this.datosPedido = { direccion: '', pago: '' };
+  seleccionarProductoDesdeBot(prod: any) {
+    this.productoEnCurso.set(prod);
+    this.messages.update((prev) => [...prev, { role: 'model', text: `¿Cuántos *${prod.name}*?` }]);
+    this.step.set(2);
+  }
+
+  toggleMusica() {
+    this.musica.paused ? this.musica.play() : this.musica.pause();
+    this.musicaActiva = !this.musica.paused;
   }
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (!this.isOpen()) this.toggleChat();
+  }
+
+  scrollTo(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private resetearTodo() {
+    this.step.set(0);
+    this.isOpen.set(false);
+    this.datosPedido = { direccion: '', pago: '' };
   }
 }
