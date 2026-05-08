@@ -234,7 +234,7 @@
         <button class="close-btn" (click)="toggleChat()">×</button>
       </div>
 
-      <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+      <div class="chat-body" #scrollMe>
         <div
           *ngFor="let msg of messages()"
           [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }"

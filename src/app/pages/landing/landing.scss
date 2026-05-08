@@ -1756,8 +1756,8 @@
 }
 
 // Regla de oro: Si un elemento está vacío, no debe ocupar espacio ni mostrarse
-span:empty, 
-div:empty, 
+span:empty,
+div:empty,
 p:empty {
   display: none !important;
 }
@@ -1777,6 +1777,12 @@ p:empty {
 }
 
 @keyframes bounce {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1.0); }
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
 }
