@@ -307,7 +307,7 @@ export class LandingComponent implements OnDestroy {
     this.dispararConfeti();
 
     setTimeout(() => {
-      window.open(`https://wa.m/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+      window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
       this.resetearTodo();
     }, 1000);
   }
@@ -327,8 +327,8 @@ export class LandingComponent implements OnDestroy {
 
       window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
       this.resetearTodo();
-      } 1000;
-  
+    }
+    1000;
   }
 
   // --- UTILIDADES ---
@@ -391,11 +391,10 @@ export class LandingComponent implements OnDestroy {
   }
 
   private resetearTodo() {
-  this.cartService.clearCart(); // <--- Limpia el carrito real
-  this.messages.set([]);        // <--- Limpia el historial del chat
-  this.step.set(0);
-  this.isOpen.set(false);
-  this.datosPedido = { direccion: '', pago: '' };
-}
-
+    this.cartService.clearCart(); // <--- Limpia el carrito real
+    this.messages.set([]); // <--- Limpia el historial del chat
+    this.step.set(0);
+    this.isOpen.set(false);
+    this.datosPedido = { direccion: '', pago: '' };
+  }
 }
