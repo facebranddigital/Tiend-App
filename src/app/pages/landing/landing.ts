@@ -284,62 +284,51 @@ export class LandingComponent implements OnDestroy {
 
   confirmarPagoEnWhatsApp() {
     const telefono = '573218119383';
-    const keyword = '💱PAGO_NEQUI_BRACAS';
     const items = this.cartService.items();
 
-    let texto = '';
-
-    if (items.length > 0) {
-      // Si compró algo por la web, sí mostramos detalles
-      const lista = items.map((i) => `• ${i.name} x${i.quantity}`).join('\n');
-      const total = items.reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
-      texto = `*${keyword}* 🚀\n\n📦 *PEDIDO:*\n${lista}\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *ENTREGA:* En el local`;
-    } else {
-      // PAGO EXPRESS (Lo que usa tu mamá en la calle)
-      texto = `*${keyword}* ⚡\n\🚀*PAGO EXPRESS*\n📥 Descarga el QR    🖨️ Escanealo en Nequi     📲 Envianos el comprobante\n\nSolicito el QR de Nequi.`;
-    }
-
-    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`, '_blank');
-    this.resetearTodo();
-  }
-
-  confirmarPedidoWhatsApp() {
-    const telefono = '573218119383';
-    const items = this.cartService.items();
-    const direccion = this.datosPedido.direccion || 'Local / Para llevar';
-    const metodoPago = this.datosPedido.pago || 'No especificado';
-
-    // Calculamos el total
+    // 1. Calculamos el total por si hay productos en el carrito
     const total = items.reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
 
-    // 1. Cabecera del mensaje
-    let mensaje = `*📦 NUEVO PEDIDO - BRACASFOOD*\n\n`;
+    // 2. Construimos el mensaje EXACTO que tu IA reconoce para soltar el QR
+    let mensaje = `💱PAGO_NEQUI_BRACAS ⚡\n`;
+    mensaje += `🚀PAGO EXPRESS\n`;
+    mensaje += `📥 Descarga el QR    🖨️ Escanealo en Nequi     📲 Envianos el comprobante\n\n`;
 
-    // 2. Listado de productos
+    // Si hay productos, los añadimos abajo como info extra sin romper el comando inicial
     if (items.length > 0) {
-      mensaje += `*DETALLES:*\n`;
-      items.forEach((i) => {
-        mensaje += `• ${i.name} x${i.quantity || 1} ($${(i.price * (i.quantity || 1)).toLocaleString('es-CO')})\n`;
-      });
-      mensaje += `\n💰 *TOTAL A PAGAR:* $${total.toLocaleString('es-CO')}\n`;
+      mensaje += `📦 *DETALLE:* ${items.map((i) => i.name + ' x' + (i.quantity || 1)).join(', ')}\n`;
+      mensaje += `💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n`;
+      mensaje += `📍 *ENTREGA:* ${this.datosPedido.direccion || 'En el local'}\n\n`;
+    }
+
+    mensaje += `Solicito el QR de Nequi.`;
+
+    // 3. Efectos y apertura
+    this.dispararConfeti();
+
+    setTimeout(() => {
+      window.open(`https://wa.m/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+      this.resetearTodo();
+    }, 1000);
+  }
+
+  // Asegúrate de que la otra función también use este mismo comando si es Nequi
+  confirmarPedidoWhatsApp() {
+    if (this.datosPedido.pago.toLowerCase().includes('nequi')) {
+      this.confirmarPagoEnWhatsApp();
     } else {
-      mensaje += `⚡ *PAGO RÁPIDO (EXPRESS)*\n`;
-    }
+      // Lógica normal para Efectivo...
+      const telefono = '573218119383';
+      const items = this.cartService.items();
+      const total = items.reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
+      const lista = items.map((i) => `• ${i.name} x${i.quantity || 1}`).join('\n');
 
-    // 3. Datos de entrega y pago
-    mensaje += `\n📍 *ENTREGA:* ${direccion}`;
-    mensaje += `\n💸 *MÉTODO DE PAGO:* ${metodoPago}`;
+      const mensaje = `*📦 NUEVO PEDIDO - EFECTIVO*\n\n${lista}\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *DIR:* ${this.datosPedido.direccion}\n💸 *PAGO:* Efectivo`;
 
-    if (metodoPago.toLowerCase().includes('nequi')) {
-      mensaje += `\n\n--- \nSolicito el QR para realizar el pago por Nequi. 💱`;
-    }
-
-    // Abrir WhatsApp
-    const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
-
-    // Limpiamos todo después de enviar
-    this.resetearTodo();
+      window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+      this.resetearTodo();
+      } 1000;
+  
   }
 
   // --- UTILIDADES ---
@@ -402,8 +391,11 @@ export class LandingComponent implements OnDestroy {
   }
 
   private resetearTodo() {
-    this.step.set(0);
-    this.isOpen.set(false);
-    this.datosPedido = { direccion: '', pago: '' };
-  }
+  this.cartService.clearCart(); // <--- Limpia el carrito real
+  this.messages.set([]);        // <--- Limpia el historial del chat
+  this.step.set(0);
+  this.isOpen.set(false);
+  this.datosPedido = { direccion: '', pago: '' };
+}
+
 }
