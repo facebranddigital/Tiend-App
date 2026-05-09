@@ -259,7 +259,11 @@
           </div>
 
           <!-- El botón de finalizar solo sale si realmente hay algo que finalizar -->
-          <button *ngIf="cartService.count() > 0" (click)="step.set(4)" class="btn-bot-confirm">
+          <button
+            *ngIf="cartService.count() > 0"
+            (click)="procesarPagoDirecto()"
+            class="btn-bot-confirm"
+          >
             FINALIZAR Y PAGAR 🏁
           </button>
         </div>

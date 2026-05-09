@@ -504,6 +504,23 @@
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
 }
+/* Este estilo complementa al que ya tienes */
+.btn-whatsapp {
+  background-color: #25d366; 
+  color: white;
+  border: none;
+  padding: 12px 20px; /* Un poco más de aire para que sea fácil de tocar */
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%; /* Para que en móviles ocupe el ancho del chat */
+  transition: transform 0.2s ease;
+}
+
+/* Efecto al tocar el botón */
+.btn-whatsapp:active {
+  transform: scale(0.95);
+}
 
 /* --- SECCIÓN CARRITO RÁPIDO (Añadir al final) --- */
 .quick-cart-container {

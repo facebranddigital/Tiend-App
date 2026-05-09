@@ -42,11 +42,24 @@ export class LandingComponent implements OnDestroy {
 
   placeholderText = computed(() => {
     const s = this.step();
-    if (s === 2) return 'Escribe la cantidad...';
-    if (s === 3) return 'Escribe "pagar" o sigue comprando...'; // <--- NUEVO
-    if (s === 4) return '¿Que deseas...';
-    if (s === 5) return '¿Nequi o Efectivo?...';
-    return 'Muchas gracias por elegirnos';
+    switch (s) {
+      case 0:
+        return 'Escribe "hola" para empezar...';
+      case 1:
+        return '¿Qué deseas hacer? (1 o 2)';
+      case 2:
+        return 'Escribe la cantidad...';
+      case 3:
+        return '¿Quieres algo más o "pagar"?';
+      case 4:
+        return 'Escribe tu dirección de entrega...'; // Aquí ya no dirá "¿Qué deseas?"
+      case 5:
+        return '¿Nequi o Efectivo?';
+      case 6:
+        return '¡Listo! Toca el botón para finalizar...';
+      default:
+        return 'Escribe un mensaje...';
+    }
   });
 
   datosPedido = {
@@ -91,15 +104,21 @@ export class LandingComponent implements OnDestroy {
         }, 1000);
       }
     });
-    // Efecto para scroll automático
+    // Efecto para scroll automático corregido
     effect(() => {
-      this.messages(); // Monitorea cambios en los mensajes
+      this.messages(); // Monitorea mensajes
+      this.step(); // Monitorea el cambio a los botones de pago
+
       setTimeout(() => {
-        const chatContainer = document.querySelector('.chat-messages-container');
+        // CAMBIO CLAVE: Buscamos '.chat-body' que es la clase real en tu HTML
+        const chatContainer = document.querySelector('.chat-body');
         if (chatContainer) {
-          chatContainer.scrollTop = chatContainer.scrollHeight;
+          chatContainer.scrollTo({
+            top: chatContainer.scrollHeight,
+            behavior: 'smooth',
+          });
         }
-      }, 100);
+      }, 200); // 200ms para que alcancen a cargar los botones
     });
 
     const activarAudio = () => {
@@ -185,8 +204,16 @@ export class LandingComponent implements OnDestroy {
             const prod = this.productoEnCurso();
             this.onAddToCart(prod.name, prod.price, prod.category, '', cantidad);
 
-            response = `📥 Añadido **${cantidad}x ${prod.name}**.\n\n¿Quieres agregar algo más o deseas **pagar**?`;
-            this.step.set(3); // Pausa lógica para decidir
+            // LÓGICA MEJORADA:
+            // Si el texto además de la cantidad dice "pagar", saltamos directo
+            if (lowerText.includes('pagar')) {
+              response = `📥 ¡Listo! **${cantidad}x ${prod.name}** añadidos.\n\n🛍️ **¿A qué dirección enviamos tu pedido?**`;
+              this.step.set(4); // Salto directo a dirección
+            } else {
+              // Flujo normal si solo puso el número
+              response = `📥 Añadido **${cantidad}x ${prod.name}**.\n\n¿Quieres agregar algo más o ya deseas **pagar**?`;
+              this.step.set(3); // Espera decisión
+            }
           } else {
             response = '⚠️ Por favor, dime un número válido para la cantidad.';
           }
@@ -198,17 +225,32 @@ export class LandingComponent implements OnDestroy {
             lowerText.includes('pago') ||
             lowerText.includes('2')
           ) {
-            response = '🛍️ ¡Perfecto! **¿Cuál es tu dirección de entrega?**';
-            this.step.set(4);
+            const total = this.cartService
+              .items()
+              .reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
+
+            // Si el carrito está vacío, no lo dejamos pasar al pago
+            if (total === 0) {
+              response = '🛒 Tu carrito está vacío. ¡Elige un producto antes de pagar!';
+              this.step.set(1);
+            } else {
+              // Mensaje directo y profesional
+              response = `🛍️ ¡Listo! Tu pedido suma **$${total.toLocaleString('es-CO')}**.\n\n¿A qué **dirección** enviamos tu pedido?`;
+              this.step.set(4); // Salta directo a pedir dirección
+            }
           } else {
-            response = '🛵 ¡Claro! Sigue eligiendo. Cuando termines, solo escribe **"pagar"**.';
-            this.step.set(1); // Volvemos al estado de espera de productos
+            response = '🛵 ¡Vale! Sigue eligiendo. Cuando estés listo, escribe **"pagar"**.';
+            this.step.set(1);
           }
           break;
 
         case 4: // Recibiendo Dirección
           this.datosPedido.direccion = text;
-          response = '✅ *¡Entendido!* ¿Cómo deseas pagar? \n\n💸 **Efectivo** \n💱 **Nequi**';
+          const totalConfirmado = this.cartService
+            .items()
+            .reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
+
+          response = `✅ *Dirección: ${text}*\n💰 *Total: $${totalConfirmado.toLocaleString('es-CO')}*\n\n¿Cómo deseas pagar? \n\n💸 **Efectivo** \n💱 **Nequi**`;
           this.step.set(5);
           break;
 
@@ -218,7 +260,7 @@ export class LandingComponent implements OnDestroy {
           const colorBoton = esNequi ? 'morado' : 'verde';
 
           response = `🎯 *¡TODO LISTO!*\n\n1️⃣ Toca el botón **${colorBoton}**\n2️⃣ Confirma el mensaje en WhatsApp.\n3️⃣ ¡Y listo! Estaremos procesando tu pedido.`;
-          this.step.set(6); // Fin del flujo, muestra botones de WhatsApp
+          this.step.set(6);
           break;
 
         default:
@@ -235,6 +277,21 @@ export class LandingComponent implements OnDestroy {
   }
 
   // ... termina tu sendMessage()
+      // ... aquí termina tu sendMessage() { ... }
+
+  // ESTA ES LA NUEVA FUNCIÓN INDEPENDIENTE
+  procesarPagoDirecto() {
+    const total = this.cartService.items().reduce((acc, i) => acc + (i.price * (i.quantity || 1)), 0);
+    
+    this.messages.update(prev => [...prev, 
+      { role: 'user', text: 'Pagar' },
+      { role: 'model', text: `🛍️ ¡Excelente! Tu pedido suma **$${total.toLocaleString('es-CO')}**.\n\n¿A qué **dirección** enviamos tu pedido?` }
+    ]);
+    
+    this.step.set(4); 
+  }
+
+  // ... aquí puede seguir dispararConfeti() o las otras funciones
 
   dispararConfeti() {
     const duration = 3000;
@@ -285,25 +342,23 @@ export class LandingComponent implements OnDestroy {
   confirmarPagoEnWhatsApp() {
     const telefono = '573218119383';
     const items = this.cartService.items();
-
-    // 1. Calculamos el total por si hay productos en el carrito
     const total = items.reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
 
-    // 2. Construimos el mensaje EXACTO que tu IA reconoce para soltar el QR
+    // 1. EL BLOQUE DE ACTIVACIÓN (Exacto como lo reconoce tu IA)
     let mensaje = `💱PAGO_NEQUI_BRACAS ⚡\n`;
     mensaje += `🚀PAGO EXPRESS\n`;
     mensaje += `📥 Descarga el QR    🖨️ Escanealo en Nequi     📲 Envianos el comprobante\n\n`;
 
-    // Si hay productos, los añadimos abajo como info extra sin romper el comando inicial
+    // 2. LOS DETALLES (Sin emojis extra al inicio para no confundir a la IA)
     if (items.length > 0) {
-      mensaje += `📦 *DETALLE:* ${items.map((i) => i.name + ' x' + (i.quantity || 1)).join(', ')}\n`;
-      mensaje += `💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n`;
-      mensaje += `📍 *ENTREGA:* ${this.datosPedido.direccion || 'En el local'}\n\n`;
+      const lista = items.map((i) => `${i.name} x${i.quantity || 1}`).join(', ');
+      mensaje += `PEDIDO: ${lista}\n`;
+      mensaje += `TOTAL: $${total.toLocaleString('es-CO')}\n`;
+      mensaje += `ENTREGA: ${this.datosPedido.direccion || 'Local'}\n\n`;
     }
 
     mensaje += `Solicito el QR de Nequi.`;
 
-    // 3. Efectos y apertura
     this.dispararConfeti();
 
     setTimeout(() => {
