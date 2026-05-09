@@ -1158,7 +1158,10 @@
     flex: 1 !important;
     background-color: #f9f9f9 !important;
     overflow-y: auto !important;
-    padding: 15px !important;
+    padding-top: 70px !important;
+    padding-right: 15px !important;
+    padding-bottom: 15px !important;
+    padding-left: 15px !important; /* Arriba, Derecha, Abajo, Izquierda */
     display: flex !important;
     flex-direction: column !important;
     gap: 10px !important;
