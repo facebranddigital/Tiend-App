@@ -1,10 +1,11 @@
 import { Component, signal, computed, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+// AGREGA 'RouterModule' a esta línea de importación:
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
-import { ActivatedRoute } from '@angular/router';
-import { effect, ViewChild, ElementRef } from '@angular/core'; // Asegúrate de importar effect
+import { effect, ViewChild, ElementRef } from '@angular/core';
 import confetti from 'canvas-confetti';
 
 declare var Swal: any;
@@ -17,7 +18,7 @@ interface Message {
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
   templateUrl: './landing.html',
   styleUrls: ['./landing.scss'],
 })
@@ -277,18 +278,22 @@ export class LandingComponent implements OnDestroy {
   }
 
   // ... termina tu sendMessage()
-      // ... aquí termina tu sendMessage() { ... }
+  // ... aquí termina tu sendMessage() { ... }
 
   // ESTA ES LA NUEVA FUNCIÓN INDEPENDIENTE
   procesarPagoDirecto() {
-    const total = this.cartService.items().reduce((acc, i) => acc + (i.price * (i.quantity || 1)), 0);
-    
-    this.messages.update(prev => [...prev, 
+    const total = this.cartService.items().reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
+
+    this.messages.update((prev) => [
+      ...prev,
       { role: 'user', text: 'Pagar' },
-      { role: 'model', text: `🛍️ ¡Excelente! Tu pedido suma **$${total.toLocaleString('es-CO')}**.\n\n¿A qué **dirección** enviamos tu pedido?` }
+      {
+        role: 'model',
+        text: `🛍️ ¡Excelente! Tu pedido suma **$${total.toLocaleString('es-CO')}**.\n\n¿A qué **dirección** enviamos tu pedido?`,
+      },
     ]);
-    
-    this.step.set(4); 
+
+    this.step.set(4);
   }
 
   // ... aquí puede seguir dispararConfeti() o las otras funciones

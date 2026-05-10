@@ -1,0 +1,26 @@
+<div class="categorias-container">
+  <div class="header-categorias">
+    <h1>Explora Bracasfood</h1>
+    <p>Elige tu antojo de hoy</p>
+  </div>
+
+  <div class="categorias-grid">
+    <!-- SECCIÓN NARIÑO -->
+    <div class="categoria-card card-tradicion" (click)="filtrarPor('tradicion')">
+      <div class="overlay">
+        <h2>Sabores de Nariño</h2>
+        <p>Cuy Asado, Gallina y Tradición Pastusa</p>
+        <button class="btn-ver">Ver Platos</button>
+      </div>
+    </div>
+
+    <!-- SECCIÓN SNACKS -->
+    <div class="categoria-card card-snacks" (click)="filtrarPor('snacks')">
+      <div class="overlay">
+        <h2>Pasabocas y Bebidas</h2>
+        <p>Bolis Gourmet, Papitas y Tocineta BF</p>
+        <button class="btn-ver">Ver Snacks</button>
+      </div>
+    </div>
+  </div>
+</div>
