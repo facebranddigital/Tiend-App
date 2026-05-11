@@ -13,7 +13,11 @@ export class CategoriasComponent {
   private router = inject(Router);
 
   filtrarPor(categoria: string) {
-    // Te lleva al inventario y pasa la categoría como parámetro
-    this.router.navigate(['/products'], { queryParams: { category: categoria } });
+    if (categoria === 'tradicion') {
+      this.router.navigate(['/sabores-narino']);
+    } else {
+      // En categorias.ts
+      this.router.navigate(['/'], { fragment: 'featured-products' });
+    }
   }
 }

@@ -9,12 +9,13 @@ import { CartComponent } from './pages/cart/cart';
 import { authGuard } from './guards/auth.guard';
 // 1. IMPORTA EL NUEVO COMPONENTE
 import { CategoriasComponent } from './pages/categorias/categorias';
+import { SaboresNarinoComponent } from './pages/sabores-narino/sabores-narino';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-
+  { path: 'sabores-narino', component: SaboresNarinoComponent },
   // 2. AGREGA LA RUTA DE CATEGORÍAS
   { path: 'categorias', component: CategoriasComponent },
 

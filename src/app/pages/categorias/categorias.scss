@@ -1,91 +1,159 @@
+/* =======================================================
+    PÁGINA DE CATEGORÍAS - ESTILO BRACASFOOD LANDING
+   ======================================================= */
+
 .categorias-container {
-  padding: 80px 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  background-color: #000; /* Fondo negro como la landing */
+  min-height: 100vh;
+  padding: 100px 20px 60px;
+  color: white;
   text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
   .header-categorias {
-    margin-bottom: 40px;
+    margin-bottom: 50px;
+
     h1 {
-      font-size: 2.5rem;
-      color: #333;
+      /* Degradado naranja de tu marca */
+      background: linear-gradient(95deg, #ff6b00 35%, #ffb800 65%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 2.8rem;
+      font-weight: 1000;
+      text-transform: uppercase;
+      animation: subtlePulse 3s infinite ease-in-out;
     }
-    p {
-      color: #666;
-      font-size: 1.1rem;
-    }
+
+    
   }
 }
 
 .categorias-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
+/* LA TARJETA: ESTILO "STICKER" */
 .categoria-card {
-  height: 400px;
-  border-radius: 15px;
+  height: 450px;
+  border-radius: 30px;
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  border: 3px solid #000; /* Borde negro marcado */
+  box-shadow: 10px 10px 0px rgba(255, 107, 0, 0.2); /* Sombra sólida naranja */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   background-size: cover;
   background-position: center;
 
   &:hover {
-    transform: translateY(-10px);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 15px 15px 0px rgba(255, 107, 0, 0.4);
+
     .overlay {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.3); /* Se aclara para ver mejor la foto */
+      h2 {
+        transform: scale(1.1);
+        color: #ffb800;
+      }
     }
   }
 
+  /* IMÁGENES REALES DE TU TERMINAL */
   &.card-tradicion {
-    // Aquí pondrás una foto de un Cuy o Gallina
-    background-image: url('/assets/cuy1.jpg');
-    background-color: #d4a017; // Color de respaldo
+    background-image: url('/assets/cuy1.webp');
   }
 
   &.card-snacks {
-    // Aquí pondrás una foto de tus Bolis
     background-image: url('/assets/bracasfoodbolis.webp');
-    background-color: #ff5722;
   }
 
+  /* CAPA SOBRE LA IMAGEN */
   .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6); /* Oscuro para que se lea el texto */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: white;
-    padding: 20px;
-    transition: background 0.3s ease;
+    padding: 30px;
+    transition: all 0.3s ease;
 
     h2 {
-      font-size: 2rem;
+      font-size: 2.2rem;
+      font-weight: 1000;
       margin-bottom: 10px;
+      text-transform: uppercase;
+      text-shadow: 3px 3px 0px #000; /* Sombra de texto estilo comic */
+      transition: all 0.3s ease;
     }
+
     p {
-      margin-bottom: 20px;
-      font-weight: 300;
+      margin-bottom: 30px;
+      font-weight: 400;
+      font-size: 1.1rem;
+      text-align: center;
+      line-height: 1.3;
     }
   }
 }
 
+/* EL BOTÓN DENTRO DE LA TARJETA */
 .btn-ver {
-  padding: 10px 25px;
-  border: 2px solid white;
-  background: transparent;
+  width: 160px;
+  height: 45px;
+  border-radius: 30px;
+  /* Degradado y estilo sticker igual a los botones del Hero */
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
   color: white;
-  border-radius: 25px;
-  font-weight: bold;
+  border: 2.5px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  font-weight: 1000;
   text-transform: uppercase;
+  font-size: 0.9rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+
   &:hover {
-    background: white;
-    color: black;
+    background: linear-gradient(95deg, #ffb800 20%, #ff6b00 80%);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+}
+
+/* ANIMACIÓN DE PULSO (Igual a la Landing) */
+@keyframes subtlePulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* RESPONSIVE PARA MÓVIL */
+@media (max-width: 768px) {
+  .categorias-container {
+    padding-top: 80px;
+    h1 {
+      font-size: 2.2rem;
+    }
+  }
+
+  .categoria-card {
+    height: 380px;
   }
 }

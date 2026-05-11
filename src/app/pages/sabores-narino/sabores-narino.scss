@@ -1,0 +1,187 @@
+/* =======================================================
+    PÁGINA SABORES DE NARIÑO - ESTILO CENTRADO PRO
+   ======================================================= */
+
+.narino-page {
+  background-color: #000; /* Fondo negro elegante */
+  min-height: 100vh;
+  padding: 100px 20px 60px;
+  color: white;
+  text-align: center;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  h1 {
+    /* Degradado naranja Bracasfood */
+    background: linear-gradient(95deg, #ff6b00 35%, #ffb800 65%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.8rem;
+    font-weight: 1000;
+    text-transform: uppercase;
+    margin-bottom: 35px;
+    animation: subtlePulse 3s infinite ease-in-out;
+  }
+
+  
+}
+
+/* GRID DE PRODUCTOS */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 35px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* TARJETA CENTRADA (LOOK LANDING) */
+.product-card {
+  background: #ffffff; /* Fondo blanco */
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* CENTRADO MAESTRO */
+  border: 2.5px solid #000; /* Borde negro marcado */
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.15); /* Sombra tipo sticker */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 12px 12px 0px rgba(255, 107, 0, 0.3);
+  }
+
+  .badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    color: white;
+    padding: 6px 18px;
+    border-radius: 25px;
+    font-weight: 900;
+    font-size: 0.75rem;
+    z-index: 10;
+    border: 1.5px solid #000;
+    text-transform: uppercase;
+  }
+
+  /* IMAGEN CUADRADA PERFECTA */
+  img {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Esto hace que sea cuadrada como en la landing */
+    object-fit: cover;
+    display: block;
+    border-bottom: 2px solid #f0f0f0;
+  }
+}
+
+/* CUERPO DE LA TARJETA (TEXTOS) */
+.card-body {
+  width: 100%;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra textos horizontalmente */
+  text-align: center;  /* Centra el texto */
+  background: #fff;
+
+  h3 {
+    font-size: 1.7rem;
+    font-weight: 1000;
+    color: #1a1a1a;
+    margin: 0 0 10px 0;
+    line-height: 1.1;
+  }
+
+  p {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    min-height: 40px; /* Para que todas las tarjetas midan igual */
+  }
+}
+
+/* PRECIO Y BOTÓN CENTRADOS */
+.price-row {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+
+  .price {
+    font-size: 1.7rem;
+    font-weight: 1000;
+    color: #ff6b00;
+    letter-spacing: -1px;
+  }
+
+  .btn-add {
+    width: 150px;
+    height: 45px;
+    border-radius: 30px;
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    color: white;
+    border: 2.5px solid #000; /* Borde negro estilo sticker */
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+    font-size: 0.95rem;
+    font-weight: 900;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      transform: scale(1.05);
+      background: linear-gradient(95deg, #ffb800 20%, #ff6b00 80%);
+    }
+
+    &:active {
+      transform: translate(3px, 3px);
+      box-shadow: none;
+    }
+  }
+}
+
+/* BOTÓN VOLVER */
+.footer-actions {
+  margin-top: 80px;
+  padding-bottom: 50px;
+
+  .btn-back {
+    background: transparent;
+    border: 2.5px solid #ffb800;
+    color: #ffb800;
+    padding: 14px 40px;
+    border-radius: 40px;
+    font-weight: 900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #ffb800;
+      color: black;
+      box-shadow: 0 0 20px rgba(255, 184, 0, 0.4);
+    }
+  }
+
+  .disclaimer {
+    margin-top: 30px;
+    color: #444;
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+}
+
+/* ANIMACIÓN DE PULSO */
+@keyframes subtlePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
