@@ -25,7 +25,7 @@ const filasTabla = specs.map(s => `
 const msg = {
   to: 'eversozinho@gmail.com',
   from: 'facebranddigital@gmail.com', // Asegúrate de que este correo esté verificado en SendGrid
-  subject: '🚀 Reporte de Automatización: Tiend-App (100% SUCCESS)',
+  subject: '🚀 Reporte de Automatización: Bracasfood (100% SUCCESS)',
   html: `
     <div style="font-family: sans-serif; color: #333;">
       <h2>Resumen de Ejecución Cypress</h2>

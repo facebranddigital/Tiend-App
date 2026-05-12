@@ -12,14 +12,40 @@ describe('Network debug for register', () => {
       req.continue();
     }).as('token');
 
-    cy.visit('/register');
-    cy.get('[data-testid="reg-name"]', { timeout: 15000 }).should('be.visible').type('Debug User');
-    cy.get('[data-testid="reg-email"]', { timeout: 15000 }).should('be.visible').clear().type(`debug_${Date.now()}@example.com`);
-    cy.get('[data-testid="reg-password"]', { timeout: 15000 }).should('be.visible').type('D4rk4rm4deus2026');
-    cy.get('[data-testid="reg-confirm-password"]', { timeout: 15000 }).should('be.visible').type('D4rk4rm4deus2026');
-    cy.contains('button', /registrarme ahora/i).click();
+       cy.visit('/register');
+
+    // 1. Nombre (Usando formControlName como selector)
+    cy.get('input[formControlName="name"]', { timeout: 15000 })
+      .should('be.visible')
+      .type('Debug User');
+
+    // 2. Email
+    cy.get('input[formControlName="email"]')
+      .should('be.visible')
+      .clear()
+      .type(`debug_${Date.now()}@example.com`);
+
+    // 3. Password
+    cy.get('input[formControlName="password"]')
+      .should('be.visible')
+      .type('D4rk4rm4deus2026');
+
+    // 4. Confirm Password
+    cy.get('input[formControlName="confirmPassword"]')
+      .should('be.visible')
+      .type('D4rk4rm4deus2026');
+
+    // 5. Botón Registrarse (Ajustado al texto de tu HTML)
+    cy.get('button.btn-submit')
+      .contains(/Registrarse/i) 
+      .click();
+
+        // ... (vienes del código anterior)
     cy.wait(2000).then(() => {
-      cy.task('saveDebug', { filename: 'register-network-debug.json', html: JSON.stringify(calls, null, 2) });
+      cy.task('saveDebug', { 
+        filename: 'register-network-debug.json', 
+        html: JSON.stringify(calls, null, 2) 
+      });
     });
-  });
-});
+  }); // Cierra el it
+}); // Cierra el describe

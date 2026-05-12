@@ -6,6 +6,7 @@ import {
   signOut,
   authState,
   User,
+  sendEmailVerification, // <-- Añade esta línea
 } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -35,19 +36,18 @@ export class AuthService {
     return this.auth.currentUser;
   }
 
-  async register(email: string, pass: string) {
+    async register(email: string, pass: string) {
     const credential = await createUserWithEmailAndPassword(this.auth, email, pass);
+    
     if (credential.user) {
-      fetch('/api/send-welcome', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email }),
-      })
-        .then(() => console.log('✅ Solicitud de correo enviada'))
-        .catch((err) => console.error('❌ Error API:', err));
+      // Usamos la función nativa de Firebase en lugar del fetch local
+      await sendEmailVerification(credential.user);
+      console.log('✅ Correo de verificación enviado desde Bracasfood');
     }
+    
     return credential;
   }
+
 
   login(email: string, pass: string) {
     return signInWithEmailAndPassword(this.auth, email, pass);

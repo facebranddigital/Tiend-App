@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect } from '@angular/core'; // 1. Añadimos effect
 
 export interface Product {
   id?: string;
@@ -6,43 +6,46 @@ export interface Product {
   price: number;
   imageUrl: string;
   category: string;
-  description?: string; // Lo pongo opcional por si acaso
-  stock?: number; // Lo pongo opcional por si acaso
-  quantity?: number; // <--- AÑADE ESTA LÍNEA AQUÍ
+  description?: string;
+  stock?: number;
+  quantity?: number;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  // Estado privado reactivo usando Signals
-  public cartItems = signal<Product[]>([]);
+  // 2. Cargamos los datos del LocalStorage al arrancar
+  private initialItems: Product[] = JSON.parse(localStorage.getItem('cart_bracas') || '[]');
+
+  // 3. Inicializamos la señal con lo que encontramos en el storage
+  public cartItems = signal<Product[]>(this.initialItems);
+
+  constructor() {
+    // 4. Cada vez que cartItems cambie, se guarda automáticamente
+    effect(() => {
+      localStorage.setItem('cart_bracas', JSON.stringify(this.cartItems()));
+    });
+  }
 
   // Selectores reactivos
   items = computed(() => this.cartItems());
-  // Suma todas las unidades (ej: 2 bolis + 1 papa = 3)
   count = computed(() => this.cartItems().reduce((acc, item) => acc + (item.quantity || 1), 0));
-
-  // Calcula el precio total multiplicando por la cantidad
   total = computed(() =>
     this.cartItems().reduce((acc, item) => acc + item.price * (item.quantity || 1), 0),
   );
 
   addToCart(newProduct: Product) {
     this.cartItems.update((items) => {
-      // Buscamos si el producto ya está en el carrito por su nombre
       const existingItem = items.find((item) => item.name === newProduct.name);
-
       if (existingItem) {
-        // Si existe, creamos un nuevo array con la cantidad actualizada
         return items.map((item) =>
           item.name === newProduct.name
             ? { ...item, quantity: (item.quantity || 0) + (newProduct.quantity || 1) }
             : item,
         );
       }
-      // Si no existe, lo añadimos al array
-      return [...items, newProduct];
+      return [...items, { ...newProduct, quantity: newProduct.quantity || 1 }];
     });
   }
 

@@ -26,26 +26,30 @@ describe('QA Automation - Flujo Completo Bracasfood', () => {
       .click();
 
     // 5. AÑADIR AL CARRITO
-    // Esperamos a que el ID del producto esté en pantalla
+       // 5. AÑADIR AL CARRITO
     cy.get('#bolis-leche', { timeout: 8000 }).should('be.visible');
 
-    // Usamos .within para asegurar que clicamos el botón del producto correcto
     cy.get('#bolis-leche').within(() => {
       cy.get('button.add-btn')
         .contains('COMPRAR')
         .click();
     });
 
+    // Pequeña espera para que el Signal y el LocalStorage se sincronicen
+    cy.wait(1000); 
+
     // 6. IR AL CARRITO
-    // Si cy.visit('/cart') te vacía el carrito, usa cy.get('[routerLink="/cart"]').click()
+    // Intentamos ir por clic para no refrescar la memoria, si falla, el visit ya tiene el respaldo del service
     cy.visit('/cart');
     cy.url().should('include', '/cart');
 
-    // 7. VERIFICACIÓN DEL CARRITO
-    // En lugar de clases genéricas, buscamos que el texto del producto esté presente
-    cy.get('body', { timeout: 10000 })
-      .should('not.contain', 'vacío') // Verifica que no diga "Carrito vacío"
-      .and('contain', 'Bolis');       // Verifica que aparezca el nombre del producto
+    // 7. VERIFICACIÓN EN EL CARRITO
+    // Usamos una expresión regular /bolis/i para que no falle por mayúsculas/minúsculas
+    cy.get('.cart-item h3', { timeout: 15000 }) 
+      .should('be.visible') 
+      .invoke('text')
+      .should('match', /bolis/i); 
+
 
     // 8. PAGO FINAL
     // Buscamos el botón por su función (Pagar/Finalizar/Checkout)
