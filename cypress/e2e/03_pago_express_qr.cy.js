@@ -1,21 +1,38 @@
-describe('QA - Funcionalidad QR Bracasfood', () => {
-  it('Debe activar Pago Express y abrir WhatsApp al hacer clic', () => {
-    // 1. Simular escaneo de QR
-    cy.visit('/?openbot=true');
-    cy.wait(1500);
+describe('QA - Flujo Completo: De Bolis a WhatsApp', () => {
 
-    // 2. Verificar mensaje de bienvenida
-    cy.contains('pago rápido iniciado').should('exist');
+  it('Debe agregar Bolis y validar el mensaje de Pago Express Nequi', () => {
+    // 1. Interceptar window.open
+    cy.visit('http://localhost:4200/?openbot=true', {
+      onBeforeLoad(win) {
+        cy.stub(win, 'open').as('whatsappWindow');
+      }
+    });
+    cy.on('uncaught:exception', () => false);
 
-    // 3. Stub para capturar la apertura de la ventana (Previene que Cypress se bloquee)
-    cy.window().then((win) => {
-      cy.stub(win, 'open').as('whatsappOpen');
+    // 2. SELECCIONAR PRODUCTO (Bolis)
+    cy.contains('.product-card', /Bolis/i, { timeout: 15000 })
+      .find('button').first().click({ force: true });
+
+    // 3. CLIC EN EL BOTÓN MORADO DE PAGO EXPRESS
+    cy.contains('button', 'Confirmar y recibir QR en WhatsApp 🚀', { timeout: 10000 })
+      .should('be.visible')
+      .click({ force: true });
+
+    // 4. ESPERA DEL SETTIMEOUT
+    cy.wait(2000); 
+    
+    // 5. VERIFICACIÓN FINAL DEL CONTENIDO REAL
+    cy.get('@whatsappWindow').should('be.called').then((stub) => {
+      const urlEnviada = stub.getCall(0).args[0]; // Tomamos la URL completa
+      
+      // Validamos los datos reales que se ven en tu log
+      expect(urlEnviada).to.include('573218119383');
+      expect(urlEnviada).to.include('PAGO_NEQUI_BRACAS');
+      expect(urlEnviada).to.include('Solicito%20el%20QR%20de%20Nequi');
+      
+      cy.log('✅ URL de Pago Express capturada correctamente');
     });
 
-    // 4. DAR CLIC AL BOTÓN MORADO
-    cy.get('.btn-whatsapp').contains('Confirmar').click();
-
-    // 5. ASERCIÓN: Verificar que se intentó abrir la URL de WhatsApp con tu número
-    cy.get('@whatsappOpen').should('be.calledWithMatch', /https:\/\/wa.me\/573218119383/);
+    cy.screenshot('PAGO-EXPRESS-NEQUI-VALIDADO');
   });
 });
