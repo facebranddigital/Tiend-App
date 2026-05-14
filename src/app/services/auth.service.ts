@@ -6,9 +6,9 @@ import {
   signOut,
   authState,
   User,
-  sendEmailVerification, // <-- Añade esta línea
+  sendEmailVerification,
 } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -31,23 +31,45 @@ export class AuthService {
     map((user) => !!user && !!user.email && this.ADMIN_EMAILS.includes(user.email.toLowerCase())),
   );
 
-  // --- NUEVA FUNCIÓN PARA CORREGIR EL ERROR DEL NAVBAR ---
   getCurrentUser() {
     return this.auth.currentUser;
   }
 
-    async register(email: string, pass: string) {
+  // --- NUEVAS FUNCIONES PARA EL FLUJO BIOMÉTRICO ---
+
+  /**
+   * Recupera de forma síncrona el UID del usuario logueado en la sesión activa.
+   * Útil para llamarlo inmediatamente antes de abrir el modal o tag de video.
+   */
+  obtenerUsuarioActualUid(): string | null {
+    const usuario = this.auth.currentUser;
+    return usuario ? usuario.uid : null;
+  }
+
+  /**
+   * Recupera el UID de forma asíncrona esperando que el estado de Firebase se estabilice.
+   * Ideal para validar intentos de sesión rápidos.
+   */
+  async obtenerUsuarioUidAsincrono(): Promise<string> {
+    const usuarioActual = await firstValueFrom(this.user$);
+    if (!usuarioActual) {
+      throw new Error('No se detectó ninguna sesión activa en Firebase en este momento.');
+    }
+    return usuarioActual.uid;
+  }
+
+  // --- MÉTODOS DE AUTENTICACIÓN ORIGINALES PRESERVADOS ---
+
+  async register(email: string, pass: string) {
     const credential = await createUserWithEmailAndPassword(this.auth, email, pass);
-    
+
     if (credential.user) {
-      // Usamos la función nativa de Firebase en lugar del fetch local
       await sendEmailVerification(credential.user);
       console.log('✅ Correo de verificación enviado desde Bracasfood');
     }
-    
+
     return credential;
   }
-
 
   login(email: string, pass: string) {
     return signInWithEmailAndPassword(this.auth, email, pass);

@@ -123,7 +123,7 @@ export class RegisterComponent {
       const formData = new FormData();
       formData.append('file', blob, 'registro.jpg');
 
-      // Enviamos el rostro a la nube pasando el user_id correspondiente
+      // Enviamos el rostro a tu servidor real de Cloud Run pasando el user_id correspondiente
       fetch(`run.app{this.nuevoUserId}`, {
         method: 'POST',
         body: formData,

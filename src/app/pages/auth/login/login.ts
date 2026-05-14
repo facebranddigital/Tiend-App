@@ -48,7 +48,7 @@ export class LoginComponent {
     this.errorMessage = '';
     const { email, password } = this.loginForm.value;
 
-    // Paso 1: Autenticación tradicional
+    // Paso 1: Autenticación tradicional contra Firebase
     this.authService
       .login(email, password)
       .then(() => {
@@ -103,10 +103,17 @@ export class LoginComponent {
       const formData = new FormData();
       formData.append('file', blob, 'verificacion.jpg');
 
-      // Consumimos tu servidor oficial en Google Cloud Run
-      // Modifica esta sección exacta dentro del método verificarRostro() de tu login.ts:
-      const userId = 'AQUÍ_EL_ID_DEL_USUARIO_LOGUEADO'; // Extrae el ID real de tu AuthService
+      // Extraemos el UID único asignado por Firebase de forma síncrona
+      const userId = this.authService.obtenerUsuarioActualUid();
 
+      if (!userId) {
+        this.errorMessage = 'Error de sesión temporal. Por favor, reingresa tus datos.';
+        this.loading = false;
+        this.stepFacial = false;
+        return;
+      }
+
+      // Consumo de tu endpoint real desplegado en Google Cloud Run mapeando el parámetro user_id
       fetch(`run.app{userId}`, {
         method: 'POST',
         body: formData,
@@ -121,7 +128,7 @@ export class LoginComponent {
         })
         .then(() => {
           this.apagarCamara();
-          this.router.navigate(['/products']); // Acceso definitivo
+          this.router.navigate(['/products']); // Acceso definitivo al dashboard de productos
         })
         .catch((error) => {
           this.errorMessage = `Fallo de validación facial: ${error.message}`;
