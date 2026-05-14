@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Autenticación Facial</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        background: #1e1e1e;
+        color: white;
+        padding: 20px;
+      }
+      .container {
+        max-width: 500px;
+        margin: auto;
+        background: #2d2d2d;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      video,
+      canvas {
+        width: 100%;
+        max-width: 400px;
+        border-radius: 8px;
+        background: #000;
+        margin-bottom: 15px;
+      }
+      .btn-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+      button {
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .btn-reg {
+        background: #28a745;
+      }
+      .btn-reg:hover {
+        background: #218838;
+      }
+      .btn-ver {
+        background: #007bff;
+      }
+      .btn-ver:hover {
+        background: #0069d9;
+      }
+      #resultado {
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Sistema de Reconocimiento Facial</h2>
+      <video id="video" autoplay playinline></video>
+      <div class="btn-group">
+        <button id="btn-registrar" class="btn-reg">1. Registrar mi Rostro</button>
+        <button id="btn-verificar" class="btn-ver">2. Verificar Identidad</button>
+      </div>
+      <canvas id="canvas" style="display: none"></canvas>
+      <div id="resultado"></div>
+    </div>
+
+    <script>
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      const btnRegistrar = document.getElementById('btn-registrar');
+      const btnVerificar = document.getElementById('btn-verificar');
+      const resultadoDiv = document.getElementById('resultado');
+
+      navigator.mediaDevices
+        .getUserMedia({ video: { width: 400, height: 300 } })
+        .then((stream) => {
+          video.srcObject = stream;
+        })
+        .catch((err) => {
+          resultadoDiv.innerText = 'Error al acceder a la cámara.';
+          console.error(err);
+        });
+
+      function enviarFormulario(endpoint, mensajeExito) {
+        resultadoDiv.innerText = 'Procesando rostro mediante Inteligencia Artificial...';
+        resultadoDiv.style.color = 'orange';
+
+        const context = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob((blob) => {
+          const formData = new FormData();
+          formData.append('file', blob, 'captura.jpg');
+
+          fetch(endpoint, { method: 'POST', body: formData })
+            .then((response) => {
+              if (!response.ok) {
+                return response.json().then((err) => {
+                  throw new Error(err.detail);
+                });
+              }
+              return response.json();
+            })
+            .then((data) => {
+              resultadoDiv.innerText = mensajeExito;
+              resultadoDiv.style.color = 'lightgreen';
+            })
+            .catch((error) => {
+              resultadoDiv.innerText = `${error.message}`;
+              resultadoDiv.style.color = 'red';
+            });
+        }, 'image/jpeg');
+      }
+
+      btnRegistrar.addEventListener('click', () => {
+        enviarFormulario(
+          '/api/user/register-face',
+          '¡Rostro guardado con éxito! Ahora puedes verificar.',
+        );
+      });
+
+      btnVerificar.addEventListener('click', () => {
+        enviarFormulario('/api/user/verify-face', '¡Acceso Concedido! Identidad confirmada. 😊');
+      });
+    </script>
+  </body>
+</html>

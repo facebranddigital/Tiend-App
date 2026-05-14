@@ -13,7 +13,7 @@
   padding: 48px;
   width: 100%;
   max-width: 480px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05);
   border: 1px solid #f0f0f0;
 }
 
@@ -49,41 +49,40 @@
       color: #444;
       font-size: 0.9rem;
     }
-.password-wrapper {
-      position: relative; // Vital para que el ojo flote
+
+    .password-wrapper {
+      position: relative;
       display: flex;
       align-items: center;
 
       input {
         width: 100%;
-        padding-right: 50px !important; // Para que el texto no tape el ojo
+        padding-right: 50px !important;
       }
 
       .toggle-eye {
         position: absolute;
-        right: 15px; // Alineado a la derecha dentro del input
-        background: transparent; // ELIMINA EL FONDO NEGRO
-        border: none; // ELIMINA EL BORDE DEL CUADRO
+        right: 15px;
+        background: transparent;
+        border: none;
         padding: 0;
         margin: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        color: #666; // Color del icono
-        outline: none; // Quita el borde azul al hacer clic
+        color: #666;
+        outline: none;
 
         &:hover {
           color: #111;
         }
 
         svg {
-          display: block; // Asegura que el SVG no tenga espacios extra
+          display: block;
         }
       }
     }
-
-
 
     input {
       padding: 14px 18px;
@@ -98,7 +97,7 @@
         outline: none;
         border-color: #111;
         background: white;
-        box-shadow: 0 0 0 4px rgba(0,0,0,0.03);
+        box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.03);
       }
 
       &.error {
@@ -125,7 +124,6 @@
   }
 
   .btn-submit {
-   
     width: 100%;
     padding: 12px 25px;
     border: none;
@@ -135,21 +133,17 @@
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(128, 0, 255, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
     transition: all 0.3s ease;
     margin-top: 15px;
 
     &:hover {
-      
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 0, 255, 0.5);
-    filter: brightness(1.1);
+      box-shadow: 0 6px 20px rgba(255, 184, 0, 0.4);
+      filter: brightness(1.1);
     }
 
     &:active {
-      
       transform: translateY(0);
     }
   }
@@ -164,11 +158,64 @@
       color: #111;
       font-weight: 700;
       text-decoration: none;
-      
+
       &:hover {
         text-decoration: underline;
       }
     }
+  }
+}
+
+// ==========================================
+// NUEVO: Componente de Autenticación Facial
+// ==========================================
+.facial-auth-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  animation: faceCardFadeIn 0.4s ease-out;
+
+  video {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 18px;
+    background-color: #111111;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    transform: scaleX(-1); // Modo espejo idéntico al ojo humano
+    transition: border-color 0.3s ease;
+
+    &:focus-within {
+      border-color: #111;
+    }
+  }
+
+  .btn-submit {
+    width: 100%;
+    max-width: 400px;
+    padding: 14px 25px; // Un toque más de padding para que resalte
+  }
+
+  .error-alert {
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+  }
+}
+
+@keyframes faceCardFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -179,5 +226,9 @@
     box-shadow: none;
     border: none;
     background: transparent;
+  }
+
+  .facial-auth-wrapper video {
+    border-radius: 12px;
   }
 }
