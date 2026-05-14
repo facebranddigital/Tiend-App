@@ -66,3 +66,76 @@
   margin-top: 10px;
   box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
 }
+
+// Alerta de errores integrada al esquema de colores original
+.error-alert {
+  background: #ffebee;
+  color: #c62828;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+// Enlace inferior alineado al centro
+.login-link {
+  text-align: center;
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 8px;
+
+  a {
+    color: #111;
+    font-weight: 700;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ==========================================
+// NUEVO: Contenedor del Escáner Biométrico
+// ==========================================
+.facial-auth-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  animation: faceRegisterFadeIn 0.4s ease-out;
+
+  video {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 16px;
+    background-color: #111111;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    transform: scaleX(-1); // Modo espejo natural para facilitar el encuadre
+  }
+
+  .btn-submit {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 5px;
+  }
+}
+
+@keyframes faceRegisterFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

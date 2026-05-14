@@ -104,7 +104,10 @@ export class LoginComponent {
       formData.append('file', blob, 'verificacion.jpg');
 
       // Consumimos tu servidor oficial en Google Cloud Run
-      fetch('run.app', {
+      // Modifica esta sección exacta dentro del método verificarRostro() de tu login.ts:
+      const userId = 'AQUÍ_EL_ID_DEL_USUARIO_LOGUEADO'; // Extrae el ID real de tu AuthService
+
+      fetch(`run.app{userId}`, {
         method: 'POST',
         body: formData,
       })
