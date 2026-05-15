@@ -10,18 +10,19 @@ RUN apt-get update && apt-get install -y \
 # Definir la carpeta de trabajo dentro del contenedor
 WORKDIR /app
 
-# Instalar primero las librerías base de tipos y procesamiento matemático pesado
-RUN pip install --no-cache-dir typing-extensions==4.5.0 numpy==1.24.3 pandas Pillow
+# Instalar primero procesamiento matemático e imágenes
+RUN pip install --no-cache-dir numpy==1.24.3 pandas Pillow
 
 # Instalar la versión ligera de TensorFlow para CPU de forma aislada
 RUN pip install --no-cache-dir tensorflow-cpu==2.13.1
 
 # Instalar las librerías de visión por computadora e inteligencia facial
+# Permitimos que Pydantic se actualice a V2 para cumplir los requisitos de DeepFace
 RUN pip install --no-cache-dir opencv-python-headless deepface --no-deps
 RUN pip install --no-cache-dir retina-face==0.0.17 mtcnn lightphe lightdsa fire
 
-# Instalar el servidor web FastAPI y las herramientas de Firebase
-RUN pip install --no-cache-dir fastapi==0.100.0 pydantic==1.10.26 uvicorn python-multipart firebase-admin
+# Instalar el servidor web FastAPI y herramientas de Firebase (sin forzar Pydantic V1)
+RUN pip install --no-cache-dir fastapi==0.100.0 uvicorn python-multipart firebase-admin
 
 # Copiar el resto de los archivos de código al contenedor
 COPY . /app
@@ -29,8 +30,8 @@ COPY . /app
 # Crear la carpeta de caché para que DeepFace guarde los pesos de la IA internamente
 RUN mkdir -p /root/.deepface/weights
 
-# Descargar por adelantado el modelo FaceNet para acelerar las peticiones
-RUN python -c "from deepface import DeepFace; DeepFace.build_model('Facenet')"
+# CORREGIDO: 'facenet' en minúsculas para la descarga correcta de pesos en la compilación
+RUN python -c "from deepface import DeepFace; DeepFace.build_model('facenet')"
 
 # Exponer el puerto por defecto de Cloud Run
 EXPOSE 8080

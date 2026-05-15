@@ -1,25 +1,39 @@
-import { Component, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, ViewChild, ElementRef, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
-import { NavbarComponent } from '../../../components/navbar/navbar';
-import { FooterComponent } from '../../../components/footer/footer';
+import { FacialAuthService } from '../../../services/facial_auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, NavbarComponent, FooterComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class LoginComponent {
-  @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
-  @ViewChild('canvas') canvasElement!: ElementRef<HTMLCanvasElement>;
+export class LoginComponent implements OnDestroy {
+  private videoEl?: ElementRef<HTMLVideoElement>;
+  private canvasEl?: ElementRef<HTMLCanvasElement>;
+
+  @ViewChild('video') set video(content: ElementRef<HTMLVideoElement> | undefined) {
+    if (content) {
+      this.videoEl = content;
+      // Eliminamos el llamado directo automático aquí para evitar colisiones
+    }
+  }
+
+  @ViewChild('canvas') set canvas(content: ElementRef<HTMLCanvasElement> | undefined) {
+    if (content) {
+      this.canvasEl = content;
+    }
+  }
 
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private facialAuthService = inject(FacialAuthService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef); // INYECTADO: Control de renderizado del DOM
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -29,8 +43,6 @@ export class LoginComponent {
   showPassword = false;
   loading = false;
   errorMessage = '';
-
-  // Estados para el flujo biométrico
   stepFacial = false;
   mediaStream: MediaStream | null = null;
 
@@ -48,98 +60,107 @@ export class LoginComponent {
     this.errorMessage = '';
     const { email, password } = this.loginForm.value;
 
-    // Paso 1: Autenticación tradicional contra Firebase
     this.authService
       .login(email, password)
       .then(() => {
-        // Credenciales correctas. Iniciamos fase facial antes de redirigir.
         this.loading = false;
         this.stepFacial = true;
-        this.activarCamara();
+
+        // SOLUCIÓN: Sincroniza el DOM y arranca la cámara de forma segura
+        this.cdr.detectChanges();
+        this.vincularFlujoCamara();
       })
       .catch((err) => {
         console.error(err);
-        this.errorMessage = 'Credenciales inválidas. Por favor intenta de nuevo.';
+        this.errorMessage = 'Credenciales inválidas.';
         this.loading = false;
       });
   }
 
-  async activarCamara() {
+  async vincularFlujoCamara() {
+    if (this.mediaStream) return;
     try {
-      // Esperamos el siguiente ciclo de renderizado para asegurar que el tag <video> exista
-      setTimeout(async () => {
-        this.mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { width: 400, height: 300 },
-        });
-        if (this.videoElement) {
-          this.videoElement.nativeElement.srcObject = this.mediaStream;
-        }
-      }, 100);
+      this.mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { width: 400, height: 300 },
+      });
+      if (this.videoEl) {
+        this.videoEl.nativeElement.srcObject = this.mediaStream;
+      }
     } catch (err) {
-      this.errorMessage = 'No se pudo acceder a la cámara web para la verificación.';
-      console.error(err);
+      this.errorMessage = 'No se pudo activar la cámara web.';
     }
   }
 
   verificarRostro() {
-    if (!this.videoElement || !this.canvasElement) return;
+    if (!this.videoEl || !this.canvasEl) {
+      this.errorMessage = 'Los elementos de la cámara no están listos.';
+      return;
+    }
+
+    const video = this.videoEl.nativeElement;
+    const canvas = this.canvasEl.nativeElement;
+
+    if (video.videoWidth === 0 || video.videoHeight === 0) {
+      this.errorMessage = 'Inicializando cámara. Reintente.';
+      return;
+    }
 
     this.loading = true;
     this.errorMessage = '';
-
-    const video = this.videoElement.nativeElement;
-    const canvas = this.canvasElement.nativeElement;
     const context = canvas.getContext('2d');
 
-    if (!context) return;
+    if (!context) {
+      this.errorMessage = 'Error interno del lienzo gráfico.';
+      this.loading = false;
+      return;
+    }
+
+    const userId = this.authService.obtenerUsuarioActualUid();
+    if (!userId) {
+      this.errorMessage = 'Fallo de sesión. Reingresa tus datos.';
+      this.loading = false;
+      this.stepFacial = false;
+      this.apagarCamara();
+      return;
+    }
 
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    canvas.toBlob((blob) => {
-      if (!blob) return;
-
-      const formData = new FormData();
-      formData.append('file', blob, 'verificacion.jpg');
-
-      // Extraemos el UID único asignado por Firebase de forma síncrona
-      const userId = this.authService.obtenerUsuarioActualUid();
-
-      if (!userId) {
-        this.errorMessage = 'Error de sesión temporal. Por favor, reingresa tus datos.';
-        this.loading = false;
-        this.stepFacial = false;
-        return;
-      }
-
-      // Consumo de tu endpoint real desplegado en Google Cloud Run mapeando el parámetro user_id
-      fetch(`run.app{userId}`, {
-        method: 'POST',
-        body: formData,
-      })
-        .then((response) => {
-          if (!response.ok) {
-            return response.json().then((err) => {
-              throw new Error(err.detail);
-            });
-          }
-          return response.json();
-        })
-        .then(() => {
-          this.apagarCamara();
-          this.router.navigate(['/products']); // Acceso definitivo al dashboard de productos
-        })
-        .catch((error) => {
-          this.errorMessage = `Fallo de validación facial: ${error.message}`;
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          this.errorMessage = 'Error capturando fotograma.';
           this.loading = false;
+          return;
+        }
+
+        this.facialAuthService.verificarRostro(userId, blob).subscribe({
+          next: () => {
+            this.apagarCamara();
+            this.loading = false;
+            this.router.navigate(['/products']);
+          },
+          error: (error) => {
+            this.errorMessage = `Error de coincidencia: ${error.error?.detail || 'El rostro no coincide.'}`;
+            this.loading = false;
+          },
         });
-    }, 'image/jpeg');
+      },
+      'image/jpeg',
+      0.95,
+    );
   }
 
   apagarCamara() {
     if (this.mediaStream) {
       this.mediaStream.getTracks().forEach((track) => track.stop());
+      this.mediaStream = null;
     }
+  }
+
+  ngOnDestroy() {
+    this.apagarCamara();
   }
 }

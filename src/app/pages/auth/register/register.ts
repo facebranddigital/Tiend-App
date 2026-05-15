@@ -1,28 +1,53 @@
-import { Component, inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
-import { NavbarComponent } from '../../../components/navbar/navbar';
-import { FooterComponent } from '../../../components/footer/footer';
+import { FacialAuthService } from '../../../services/facial_auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, NavbarComponent, FooterComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
-export class RegisterComponent {
-  @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
-  @ViewChild('canvas') canvasElement!: ElementRef<HTMLCanvasElement>;
+export class RegisterComponent implements OnDestroy {
+  // CORREGIDO: Tipado opcional con ? para evitar el error de asignación del compilador estricto
+  private videoEl?: ElementRef<HTMLVideoElement>;
+  private canvasEl?: ElementRef<HTMLCanvasElement>;
+
+  @ViewChild('video') set video(content: ElementRef<HTMLVideoElement> | undefined) {
+    if (content) {
+      this.videoEl = content;
+      this.vincularFlujoCamara();
+    }
+  }
+
+  @ViewChild('canvas') set canvas(content: ElementRef<HTMLCanvasElement> | undefined) {
+    if (content) {
+      this.canvasEl = content;
+    }
+  }
 
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private facialAuthService = inject(FacialAuthService);
   private router = inject(Router);
 
   showPassword = false;
   showConfirmPassword = false;
+  loading = false;
+  errorMessage = '';
+  stepFacial = false;
+  mediaStream: MediaStream | null = null;
+  nuevoUserId = '';
 
   registerForm: FormGroup = this.fb.group(
     {
@@ -34,22 +59,15 @@ export class RegisterComponent {
     { validators: this.passwordMatchValidator },
   );
 
-  loading = false;
-  errorMessage = '';
-
-  // Estados estructurales para el enrolamiento facial
-  stepFacial = false;
-  mediaStream: MediaStream | null = null;
-  nuevoUserId = '';
-
-  passwordMatchValidator(g: FormGroup) {
-    return g.get('password')?.value === g.get('confirmPassword')?.value ? null : { mismatch: true };
+  passwordMatchValidator(g: AbstractControl) {
+    const password = g.get('password')?.value;
+    const confirmPassword = g.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
   }
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
-
   toggleConfirmPasswordVisibility() {
     this.showConfirmPassword = !this.showConfirmPassword;
   }
@@ -64,92 +82,98 @@ export class RegisterComponent {
     this.errorMessage = '';
     const { email, password } = this.registerForm.value;
 
-    // Paso 1: Crear el registro de autenticación tradicional en Firebase
     this.authService
       .register(email, password)
       .then((res: any) => {
-        // Almacenamos el UID generado por Firebase para indexar el vector en Firestore
         this.nuevoUserId = res?.user?.uid || '';
         this.loading = false;
         this.stepFacial = true;
-        this.activarCamara();
       })
       .catch((err: any) => {
         console.error(err);
-        if (err.code === 'auth/email-already-in-use') {
-          this.errorMessage = 'Este correo ya está registrado.';
-        } else {
-          this.errorMessage = 'Error al registrar. Inténtalo de nuevo.';
-        }
+        this.errorMessage =
+          err.code === 'auth/email-already-in-use'
+            ? 'Este correo ya está registrado.'
+            : 'Error al registrar.';
         this.loading = false;
       });
   }
 
-  async activarCamara() {
+  async vincularFlujoCamara() {
+    if (this.mediaStream) return;
     try {
-      setTimeout(async () => {
-        this.mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { width: 400, height: 300 },
-        });
-        if (this.videoElement) {
-          this.videoElement.nativeElement.srcObject = this.mediaStream;
-        }
-      }, 100);
+      this.mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { width: 400, height: 300 },
+      });
+      if (this.videoEl) {
+        this.videoEl.nativeElement.srcObject = this.mediaStream;
+      }
     } catch (err) {
-      this.errorMessage = 'No se pudo acceder a la cámara para el enrolamiento biométrico.';
-      console.error(err);
+      this.errorMessage = 'No se pudo acceder a la cámara web.';
     }
   }
 
   guardarRostroOriginal() {
-    if (!this.videoElement || !this.canvasElement) return;
+    // CORREGIDO: Validación segura de existencia para complacer a TypeScript
+    if (!this.videoEl || !this.canvasEl) {
+      this.errorMessage = 'Los elementos de la cámara no están listos.';
+      return;
+    }
+
+    const video = this.videoEl.nativeElement;
+    const canvas = this.canvasEl.nativeElement;
+
+    if (video.videoWidth === 0 || video.videoHeight === 0) {
+      this.errorMessage = 'Inicializando cámara. Intenta de nuevo.';
+      return;
+    }
 
     this.loading = true;
     this.errorMessage = '';
-
-    const video = this.videoElement.nativeElement;
-    const canvas = this.canvasElement.nativeElement;
     const context = canvas.getContext('2d');
-
-    if (!context) return;
+    if (!context) {
+      this.errorMessage = 'Error del contexto gráfico.';
+      this.loading = false;
+      return;
+    }
 
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    canvas.toBlob((blob) => {
-      if (!blob) return;
-
-      const formData = new FormData();
-      formData.append('file', blob, 'registro.jpg');
-
-      // Enviamos el rostro a tu servidor real de Cloud Run pasando el user_id correspondiente
-      fetch(`run.app{this.nuevoUserId}`, {
-        method: 'POST',
-        body: formData,
-      })
-        .then((response) => {
-          if (!response.ok) {
-            return response.json().then((err) => {
-              throw new Error(err.detail);
-            });
-          }
-          return response.json();
-        })
-        .then(() => {
-          this.apagarCamara();
-          this.router.navigate(['/products']);
-        })
-        .catch((error) => {
-          this.errorMessage = `Error al registrar tu plantilla biométrica: ${error.message}`;
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          this.errorMessage = 'Error en la captura.';
           this.loading = false;
+          return;
+        }
+
+        this.facialAuthService.registrarRostro(this.nuevoUserId, blob).subscribe({
+          next: () => {
+            this.apagarCamara();
+            this.loading = false;
+            this.router.navigate(['/products']);
+          },
+          error: (error) => {
+            this.errorMessage = `Error biométrico: ${error.error?.detail || 'No se detectó el rostro.'}`;
+            this.loading = false;
+          },
         });
-    }, 'image/jpeg');
+      },
+      'image/jpeg',
+      0.95,
+    );
   }
 
   apagarCamara() {
     if (this.mediaStream) {
       this.mediaStream.getTracks().forEach((track) => track.stop());
+      this.mediaStream = null;
     }
+  }
+
+  ngOnDestroy() {
+    this.apagarCamara();
   }
 }

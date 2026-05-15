@@ -94,11 +94,11 @@
         <p>Mira fijamente a la cámara para confirmar el acceso a tu inventario.</p>
       </header>
 
-      <!-- Elementos multimedia interactivos -->
       <video
         #video
         autoplay
         playsinline
+        muted
         style="
           width: 100%;
           max-width: 400px;
@@ -108,14 +108,12 @@
           border: 2px solid #2d2d2d;
         "
       ></video>
-      <canvas #canvas style="display: none"></canvas>
+      <canvas #canvas hidden></canvas>
 
-      <!-- Mensaje de error dinámico de la IA -->
       <div class="error-alert" *ngIf="errorMessage" style="width: 100%">
         {{ errorMessage }}
       </div>
 
-      <!-- Botón de acción integrado al estilo de tu formulario -->
       <button
         type="button"
         class="btn-submit"
