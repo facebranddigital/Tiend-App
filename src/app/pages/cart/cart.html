@@ -1,120 +1,64 @@
 <div class="cart-container">
   <h2>Tu Carrito</h2>
 
-  @if (cartService.cartItems().length === 0) {
-    <!-- SECCIÓN CARRITO VACÍO -->
-    <div class="empty-cart">
-      <div class="empty-cart-image">
-        <img src="assets/emptycart.png" alt="Carrito Vacío" class="vibe-img" />
-      </div>
-      <button class="btn-primary" routerLink="/">Volver a la tienda</button>
-    </div>
-  } @else {
-    <!-- SECCIÓN CON PRODUCTOS -->
-    <div class="cart-content">
-      <div class="cart-items">
-        @for (item of cartService.cartItems(); track $index) {
-          <div class="cart-item">
-            <img
-              [src]="item.imageUrl"
-              [alt]="item.name"
-              class="cart-img"
-              (error)="item.imageUrl = 'assets/tocinetabf.webp'"
-            />
+  <!-- ESTADO VACÍO: Con tu animación 3D flotante del logo -->
+  <div *ngIf="cartService.cartItems().length === 0" class="empty-cart">
+    <img src="assets/bracasfoodlogo.jpeg" alt="Carrito Vacío" class="vibe-img" />
+    <p style="margin-bottom: 20px; font-size: 1.1rem; color: #555; font-weight: 500">
+      Tu carrito está vacío. ¡Agrega deliciosas Bracas!
+    </p>
+    <button class="btn-primary">Ver Menú</button>
+  </div>
 
-            <div class="item-info">
-              <h3>{{ item.name }}</h3>
-              <p class="price">
-                {{ item.price | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}
-                <span
-                  style="font-size: 0.9rem; color: #ff6b00; font-weight: bold; margin-left: 8px"
-                >
-                  x {{ item.quantity }}
-                </span>
-              </p>
-            </div>
+  <!-- CONTENIDO CON PRODUCTOS -->
+  <div *ngIf="cartService.cartItems().length > 0" class="cart-content">
+    <!-- Lista de Productos -->
+    <div class="cart-items">
+      <div *ngFor="let item of cartService.cartItems()" class="cart-item">
+        <img [src]="item.imagen || 'assets/bracasfoodlogo.jpeg'" [alt]="item.nombre" />
 
-            <button class="delete-btn" (click)="onDelete($index)">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M3 6h18" />
-                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                <line x1="10" y1="11" x2="10" y2="17" />
-                <line x1="14" y1="11" x2="14" y2="17" />
-              </svg>
-            </button>
-          </div>
-        }
-      </div>
-
-      <!-- RESUMEN DE PAGO -->
-      <div class="cart-summary">
-        <div class="totals">
-          <div class="total-row main-total">
-            <span>Total a pagar</span>
-            <span>{{ cartService.total() | currency: 'COP' : 'symbol-narrow' : '1.0-0' }}</span>
-          </div>
+        <div class="item-info">
+          <h3>{{ item.nombre || item.name }}</h3>
+          <p class="price">
+            {{ item.cantidad || item.quantity }}x ${{ item.precio || item.price }}
+          </p>
         </div>
 
-        <div class="payment-section">
-          <h3>Selecciona método de pago</h3>
-          <div class="payment-options">
-            <label *ngFor="let method of paymentMethods" class="payment-option">
-              <input
-                type="radio"
-                name="paymentMethod"
-                [value]="method"
-                [checked]="selectedPaymentMethod() === method"
-                (change)="onSelectMethod(method)"
-              />
-              {{ method }}
-            </label>
-          </div>
-        </div>
-
-        <button class="btn-checkout" (click)="onCheckout()">Pagar</button>
-        <button class="btn-clear" (click)="onClear()">Vaciar Carrito</button>
-
-        @if (paymentSuccess()) {
-          <div class="payment-success">
-            <p>Pago realizado con {{ selectedPaymentMethod() }}. ¡Gracias por tu compra!</p>
-          </div>
-        }
+        <button (click)="eliminarItem(item.id)" class="delete-btn">🗑️</button>
       </div>
     </div>
-  }
+
+    <!-- Tarjeta de Resumen -->
+    <div class="cart-summary">
+      <div class="totals">
+        <div class="total-row">
+          <span>Productos</span>
+          <span>{{ cartService.cartItems().length }}</span>
+        </div>
+        <div class="total-row main-total">
+          <span>Total a pagar:</span>
+          <span>${{ cartService.totalPagar() }}</span>
+        </div>
+      </div>
+
+      <button (click)="enviarPedido()" class="btn-checkout">Confirmar Pedido</button>
+    </div>
+  </div>
 </div>
 
-<!-- BOTÓN FLOTANTE INTELIGENTE (CORREGIDO) -->
-@if (cartService.cartItems().length > 0) {
-  <a
-    [href]="getWhatsAppUrl()"
-    class="bracas-wa-float"
-    [class.is-error]="showErrorHelp()"
-    target="_blank"
-  >
-    <div class="wa-message-bubble">
-      <span>{{ showErrorHelp() ? '¡LO SENTIMOS!' : '¿PROBLEMAS CON EL PAGO?' }}</span>
-      <strong>{{ showErrorHelp() ? 'Toca para soporte' : '¡Toca aquí para ayudarte!' }}</strong>
-    </div>
+<!-- BOTÓN FLOTANTE WHATSAPP: El botón hermoso de la esquina -->
+<a
+  *ngIf="cartService.cartItems().length > 0"
+  (click)="enviarPedido()"
+  class="bracas-wa-float"
+  style="cursor: pointer"
+>
+  <div class="wa-message-bubble">
+    <span>¿Listo para comer?</span>
+    <strong>Pedir por WhatsApp</strong>
+  </div>
 
-    <div class="wa-icon-circle">
-      <img
-        src="assets/bracasfoodlogo.jpeg"
-        alt="WhatsApp"
-        class="wa-img-fix"
-        style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%"
-      />
-    </div>
-  </a>
-}
+  <div class="wa-icon-circle">
+    <img src="https://wikimedia.org" alt="WhatsApp" class="wa-img-fix" />
+  </div>
+</a>

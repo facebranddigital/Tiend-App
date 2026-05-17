@@ -1,7 +1,7 @@
 {
   "name": "tiend-app",
   "version": "0.0.0",
-    "scripts": {
+  "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "node set-env.js && ng build",
@@ -9,7 +9,6 @@
     "test": "ng test",
     "test:bot": "start-server-and-test start http://localhost:4200 'npx cypress open'"
   },
-
   "private": true,
   "engines": {
     "node": ">=20.19.0"
@@ -33,6 +32,7 @@
     "resend": "^6.10.0",
     "rxjs": "~7.8.0",
     "socket.io": "^4.8.3",
+    "sweetalert2": "^11.26.24",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

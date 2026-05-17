@@ -1,59 +1,109 @@
-import { Injectable, signal, computed, effect } from '@angular/core'; // 1. Añadimos effect
+import { Injectable, signal, computed } from '@angular/core';
 
-export interface Product {
-  id?: string;
-  name: string;
-  price: number;
-  imageUrl: string;
-  category: string;
-  description?: string;
-  stock?: number;
+// 1. Modificamos el id para que sea opcional (?); así TypeScript no se queja en landing.ts
+export interface CartItem {
+  id?: any;
+  nombre?: string;
+  name?: string;
+  precio?: number;
+  price?: number;
+  cantidad?: number;
   quantity?: number;
+  imagen?: string;
+  category?: string;
+  imageUrl?: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  // 2. Cargamos los datos del LocalStorage al arrancar
-  private initialItems: Product[] = JSON.parse(localStorage.getItem('cart_bracas') || '[]');
+  private itemsSignal = signal<CartItem[]>([]);
 
-  // 3. Inicializamos la señal con lo que encontramos en el storage
-  public cartItems = signal<Product[]>(this.initialItems);
+  public cartItems = this.itemsSignal.asReadonly();
+  public items = this.itemsSignal.asReadonly();
 
-  constructor() {
-    // 4. Cada vez que cartItems cambie, se guarda automáticamente
-    effect(() => {
-      localStorage.setItem('cart_bracas', JSON.stringify(this.cartItems()));
-    });
-  }
+  public totalPagar = computed(() => {
+    return this.itemsSignal().reduce((acc, item) => {
+      const precio = item.precio ?? item.price ?? 0;
+      const cantidad = item.cantidad ?? item.quantity ?? 1;
+      return acc + precio * cantidad;
+    }, 0);
+  });
 
-  // Selectores reactivos
-  items = computed(() => this.cartItems());
-  count = computed(() => this.cartItems().reduce((acc, item) => acc + (item.quantity || 1), 0));
-  total = computed(() =>
-    this.cartItems().reduce((acc, item) => acc + item.price * (item.quantity || 1), 0),
-  );
+  public total = this.totalPagar;
 
-  addToCart(newProduct: Product) {
-    this.cartItems.update((items) => {
-      const existingItem = items.find((item) => item.name === newProduct.name);
-      if (existingItem) {
-        return items.map((item) =>
-          item.name === newProduct.name
-            ? { ...item, quantity: (item.quantity || 0) + (newProduct.quantity || 1) }
-            : item,
-        );
+  public count = computed(() => {
+    return this.itemsSignal().reduce((acc, item) => acc + (item.cantidad ?? item.quantity ?? 1), 0);
+  });
+
+  // 2. Método blindado que procesa y repara objetos incompletos que vengan de la landing
+  addToCart(producto: CartItem) {
+    this.itemsSignal.update((items) => {
+      // Si el producto no tiene ID, usamos su nombre como ID único temporal o generamos uno alternativo
+      const idFinal = producto.id ?? producto.name ?? producto.nombre ?? Math.random().toString();
+
+      const exist = items.find((i) => i.id === idFinal);
+
+      if (exist) {
+        return items.map((i) => {
+          if (i.id === idFinal) {
+            const nuevaCant = (i.cantidad ?? i.quantity ?? 1) + 1;
+            return { ...i, cantidad: nuevaCant, quantity: nuevaCant };
+          }
+          return i;
+        });
       }
-      return [...items, { ...newProduct, quantity: newProduct.quantity || 1 }];
+
+      const nuevoItem: CartItem = {
+        ...producto,
+        id: idFinal, // Asignamos el ID resuelto
+        nombre: producto.nombre ?? producto.name ?? 'Producto',
+        name: producto.name ?? producto.nombre ?? 'Producto',
+        precio: producto.precio ?? producto.price ?? 0,
+        price: producto.price ?? producto.precio ?? 0,
+        cantidad: producto.cantidad ?? producto.quantity ?? 1,
+        quantity: producto.quantity ?? producto.cantidad ?? 1,
+      };
+      return [...items, nuevoItem];
     });
   }
 
-  removeFromCart(index: number) {
-    this.cartItems.update((prev) => prev.filter((_, i) => i !== index));
+  removeFromCart(id: any) {
+    this.itemsSignal.update((items) => items.filter((i) => i.id !== id));
   }
 
   clearCart() {
-    this.cartItems.set([]);
+    this.itemsSignal.set([]);
+  }
+  limpiarCarrito() {
+    this.clearCart();
+  }
+
+  obtenerTextoPedido(idUnico: string): string {
+    // 1. Mapeamos cada producto con un formato limpio y emoji de comida
+    const lineas = this.itemsSignal().map((i) => {
+      const nombre = i.nombre ?? i.name ?? 'Producto';
+      const cantidad = i.cantidad ?? i.quantity ?? 1;
+      const precio = i.precio ?? i.price ?? 0;
+      const subtotal = precio * cantidad;
+
+      return `🔸 *${nombre}* (x${cantidad}) -> _$${subtotal.toLocaleString()}_`;
+    });
+
+    // 2. Armamos la estructura final del mensaje usando saltos de línea claros
+    return [
+      `🔥 *¡NUEVO PEDIDO BRACASFOOD!* 🔥`,
+      `=========================`,
+      `🆔 *Orden:* #${idUnico}`,
+      `⏰ *Fecha:* ${new Date().toLocaleDateString()}`,
+      `=========================`,
+      `🛒 *DETALLE DEL PEDIDO:*`,
+      ...lineas,
+      `=========================`,
+      `💰 *TOTAL A PAGAR:* $${this.totalPagar().toLocaleString()}`,
+      `=========================`,
+      `🛵 _Por favor, confírmame el tiempo estimado de entrega._`,
+    ].join('\n');
   }
 }

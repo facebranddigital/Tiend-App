@@ -1,38 +1,49 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; // Importante para leer lo que escriben
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chat-ai',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './chat-ai.component.html',
-  styleUrls: ['./chat-ai.component.scss'],
+  styleUrls: ['./chat-ai.component.scss']
 })
 export class ChatAiComponent {
-  isOpen = signal(false); // Controla si el chat se ve o no
-  userInput = '';
-  messages = [{ role: 'bot', text: '¡Hola! Soy BracasBot. ¿En qué puedo ayudarte hoy?' }];
+  // 1. CONVERTIMOS LAS VARIABLES A SIGNALS MODERNAS
+  public isOpen = signal<boolean>(false);
+  public isLoading = signal<boolean>(false);
+  public messages = signal<Array<{ role: string; text: string }>>([
+    { role: 'model', text: '¡Hola! Soy BracasBot 🍦 ¿En qué te puedo colaborar hoy? ¿Buscas bolis o pasabocas?' }
+  ]);
 
-  toggleChat() {
-    this.isOpen.update((v) => !v);
+  public userInput: string = '';
+
+  // Alterna la ventana del chat abierta o cerrada
+  public toggleChat(): void {
+    this.isOpen.update(value => !value);
   }
 
-  async sendMessage() {
-    if (!this.userInput.trim()) return;
+  // Simulación de envío de mensajes
+  public sendMessage(): void {
+    if (!this.userInput.trim() || this.isLoading()) return;
 
-    // 1. Añadimos el mensaje del usuario
-    this.messages.push({ role: 'user', text: this.userInput });
-    const userQuery = this.userInput;
-    this.userInput = '';
+    const textoUsuario = this.userInput;
+    this.userInput = ''; // Limpia el input de inmediato
 
-    // 2. Aquí es donde conectaremos con la IA (Gemini)
-    // Por ahora, pongamos una respuesta automática
+    // Agregar el mensaje del usuario al arreglo de la Signal
+    this.messages.update(prev => [...prev, { role: 'user', text: textoUsuario }]);
+    
+    // Activar el estado de carga (animación de los 3 puntitos)
+    this.isLoading.set(true);
+
+    // Simulador de respuesta automática de BracasBot después de 2 segundos
     setTimeout(() => {
-      this.messages.push({
-        role: 'bot',
-        text: '¡Claro! Estamos preparando los mejores Bolis para ti. ¿Quieres que te envíe el catálogo?',
-      });
-    }, 1000);
+      this.messages.update(prev => [...prev, { 
+        role: 'model', 
+        text: '¡Delicioso! Contamos con los mejores bolis gourmet y pasabocas para tus eventos. ¿Te gustaría ver el menú?' 
+      }]);
+      this.isLoading.set(false);
+    }, 2000);
   }
 }

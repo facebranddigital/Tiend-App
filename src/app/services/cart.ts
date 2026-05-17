@@ -1,21 +1,30 @@
-import { Injectable, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CartService } from './cart.service';
 
-@Injectable({
-  providedIn: 'root'
+@Component({
+  selector: 'app-cart',
+  standalone: true,
+  imports: [CommonModule],
+  template: '<div></div>',
 })
-export class CartService {
-  // Estado global del carrito
-  cartItems = signal<any[]>([]);
+export class CartComponent {
+  constructor(public cartService: CartService) {}
 
-  constructor() {}
-
-  // Método para agregar productos
-  addToCart(product: any) {
-    this.cartItems.update(prev => [...prev, product]);
+  eliminarItem(id: any) {
+    this.cartService.removeFromCart(id);
   }
 
-  // Método para limpiar (útil después de pagar con Mercado Pago)
-  clearCart() {
-    this.cartItems.set([]);
+  enviarPedido() {
+    if (this.cartService.cartItems().length === 0) return;
+
+    const idUnico = 'BR-' + Math.floor(1000 + Math.random() * 9000);
+    const mensaje = this.cartService.obtenerTextoPedido(idUnico);
+    const telefono = '573218119383';
+
+    // TU FORMATO GANADOR: Limpio, directo y sin barras estúpidas intermedias
+    const urlWhatsApp = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+
+    window.open(urlWhatsApp, '_blank');
   }
 }

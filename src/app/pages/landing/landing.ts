@@ -7,8 +7,7 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { effect, ViewChild, ElementRef } from '@angular/core';
 import confetti from 'canvas-confetti';
-
-declare var Swal: any;
+import Swal from 'sweetalert2';
 
 interface Message {
   role: 'user' | 'model';
@@ -228,7 +227,7 @@ export class LandingComponent implements OnDestroy {
           ) {
             const total = this.cartService
               .items()
-              .reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
+              .reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
 
             // Si el carrito está vacío, no lo dejamos pasar al pago
             if (total === 0) {
@@ -249,7 +248,7 @@ export class LandingComponent implements OnDestroy {
           this.datosPedido.direccion = text;
           const totalConfirmado = this.cartService
             .items()
-            .reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
+            .reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
 
           response = `✅ *Dirección: ${text}*\n💰 *Total: $${totalConfirmado.toLocaleString('es-CO')}*\n\n¿Cómo deseas pagar? \n\n💸 **Efectivo** \n💱 **Nequi**`;
           this.step.set(5);
@@ -282,7 +281,9 @@ export class LandingComponent implements OnDestroy {
 
   // ESTA ES LA NUEVA FUNCIÓN INDEPENDIENTE
   procesarPagoDirecto() {
-    const total = this.cartService.items().reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
+    const total = this.cartService
+      .items()
+      .reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
 
     this.messages.update((prev) => [
       ...prev,
@@ -333,7 +334,6 @@ export class LandingComponent implements OnDestroy {
   hacerPedidoWhatsApp() {
     this.isOpen.set(true);
     this.step.set(1);
-    // Agregamos el mensaje inicial si el chat está vacío
     if (this.messages().length === 0) {
       this.messages.set([
         {
@@ -343,52 +343,55 @@ export class LandingComponent implements OnDestroy {
       ]);
     }
   }
-
   confirmarPagoEnWhatsApp() {
     const telefono = '573218119383';
     const items = this.cartService.items();
-    const total = items.reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
+    const total = items.reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
 
-    // 1. EL BLOQUE DE ACTIVACIÓN (Exacto como lo reconoce tu IA)
-    let mensaje = `💱PAGO_NEQUI_BRACAS ⚡\n`;
-    mensaje += `🚀PAGO EXPRESS\n`;
-    mensaje += `📥 Descarga el QR    🖨️ Escanealo en Nequi     📲 Envianos el comprobante\n\n`;
+    // 1. Mapeamos los productos uno debajo del otro con un puntito estético
+    const lineasProductos = items.map((i: any) => `• *${i.name}* (x${i.quantity || 1})`);
+    // 2. Armamos el bloque de texto bien estructurado y elegante
+    const bloquesMensaje = [
+      `💱 *PAGO NEQUI BRACAS* ⚡`,
+      `🚀 *PAGO EXPRESS*`,
+      `=========================`,
+      `📥 _Descarga el QR_`,
+      `🖨️ _Escanealo en Nequi_`,
+      `📲 _Envianos el comprobante_`,
+      `=========================`,
+      `🛒 *DETALLE DEL PEDIDO:*`,
+      ...lineasProductos,
+      `=========================`,
+      `💰 *TOTAL:* $${total.toLocaleString('es-CO')}`,
+      `🛵 *ENTREGA:* ${this.datosPedido?.direccion || 'Recogida en Local'}`,
+      `=========================`,
+      `💬 _Solicito el QR de Nequi para proceder con el pago._`,
+    ];
 
-    // 2. LOS DETALLES (Sin emojis extra al inicio para no confundir a la IA)
-    if (items.length > 0) {
-      const lista = items.map((i) => `${i.name} x${i.quantity || 1}`).join(', ');
-      mensaje += `PEDIDO: ${lista}\n`;
-      mensaje += `TOTAL: $${total.toLocaleString('es-CO')}\n`;
-      mensaje += `ENTREGA: ${this.datosPedido.direccion || 'Local'}\n\n`;
-    }
+    // Unimos todo con saltos de línea reales (\n)
+    const mensaje = bloquesMensaje.join('\n');
 
-    mensaje += `Solicito el QR de Nequi.`;
+    // 3. Tu formato ganador wa.me que nunca falla
+    const urlWhatsApp = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+    window.open(urlWhatsApp, '_blank');
 
     this.dispararConfeti();
-
-    setTimeout(() => {
-      window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
-      this.resetearTodo();
-    }, 1000);
   }
 
-  // Asegúrate de que la otra función también use este mismo comando si es Nequi
   confirmarPedidoWhatsApp() {
     if (this.datosPedido.pago.toLowerCase().includes('nequi')) {
       this.confirmarPagoEnWhatsApp();
     } else {
-      // Lógica normal para Efectivo...
       const telefono = '573218119383';
       const items = this.cartService.items();
-      const total = items.reduce((acc, i) => acc + i.price * (i.quantity || 1), 0);
-      const lista = items.map((i) => `• ${i.name} x${i.quantity || 1}`).join('\n');
+      const total = items.reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
+      const lista = items.map((i: any) => `• ${i.name} x${i.quantity || 1}`).join('\n');
 
       const mensaje = `*📦 NUEVO PEDIDO - EFECTIVO*\n\n${lista}\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *DIR:* ${this.datosPedido.direccion}\n💸 *PAGO:* Efectivo`;
 
       window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
       this.resetearTodo();
     }
-    1000;
   }
 
   // --- UTILIDADES ---
@@ -403,7 +406,6 @@ export class LandingComponent implements OnDestroy {
       quantity: qty,
     });
 
-    // NOTIFICACIÓN ESTILO BRACAS FOOD
     Swal.fire({
       toast: true,
       position: 'top-end',
@@ -451,8 +453,8 @@ export class LandingComponent implements OnDestroy {
   }
 
   private resetearTodo() {
-    this.cartService.clearCart(); // <--- Limpia el carrito real
-    this.messages.set([]); // <--- Limpia el historial del chat
+    this.cartService.clearCart();
+    this.messages.set([]);
     this.step.set(0);
     this.isOpen.set(false);
     this.datosPedido = { direccion: '', pago: '' };

@@ -1,0 +1,47 @@
+<div class="tracking-container">
+  <div class="header">
+    <h2>Pedido #{{ pedidoId }}</h2>
+    <p class="eta">
+      Tiempo estimado: <span>{{ tiempoEstimado }} min</span>
+    </p>
+  </div>
+
+  <!-- Línea de tiempo animada -->
+  <div class="timeline">
+    <div class="progress-bar" [style.width.%]="obtenerPorcentajeProgreso()"></div>
+
+    <div class="step" [class.active]="estadoActual >= 1">
+      <div class="icon-circle">📝</div>
+      <span>Recibido</span>
+    </div>
+
+    <div class="step" [class.active]="estadoActual >= 2">
+      <div class="icon-circle">🍳</div>
+      <span>En cocina</span>
+    </div>
+
+    <div class="step" [class.active]="estadoActual >= 3">
+      <div class="icon-circle">🛵</div>
+      <span>En camino</span>
+    </div>
+
+    <div class="step" [class.active]="estadoActual >= 4">
+      <div class="icon-circle">🍔</div>
+      <span>Entregado</span>
+    </div>
+  </div>
+
+  <!-- Tarjeta del Repartidor (Solo se muestra cuando está en camino) -->
+  <div class="delivery-card" *ngIf="estadoActual === 3">
+    <div class="driver-info">
+      <img src="assets/repartidor.png" alt="Repartidor" class="avatar" />
+      <div>
+        <h4>Carlos Mendoza</h4>
+        <p>Tu repartidor de Bracasfood</p>
+      </div>
+    </div>
+    <a href="https://wa.me¿cómo%20va%20mi%20pedido?" target="_blank" class="btn-chat">
+      💬 Chatear
+    </a>
+  </div>
+</div>
