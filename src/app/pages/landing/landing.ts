@@ -1,13 +1,17 @@
 import { Component, signal, computed, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-// AGREGA 'RouterModule' a esta línea de importación:
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
-import { AuthService } from '../../services/auth.service';
-import { effect, ViewChild, ElementRef } from '@angular/core';
+import { AuthService } from '../../services/auth.service'; 
+import { effect } from '@angular/core';
 import confetti from 'canvas-confetti';
 import Swal from 'sweetalert2';
+
+// 1. RUTAS RELATIVAS EXACTAS (Asegúrate de que existan estas carpetas)
+import { NavbarComponent } from '../../components/navbar/navbar';
+import { FooterComponent } from '../../components/footer/footer';
+
 
 interface Message {
   role: 'user' | 'model';
@@ -17,7 +21,15 @@ interface Message {
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
+  // 2. IMPORTACIONES CON LA PRIMERA LETRA EN MAYÚSCULA (PascalCase)
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    RouterModule,
+    NavbarComponent,
+    FooterComponent,
+  ],
   templateUrl: './landing.html',
   styleUrls: ['./landing.scss'],
 })
