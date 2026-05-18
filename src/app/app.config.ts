@@ -10,7 +10,9 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     // CORRECCIÓN EXACTA: Se cambia firebaseConfig por firebase
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth())
-  ]
+    provideFirebaseApp(() =>
+      initializeApp((environment as any).firebaseConfig || (environment as any).firebase),
+    ),
+    provideAuth(() => getAuth()),
+  ],
 };

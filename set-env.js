@@ -12,7 +12,7 @@ const defaultFirebase = {
   measurementId: 'G-0XP0146XTK'
 };
 
-const firebaseConfig = {
+const firebase = {
   apiKey: process.env.FIREBASE_API_KEY || defaultFirebase.apiKey,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN || defaultFirebase.authDomain,
   projectId: process.env.FIREBASE_PROJECT_ID || defaultFirebase.projectId,
@@ -24,7 +24,7 @@ const firebaseConfig = {
 
 const makeContent = (production) => `export const environment = {
   production: ${production},
-  firebase: ${JSON.stringify(firebaseConfig, null, 2)}
+  firebase: ${JSON.stringify(firebase, null, 2)}
 };
 `;
 
