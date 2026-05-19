@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, onSnapshot, DocumentSnapshot } from 'firebase/firestore';
+import { Injectable, inject } from '@angular/core';
+// Importaciones optimizadas para la versión modular de Angular Fire
+import { Firestore, doc, onSnapshot, DocumentSnapshot, updateDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment'; // Ajusta según donde tengas tus keys
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FirebaseService {
-  private app = initializeApp(environment.firebaseConfig);
-  private db = getFirestore(this.app);
+  // ✅ CORREGIDO: Inyectamos el Firestore global que configuramos en app.config.ts
+  private db = inject(Firestore);
 
   constructor() {}
 
@@ -18,9 +17,9 @@ export class FirebaseService {
    */
   escucharPedido(orderId: string): Observable<any> {
     return new Observable((subscriber) => {
+      // Apunta a la colección 'orders' usando la instancia inyectada segura
       const docRef = doc(this.db, 'orders', orderId);
 
-      // Listener en tiempo real de Firestore
       const unsubscribe = onSnapshot(
         docRef,
         (snapshot: DocumentSnapshot) => {
@@ -30,11 +29,22 @@ export class FirebaseService {
             subscriber.error('Pedido no encontrado');
           }
         },
-        (error) => subscriber.error(error)
+        (error) => subscriber.error(error),
       );
 
-      // Se ejecuta al desuscribirse para evitar fugas de memoria
       return () => unsubscribe();
+    });
+  }
+
+  /**
+   * ✅ NUEVO MÉTODO: Guarda la geolocalización (latitud y longitud) en el pedido de Firestore
+   */
+  actualizarUbicacionPedido(orderId: string, lat: number, lng: number): Promise<void> {
+    const docRef = doc(this.db, 'orders', orderId);
+    return updateDoc(docRef, {
+      repartidorLat: lat,
+      repartidorLng: lng,
+      ultimaActualizacion: new Date(),
     });
   }
 }

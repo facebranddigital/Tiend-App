@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, inject, ViewChild, ElementRef, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ReactiveFormsModule,
@@ -19,14 +19,12 @@ import { FacialAuthService } from '../../../services/facial_auth.service';
   styleUrl: './register.scss',
 })
 export class RegisterComponent implements OnDestroy {
-  // CORREGIDO: Tipado opcional con ? para evitar el error de asignación del compilador estricto
   private videoEl?: ElementRef<HTMLVideoElement>;
   private canvasEl?: ElementRef<HTMLCanvasElement>;
 
   @ViewChild('video') set video(content: ElementRef<HTMLVideoElement> | undefined) {
     if (content) {
       this.videoEl = content;
-      this.vincularFlujoCamara();
     }
   }
 
@@ -40,6 +38,7 @@ export class RegisterComponent implements OnDestroy {
   private authService = inject(AuthService);
   private facialAuthService = inject(FacialAuthService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef); // Inyectado para control seguro del DOM
 
   showPassword = false;
   showConfirmPassword = false;
@@ -87,7 +86,15 @@ export class RegisterComponent implements OnDestroy {
       .then((res: any) => {
         this.nuevoUserId = res?.user?.uid || '';
         this.loading = false;
+        
+        // 1. Activamos la vista del paso facial
         this.stepFacial = true;
+        
+        // 2. Forzamos a Angular a procesar y renderizar el HTML del video inmediatamente
+        this.cdr.detectChanges();
+        
+        // 3. Encendemos la cámara de manera segura ahora que el elemento existe al 100%
+        this.vincularFlujoCamara();
       })
       .catch((err: any) => {
         console.error(err);
@@ -109,12 +116,11 @@ export class RegisterComponent implements OnDestroy {
         this.videoEl.nativeElement.srcObject = this.mediaStream;
       }
     } catch (err) {
-      this.errorMessage = 'No se pudo acceder a la cámara web.';
+      this.errorMessage = 'No se pudo acceder a la cámara web. Verifica los permisos de tu navegador.';
     }
   }
 
   guardarRostroOriginal() {
-    // CORREGIDO: Validación segura de existencia para complacer a TypeScript
     if (!this.videoEl || !this.canvasEl) {
       this.errorMessage = 'Los elementos de la cámara no están listos.';
       return;
