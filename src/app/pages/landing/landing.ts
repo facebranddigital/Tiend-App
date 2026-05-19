@@ -27,8 +27,6 @@ interface Message {
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
-    NavbarComponent,
-    FooterComponent,
   ],
   templateUrl: './landing.html',
   styleUrls: ['./landing.scss'],
