@@ -1,0 +1,76 @@
+<div class="profile-container">
+  <div *ngIf="cargando" class="loading-wrapper">
+    <div class="spinner"></div>
+    <p>Cargando tu perfil...</p>
+  </div>
+
+  <div *ngIf="!cargando" class="profile-card">
+    <div class="avatar-section">
+      <div class="image-wrapper">
+        <img [src]="fotoUrl" alt="Foto de perfil" class="profile-avatar" />
+        <label class="btn-upload" for="file-input">
+          <i class="fas fa-camera"></i>
+        </label>
+        <input
+          id="file-input"
+          type="file"
+          accept="image/*"
+          (change)="cambiarFoto($event)"
+          style="display: none"
+        />
+      </div>
+      <div *ngIf="subiendoImagen" class="mini-loader">Subiendo foto...</div>
+      <h3>{{ nombre || 'Tu Nombre' }}</h3>
+      <p class="subtitle">Mi Cuenta Bracasfood</p>
+    </div>
+
+    <div *ngIf="mensajeExito" class="alert alert-success">{{ mensajeExito }}</div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+    <form (ngSubmit)="guardarCambios()" class="profile-form">
+      <div class="input-group">
+        <label><i class="fas fa-user"></i> Nombre Completo</label>
+        <input
+          type="text"
+          [(ngModel)]="nombre"
+          name="nombre"
+          placeholder="Escribe tu nombre"
+          required
+        />
+      </div>
+
+      <div class="input-group">
+        <label><i class="fas fa-phone"></i> Teléfono de Contacto</label>
+        <input type="tel" [(ngModel)]="telefono" name="telefono" placeholder="Ej: 3218119383" />
+      </div>
+
+      <div class="input-group">
+        <label><i class="fas fa-map-marker-alt"></i> Dirección de Entrega</label>
+        <input
+          type="text"
+          [(ngModel)]="direccion"
+          name="direccion"
+          placeholder="Calle, Carrera, Barrio y Apto"
+        />
+      </div>
+
+      <div class="pedido-section" *ngIf="ultimoPedidoId">
+        <div class="pedido-info">
+          <i class="fas fa-shopping-bag"></i>
+          <div>
+            <h5>Último Pedido Activo</h5>
+            <p>Código: {{ ultimoPedidoId }}</p>
+          </div>
+        </div>
+        <button type="button" class="btn-track" (click)="verPedidoActivo()">
+          Rastrear Pedido <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <button type="submit" class="btn-save" [disabled]="guardando">
+        <span *ngIf="!guardando">Guardar Cambios</span>
+        <span *ngIf="guardando">Guardando...</span>
+      </button>
+    </form>
+  </div>
+</div>

@@ -13,6 +13,9 @@ import { SaboresNarinoComponent } from './pages/sabores-narino/sabores-narino';
 // 1. IMPORTACIÓN DEL COMPONENTE DE SEGUIMIENTO (ESTILO STICKER PRO)
 import { SeguimientoComponent } from './components/seguimiento/seguimiento.component';
 
+// ✅ 2. IMPORTACIÓN DEL NUEVO COMPONENTE DE PERFIL
+import { PerfilComponent } from './pages/perfil/perfil';
+
 export const routes: Routes = [
   { path: '', component: LandingComponent },
   { path: 'login', component: LoginComponent },
@@ -42,8 +45,15 @@ export const routes: Routes = [
   },
   { path: 'cart', component: CartComponent },
 
-  // 2. NUEVA RUTA REGISTRADA ANTES DEL COMODÍN DE REDIRECCIÓN
-{ path: 'seguimiento/:id', component: SeguimientoComponent },
+  // 3. RUTA DEL SEGUIMIENTO
+  { path: 'seguimiento/:id', component: SeguimientoComponent },
+
+  // ✅ 4. NUEVA RUTA DE PERFIL PROTEGIDA CON TU GUARD DE AUTENTICACIÓN
+  {
+    path: 'perfil',
+    component: PerfilComponent,
+    canActivate: [authGuard],
+  },
 
   // Redirección por defecto si la URL no existe (Debe ir siempre al final)
   { path: '**', redirectTo: '' },

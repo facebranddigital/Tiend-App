@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router'; // ✅ Corrección: Se añade Router aquí
+import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
 import { Subscription } from 'rxjs';
 import * as L from 'leaflet';
@@ -29,28 +29,37 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
   private pedidoSub!: Subscription;
   private watchId: number | null = null;
 
-  // ✅ Inyección de dependencias estructurada
   private route = inject(ActivatedRoute);
-  private router = inject(Router); // ✅ Corrección: Inyectamos el enrutador de Angular
+  private router = inject(Router);
   private firebaseService = inject(FirebaseService);
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    // ✅ Capturamos el parámetro ID directo de la URL activa
-    const idDesdeUrl = this.route.snapshot.paramMap.get('id');
+    // 1. Intentamos capturar el parámetro ID directo de la URL activa
+    let idDesdeUrl = this.route.snapshot.paramMap.get('id');
+
+    // 2. RECUPERACIÓN INTELIGENTE: Si la URL dice 'orders', viene vacía o se refresca la página,
+    // rescatamos el ID real guardado por el carrito en la memoria del navegador.
+    if (!idDesdeUrl || idDesdeUrl === 'orders') {
+      idDesdeUrl = localStorage.getItem('ultimoPedidoId');
+    }
 
     if (idDesdeUrl) {
       this.pedidoId = idDesdeUrl;
 
-      // Solo disparamos las conexiones si el ID del pedido existe
+      // Aseguramos que se mantenga guardado en el navegador por si vuelve a actualizar
+      localStorage.setItem('ultimoPedidoId', idDesdeUrl);
+
       setTimeout(() => {
         this.conectarSeguimientoReal();
         this.activarRastreoGps();
       }, 200);
     } else {
-      console.warn('Acceso denegado: No se detectó ningún ID de pedido en la URL.');
-      // ✅ Redirección automática al home para evitar la carga automática del pedido fijo
-      this.router.navigate(['/']); 
+      console.warn(
+        'Acceso denegado: No se detectó ningún ID de pedido válido en la URL ni en memoria.',
+      );
+      // Si de verdad no hay ningún pedido activo en este navegador, redirige al home de forma segura
+      this.router.navigate(['/']);
     }
   }
 
@@ -152,22 +161,10 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
           this.latitud = position.coords.latitude;
           this.longitud = position.coords.longitude;
           this.errorGps = '';
-          console.log(`Coordenadas Bracasfood: Lat ${this.latitud}, Lng ${this.longitud}`);
           this.cdr.detectChanges();
         },
         (error) => {
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              this.errorGps = 'Acceso al GPS denegado por el usuario o falta de entorno HTTPS.';
-              break;
-            case error.POSITION_UNAVAILABLE:
-              this.errorGps = 'La señal de geolocalización no está disponible.';
-              break;
-            case error.TIMEOUT:
-              this.errorGps = 'Tiempo de espera agotado al leer el GPS.';
-              break;
-          }
-          console.warn('Advertencia Geolocalización:', this.errorGps);
+          console.warn('Advertencia Geolocalización:', error.message);
           this.cdr.detectChanges();
         },
         {
@@ -176,8 +173,6 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
           maximumAge: 0,
         },
       );
-    } else {
-      this.errorGps = 'Tu navegador web no soporta servicios de geolocalización.';
     }
   }
 
