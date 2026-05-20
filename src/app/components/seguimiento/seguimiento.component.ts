@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router'; // ✅ 1. IMPORTACIÓN DINÁMICA DE RUTAS
+import { ActivatedRoute, Router } from '@angular/router'; // ✅ Corrección: Se añade Router aquí
 import { FirebaseService } from '../../services/firebase.service';
 import { Subscription } from 'rxjs';
 import * as L from 'leaflet';
@@ -13,7 +13,6 @@ import * as L from 'leaflet';
   styleUrls: ['./seguimiento.component.scss'],
 })
 export class SeguimientoComponent implements OnInit, OnDestroy {
-  // ✅ 2. EL ID YA NO ES FIJO: Se inicializa vacío y se llena dinámicamente
   public pedidoId: string = '';
   public tiempoEstimado: number = 35;
   public estadoActual: number = 1;
@@ -30,20 +29,29 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
   private pedidoSub!: Subscription;
   private watchId: number | null = null;
 
-  // ✅ 3. INYECCIÓN DEL LECTOR DE PARÁMETROS DE LA URL
+  // ✅ Inyección de dependencias estructurada
   private route = inject(ActivatedRoute);
+  private router = inject(Router); // ✅ Corrección: Inyectamos el enrutador de Angular
   private firebaseService = inject(FirebaseService);
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    // ✅ 4. ATRACO DE ID: Captura el código enviado en la URL (ej: /seguimiento/BR-1111)
-    // Si no encuentra ninguno, usa el de respaldo 'BR-8492' para que no se rompa en tus pruebas actuales.
-    this.pedidoId = this.route.snapshot.paramMap.get('id') || 'BR-8492';
+    // ✅ Capturamos el parámetro ID directo de la URL activa
+    const idDesdeUrl = this.route.snapshot.paramMap.get('id');
 
-    setTimeout(() => {
-      this.conectarSeguimientoReal();
-      this.activarRastreoGps();
-    }, 200);
+    if (idDesdeUrl) {
+      this.pedidoId = idDesdeUrl;
+
+      // Solo disparamos las conexiones si el ID del pedido existe
+      setTimeout(() => {
+        this.conectarSeguimientoReal();
+        this.activarRastreoGps();
+      }, 200);
+    } else {
+      console.warn('Acceso denegado: No se detectó ningún ID de pedido en la URL.');
+      // ✅ Redirección automática al home para evitar la carga automática del pedido fijo
+      this.router.navigate(['/']); 
+    }
   }
 
   ngOnDestroy(): void {
