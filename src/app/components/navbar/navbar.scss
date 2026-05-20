@@ -6,13 +6,15 @@
   justify-content: space-between;
   align-items: center;
   background: #191818;
-  padding: 0 5%;
+  padding: 0 4%;
   height: 60px; /* Altura cómoda para PC */
   backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;           /* ✅ CORREGIDO: Evita el uso de 100vw que rompe con la barra de scroll */
+  box-sizing: border-box; /* ✅ CORREGIDO: Fuerza a que el padding del 5% no sume tamaño extra hacia la derecha */
 }
 
 .logo span {
@@ -63,10 +65,10 @@
 }
 
 .cart-btn-custom svg {
-  stroke: #ffffff !important; // Blanco para que resalte en el fondo oscuro
+  stroke: #ffffff !important; 
   width: 26px !important;
   height: 26px !important;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)); // Sombra para que tenga relieve
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)); 
 }
 
 /* --- AJUSTE BURBUJA CARRITO --- */
@@ -80,7 +82,7 @@
   font-weight: 800;
   padding: 2px 5px;
   border-radius: 50%;
-  border: 1.5px solid #191818; // Borde oscuro para que resalte del botón
+  border: 1.5px solid #191818; 
 }
 
 .login-btn {
@@ -105,13 +107,10 @@
     transform: scale(0.95);
   }
 }
+
 /* --- BOTÓN SALIR (LOGOUT) --- */
 .logout-btn-styled {
-  background: linear-gradient(
-    95deg,
-    #ff4112 20%,
-    #ff6b00 80%
-  ) !important; // Un tono más rojizo pero pro
+  background: linear-gradient(95deg, #ff4112 20%, #ff6b00 80%) !important; 
   border: none !important;
   color: white !important;
   width: 42px;
@@ -127,55 +126,14 @@
   &:hover {
     background: #ef5350;
     color: white;
-    transform: rotate(-10deg); // Un toque juguetón al salir
+    transform: rotate(-10deg); 
 
     svg {
-      stroke: white !important; // Icono blanco
+      stroke: white !important; 
       width: 20px !important;
       height: 20px !important;
     }
   }
-}
-
-/* =======================================================
-   2. AJUSTE PARA CELULARES (Motorola A50, G72, etc.)
-   ======================================================= */
-@media screen and (max-width: 768px) {
-  .navbar {
-    height: 60px !important; /* Más delgada para no robar pantalla */
-    padding: 0 15px !important;
-    justify-content: space-between !important;
-  }
-
-  .logo span {
-    /* Evita que el nombre choque con los iconos */
-    font-size: 1.8rem !important; /* Bracasfood más pequeño */
-    letter-spacing: 0px;
-  }
-
-  .nav-links {
-    display: none !important; /* Escondemos los links8 de texto */
-  }
-
-  .nav-actions {
-    gap: 12px !important; /* Iconos más pegados */
-  }
-
-  .cart-btn-custom svg {
-    width: 28px !important; /* Icono de carrito más pequeño */
-    height: 28px !important;
-  }
-
-  .login-btn {
-    padding: 11px 15px !important; // izq altura der anchura //
-    font-size: 0.9rem !important; /* Botón Login compacto */ // Menos redondeado se ve más limpio en pequeño
-    border-radius: 12px !important;
-    letter-spacing: 0.5px;
-  }
-}
-
-.logout-btn-styled {
-  padding: 10px 7px !important;
 }
 
 /* --- LÓGICA DE BÚSQUEDA EXPANDIBLE --- */
@@ -216,19 +174,60 @@
     }
   }
 
-  // ESTADO ACTIVO (Cuando haces clic)
   &.active {
     background: rgba(255, 255, 255, 0.12);
     border-color: #ff8c00;
     padding: 4px 12px;
 
     .search-input {
-      width: 140px; // Se abre
+      width: 140px; 
       padding: 0 5px;
     }
 
     .search-btn-custom svg {
-      stroke: #ff8c00; // Lupa naranja al estar abierta
+      stroke: #ff8c00; 
     }
+  }
+}
+
+/* =======================================================
+   2. AJUSTE PARA CELULARES (Motorola A50, G72, etc.)
+   ======================================================= */
+@media screen and (max-width: 768px) {
+  .navbar {
+    height: 60px !important; 
+    padding: 0 15px !important;
+    justify-content: space-between !important;
+  }
+
+  .logo span {
+    font-size: 1.8rem !important; 
+    letter-spacing: 0px;
+  }
+
+  .nav-links {
+    display: none !important; 
+  }
+
+  .nav-actions {
+    gap: 12px !important; 
+  }
+
+  .cart-btn-custom svg {
+    width: 28px !important; 
+    height: 28px !important;
+  }
+
+  .login-btn {
+    padding: 11px 15px !important; 
+    font-size: 0.9rem !important; 
+    border-radius: 12px !important;
+    letter-spacing: 0.5px;
+  }
+
+  .logout-btn-styled {
+    padding: 10px 7px !important;
+    width: 36px !important;
+    height: 36px !important;
   }
 }

@@ -1,35 +1,34 @@
 import { Injectable, inject } from '@angular/core';
-// Importaciones optimizadas para la versión modular de Angular Fire
-import { Firestore, doc, onSnapshot, DocumentSnapshot, updateDoc } from '@angular/fire/firestore';
+import { Firestore, doc, onSnapshot } from '@angular/fire/firestore';
+import { updateDoc } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  // ✅ CORREGIDO: Inyectamos el Firestore global que configuramos en app.config.ts
   private db = inject(Firestore);
 
   constructor() {}
 
   /**
-   * Escucha un pedido en tiempo real desde Firestore y lo expone como un Observable de RxJS
+   * Escucha un pedido en tiempo real de forma segura y sin conflictos de tipos
    */
   escucharPedido(orderId: string): Observable<any> {
     return new Observable((subscriber) => {
-      // Apunta a la colección 'orders' usando la instancia inyectada segura
       const docRef = doc(this.db, 'orders', orderId);
 
+      // Usamos onSnapshot directamente vinculado a la referencia nativa
       const unsubscribe = onSnapshot(
         docRef,
-        (snapshot: DocumentSnapshot) => {
+        (snapshot) => {
           if (snapshot.exists()) {
             subscriber.next({ id: snapshot.id, ...snapshot.data() });
           } else {
             subscriber.error('Pedido no encontrado');
           }
         },
-        (error) => subscriber.error(error),
+        (error) => subscriber.error(error)
       );
 
       return () => unsubscribe();
@@ -37,7 +36,7 @@ export class FirebaseService {
   }
 
   /**
-   * ✅ NUEVO MÉTODO: Guarda la geolocalización (latitud y longitud) en el pedido de Firestore
+   * Guarda la geolocalización en el pedido de Firestore
    */
   actualizarUbicacionPedido(orderId: string, lat: number, lng: number): Promise<void> {
     const docRef = doc(this.db, 'orders', orderId);

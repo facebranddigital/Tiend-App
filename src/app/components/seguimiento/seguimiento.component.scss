@@ -4,13 +4,13 @@
 .tracking-container {
   padding: 20px;
   background: #ffffff;
-  border-radius: 25px; /* Bordes redondos como tus product-cards */
-  border: 2px solid #000000; /* El borde negro marcado de tu marca */
-  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* Sombra pesada estilo sticker */
+  border-radius: 25px;
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
   max-width: 450px;
   margin: 20px auto;
   font-family: 'Segoe UI', sans-serif;
-  animation: subtlePulse 3s infinite ease-in-out;
+  box-sizing: border-box; /* Evita que los paddings engorden la tarjeta */
 
   /* 1. EL ENCABEZADO */
   .header {
@@ -21,9 +21,9 @@
 
     h2 {
       margin: 0;
-      font-size: 1.8rem; /* Super grande como tus títulos */
-      font-weight: 1000; /* Súper negrita */
-      color: #3e1f01; /* Tu color oscuro personalizado */
+      font-size: 1.8rem;
+      font-weight: 1000;
+      color: #3e1f01;
     }
 
     .eta {
@@ -49,7 +49,6 @@
     margin-bottom: 40px;
     padding: 0 10px;
 
-    /* Línea negra de fondo */
     &::before {
       content: '';
       position: absolute;
@@ -57,22 +56,20 @@
       left: 0;
       right: 0;
       height: 6px;
-      background: #000000; /* Línea negra para hacer juego con los bordes */
+      background: #000000;
       z-index: 1;
     }
 
-    /* Barra naranja de progreso interno */
     .progress-bar {
       position: absolute;
       top: 24px;
       left: 0;
       height: 2px;
-      background: #ffb800; /* Centro amarillo brillante */
+      background: #ffb800;
       z-index: 2;
       transition: width 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
-    /* Cada paso de la línea de tiempo */
     .step {
       display: flex;
       flex-direction: column;
@@ -80,7 +77,6 @@
       z-index: 3;
       width: 65px;
 
-      /* Círculos con estilo de botón sticker */
       .icon-circle {
         width: 46px;
         height: 46px;
@@ -90,8 +86,8 @@
         align-items: center;
         justify-content: center;
         font-size: 1.3rem;
-        border: 2px solid #000000; /* Borde negro marcado */
-        box-shadow: 2px 2px 0px #000000; /* Sombra sólida estilo cómic/sticker */
+        border: 2px solid #000000;
+        box-shadow: 2px 2px 0px #000000;
         transition: all 0.3s ease;
       }
 
@@ -99,13 +95,12 @@
         font-size: 0.85rem;
         margin-top: 10px;
         color: #888;
-        font-weight: 900; /* Súper negrita */
-        text-transform: uppercase; /* Mayúsculas imponentes */
+        font-weight: 900;
+        text-transform: uppercase;
         text-align: center;
         white-space: nowrap;
       }
 
-      /* CUANDO EL PASO SE ACTIVA: Explota en degradado naranja */
       &.active {
         .icon-circle {
           background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
@@ -123,6 +118,38 @@
     }
   }
 
+  /* 2.5 CONTENEDOR DEL MAPA (INTEGRACIÓN LEAFLET) */
+  .map-wrapper {
+    position: relative;
+    margin: 25px 0;
+    border: 2px solid #000000;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 4px 4px 0px #000000;
+    z-index: 5;
+
+    #map-container {
+      height: 250px;
+      width: 100%;
+      background-color: #f4ece1;
+    }
+
+    .map-overlay {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: #ffffff;
+      padding: 6px 14px;
+      border: 2px solid #000000;
+      font-weight: 1000;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      z-index: 1000;
+      border-radius: 12px;
+      box-shadow: 2px 2px 0px #000000;
+    }
+  }
+
   /* 3. TARJETA DEL REPARTIDOR */
   .delivery-card {
     display: flex;
@@ -131,7 +158,7 @@
     background: #fffaf5;
     padding: 15px;
     border-radius: 20px;
-    border: 2px solid #000000; /* Borde negro marcado */
+    border: 2px solid #000000;
     box-shadow: 3px 3px 0px rgba(0, 0, 0, 1);
 
     .driver-info {
@@ -159,7 +186,6 @@
       }
     }
 
-    /* Botón de Chat estilo píldora Sticker */
     .btn-chat {
       background: #25d366;
       color: white;
@@ -180,4 +206,4 @@
       }
     }
   }
-}
+} // <--- LLAVE DE CIERRE FINAL TOTAL DE LA TARJETA. NADA SE FILTRA DE AQUÍ ABAJO.

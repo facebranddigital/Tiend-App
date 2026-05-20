@@ -1,2 +1,12 @@
-/* Bracasfood */
-/* Vercel Refresh */
+/* Reset global para blindar las vistas contra desbordamientos */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 70%;
+  overflow-x: hidden; /* Corta por completo el estiramiento hacia la derecha */
+}
