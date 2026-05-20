@@ -81,7 +81,7 @@ export class CartComponent implements OnInit, OnDestroy {
       // 6. Preparamos y abrimos la API oficial de WhatsApp
       const mensaje = this.cartService.obtenerTextoPedido(idUnico);
       const telefono = '573218119383';
-      const urlWhatsApp = `https://wa.me{telefono}?text=${encodeURIComponent(mensaje)}`;
+      const urlWhatsApp = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
       window.open(urlWhatsApp, '_blank');
 
       // 7. ✅ Vaciamos el carrito automáticamente tras una compra exitosa

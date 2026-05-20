@@ -13,7 +13,7 @@
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  width: 100%;           /* ✅ CORREGIDO: Evita el uso de 100vw que rompe con la barra de scroll */
+  width: 100%; /* ✅ CORREGIDO: Evita el uso de 100vw que rompe con la barra de scroll */
   box-sizing: border-box; /* ✅ CORREGIDO: Fuerza a que el padding del 5% no sume tamaño extra hacia la derecha */
 }
 
@@ -65,10 +65,10 @@
 }
 
 .cart-btn-custom svg {
-  stroke: #ffffff !important; 
+  stroke: #ffffff !important;
   width: 26px !important;
   height: 26px !important;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)); 
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 /* --- AJUSTE BURBUJA CARRITO --- */
@@ -82,7 +82,7 @@
   font-weight: 800;
   padding: 2px 5px;
   border-radius: 50%;
-  border: 1.5px solid #191818; 
+  border: 1.5px solid #191818;
 }
 
 .login-btn {
@@ -110,7 +110,7 @@
 
 /* --- BOTÓN SALIR (LOGOUT) --- */
 .logout-btn-styled {
-  background: linear-gradient(95deg, #ff4112 20%, #ff6b00 80%) !important; 
+  background: linear-gradient(95deg, #ff4112 20%, #ff6b00 80%) !important;
   border: none !important;
   color: white !important;
   width: 42px;
@@ -126,10 +126,10 @@
   &:hover {
     background: #ef5350;
     color: white;
-    transform: rotate(-10deg); 
+    transform: rotate(-10deg);
 
     svg {
-      stroke: white !important; 
+      stroke: white !important;
       width: 20px !important;
       height: 20px !important;
     }
@@ -180,12 +180,12 @@
     padding: 4px 12px;
 
     .search-input {
-      width: 140px; 
+      width: 140px;
       padding: 0 5px;
     }
 
     .search-btn-custom svg {
-      stroke: #ff8c00; 
+      stroke: #ff8c00;
     }
   }
 }
@@ -195,32 +195,32 @@
    ======================================================= */
 @media screen and (max-width: 768px) {
   .navbar {
-    height: 60px !important; 
+    height: 60px !important;
     padding: 0 15px !important;
     justify-content: space-between !important;
   }
 
   .logo span {
-    font-size: 1.8rem !important; 
+    font-size: 1.8rem !important;
     letter-spacing: 0px;
   }
 
   .nav-links {
-    display: none !important; 
+    display: none !important;
   }
 
   .nav-actions {
-    gap: 12px !important; 
+    gap: 12px !important;
   }
 
   .cart-btn-custom svg {
-    width: 28px !important; 
+    width: 28px !important;
     height: 28px !important;
   }
 
   .login-btn {
-    padding: 11px 15px !important; 
-    font-size: 0.9rem !important; 
+    padding: 11px 15px !important;
+    font-size: 0.9rem !important;
     border-radius: 12px !important;
     letter-spacing: 0.5px;
   }
@@ -229,5 +229,44 @@
     padding: 10px 7px !important;
     width: 36px !important;
     height: 36px !important;
+  }
+}
+/* ✅ ESTILOS PARA LA BURBUJA DE PERFIL EN EL NAVBAR */
+.profile-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  .nav-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ff6b00;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-avatar-fallback {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #f1f3f5;
+    color: #ff6b00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ff6b00;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 }

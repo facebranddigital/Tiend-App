@@ -212,3 +212,46 @@
     transform: rotate(360deg);
   }
 }
+/* ✅ NUEVOS ESTILOS PARA LA LÍNEA DE TIEMPO DEL PERFIL */
+.profile-timeline {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 10px 5px;
+  background: #e2e8f0;
+  height: 4px;
+  border-radius: 2px;
+
+  .timeline-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: #ff6b00;
+    transition: width 0.4s ease;
+    z-index: 1;
+  }
+
+  .timeline-dot {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #a0aec0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    z-index: 2;
+    transition: all 0.3s ease;
+    border: 2px solid #fff;
+
+    &.active {
+      background: #ff6b00;
+      color: white;
+      box-shadow: 0 0 8px rgba(255, 107, 0, 0.4);
+    }
+  }
+}

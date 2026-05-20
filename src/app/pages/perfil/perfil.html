@@ -1,10 +1,12 @@
 <div class="profile-container">
+  <!-- Estado de carga -->
   <div *ngIf="cargando" class="loading-wrapper">
     <div class="spinner"></div>
     <p>Cargando tu perfil...</p>
   </div>
 
   <div *ngIf="!cargando" class="profile-card">
+    <!-- Encabezado con foto estilo Facebook -->
     <div class="avatar-section">
       <div class="image-wrapper">
         <img [src]="fotoUrl" alt="Foto de perfil" class="profile-avatar" />
@@ -24,9 +26,11 @@
       <p class="subtitle">Mi Cuenta Bracasfood</p>
     </div>
 
+    <!-- Alertas de estado -->
     <div *ngIf="mensajeExito" class="alert alert-success">{{ mensajeExito }}</div>
     <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 
+    <!-- Formulario de datos -->
     <form (ngSubmit)="guardarCambios()" class="profile-form">
       <div class="input-group">
         <label><i class="fas fa-user"></i> Nombre Completo</label>
@@ -54,19 +58,44 @@
         />
       </div>
 
+      <!-- SECCIÓN: HISTORIAL Y ESTADO DE LA ORDEN EN TIEMPO REAL -->
       <div class="pedido-section" *ngIf="ultimoPedidoId">
         <div class="pedido-info">
           <i class="fas fa-shopping-bag"></i>
           <div>
-            <h5>Último Pedido Activo</h5>
-            <p>Código: {{ ultimoPedidoId }}</p>
+            <h5>Estado de tu Orden Activa</h5>
+            <!-- ✅ CORREGIDO: Eliminada la asignación rota dentro de las llaves -->
+            <p>
+              Pedido: <strong>#{{ ultimoPedidoId }}</strong> • Entrega:
+              {{ pedidoTiempoEstimado }} min
+            </p>
           </div>
         </div>
+
+        <!-- Mini Línea de Tiempo interna -->
+        <div class="profile-timeline" *ngIf="pedidoEstadoActual > 0">
+          <div class="timeline-progress" [style.width.%]="obtenerPorcentajeProgresoPerfil()"></div>
+
+          <div class="timeline-dot" [class.active]="pedidoEstadoActual >= 1" title="Recibido">
+            <i class="fas fa-box"></i>
+          </div>
+          <div class="timeline-dot" [class.active]="pedidoEstadoActual >= 2" title="Cocina">
+            <i class="fas fa-utensils"></i>
+          </div>
+          <div class="timeline-dot" [class.active]="pedidoEstadoActual >= 3" title="En Camino">
+            <i class="fas fa-motorcycle"></i>
+          </div>
+          <div class="timeline-dot" [class.active]="pedidoEstadoActual >= 4" title="Entregado">
+            <i class="fas fa-check-double"></i>
+          </div>
+        </div>
+
         <button type="button" class="btn-track" (click)="verPedidoActivo()">
-          Rastrear Pedido <i class="fas fa-arrow-right"></i>
+          Ver Mapa en Vivo <i class="fas fa-map-marked-alt"></i>
         </button>
       </div>
 
+      <!-- Botón de acción principal -->
       <button type="submit" class="btn-save" [disabled]="guardando">
         <span *ngIf="!guardando">Guardar Cambios</span>
         <span *ngIf="guardando">Guardando...</span>

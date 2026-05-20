@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { FirebaseService } from '../../services/firebase.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-perfil',
@@ -11,13 +12,20 @@ import { FirebaseService } from '../../services/firebase.service';
   templateUrl: './perfil.html',
   styleUrls: ['./perfil.scss'],
 })
-export class PerfilComponent implements OnInit {
+export class PerfilComponent implements OnInit, OnDestroy {
+  // Datos del perfil
   public nombre: string = '';
   public telefono: string = '';
   public direccion: string = '';
   public fotoUrl: string = 'assets/driver-avatar.png';
   public ultimoPedidoId: string = '';
 
+  // ✅ NUEVO: Estado del pedido en tiempo real para el perfil
+  public pedidoEstadoActual: number = 0;
+  public pedidoTiempoEstimado: number = 35;
+  private pedidoSub!: Subscription;
+
+  // Estados de control de la UI
   public cargando: boolean = true;
   public guardando: boolean = false;
   public subiendoImagen: boolean = false;
@@ -47,6 +55,13 @@ export class PerfilComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    // ✅ Cancelamos la suscripción a Firebase para evitar fugas de memoria
+    if (this.pedidoSub) {
+      this.pedidoSub.unsubscribe();
+    }
+  }
+
   private cargarDatosPerfil(uid: string): void {
     this.firebaseService.obtenerPerfilUsuario(uid).subscribe({
       next: (perfil) => {
@@ -55,7 +70,12 @@ export class PerfilComponent implements OnInit {
           this.telefono = perfil.telefono || '';
           this.direccion = perfil.direccion || '';
           this.fotoUrl = perfil.fotoUrl || 'assets/driver-avatar.png';
-          this.ultimoPedidoId = perfil.ultimoPedidoId || '';
+
+          // Si el ID del pedido cambió o se cargó por primera vez, activamos el rastreador interno
+          if (perfil.ultimoPedidoId && perfil.ultimoPedidoId !== this.ultimoPedidoId) {
+            this.ultimoPedidoId = perfil.ultimoPedidoId;
+            this.conectarRastreadorPedidoInterno(this.ultimoPedidoId);
+          }
         }
         this.cargando = false;
         this.cdr.detectChanges();
@@ -67,8 +87,52 @@ export class PerfilComponent implements OnInit {
     });
   }
 
+  // ✅ NUEVO MÉTODO: Escucha el estado del pedido directamente en la pantalla de perfil
+  private conectarRastreadorPedidoInterno(orderId: string): void {
+    if (this.pedidoSub) this.pedidoSub.unsubscribe();
+
+    this.pedidoSub = this.firebaseService.escucharPedido(orderId).subscribe({
+      next: (pedidoData: any) => {
+        if (!pedidoData) return;
+
+        const mapeoEstados: { [key: string]: number } = {
+          received: 1,
+          preparing: 2,
+          on_the_way: 3,
+          delivered: 4,
+        };
+
+        this.pedidoEstadoActual = mapeoEstados[pedidoData.status] || 1;
+        if (pedidoData.estimatedTime) {
+          this.pedidoTiempoEstimado = pedidoData.estimatedTime;
+        }
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.warn('No hay pedidos activos vinculados para mostrar en la línea de tiempo.');
+        this.pedidoEstadoActual = 0;
+      },
+    });
+  }
+
+  // ✅ NUEVO MÉTODO: Calcula el porcentaje de la barra de progreso del perfil
+  public obtenerPorcentajeProgresoPerfil(): number {
+    switch (this.pedidoEstadoActual) {
+      case 1:
+        return 0;
+      case 2:
+        return 33;
+      case 3:
+        return 66;
+      case 4:
+        return 100;
+      default:
+        return 0;
+    }
+  }
+
   async cambiarFoto(event: any) {
-    const archivo = event.target.files[0];
+    const archivo = event.target.files?.[0];
     if (!archivo) return;
 
     this.subiendoImagen = true;
@@ -77,14 +141,11 @@ export class PerfilComponent implements OnInit {
     try {
       const urlDescarga = await this.firebaseService.subirFotoPerfil(this.userUid, archivo);
       this.fotoUrl = urlDescarga;
-
       await this.firebaseService.guardarPerfilUsuario(this.userUid, { fotoUrl: urlDescarga });
-
       this.mensajeExito = '¡Foto de perfil actualizada!';
       setTimeout(() => (this.mensajeExito = ''), 3000);
     } catch (err) {
-      console.error(err);
-      this.error = 'Error al subir la imagen. Intenta de nuevo.';
+      this.error = 'Error al subir la imagen.';
     } finally {
       this.subiendoImagen = false;
       this.cdr.detectChanges();

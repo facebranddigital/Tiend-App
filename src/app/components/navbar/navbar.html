@@ -35,7 +35,7 @@
     <li><a routerLink="/ofertas">Ofertas</a></li>
   </ul>
 
-  <!-- ACCIONES (Buscador, Carrito, Auth) -->
+  <!-- ACCIONES (Buscador, Carrito, Auth, Perfil) -->
   <div class="nav-actions">
     <!-- BUSCADOR EXPANDIBLE -->
     <div class="search-container" [class.active]="isSearchActive">
@@ -68,14 +68,32 @@
         <circle cx="20" cy="21" r="1"></circle>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
       </svg>
-      <!-- El badge se actualiza automáticamente gracias a la Signal count() -->
       <span class="cart-badge-custom" *ngIf="cartService.count() > 0">
         {{ cartService.count() }}
       </span>
     </button>
 
-    <!-- ACCIONES DE AUTENTICACIÓN -->
+    <!-- ACCIONES DE AUTENTICACIÓN Y PERFIL -->
     <ng-container *ngIf="authService.user$ | async as user; else loginBtn">
+      <!-- ✅ NUEVO: BOTÓN DE ACCESO AL PERFIL CON FOTO DINÁMICA (Estilo Facebook) -->
+      <a routerLink="/perfil" class="profile-nav-btn" title="Mi Perfil">
+        <img
+          *ngIf="user.photoURL; else defaultIcon"
+          [src]="user.photoURL"
+          alt="Foto Perfil"
+          class="nav-avatar"
+        />
+        <ng-template #defaultIcon>
+          <div class="nav-avatar-fallback">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+        </ng-template>
+      </a>
+
+      <!-- BOTÓN CERRAR SESIÓN -->
       <button class="logout-btn-styled" (click)="onLogout()" title="Cerrar Sesión">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
