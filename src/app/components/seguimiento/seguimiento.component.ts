@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router'; // ✅ 1. IMPORTACIÓN DINÁMICA DE RUTAS
 import { FirebaseService } from '../../services/firebase.service';
 import { Subscription } from 'rxjs';
-import * as L from 'leaflet'; // Importamos Leaflet para el mapa estilo Yango
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-seguimiento',
@@ -12,36 +13,37 @@ import * as L from 'leaflet'; // Importamos Leaflet para el mapa estilo Yango
   styleUrls: ['./seguimiento.component.scss'],
 })
 export class SeguimientoComponent implements OnInit, OnDestroy {
-  public pedidoId: string = 'BR-8492';
+  // ✅ 2. EL ID YA NO ES FIJO: Se inicializa vacío y se llena dinámicamente
+  public pedidoId: string = '';
   public tiempoEstimado: number = 35;
   public estadoActual: number = 1;
 
-  // Variables para la posición física del cliente (Tu código base)
   public latitud: number | null = null;
   public longitud: number | null = null;
   public errorGps: string = '';
 
-  // Variables para posicionar y mover al repartidor en el mapa en vivo
   public deliveryLat: number | null = null;
   public deliveryLng: number | null = null;
 
   private map!: L.Map;
-  // ✅ CORREGIDO: Usamos tipo 'any' para evitar que TypeScript rechace el CircleMarker
   private deliveryMarker: any;
   private pedidoSub!: Subscription;
   private watchId: number | null = null;
 
+  // ✅ 3. INYECCIÓN DEL LECTOR DE PARÁMETROS DE LA URL
+  private route = inject(ActivatedRoute);
   private firebaseService = inject(FirebaseService);
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    this.conectarSeguimientoReal();
-    this.activarRastreoGps();
+    // ✅ 4. ATRACO DE ID: Captura el código enviado en la URL (ej: /seguimiento/BR-1111)
+    // Si no encuentra ninguno, usa el de respaldo 'BR-8492' para que no se rompa en tus pruebas actuales.
+    this.pedidoId = this.route.snapshot.paramMap.get('id') || 'BR-8492';
 
-    // Inicialización segura del mapa controlando los ciclos de renderizado de la vista
     setTimeout(() => {
-      this.inicializarMapa();
-    }, 50);
+      this.conectarSeguimientoReal();
+      this.activarRastreoGps();
+    }, 200);
   }
 
   ngOnDestroy(): void {
@@ -51,23 +53,17 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
     this.apagarRastreoGps();
   }
 
-  /**
-   * Inicializa el contenedor del mapa con una vista central por defecto
-   */
   private inicializarMapa(): void {
     const contenedor = document.getElementById('map-container');
-    if (!contenedor) return;
+    if (!contenedor || this.map) return;
 
-    // Coordenadas base de la ciudad por defecto
     const centroInicial: L.LatLngExpression = [3.4516, -76.532];
-
     this.map = L.map('map-container', { zoomControl: false }).setView(centroInicial, 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'Bracasfood Tracker',
     }).addTo(this.map);
 
-    // Creamos un punto o marcador circular negro con estilo Sticker Pro para el delivery
     this.deliveryMarker = L.circleMarker(centroInicial, {
       radius: 10,
       fillColor: '#ff6b00',
@@ -92,6 +88,7 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
         return 0;
     }
   }
+
   private conectarSeguimientoReal(): void {
     this.pedidoSub = this.firebaseService.escucharPedido(this.pedidoId).subscribe({
       next: (pedidoData: any) => {
@@ -110,22 +107,26 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
           this.tiempoEstimado = pedidoData.estimatedTime;
         }
 
-        // Mapeamos los datos con los campos reales de tu FirebaseService
-        if (pedidoData.repartidorLat && pedidoData.repartidorLng) {
-          this.deliveryLat = pedidoData.repartidorLat;
-          this.deliveryLng = pedidoData.repartidorLng;
+        if (this.estadoActual === 3) {
+          setTimeout(() => {
+            this.inicializarMapa();
 
-          // Verificación de existencia y de valores válidos no nulos
-          if (
-            this.map &&
-            this.deliveryMarker &&
-            this.deliveryLat !== null &&
-            this.deliveryLng !== null
-          ) {
-            const nuevaPos = new L.LatLng(this.deliveryLat, this.deliveryLng);
-            this.deliveryMarker.setLatLng(nuevaPos);
-            this.map.panTo(nuevaPos);
-          }
+            if (pedidoData.repartidorLat && pedidoData.repartidorLng) {
+              this.deliveryLat = pedidoData.repartidorLat;
+              this.deliveryLng = pedidoData.repartidorLng;
+
+              if (
+                this.map &&
+                this.deliveryMarker &&
+                this.deliveryLat !== null &&
+                this.deliveryLng !== null
+              ) {
+                const nuevaPos = new L.LatLng(this.deliveryLat, this.deliveryLng);
+                this.deliveryMarker.setLatLng(nuevaPos);
+                this.map.panTo(nuevaPos);
+              }
+            }
+          }, 100);
         }
 
         this.cdr.detectChanges();
@@ -135,6 +136,7 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
       },
     });
   }
+
   private activarRastreoGps(): void {
     if (typeof window !== 'undefined' && navigator.geolocation) {
       this.watchId = navigator.geolocation.watchPosition(
@@ -142,7 +144,6 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
           this.latitud = position.coords.latitude;
           this.longitud = position.coords.longitude;
           this.errorGps = '';
-
           console.log(`Coordenadas Bracasfood: Lat ${this.latitud}, Lng ${this.longitud}`);
           this.cdr.detectChanges();
         },

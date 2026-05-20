@@ -43,7 +43,7 @@ export const routes: Routes = [
   { path: 'cart', component: CartComponent },
 
   // 2. NUEVA RUTA REGISTRADA ANTES DEL COMODÍN DE REDIRECCIÓN
-  { path: 'seguimiento', component: SeguimientoComponent },
+{ path: 'seguimiento/:id', component: SeguimientoComponent },
 
   // Redirección por defecto si la URL no existe (Debe ir siempre al final)
   { path: '**', redirectTo: '' },

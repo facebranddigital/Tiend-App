@@ -68,14 +68,14 @@
       <li><a href="#">Contacto</a></li>
       <li><a href="#">Preguntas frecuentes</a></li>
       <li><a href="#">Devoluciones</a></li>
-      <!-- CORRECCIÓN CLAVE: Enlace dinámico usando RouterLink -->
-      <li><a routerLink="/seguimiento">Seguimiento de envío</a></li>
+      <!-- ✅ CORREGIDO: Ahora envía el ID del pedido a la ruta dinámica para que Angular la acepte -->
+      <li><a [routerLink]="['/seguimiento', 'BR-8492']">Seguimiento de envío</a></li>
     </ul>
   </div>
 
   <div class="footer-column newsletter">
     <h3>Inscríbete</h3>
-    <p>Recibe las últimas ofertas y lanzamientos directamente en tu email.</p>
+    <p>Recibe las últimas ofertas and lanzamientos directamente en tu email.</p>
     <div class="signup-form">
       <input type="email" placeholder="Tu email..." />
       <button>Suscribir</button>
