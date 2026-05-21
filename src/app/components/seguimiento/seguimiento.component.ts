@@ -17,10 +17,12 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
   public tiempoEstimado: number = 35;
   public estadoActual: number = 1;
 
+  // Coordenadas del Cliente (Tu posición actual)
   public latitud: number | null = null;
   public longitud: number | null = null;
   public errorGps: string = '';
 
+  // Coordenadas del Domiciliario en Tiempo Real
   public deliveryLat: number | null = null;
   public deliveryLng: number | null = null;
 
@@ -35,19 +37,14 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    // 1. Intentamos capturar el parámetro ID directo de la URL activa
     let idDesdeUrl = this.route.snapshot.paramMap.get('id');
 
-    // 2. RECUPERACIÓN INTELIGENTE: Si la URL dice 'orders', viene vacía o se refresca la página,
-    // rescatamos el ID real guardado por el carrito en la memoria del navegador.
     if (!idDesdeUrl || idDesdeUrl === 'orders') {
       idDesdeUrl = localStorage.getItem('ultimoPedidoId');
     }
 
     if (idDesdeUrl) {
       this.pedidoId = idDesdeUrl;
-
-      // Aseguramos que se mantenga guardado en el navegador por si vuelve a actualizar
       localStorage.setItem('ultimoPedidoId', idDesdeUrl);
 
       setTimeout(() => {
@@ -55,10 +52,7 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
         this.activarRastreoGps();
       }, 200);
     } else {
-      console.warn(
-        'Acceso denegado: No se detectó ningún ID de pedido válido en la URL ni en memoria.',
-      );
-      // Si de verdad no hay ningún pedido activo en este navegador, redirige al home de forma segura
+      console.warn('Acceso denegado: No se detectó ningún ID de pedido válido.');
       this.router.navigate(['/']);
     }
   }
@@ -70,15 +64,16 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
     this.apagarRastreoGps();
   }
 
-   private inicializarMapa(): void {
+  private inicializarMapa(latInicial: number, lngInicial: number): void {
     const contenedor = document.getElementById('map-container');
     if (!contenedor || this.map) return;
 
-    const centroInicial: L.LatLngExpression = [3.4516, -76.532];
-    this.map = L.map('map-container', { 
+    const centroInicial: L.LatLngExpression = [latInicial, lngInicial];
+
+    this.map = L.map('map-container', {
       zoomControl: false,
-      trackResize: true // Permite que se adapte al tamaño de la pantalla móvil
-    }).setView(centroInicial, 15);
+      trackResize: true,
+    }).setView(centroInicial, 16);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'Bracasfood Tracker',
@@ -93,12 +88,15 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
       fillOpacity: 0.9,
     }).addTo(this.map);
 
-    // ✅ SOLUCIÓN AL FONDO BEIGE: Fuerza al mapa a recalcular sus dimensiones en el layout móvil
-    setTimeout(() => {
-      if (this.map) {
-        this.map.invalidateSize();
-      }
-    }, 250);
+    // ✅ SOLUCIÓN AL MAPA BEIGE: Forzamos a Leaflet a recalcular sus dimensiones
+    // en ráfaga para pintar los cuadrantes del mapa en el layout móvil de inmediato
+    [100, 300, 600].forEach((delay) => {
+      setTimeout(() => {
+        if (this.map) {
+          this.map.invalidateSize();
+        }
+      }, delay);
+    });
   }
 
   public obtenerPorcentajeProgreso(): number {
@@ -134,32 +132,45 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
           this.tiempoEstimado = pedidoData.estimatedTime;
         }
 
+        // Si está en camino (Estado 3), renderizamos y movemos el mapa en tiempo real
         if (this.estadoActual === 3) {
-          setTimeout(() => {
-            this.inicializarMapa();
+          if (pedidoData.repartidorLat !== undefined && pedidoData.repartidorLng !== undefined) {
+            this.deliveryLat = pedidoData.repartidorLat;
+            this.deliveryLng = pedidoData.repartidorLng;
 
-            if (pedidoData.repartidorLat && pedidoData.repartidorLng) {
-              this.deliveryLat = pedidoData.repartidorLat;
-              this.deliveryLng = pedidoData.repartidorLng;
+            if (this.deliveryLat !== null && this.deliveryLng !== null) {
+              const nuevaPos = new L.LatLng(this.deliveryLat, this.deliveryLng);
 
-              if (
-                this.map &&
-                this.deliveryMarker &&
-                this.deliveryLat !== null &&
-                this.deliveryLng !== null
-              ) {
-                const nuevaPos = new L.LatLng(this.deliveryLat, this.deliveryLng);
-                this.deliveryMarker.setLatLng(nuevaPos);
+              if (!this.map) {
+                this.inicializarMapa(this.deliveryLat, this.deliveryLng);
+              } else {
+                if (this.deliveryMarker) {
+                  this.deliveryMarker.setLatLng(nuevaPos);
+                }
                 this.map.panTo(nuevaPos);
               }
             }
-          }, 100);
+          }
         }
 
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error en el canal de datos de Firestore:', err);
+
+        // MODO TESTING ACTIVO: Forzamos mapa de pruebas en Cali si Firestore no responde
+        console.log('Activando mapa de pruebas automático...');
+        this.estadoActual = 3;
+        this.deliveryLat = 3.4516;
+        this.deliveryLng = -76.532;
+
+        setTimeout(() => {
+          if (!this.map) {
+            this.inicializarMapa(this.deliveryLat!, this.deliveryLng!);
+          }
+        }, 100);
+
+        this.cdr.detectChanges();
       },
     });
   }
@@ -174,7 +185,7 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
         },
         (error) => {
-          console.warn('Advertencia Geolocalización:', error.message);
+          console.warn('Advertencia Geolocalización Cliente:', error.message);
           this.cdr.detectChanges();
         },
         {

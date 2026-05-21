@@ -1,5 +1,5 @@
 <div class="tracking-container">
-  <!-- 1. EL ENCABEZADO (Vinculado a tu TypeScript) -->
+  <!-- 1. EL ENCABEZADO -->
   <div class="header">
     <h2>Pedido #{{ pedidoId }}</h2>
     <p class="eta">
@@ -7,12 +7,11 @@
     </p>
   </div>
 
-  <!-- 2. LÍNEA DE TIEMPO "LOCO LUCAS" -->
+  <!-- 2. LÍNEA DE TIEMPO -->
   <div class="timeline">
-    <!-- Barra naranja de progreso interno dinámica -->
     <div class="progress-bar" [style.width.%]="obtenerPorcentajeProgreso()"></div>
 
-    <!-- PASO 1: RECIBIDO (status: received) -->
+    <!-- PASO 1: RECIBIDO -->
     <div class="step" [class.active]="estadoActual >= 1">
       <div class="icon-circle">
         <i class="fas fa-box"></i>
@@ -20,7 +19,7 @@
       <span>Recibido</span>
     </div>
 
-    <!-- PASO 2: COCINA (status: preparing) -->
+    <!-- PASO 2: COCINA -->
     <div class="step" [class.active]="estadoActual >= 2">
       <div class="icon-circle">
         <i class="fas fa-utensils"></i>
@@ -28,7 +27,7 @@
       <span>Cocina</span>
     </div>
 
-    <!-- PASO 3: EN CAMINO (status: on_the_way) -->
+    <!-- PASO 3: EN CAMINO -->
     <div class="step" [class.active]="estadoActual >= 3">
       <div class="icon-circle">
         <i class="fas fa-motorcycle"></i>
@@ -36,7 +35,7 @@
       <span>En camino</span>
     </div>
 
-    <!-- PASO 4: ENTREGADO (status: delivered) -->
+    <!-- PASO 4: ENTREGADO -->
     <div class="step" [class.active]="estadoActual >= 4">
       <div class="icon-circle">
         <i class="fas fa-check-double"></i>
@@ -45,27 +44,25 @@
     </div>
   </div>
 
-  <!-- NUEVO: EL MAPA EN VIVO ESTILO YANGO (Se enciende cuando el estado es 'En Camino') -->
-  @if (estadoActual === 3) {
-    <div class="map-wrapper">
-      <div id="map-container"></div>
-      <div class="map-overlay">El repartidor va de camino a tu casa</div>
-    </div>
-  }
+  <!-- EL MAPA EN VIVO (Manejado por CSS para no destruir la instancia de Leaflet en el DOM) -->
+  <div class="map-wrapper" [class.hidden]="estadoActual !== 3">
+    <div id="map-container"></div>
+    <div class="map-overlay">El repartidor va de camino a tu casa</div>
+  </div>
 
   <!-- 3. TARJETA DEL REPARTIDOR -->
   <div class="delivery-card">
     <div class="driver-info">
-      <img src="assets/driver-avatar.png" alt="Repartidor" class="avatar" />
+      <img src="assets/repartidor.jpg" alt="Repartidor" class="avatar" />
       <div>
-        <h4>Carlos Mendoza</h4>
-        <p>Tu repartidor asignado</p>
+        <h4>Beatriz Castro</h4>
+        <p>Repartidor designado</p>
       </div>
     </div>
 
-    <!-- ✅ BOTÓN DE CHAT TOTALMENTE OPERATIVO CON TU NÚMERO REAL -->
+    <!-- BOTÓN DE CHAT -->
     <a
-      href="https://wa.me/573218119383?text=¡Hola!%20Estoy%20esperando%20mi%20pedido%20de%20Bracasfood%20🍕🔥"
+      href="https://wa.me/3116213800?text=¡Hola!%20Estoy%20esperando%20mi%20pedido%20de%20Bracasfood%20🍕🔥"
       target="_blank"
       class="btn-chat"
     >

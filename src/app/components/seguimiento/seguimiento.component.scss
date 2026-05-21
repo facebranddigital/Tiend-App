@@ -207,3 +207,52 @@
     }
   }
 } // <--- LLAVE DE CIERRE FINAL TOTAL DE LA TARJETA. NADA SE FILTRA DE AQUÍ ABAJO.
+/* Agrega esto al final de tu archivo de estilos existente */
+.map-wrapper.hidden {
+  display: none !important;
+}
+.tracking-container {
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Estilos obligatorios para que Leaflet renderice el mapa */
+.map-wrapper {
+  width: 100%;
+  height: 320px;
+  position: relative;
+  margin: 20px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 3px solid #000000;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+#map-container {
+  width: 100%;
+  height: 100%;
+  background-color: #f4eae1;
+}
+
+.map-overlay {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #000000;
+  border: 2px solid #000000;
+  z-index: 1000;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Ocultación controlada por clase sin destruir el DOM */
+.map-wrapper.hidden {
+  display: none !important;
+}
