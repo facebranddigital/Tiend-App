@@ -1,0 +1,74 @@
+.simulador-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.header-simulador {
+  background: #1a1a1a;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 15px 15px 0 0;
+  h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #ff6b00;
+  }
+  p {
+    margin: 5px 0 0;
+    font-size: 0.9rem;
+    color: #ccc;
+  }
+}
+
+.badge-estado {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: #4a5568;
+  &.on_the_way {
+    background: #ff6b00;
+    color: white;
+  }
+  &.delivered {
+    background: #48bb78;
+    color: white;
+  }
+}
+
+.instrucciones {
+  background: #ebf8ff;
+  border: 1px solid #bee3f8;
+  color: #2b6cb0;
+  padding: 12px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#map-simulador {
+  height: 400px;
+  width: 100%;
+  border-bottom: 5px solid #ff6b00;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.coordenadas-box {
+  background: #f7fafc;
+  padding: 12px;
+  border-radius: 0 0 15px 15px;
+  display: flex;
+  justify-content: space-around;
+  font-size: 0.9rem;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+  p {
+    margin: 0;
+  }
+}

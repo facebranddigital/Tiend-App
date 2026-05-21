@@ -1,0 +1,21 @@
+<div class="simulador-container">
+  <div class="header-simulador">
+    <h2>🎮 Panel de Control del Repartidor</h2>
+    <p>
+      Simulando Pedido: <strong>#{{ pedidoId }}</strong>
+    </p>
+    <div class="badge-estado" [class]="estadoActual">Estado: {{ estadoActual }}</div>
+  </div>
+
+  <div class="instrucciones">
+    <i class="fas fa-info-circle"></i> Arrastra el marcador o haz clic en cualquier parte del mapa
+    para simular el movimiento del motorizado en tiempo real.
+  </div>
+
+  <div id="map-simulador"></div>
+
+  <div class="coordenadas-box">
+    <p>📍 <strong>Lat:</strong> {{ latitudActual.toFixed(5) }}</p>
+    <p>📍 <strong>Lng:</strong> {{ longitudActual.toFixed(5) }}</p>
+  </div>
+</div>

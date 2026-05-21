@@ -13,8 +13,11 @@ import { SaboresNarinoComponent } from './pages/sabores-narino/sabores-narino';
 // 1. IMPORTACIÓN DEL COMPONENTE DE SEGUIMIENTO (ESTILO STICKER PRO)
 import { SeguimientoComponent } from './components/seguimiento/seguimiento.component';
 
-// ✅ 2. IMPORTACIÓN DEL NUEVO COMPONENTE DE PERFIL
+// 2. IMPORTACIÓN DEL NUEVO COMPONENTE DE PERFIL
 import { PerfilComponent } from './pages/perfil/perfil';
+
+// ✅ 3. IMPORTACIÓN COMPLETA DEL SIMULADOR SECRETO DEL REPARTIDOR
+import { AdminRepartidorComponent } from './pages/admin-repartidor/admin-repartidor';
 
 export const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -45,14 +48,20 @@ export const routes: Routes = [
   },
   { path: 'cart', component: CartComponent },
 
-  // 3. RUTA DEL SEGUIMIENTO
+  // RUTA DEL SEGUIMIENTO EN VIVO DEL CLIENTE
   { path: 'seguimiento/:id', component: SeguimientoComponent },
 
-  // ✅ 4. NUEVA RUTA DE PERFIL PROTEGIDA CON TU GUARD DE AUTENTICACIÓN
+  // RUTA DE PERFIL PROTEGIDA CON TU GUARD DE AUTENTICACIÓN
   {
     path: 'perfil',
     component: PerfilComponent,
     canActivate: [authGuard],
+  },
+
+  // ✅ 4. NUEVA RUTA SECRETA DEL PANEL DE CONTROL DEL REPARTIDOR
+  {
+    path: 'admin/repartidor/:id',
+    component: AdminRepartidorComponent,
   },
 
   // Redirección por defecto si la URL no existe (Debe ir siempre al final)

@@ -70,12 +70,15 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
     this.apagarRastreoGps();
   }
 
-  private inicializarMapa(): void {
+   private inicializarMapa(): void {
     const contenedor = document.getElementById('map-container');
     if (!contenedor || this.map) return;
 
     const centroInicial: L.LatLngExpression = [3.4516, -76.532];
-    this.map = L.map('map-container', { zoomControl: false }).setView(centroInicial, 15);
+    this.map = L.map('map-container', { 
+      zoomControl: false,
+      trackResize: true // Permite que se adapte al tamaño de la pantalla móvil
+    }).setView(centroInicial, 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: 'Bracasfood Tracker',
@@ -89,6 +92,13 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
       opacity: 1,
       fillOpacity: 0.9,
     }).addTo(this.map);
+
+    // ✅ SOLUCIÓN AL FONDO BEIGE: Fuerza al mapa a recalcular sus dimensiones en el layout móvil
+    setTimeout(() => {
+      if (this.map) {
+        this.map.invalidateSize();
+      }
+    }, 250);
   }
 
   public obtenerPorcentajeProgreso(): number {
