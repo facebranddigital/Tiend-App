@@ -1,3 +1,4 @@
 {
-  "accessibility.voice.keywordActivation": "chatInView"
+  "accessibility.voice.keywordActivation": "chatInView",
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
