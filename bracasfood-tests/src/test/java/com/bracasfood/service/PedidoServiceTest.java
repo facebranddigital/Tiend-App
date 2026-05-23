@@ -11,7 +11,7 @@ public class PedidoServiceTest {
         int resultado = servicio.obtenerPorcentajeProgreso("on_the_way");
         
         // Verifica que devuelva exactamente el 66% para activar el mapa
-        assertEquals(66, resultado, "El estado 'on_the_way' debe retornar 66%");
+        assertEquals(99, resultado, "El estado 'on_the_way' debe retornar 66%");
     }
 
     @Test

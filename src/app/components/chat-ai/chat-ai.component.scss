@@ -162,3 +162,36 @@
     transform: translateY(0);
   }
 }
+/* Opciones del Chatbot integradas en el flujo */
+.chat-options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+  width: 100%;
+
+  .option-btn {
+    background: rgba(255, 107, 0, 0.08); /* Fondo suave con el naranja Bracas */
+    border: 1.5px solid #ff6b00; /* Borde naranja Bracas */
+    border-radius: 14px;
+    padding: 10px 14px;
+    color: #ff6b00; /* Texto naranja Bracas */
+    font-size: 13px;
+    font-weight: 700; /* Mantenemos la identidad visual gruesa */
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+
+    &:hover {
+      background: #ff6b00;
+      color: #ffffff; /* Invierte a blanco en el hover */
+      transform: translateX(4px);
+      box-shadow: 0 4px 8px rgba(255, 107, 0, 0.25);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}

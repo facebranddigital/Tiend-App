@@ -76,7 +76,8 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
     }).setView(centroInicial, 16);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Bracasfood Tracker',
+      attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+      maxZoom: 19,
     }).addTo(this.map);
 
     this.deliveryMarker = L.circleMarker(centroInicial, {
@@ -106,7 +107,7 @@ export class SeguimientoComponent implements OnInit, OnDestroy {
       case 2:
         return 33;
       case 3:
-        return 66;
+        return 99;
       case 4:
         return 100;
       default:

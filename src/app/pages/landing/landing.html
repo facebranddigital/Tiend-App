@@ -1,5 +1,3 @@
-
-
 <div id="top" class="landing-container">
   <!-- HERO SECTION -->
   <section class="hero">
@@ -253,19 +251,19 @@
       </div>
 
       <div class="chat-body" #scrollMe>
-        <div
-          *ngFor="let msg of messages()"
-          [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }"
-        >
-          <div class="message-bubble" [innerHTML]="formatText(msg.text)"></div>
-        </div>
+        <!-- Ciclo moderno compatible con tus Signals de Angular -->
+        @for (msg of messages(); track $index; let first = $first) {
+          <div [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }">
+            <div class="message-bubble" [innerHTML]="formatText(msg.text)"></div>
+          </div>
+        }
 
-        <!-- Botones dinámicos del bot -->
-        <!-- Busca esta parte en tu chat-body -->
+        <!-- Botones dinámicos del bot existentes abajo -->
         <div *ngIf="(step() === 1 || step() === 3) && step() !== 6" class="bot-action-area">
           <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #666">
             SELECCIONA PARA AÑADIR:
           </p>
+
           <div class="bot-grid-buttons">
             <button
               *ngFor="let prod of products"
@@ -336,10 +334,10 @@
           src="assets/bracasfoodlogo.jpeg"
           alt="Logo"
           class="bot-icon-img"
-        [style.opacity]="isOpen() ? '0.5' : '1'"
-      />
-    </button>
+          [style.opacity]="isOpen() ? '0.5' : '1'"
+        />
+      </button>
+    </div>
   </div>
-</div> <!-- Este div cierra 'landing-container' -->
-
-
+  <!-- Este div cierra 'landing-container' -->
+</div>

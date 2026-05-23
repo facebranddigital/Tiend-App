@@ -10,13 +10,18 @@
     </div>
 
     <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-      <div *ngFor="let msg of messages()" 
+      <!-- Iteración de tus mensajes actuales -->
+      <div *ngFor="let msg of messages(); let first = first" 
            [ngClass]="{'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model'}">
         <div class="message-bubble">
           {{ msg.text }}
+                    
+          </div>
+
         </div>
       </div>
       
+      <!-- Indicador de carga / Escribiendo -->
       <div class="bot-msg" *ngIf="isLoading()">
         <div class="message-bubble typing">
           <span></span><span></span><span></span>
@@ -38,4 +43,4 @@
     </div>
   </div>
 
-</div> <!-- Cierre final del chat-wrapper y NO HAY NADA MÁS ABAJO -->
+</div>

@@ -6,7 +6,7 @@ public class PedidoService {
         switch (status) {
             case "received": return 0;
             case "preparing": return 33;
-            case "on_the_way": return 66;
+            case "on_the_way": return 99;
             case "delivered": return 100;
             default: return 0;
         }

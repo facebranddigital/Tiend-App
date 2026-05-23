@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
-import { AuthService } from '../../services/auth.service'; 
+import { AuthService } from '../../services/auth.service';
 import { effect } from '@angular/core';
 import confetti from 'canvas-confetti';
 import Swal from 'sweetalert2';
@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
 // 1. RUTAS RELATIVAS EXACTAS (Asegúrate de que existan estas carpetas)
 import { NavbarComponent } from '../../components/navbar/navbar';
 import { FooterComponent } from '../../components/footer/footer';
-
 
 interface Message {
   role: 'user' | 'model';
@@ -22,12 +21,7 @@ interface Message {
   selector: 'app-landing',
   standalone: true,
   // 2. IMPORTACIONES CON LA PRIMERA LETRA EN MAYÚSCULA (PascalCase)
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    FormsModule,
-    RouterModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
   templateUrl: './landing.html',
   styleUrls: ['./landing.scss'],
 })
@@ -37,16 +31,19 @@ export class LandingComponent implements OnDestroy {
   private musica = new Audio('assets/relaxshiva.mp');
   public musicaActiva = false;
   private route = inject(ActivatedRoute);
+  public isOpen = signal<boolean>(false);
+  public step = signal<number>(0);
+
+  // 🔽 AGREGA ESTA LÍNEA AQUÍ:
+  public trackingActive = signal<boolean>(false);
 
   // --- SEÑALES DE ESTADO ---
   showModal = signal(false);
-  qty2 = signal(1);
+  qty2 = signal(0);
   searchTerm = signal('');
-  isOpen = signal(false);
   isLoading = signal(false);
   userInput: string = '';
   messages = signal<Message[]>([]);
-  step = signal(0);
   pedidoTemporal = signal<any[]>([]);
   productoEnCurso = signal<any>(null);
 
@@ -56,7 +53,7 @@ export class LandingComponent implements OnDestroy {
       case 0:
         return 'Escribe "hola" para empezar...';
       case 1:
-        return '¿Qué deseas hacer? (1 o 2)';
+        return '¿Qué deseas hacer? (1, 2 o 3)';
       case 2:
         return 'Escribe la cantidad...';
       case 3:
@@ -171,11 +168,43 @@ export class LandingComponent implements OnDestroy {
       this.messages.set([
         {
           role: 'model',
-          text: '¡Hola! Soy BracasBot 🤖. ¿Qué deseas hacer? \n\n1️⃣ **Hacer un pedido** 🛵 \n2️⃣ **Pagar un pedido** 💸',
+          text: '¡Hola! Soy BracasBot 🤖. ¿Qué deseas hacer? \n\n1️⃣ **Hacer un pedido** 🛵 \n2️⃣ **Pagar un pedido** 💸 \n3️⃣ **Seguimiento de pedido** 📍',
         },
       ]);
       this.step.set(1);
     }
+  }
+
+  public selectOption(optionType: string, label: string): void {
+    if (this.isLoading()) return;
+
+    this.messages.update((prev) => [...prev, { role: 'user', text: label }]);
+    this.isLoading.set(true);
+
+    setTimeout(() => {
+      let botResponse = '';
+
+      if (optionType === 'hacer_pedido') {
+        this.step.set(1);
+        botResponse =
+          '¡Excelente elección! Aquí abajo tienes nuestro menú dinámico. Presiona sobre cualquiera de ellos para sumarlo a tu orden. 🛒';
+      } else if (optionType === 'pagar_pedido') {
+        const total = this.cartService.totalPagar();
+        if (total > 0) {
+          botResponse = `Tu total a pagar es **$${total.toLocaleString('es-CO')}**. Puedes procesar tu pago directamente con el botón de confirmación en la caja. 💳`;
+        } else {
+          botResponse =
+            'El carrito está vacío. ¡Agrega tus productos favoritos primero usando el menú interactivo para poder proceder al pago! 🍦';
+        }
+      } else if (optionType === 'seguimiento_pedido') {
+        botResponse =
+          'Por favor, escríbeme el **ID o código de tu pedido** (ejemplo: _BR-323_) para consultar su estado en tiempo real. 📍';
+        this.trackingActive.set(true);
+      }
+
+      this.messages.update((prev) => [...prev, { role: 'model', text: botResponse }]);
+      this.isLoading.set(false);
+    }, 1000);
   }
 
   // Mejora en el flujo de pasos del chat
@@ -184,19 +213,32 @@ export class LandingComponent implements OnDestroy {
     if (!text) return;
 
     const lowerText = text.toLowerCase();
-    // Guardamos el input original para mostrarlo en el chat
     this.messages.update((prev) => [...prev, { role: 'user', text }]);
     this.userInput = '';
     this.isLoading.set(true);
 
     setTimeout(() => {
       let response = '';
+
+      // 📍 INTERCEPCIÓN DE RASTREO: Si está esperando un ID de pedido, rompe el switch de pasos
+      if (this.trackingActive()) {
+        response = `Buscando la orden **#${text}** en el sistema de Bracasfood... Actualmente se encuentra **En Camino (66%)** y va directo a tu ubicación. 🛵✨`;
+        this.trackingActive.set(false); // Resetea el estado de rastreo
+
+        this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
+        this.isLoading.set(false);
+        return; // Detiene la ejecución para no entrar al flujo por pasos
+      }
+
       const currentStep = this.step();
 
       switch (currentStep) {
         case 1: // Menú Inicial
-          if (lowerText.includes('pagar') || lowerText.includes('2')) {
-            // Si el usuario ya tiene cosas en el carrito, pedimos dirección
+          if (lowerText.includes('seguimiento') || lowerText.includes('3')) {
+            response =
+              'Por favor, escríbeme el **ID o código de tu pedido** (ejemplo: _BR-323_) para consultar su estado en tiempo real. 📍';
+            this.trackingActive.set(true);
+          } else if (lowerText.includes('pagar') || lowerText.includes('2')) {
             if (this.cartService.items().length > 0) {
               response = '🛍️ ¡Excelente! **¿A qué dirección enviamos tu pedido?**';
               this.step.set(4);
@@ -214,15 +256,12 @@ export class LandingComponent implements OnDestroy {
             const prod = this.productoEnCurso();
             this.onAddToCart(prod.name, prod.price, prod.category, '', cantidad);
 
-            // LÓGICA MEJORADA:
-            // Si el texto además de la cantidad dice "pagar", saltamos directo
             if (lowerText.includes('pagar')) {
               response = `📥 ¡Listo! **${cantidad}x ${prod.name}** añadidos.\n\n🛍️ **¿A qué dirección enviamos tu pedido?**`;
-              this.step.set(4); // Salto directo a dirección
+              this.step.set(4);
             } else {
-              // Flujo normal si solo puso el número
               response = `📥 Añadido **${cantidad}x ${prod.name}**.\n\n¿Quieres agregar algo más o ya deseas **pagar**?`;
-              this.step.set(3); // Espera decisión
+              this.step.set(3);
             }
           } else {
             response = '⚠️ Por favor, dime un número válido para la cantidad.';
@@ -239,14 +278,12 @@ export class LandingComponent implements OnDestroy {
               .items()
               .reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
 
-            // Si el carrito está vacío, no lo dejamos pasar al pago
             if (total === 0) {
               response = '🛒 Tu carrito está vacío. ¡Elige un producto antes de pagar!';
               this.step.set(1);
             } else {
-              // Mensaje directo y profesional
               response = `🛍️ ¡Listo! Tu pedido suma **$${total.toLocaleString('es-CO')}**.\n\n¿A qué **dirección** enviamos tu pedido?`;
-              this.step.set(4); // Salta directo a pedir dirección
+              this.step.set(4);
             }
           } else {
             response = '🛵 ¡Vale! Sigue eligiendo. Cuando estés listo, escribe **"pagar"**.';
@@ -283,10 +320,9 @@ export class LandingComponent implements OnDestroy {
         this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
       }
       this.isLoading.set(false);
-    }, 800);
+    }, 1500);
   }
 
-  // ... termina tu sendMessage()
   // ... aquí termina tu sendMessage() { ... }
 
   // ESTA ES LA NUEVA FUNCIÓN INDEPENDIENTE
