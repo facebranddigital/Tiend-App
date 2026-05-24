@@ -233,22 +233,24 @@ export class LandingComponent implements OnDestroy {
       const currentStep = this.step();
 
       switch (currentStep) {
-        case 1: // Menú Inicial
-          if (lowerText.includes('seguimiento') || lowerText.includes('3')) {
-            response =
-              'Por favor, escríbeme el **ID o código de tu pedido** (ejemplo: _BR-323_) para consultar su estado en tiempo real. 📍';
-            this.trackingActive.set(true);
-          } else if (lowerText.includes('pagar') || lowerText.includes('2')) {
-            if (this.cartService.items().length > 0) {
-              response = '🛍️ ¡Excelente! **¿A qué dirección enviamos tu pedido?**';
-              this.step.set(4);
-            } else {
-              response = '🛒 Tu carrito está vacío. ¡Toca un producto para empezar!';
-            }
-          } else {
-            response = '🛵 ¡Dale! Selecciona los productos que desees de la lista.';
-          }
-          break;
+  case 1: // Menú Inicial
+    if (lowerText.includes('seguimiento') || lowerText.includes('3')) {
+      response = 'Por favor, escríbeme el **ID o código de tu pedido** (ejemplo: _BR-323_) para consultar su estado en tiempo real. 📍';
+      this.trackingActive.set(true);
+    } else if (lowerText.includes('pagar') || lowerText.includes('2')) {
+      if (this.cartService.items().length > 0) {
+        response = '🛍️ ¡Excelente! **¿A qué dirección enviamos tu pedido?**';
+        this.step.set(4);
+      } else {
+        response = '🛒 Tu carrito está vacío. ¡Toca un producto para empezar!';
+      }
+    } else if (lowerText.includes('hacer') || lowerText.includes('pedido') || lowerText.includes('1')) {
+      response = '🛵 ¡Dale! Selecciona los productos que desees de la lista o escribe el número de tu opción.';
+      this.step.set(2); // 👈 ¡CLAVE! Cambiamos al paso 2 para activar los productos
+    } else {
+      response = 'Disculpa, no entendí tu opción. Elige: 1. Hacer pedido, 2. Pagar pedido o 3. Seguimiento.';
+    }
+    break;
 
         case 2: // Recibiendo Cantidad
           const cantidad = parseInt(text);
