@@ -33,6 +33,17 @@ export class AdminFinanzasComponent {
   public cartService = inject(CartService);
   private router = inject(Router);
 
+  // --- CONTROL DE INTERFAZ EXCLUSIVA PARA EL ADMIN ---
+  public isAdminExclusivo = computed(() => {
+    // Llamamos correctamente al método de tu servicio que se ve en consola
+    const usuarioActual = (this.auth as any).getCurrentUser();
+
+    if (!usuarioActual) return false;
+
+    // Reemplaza este correo por el tuyo real de administrador
+    return usuarioActual.email === 'eversozinho@gmail.com';
+  });
+
   // --- ESTADO EDITABLE (SIGNALS) ---
   insumos = signal<Insumo[]>([{ nombre: 'Insumo', costo: 0 }]);
   produccion = signal<Produccion[]>([{ nombre: 'Producto final', unidades: 0 }]);

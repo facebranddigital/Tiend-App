@@ -4,15 +4,22 @@
     <meta charset="utf-8" />
     <title>Bracasfood</title>
     <base href="/" />
+
+    <!-- 🔑 DIRECTIVA CSP COMPLETA Y REPARADA (Permite locales, fotos y pasarela) -->
+    <meta 
+      http-equiv="Content-Security-Policy" 
+      content="default-src 'self' http://localhost:* https://*.mercadopago.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.mercadopago.com https://mercadopago.com; style-src 'self' 'unsafe-inline' https://cloudflare.com; font-src 'self' https://cloudflare.com; img-src 'self' data: blob: http://localhost:* https://lh3.googleusercontent.com https://*.googleusercontent.com https://*.mercadopago.com https://*.firebaseimg.com;"
+    />
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
-    <!-- 1. CARGA EL SDK DE MERCADO PAGO (ESTO ES LO QUE FALTA) -->
+    <!-- 1. CARGA EL SDK DE MERCADO PAGO -->
     <script src="https://mercadopago.com"></script>
 
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      href="https://cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
   </head>
   <body>

@@ -3,8 +3,8 @@ import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
-import { map, filter, startWith } from 'rxjs/operators'; // Agregamos startWith
-import { Observable } from 'rxjs';
+import { map, filter, startWith, switchMap } from 'rxjs/operators'; 
+import { Observable, combineLatest, of } from 'rxjs'; // Agregamos combineLatest y of
 
 @Component({
   selector: 'app-navbar',
@@ -31,6 +31,17 @@ export class NavbarComponent {
   // 2. VALIDACIÓN DE ADMIN (Para mostrar/ocultar botones)
   public isAdmin$: Observable<boolean> = this.authService.user$.pipe(
     map((user) => !!user?.email && this.ADMIN_EMAILS.includes(user.email.toLowerCase())),
+  );
+
+ // 🔥 CONDICIONAL QUIRÚRGICA: Solo muta si está en /admin/finanzas
+  public isCalculadoraAdminActive$: Observable<boolean> = this.router.events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    startWith(null), 
+    map(() => this.router.url.split('?')[0] === '/admin/finanzas'), // Comprobación exacta sin query params
+    switchMap((isExactRoute) => {
+      if (!isExactRoute) return of(false); // Si sale de la ruta, apaga el estilo C&E de inmediato
+      return this.isAdmin$; // Si está en la ruta, valida si es uno de tus correos administradores
+    })
   );
 
    // 3. DISPARADOR INTELIGENTE (Inspirado en el botón de Inicio)

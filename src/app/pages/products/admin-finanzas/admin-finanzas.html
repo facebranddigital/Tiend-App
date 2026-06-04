@@ -1,72 +1,155 @@
-<div class="admin-finanzas-container">
-  <!-- TÍTULO PRINCIPAL ESTILO BRACASFOOD -->
-  <div class="calc-header-main">
-    <h1>📈 Ganancia Neta</h1>
-    <p>CALCULAR COSTOS SEGÚN VENTAS</p>
-  </div>
-
-  <div class="calc-grid">
-    <!-- TARJETA MATERIAS PRIMAS -->
-    <div class="card">
-      <div class="card-header">
-        <h3>🛒 Materias Primas</h3>
-        <button class="btn-add-row" (click)="agregarInsumo()">Añadir</button>
-      </div>
-
-      <div *ngFor="let insumo of insumos(); let i = index" class="editable-row">
-        <input type="text" [(ngModel)]="insumo.nombre" placeholder="Insumo" />
-        <input type="number" [(ngModel)]="insumo.costo" placeholder="0" />
-        <button class="btn-del" (click)="eliminarInsumo(i)">×</button>
-      </div>
-
-      <div class="subtotal-row">
-        Total Compras: <strong>{{ totalInsumos() | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
-      </div>
+@if (isAdminExclusivo()) {
+  <!-- ====================================================================== -->
+  <!-- 👑 VISTA NUEVA: INTERFAZ EXCLUSIVA PARA EL ADMINISTRADOR MASTER        -->
+  <!-- ====================================================================== -->
+  <div class="admin-finanzas-container admin-theme">
+    <!-- TÍTULO PRINCIPAL EN MODO OSCURO -->
+    <div class="calc-header-main">
+      <h1>Remodelaciones C&E Schneider</h1>
+      <p>INTERFAZ DE ADMINISTRACIÓN AVANZADA</p>
     </div>
 
-    <!-- TARJETA UNIDADES PRODUCIDAS -->
-    <div class="card">
-      <div class="card-header">
-        <h3>🍔 Unidades Producidas</h3>
-        <button class="btn-add-row" (click)="agregarProducto()">Añadir</button>
-      </div>
-
-      <div *ngFor="let p of produccion(); let i = index" class="editable-row">
-        <input type="text" [(ngModel)]="p.nombre" placeholder="Producto Final" />
-        <input type="number" [(ngModel)]="p.unidades" placeholder="0" />
-        <button class="btn-del" (click)="eliminarProducto(i)">×</button>
-      </div>
-
-      <div class="subtotal-row">
-        Total Unidades: <strong>{{ totalUnidades() }}</strong>
-      </div>
-    </div>
-
-    <!-- TARJETA BALANCE DEL DÍA -->
-    <div class="card summary-card highlight">
-      <div class="card-header">
-        <h3>📊 Balance del Día</h3>
-      </div>
-
-      <label>VENTAS TOTALES DEL DÍA ($)</label>
-      <div class="input-modern">
-        <span>$</span>
-        <input type="number" [(ngModel)]="ventasTotalesDia" placeholder="0" />
-      </div>
-
-      <div class="results-box">
-        <div class="res-item">
-          <span>Costo real por unidad:</span>
-          <strong>{{ costoPorUnidad() | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+    <div class="calc-grid">
+      <!-- TARJETA MATERIAS PRIMAS (ADMIN) -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Materia Prima & Obra</h3>
+          <button class="btn-add-row" (click)="agregarInsumo()">Añadir</button>
         </div>
 
-        <hr style="border: 0.5px solid #eee; margin: 15px 0" />
+        <div *ngFor="let insumo of insumos(); let i = index" class="editable-row">
+          <input type="text" [(ngModel)]="insumo.nombre" placeholder="Insumo" />
+          <input type="number" [(ngModel)]="insumo.costo" placeholder="0" />
+          <button class="btn-del" (click)="eliminarInsumo(i)">×</button>
+        </div>
 
-        <div class="res-item main" [ngClass]="gananciaNetaDia() >= 0 ? 'plus' : 'minus'">
-          <span>GANANCIA NETA:</span>
-          <h2>{{ gananciaNetaDia() | currency: 'USD' : 'symbol' : '1.0-0' }}</h2>
+        <div class="subtotal-row">
+          Total Compras:
+          <strong>{{ totalInsumos() | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+        </div>
+      </div>
+
+      <!-- TARJETA UNIDADES PRODUCIDAS (ADMIN) -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Unidades Producidas</h3>
+          <button class="btn-add-row" (click)="agregarProducto()">Añadir</button>
+        </div>
+
+        <div *ngFor="let p of produccion(); let i = index" class="editable-row">
+          <input type="text" [(ngModel)]="p.nombre" placeholder="Producto Final" />
+          <input type="number" [(ngModel)]="p.unidades" placeholder="0" />
+          <button class="btn-del" (click)="eliminarProducto(i)">×</button>
+        </div>
+
+        <div class="subtotal-row">
+          Total Unidades: <strong>{{ totalUnidades() }}</strong>
+        </div>
+      </div>
+
+      <!-- TARJETA BALANCE DEL DÍA (ADMIN) -->
+      <div class="card summary-card highlight">
+        <div class="card-header">
+          <h3>📊 Balance del Día</h3>
+        </div>
+
+        <label>VENTAS TOTALES DEL DÍA ($)</label>
+        <div class="input-modern">
+          <span>$</span>
+          <input type="number" [(ngModel)]="ventasTotalesDia" placeholder="0" />
+        </div>
+
+        <div class="results-box">
+          <div class="res-item">
+            <span>Costo real por unidad:</span>
+            <strong>{{ costoPorUnidad() | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+          </div>
+
+          <hr style="border: 0.5px solid #334155; margin: 15px 0" />
+
+          <div class="res-item main" [ngClass]="gananciaNetaDia() >= 0 ? 'plus' : 'minus'">
+            <span>GANANCIA NETA:</span>
+            <h2>{{ gananciaNetaDia() | currency: 'USD' : 'symbol' : '1.0-0' }}</h2>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+} @else {
+  <!-- ====================================================================== -->
+  <!-- 🛒 VISTA ACTUAL: CALCULADORA ORIGINAL PARA USUARIOS PÚBLICOS          -->
+  <!-- ====================================================================== -->
+  <div class="admin-finanzas-container">
+    <!-- TÍTULO PRINCIPAL ESTILO BRACASFOOD -->
+    <div class="calc-header-main">
+      <h1>📈 Ganancia Neta</h1>
+      <p>CALCULAR COSTOS SEGÚN VENTAS</p>
+    </div>
+
+    <div class="calc-grid">
+      <!-- TARJETA MATERIAS PRIMAS -->
+      <div class="card">
+        <div class="card-header">
+          <h3>🛒 Materias Primas</h3>
+          <button class="btn-add-row" (click)="agregarInsumo()">Añadir</button>
+        </div>
+
+        <div *ngFor="let insumo of insumos(); let i = index" class="editable-row">
+          <input type="text" [(ngModel)]="insumo.nombre" placeholder="Insumo" />
+          <input type="number" [(ngModel)]="insumo.costo" placeholder="0" />
+          <button class="btn-del" (click)="eliminarInsumo(i)">×</button>
+        </div>
+
+        <div class="subtotal-row">
+          Total Compras:
+          <strong>{{ totalInsumos() | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+        </div>
+      </div>
+
+      <!-- TARJETA UNIDADES PRODUCIDAS -->
+      <div class="card">
+        <div class="card-header">
+          <h3>🍔 Unidades Producidas</h3>
+          <button class="btn-add-row" (click)="agregarProducto()">Añadir</button>
+        </div>
+
+        <div *ngFor="let p of produccion(); let i = index" class="editable-row">
+          <input type="text" [(ngModel)]="p.nombre" placeholder="Producto Final" />
+          <input type="number" [(ngModel)]="p.unidades" placeholder="0" />
+          <button class="btn-del" (click)="eliminarProducto(i)">×</button>
+        </div>
+
+        <div class="subtotal-row">
+          Total Unidades: <strong>{{ totalUnidades() }}</strong>
+        </div>
+      </div>
+
+      <!-- TARJETA BALANCE DEL DÍA -->
+      <div class="card summary-card highlight">
+        <div class="card-header">
+          <h3>📊 Balance del Día</h3>
+        </div>
+
+        <label>VENTAS TOTALES DEL DÍA ($)</label>
+        <div class="input-modern">
+          <span>$</span>
+          <input type="number" [(ngModel)]="ventasTotalesDia" placeholder="0" />
+        </div>
+
+        <div class="results-box">
+          <div class="res-item">
+            <span>Costo real por unidad:</span>
+            <strong>{{ costoPorUnidad() | currency: 'USD' : 'symbol' : '1.0-0' }}</strong>
+          </div>
+
+          <hr style="border: 0.5px solid #eee; margin: 15px 0" />
+
+          <div class="res-item main" [ngClass]="gananciaNetaDia() >= 0 ? 'plus' : 'minus'">
+            <span>GANANCIA NETA:</span>
+            <h2>{{ gananciaNetaDia() | currency: 'USD' : 'symbol' : '1.0-0' }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -8,9 +8,13 @@
   border: 2px solid #000000;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
   max-width: 450px;
-  margin: 20px auto;
+  
+  /* REGLA DE ORO: Centra la tarjeta perfectamente en la pantalla */
+  margin: 40px auto; 
+  display: block;
+  
   font-family: 'Segoe UI', sans-serif;
-  box-sizing: border-box; /* Evita que los paddings engorden la tarjeta */
+  box-sizing: border-box;
 
   /* 1. EL ENCABEZADO */
   .header {
@@ -31,6 +35,7 @@
       font-size: 1rem;
       font-weight: 900;
       color: #1a1a1a;
+      
       span {
         background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
         -webkit-background-clip: text;
@@ -41,7 +46,7 @@
     }
   }
 
-  /* 2. LÍNEA DE TIEMPO "LOCO LUCAS" */
+  /* 2. LÍNEA DE TIEMPO */
   .timeline {
     display: flex;
     justify-content: space-between;
@@ -121,32 +126,54 @@
   /* 2.5 CONTENEDOR DEL MAPA (INTEGRACIÓN LEAFLET) */
   .map-wrapper {
     position: relative;
-    margin: 25px 0;
-    border: 2px solid #000000;
+    border: 3px solid #000000;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 4px 4px 0px #000000;
     z-index: 5;
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+
+    &.map-visible {
+      visibility: visible;
+      opacity: 1;
+      height: 280px;
+      margin: 25px 0;
+      pointer-events: auto;
+    }
+
+    &.map-hidden {
+      visibility: hidden;
+      opacity: 0;
+      height: 0px;
+      margin: 0;
+      pointer-events: none;
+      border: 0px solid transparent;
+      box-shadow: none;
+    }
 
     #map-container {
-      height: 250px;
+      height: 100%;
       width: 100%;
       background-color: #f4ece1;
     }
 
     .map-overlay {
       position: absolute;
-      bottom: 12px;
-      left: 12px;
-      background: #ffffff;
-      padding: 6px 14px;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 8px 16px;
       border: 2px solid #000000;
       font-weight: 1000;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
       z-index: 1000;
-      border-radius: 12px;
+      border-radius: 30px;
       box-shadow: 2px 2px 0px #000000;
+      white-space: nowrap;
+      text-align: center;
     }
   }
 
@@ -165,6 +192,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      
       .avatar {
         width: 48px;
         height: 48px;
@@ -172,12 +200,14 @@
         object-fit: cover;
         border: 2px solid #000;
       }
+      
       h4 {
         margin: 0;
         font-size: 1.1rem;
         font-weight: 1000;
         color: #1a1a1a;
       }
+      
       p {
         margin: 2px 0 0;
         font-size: 0.8rem;
@@ -206,53 +236,12 @@
       }
     }
   }
-} // <--- LLAVE DE CIERRE FINAL TOTAL DE LA TARJETA. NADA SE FILTRA DE AQUÍ ABAJO.
-/* Agrega esto al final de tu archivo de estilos existente */
-.map-wrapper.hidden {
-  display: none !important;
-}
-.tracking-container {
-  padding: 20px;
-  max-width: 500px;
-  margin: 0 auto;
-}
 
-/* Estilos obligatorios para que Leaflet renderice el mapa */
-.map-wrapper {
-  width: 100%;
-  height: 320px;
-  position: relative;
-  margin: 20px 0;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 3px solid #000000;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-#map-container {
-  width: 100%;
-  height: 100%;
-  background-color: #f4eae1;
-}
-
-.map-overlay {
-  position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.95);
-  padding: 8px 16px;
-  border-radius: 30px;
-  font-size: 0.85rem;
-  font-weight: bold;
-  color: #000000;
-  border: 2px solid #000000;
-  z-index: 1000;
-  text-align: center;
-  white-space: nowrap;
-}
-
-/* Ocultación controlada por clase sin destruir el DOM */
-.map-wrapper.hidden {
-  display: none !important;
+  .gps-alert {
+    margin-top: 15px;
+    color: #ff6b00;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+  }
 }

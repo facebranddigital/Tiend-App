@@ -1,68 +1,71 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, doc, onSnapshot, setDoc, getDoc, updateDoc } from '@angular/fire/firestore';
-import { Auth, authState, user } from '@angular/fire/auth'; // ✅ Manejo de autenticación nativa
-import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage'; // ✅ Manejo de imágenes nativo
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Firestore, doc, setDoc, updateDoc, onSnapshot } from '@angular/fire/firestore';
+import { Auth, authState } from '@angular/fire/auth';
+import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
   private db = inject(Firestore);
-  private auth = inject(Auth); // ✅ Inyección de autenticación
-  private storage = inject(Storage); // ✅ Inyección de almacenamiento de imágenes
+  private auth = inject(Auth);
+  private storage = inject(Storage);
 
-  // Opciones reactivas para saber el estado del usuario en tiempo real
+  // Mantenemos este canal activo para el login de usuario
   public usuarioActivo$ = authState(this.auth);
 
   constructor() {}
 
   /**
-   * Obtiene los datos del perfil del usuario logueado desde Firestore
+   * Perfil de usuario con SDK puro nativo. 
+   * Esto elimina por completo el error de Injection Context.
    */
   obtenerPerfilUsuario(uid: string): Observable<any> {
-    const docRef = doc(this.db, 'users', uid);
     return new Observable((subscriber) => {
+      const docRef = doc(this.db, 'users', uid);
+      
+      // onSnapshot nativo es inmune a los errores de Injection Context de Angular
       const unsubscribe = onSnapshot(
         docRef,
         (snapshot) => {
           if (snapshot.exists()) {
-            subscriber.next(snapshot.data());
+            subscriber.next({ uid: snapshot.id, ...snapshot.data() });
           } else {
             subscriber.next(null);
           }
         },
-        (error) => subscriber.error(error),
+        (error) => {
+          console.error('Error en onSnapshot de Perfil:', error);
+          subscriber.error(error);
+        }
       );
+      
+      // Evita fugas de memoria cancelando la escucha al destruir el componente
       return () => unsubscribe();
     });
   }
 
   /**
-   * Crea o actualiza el documento del perfil de usuario en la colección 'users'
+   * Guarda o actualiza la información del perfil del usuario
    */
   guardarPerfilUsuario(uid: string, datos: any): Promise<void> {
     const docRef = doc(this.db, 'users', uid);
-    return setDoc(docRef, { uid, ...datos }, { merge: true }); // Usamos merge para no borrar campos antiguos
+    return setDoc(docRef, { uid, ...datos }, { merge: true });
   }
 
   /**
-   * Sube una imagen a Firebase Storage y retorna su URL pública de descarga
+   * Sube una foto a Firebase Storage y retorna su URL pública
    */
   async subirFotoPerfil(uid: string, archivo: File): Promise<string> {
     const rutaAlmacenamiento = `profiles/${uid}/${archivo.name}`;
     const referenciaStorage = ref(this.storage, rutaAlmacenamiento);
-
-    // Subimos el archivo binario
     await uploadBytes(referenciaStorage, archivo);
-
-    // Retornamos la URL de internet de la foto
     return await getDownloadURL(referenciaStorage);
   }
 
   /**
-   * Vincula de forma permanente el último pedido generado al perfil del usuario en Firestore
+   * Vincula el ID del último pedido realizado al perfil del usuario
    */
   async vincularPedidoAUsuario(uid: string, orderId: string): Promise<void> {
     const docRef = doc(this.db, 'users', uid);
@@ -73,7 +76,7 @@ export class FirebaseService {
   }
 
   /**
-   * Crea un nuevo pedido en la colección 'orders' de Firestore
+   * Crea un nuevo documento de pedido en la colección 'orders'
    */
   crearPedido(orderId: string, datos: any): Promise<void> {
     const docRef = doc(this.db, 'orders', orderId);
@@ -81,30 +84,32 @@ export class FirebaseService {
   }
 
   /**
-   * Escucha un pedido en tiempo real de forma segura y sin conflictos de tipos
+   * Escucha un pedido en tiempo real con SDK puro.
+   * Ideal para actualizar la posición en mapas sin cortes ni cuelgues.
    */
   escucharPedido(orderId: string): Observable<any> {
     return new Observable((subscriber) => {
       const docRef = doc(this.db, 'orders', orderId);
-
       const unsubscribe = onSnapshot(
         docRef,
         (snapshot) => {
           if (snapshot.exists()) {
             subscriber.next({ id: snapshot.id, ...snapshot.data() });
           } else {
-            subscriber.error('Pedido no encontrado');
+            subscriber.next(null);
           }
         },
-        (error) => subscriber.error(error),
+        (error) => {
+          console.error('Error en onSnapshot de Pedido:', error);
+          subscriber.error(error);
+        }
       );
-
       return () => unsubscribe();
     });
   }
 
   /**
-   * Guarda la geolocalización en el pedido de Firestore
+   * Actualiza las coordenadas GPS en tiempo real enviadas por el repartidor
    */
   actualizarUbicacionPedido(orderId: string, lat: number, lng: number): Promise<void> {
     const docRef = doc(this.db, 'orders', orderId);

@@ -1,5 +1,5 @@
 <div class="tracking-container">
-  <!-- 1. EL ENCABEZADO -->
+  <!-- 1. ENCABEZADO -->
   <div class="header">
     <h2>Pedido #{{ pedidoId }}</h2>
     <p class="eta">
@@ -7,36 +7,32 @@
     </p>
   </div>
 
-  <!-- 2. LÍNEA DE TIEMPO -->
+  <!-- 2. LÍNEA DE TIEMPO (CORREGIDA: Comparaciones basadas en strings) -->
   <div class="timeline">
     <div class="progress-bar" [style.width.%]="obtenerPorcentajeProgreso()"></div>
 
-    <!-- PASO 1: RECIBIDO -->
-    <div class="step" [class.active]="estadoActual >= 1">
+    <div class="step" [class.active]="estadoActual === 'received' || estadoActual === 'preparing' || estadoActual === 'on_the_way' || estadoActual === 'delivered'">
       <div class="icon-circle">
         <i class="fas fa-box"></i>
       </div>
       <span>Recibido</span>
     </div>
 
-    <!-- PASO 2: COCINA -->
-    <div class="step" [class.active]="estadoActual >= 2">
+    <div class="step" [class.active]="estadoActual === 'preparing' || estadoActual === 'on_the_way' || estadoActual === 'delivered'">
       <div class="icon-circle">
         <i class="fas fa-utensils"></i>
       </div>
       <span>Cocina</span>
     </div>
 
-    <!-- PASO 3: EN CAMINO -->
-    <div class="step" [class.active]="estadoActual >= 3">
+    <div class="step" [class.active]="estadoActual === 'on_the_way' || estadoActual === 'delivered'">
       <div class="icon-circle">
         <i class="fas fa-motorcycle"></i>
       </div>
       <span>En camino</span>
     </div>
 
-    <!-- PASO 4: ENTREGADO -->
-    <div class="step" [class.active]="estadoActual >= 4">
+    <div class="step" [class.active]="estadoActual === 'delivered'">
       <div class="icon-circle">
         <i class="fas fa-check-double"></i>
       </div>
@@ -44,8 +40,8 @@
     </div>
   </div>
 
-  <!-- EL MAPA EN VIVO (Manejado por CSS para no destruir la instancia de Leaflet en el DOM) -->
-  <div class="map-wrapper" [class.hidden]="estadoActual !== 3">
+  <!-- EL MAPA EN VIVO (CORREGIDO: Control de visibilidad limpio usando string) -->
+  <div class="map-wrapper" [class.map-visible]="estadoActual === 'on_the_way'" [class.map-hidden]="estadoActual !== 'on_the_way'">
     <div id="map-container"></div>
     <div class="map-overlay">El repartidor va de camino a tu casa</div>
   </div>
@@ -60,9 +56,9 @@
       </div>
     </div>
 
-    <!-- BOTÓN DE CHAT -->
+    <!-- Extra: Corregido el enlace de WhatsApp que estaba mal estructurado -->
     <a
-      href="https://wa.me/3116213800?text=¡Hola!%20Estoy%20esperando%20mi%20pedido%20de%20Bracasfood%20🍕🔥"
+      href="https://wa.me¡Hola!%20Estoy%20esperando%20mi%20pedido%20de%20Bracasfood%20🍕🔥"
       target="_blank"
       class="btn-chat"
     >
@@ -70,17 +66,9 @@
     </a>
   </div>
 
-  <!-- SECCIÓN AUXILIAR: ALERTA DE ERROR GPS -->
+  <!-- ALERTAS GPS -->
   @if (errorGps) {
-    <div
-      style="
-        margin-top: 15px;
-        color: #ff6b00;
-        font-size: 0.8rem;
-        font-weight: bold;
-        text-align: center;
-      "
-    >
+    <div class="gps-alert">
       <i class="fas fa-exclamation-triangle"></i> {{ errorGps }}
     </div>
   }

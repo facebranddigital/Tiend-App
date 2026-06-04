@@ -3,6 +3,107 @@
   max-width: 1200px;
   margin: 0 auto;
 
+  // ======================================================================
+  // 👑 ESTILOS EXCLUSIVOS MODO ADMIN - PALETA VIOLETA/MORADO C&E
+  // Colocado aquí adentro para que herede toda la potencia del contenedor
+  // ======================================================================
+  &.admin-theme {
+    background-color: #0f0919 !important; /* Cambiado a un morado casi negro de fondo para que resalten las tarjetas #211333 */
+    padding: 30px;
+    border-radius: 24px;
+    min-height: 100vh;
+    
+    .calc-header-main {
+      h1 { 
+        color: #ffffff !important; 
+        font-weight: 950 !important;
+      } 
+      p { 
+        color: #9d8dfd !important; /* Violeta Neón Brillante del logo */
+        font-weight: 950 !important;
+      }  
+    }
+
+    .card {
+      background: #211333 !important; /* Morado Oscuro Profundo para tarjetas */
+      border: 2px solid #4d326c !important; /* Borde morado de contraste */
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6) !important;
+      
+      p { color: #e2e8f0 !important; }
+      h3 { color: #ffffff !important; }
+      label { color: #9d8dfd !important; } /* Etiquetas en violeta brillante */
+      
+      // Mapeo interno del summary-card dentro del admin
+      h3, label, .res-item span {
+        color: #ffffff !important;
+      }
+    }
+    
+    .card.highlight {
+      border: 3px solid #9d8dfd !important; /* Resaltado de balance con neón */
+      box-shadow: 0 0 20px rgba(157, 141, 253, 0.2) !important; /* Efecto brillo */
+    }
+
+    /* Inputs interactivos dentro del modo admin */
+    .editable-row input {
+      background: #0f0919 !important; /* Fondo oscuro interno */
+      color: #ffffff !important;
+      border: 1px solid #4d326c !important; /* Bordes morados */
+      font-weight: 900;
+
+      &:focus {
+        border-color: #9d8dfd !important; /* Brilla al hacer click */
+        outline: none;
+      }
+    }
+
+    .input-modern {
+      background: #0f0919 !important;
+      border: 2px solid #4d326c !important;
+      
+      span {
+        color: #9d8dfd !important; /* Símbolo de dinero en violeta */
+      }
+      input {
+        color: #ffffff !important;
+      }
+    }
+
+    /* Botones adaptados a la onda morada */
+    .btn-add-row {
+      background: #9d8dfd !important; /* Botón añadir violeta */
+      color: #0f0919 !important; /* Texto oscuro para que resalte en el botón claro */
+      font-weight: 900 !important;
+      
+      &:active {
+        transform: scale(0.95);
+        background: #4d326c !important;
+        color: #ffffff !important;
+      }
+    }
+
+    .subtotal-row {
+      color: #9d8dfd !important;
+    }
+
+    .results-box {
+      .res-item {
+        span { color: #ffffff !important; }
+        strong { color: #9d8dfd !important; }
+        
+        &.plus h2 {
+          color: #10b981 !important; /* Verde éxito para las ganancias de C&E */
+        }
+        &.minus h2 {
+          color: #ef4444 !important; /* Rojo para pérdidas */
+        }
+      }
+    }
+  }
+
+  // ----------------------------------------------------------------------
+  // TU CÓDIGO ACTUAL (Queda intacto de aquí para abajo)
+  // ----------------------------------------------------------------------
   .calc-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -32,45 +133,43 @@
     display: flex;
     gap: 8px;
     margin-bottom: 10px;
-    width: 100%; // Asegura que use el ancho de la tarjeta
+    width: 100%;
 
     input {
       padding: 10px;
       border-radius: 10px;
       border: 1.5px solid #eee;
       font-weight: 900;
-      min-width: 0; // <--- AGREGA ESTO (Vital para laptop)
+      min-width: 0;
 
       &:first-child {
         flex: 1;
       }
       &:nth-child(2) {
-        flex: 0 0 90px; // Izq Insumo Center Der 0 //
+        flex: 0 0 90px;
         text-align: left;
       }
     }
     .btn-del {
-      // + añadir //
       background: #fee2e2;
       color: #ef4444;
       border: none;
       border-radius: 8px;
-      flex-shrink: 0; // Evita que la X se aplaste si falta espacio
+      flex-shrink: 0;
 
       cursor: pointer;
-      width: 35px; // Aumentado de 35px
-      height: 35px; // Añadido para que sea cuadrado y fácil de tocar
-      font-size: 1.7rem; // La 'x' ahora es mucho más grande
-      font-weight: 900; // 'x' bien gruesa para que combine con tu estilo
+      width: 35px;
+      height: 35px;
+      font-size: 1.7rem;
+      font-weight: 900;
 
-      display: flex; // Centra la 'x' perfectamente
+      display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
       transition: transform 0.1s ease;
 
       &:active {
-        transform: scale(0.9); // Efecto visual de "hundirse" al tocarlo
+        transform: scale(0.9);
         background: #fecaca;
       }
     }
@@ -84,17 +183,15 @@
     border-radius: 15px;
     font-weight: 700;
     cursor: pointer;
-    white-space: nowrap; // Evita que el texto se rompa en dos líneas
-    width: 80px; // Define un ancho fijo aquí
-    height: 32px; // Opcional: define una altura para que se vea simétrico
-    // Para centrar el texto si usas ancho fijo:
+    white-space: nowrap;
+    width: 80px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .subtotal-row {
-    // Totals //
     margin-top: 15px;
     font-weight: 800;
     color: #060300;
@@ -122,6 +219,8 @@
     }
   }
 }
+
+// Las clases globales externas permanecen exactamente iguales abajo
 .input-modern {
   display: flex;
   align-items: center;
@@ -150,31 +249,26 @@
 }
 
 .summary-card.highlight {
-  border: 2px solid #e46a07; // Para que resalte que es el resultado final
+  border: 2px solid #e46a07;
 }
 
-/* --- TEXTOS DE RESULTADOS SÚPER GRUESOS --- */
-
-/* --- ENGROSAR SUBTÍTULO DEL HEADER --- */
 .calc-header p {
-  font-weight: 900 !important; /* Máximo grosor */
-  font-size: 1.1rem !important; /* Un poco más grande */
-  color: #ff6b00 !important; /* Naranja Bracasfood */
-  text-transform: uppercase; /* Mayúsculas para que se vea más fuerte */
-  letter-spacing: 0.5px; /* Espaciado entre letras para legibilidad */
+  font-weight: 900 !important;
+  font-size: 1.1rem !important;
+  color: #ff6b00 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   margin-top: 5px;
-  display: block; /* Asegura que tome el ancho */
+  display: block;
 }
 
 .summary-card {
-  // El título "Balance del Día"
   h3 {
     font-weight: 930 !important;
     font-size: 1.5rem !important;
     color: #1a1a1a !important;
   }
 
-  // Etiqueta "Ventas totales del día"
   label {
     font-weight: 950 !important;
     font-size: 1rem !important;
@@ -182,46 +276,43 @@
     text-transform: uppercase;
   }
 
-  // El texto "Costo real por unidad" y "GANANCIA NETA"
   .res-item {
     span {
-      font-weight: 930 !important; // Más grueso
+      font-weight: 930 !important;
       font-size: 1.1rem !important;
       color: #1a1a1a !important;
     }
 
-    // El número del costo real
     strong {
       font-weight: 850 !important;
       font-size: 1.4rem !important;
-      color: #ff6b00 !important; // En naranja Bracas
+      color: #ff6b00 !important;
     }
 
-    // El título de GANANCIA NETA
     &.main span {
-      font-weight: 930 !important; // El máximo
+      font-weight: 930 !important;
       font-size: 1.3rem !important;
       letter-spacing: -0.5px;
     }
   }
 }
-/* --- TÍTULO PRINCIPAL ESTILO IZQUIERDA --- */
+
 .calc-header-main {
   margin-bottom: 30px;
 
   h1 {
     margin: 0;
     font-size: 2.5rem;
-    font-weight: 950; // El máximo grosor posible
+    font-weight: 950;
     color: #1a1a1a;
   }
 
   p {
     margin: 0;
-    color: #ff6b00; // El naranja de Bracasfood
-    font-weight: 950; // Súper grueso como pediste
+    color: #ff6b00;
+    font-weight: 950;
     font-size: 1.1rem;
     text-transform: uppercase;
-    letter-spacing: 1px; // Un poco de espacio para que se vea premium
+    letter-spacing: 1px;
   }
 }

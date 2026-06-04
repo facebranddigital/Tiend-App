@@ -1,23 +1,31 @@
-<nav class="navbar">
-  <!-- LOGO DINÁMICO: Portal Secreto -->
+<!-- 1. El contenedor del Navbar añade los estilos oscuros morados solo en esa vista -->
+<nav class="navbar" [class.admin-nav-theme]="isCalculadoraAdminActive$ | async">
+  
   <a
     class="logo"
     [routerLink]="logoLink$ | async"
     style="text-decoration: none !important; cursor: pointer"
   >
-    <span
-      style="
-        display: inline-block;
-        background: linear-gradient(95deg, #ff6b00, #ffb800);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 1000;
-      "
-      >Bracasfood</span
-    >
-  </a>
+    <!-- 2. El texto C&E Schneider aparece únicamente en esa pantalla -->
+    <span *ngIf="isCalculadoraAdminActive$ | async; else bracasLogo" class="logo-admin-text">
+      C&E Schneider
+    </span>
 
+    <!-- 3. En todo el resto de la aplicación (Inicio, Productos, etc.) se mantiene Bracasfood -->
+    <ng-template #bracasLogo>
+      <span
+        style="
+          display: inline-block;
+          background: linear-gradient(95deg, #ff6b00, #ffb800);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-weight: 1000;
+        "
+        >Bracasfood</span
+      >
+    </ng-template>
+  </a>
   <!-- LINKS DE NAVEGACIÓN -->
   <ul class="nav-links">
     <li>
@@ -75,7 +83,6 @@
 
     <!-- ACCIONES DE AUTENTICACIÓN Y PERFIL -->
     <ng-container *ngIf="authService.user$ | async as user; else loginBtn">
-      <!-- ✅ NUEVO: BOTÓN DE ACCESO AL PERFIL CON FOTO DINÁMICA (Estilo Facebook) -->
       <a routerLink="/perfil" class="profile-nav-btn" title="Mi Perfil">
         <img
           *ngIf="user.photoURL; else defaultIcon"
@@ -103,7 +110,6 @@
       </button>
     </ng-container>
 
-    <!-- Botón entrar si no hay sesión -->
     <ng-template #loginBtn>
       <button class="login-btn" routerLink="/login">Entrar</button>
     </ng-template>

@@ -72,6 +72,11 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "headers": {
+              "Content-Security-Policy": "default-src 'self' http://localhost:* https: data: blob: 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: blob: https://*.tile.openstreetmap.org https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com;"
+            }
+          },
           "configurations": {
             "production": {
               "buildTarget": "tiend-app:build:production"

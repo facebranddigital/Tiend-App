@@ -270,3 +270,61 @@
     }
   }
 }
+/*======================================================================
+   👑 MUTACIÓN DE NAVBAR - MODO ADMINISTRADOR C&E
+   ====================================================================== */
+.navbar.admin-nav-theme {
+  background-color: #0f0919 !important; /* Mismo fondo ultra oscuro del panel */
+  border-bottom: 2px solid #4d326c !important; /* Línea inferior sutil morada */
+  transition: all 0.3s ease;
+
+    // Texto personalizado y grueso con degradado neón para C&E Schneider
+    .logo-admin-text {
+      font-size: 2rem;
+      font-weight: 950 !important; /* Súper grueso consistente */
+      letter-spacing: 0px;
+      cursor: pointer;
+      display: inline-block;
+      
+      // ✨ EFECTO DEGRADADO NEÓN C&E
+      background: linear-gradient(95deg, #ffffff 10%, #9d8dfd 90%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+  // Links de navegación en modo oscuro
+  .nav-links li a {
+    color: #e2e8f0 !important;
+    font-weight: 700 !important;
+
+    &:hover, &.active {
+      color: #9d8dfd !important; /* Violeta neón al pasar el cursor o estar activo */
+    }
+  }
+
+  // Ajuste de los SVGs de los botones (Buscador, Carrito, Logout)
+  .nav-actions {
+    button svg, a svg, .search-btn-custom svg {
+      stroke: #9d8dfd !important; /* Iconos con silueta violeta */
+    }
+
+    // Adaptación del buscador expandible en modo admin
+    .search-input {
+      background: #211333 !important;
+      border: 1px solid #4d326c !important;
+      color: #ffffff !important;
+      
+      &:focus {
+        border-color: #9d8dfd !important;
+      }
+    }
+    
+    // Badge del carrito adaptada a la paleta morada
+    .cart-badge-custom {
+      background: #9d8dfd !important;
+      color: #0f0919 !important;
+      font-weight: 900;
+    }
+  }
+}
