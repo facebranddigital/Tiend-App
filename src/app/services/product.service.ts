@@ -9,7 +9,8 @@ import {
   query,
   orderBy,
   Timestamp,
-  onSnapshot,
+  collectionData,
+  docData,
   CollectionReference,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -20,45 +21,24 @@ import { Product } from '../models/product.model';
 })
 export class ProductService {
   private firestore = inject(Firestore);
-  private productsCollection = collection(
-    this.firestore,
-    'products',
-  ) as CollectionReference<Product>;
+
+  // ✅ CORREGIDO: Se genera la referencia dentro de un método para asegurar el contexto de inyección activo
+  private obtenerColeccionProductos(): CollectionReference<Product> {
+    return collection(this.firestore, 'products') as CollectionReference<Product>;
+  }
 
   getProducts(): Observable<Product[]> {
-    return new Observable<Product[]>((subscriber) => {
-      const q = query(this.productsCollection, orderBy('createdAt', 'desc'));
-      const unsubscribe = onSnapshot(
-        q,
-        (snapshot) => {
-          const products = snapshot.docs.map(
-            (doc) =>
-              ({
-                id: doc.id,
-                ...doc.data(),
-              }) as Product,
-          );
-          subscriber.next(products);
-        },
-        (error) => subscriber.error(error),
-      );
-      return () => unsubscribe();
-    });
+    const q = query(this.obtenerColeccionProductos(), orderBy('createdAt', 'desc'));
+    return collectionData(q, { idField: 'id' }) as Observable<Product[]>;
   }
 
   getProductById(id: string): Observable<Product> {
     const productDocRef = doc(this.firestore, `products/${id}`);
-    return new Observable<Product>((subscriber) => {
-      return onSnapshot(productDocRef, (snapshot) => {
-        if (snapshot.exists()) {
-          subscriber.next({ id: snapshot.id, ...snapshot.data() } as Product);
-        }
-      });
-    });
+    return docData(productDocRef, { idField: 'id' }) as Observable<Product>;
   }
 
   addProduct(product: Product): Promise<any> {
-    return addDoc(this.productsCollection, { ...product, createdAt: Timestamp.now() });
+    return addDoc(this.obtenerColeccionProductos(), { ...product, createdAt: Timestamp.now() });
   }
 
   updateProduct(id: string, product: Partial<Product>): Promise<void> {

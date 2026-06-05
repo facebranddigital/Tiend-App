@@ -11,27 +11,40 @@ export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  //  LISTA  (permisos como owner)
   const ADMIN_EMAILS = [
     'eversozinho@gmail.com',
     'jbravo35@estudiantes.areandina.edu.co',
     'yjairobravo@gmail.com',
     'teveventaspasto@gmail.com',
     'facebranddigital@gmail.com',
-    'anaportilla143@gmail.com', // sin la fucking , al final //
+    'anaportilla143@gmail.com',
   ];
 
   return authService.user$.pipe(
     take(1),
     map((user) => {
-      //  Verificamos con la lista completa
-      if (user && user.email && ADMIN_EMAILS.includes(user.email.toLowerCase())) {
-        return true;
-      } else {
-        console.warn('Acceso denegado: No tienes permisos de Owner');
+      if (!user) {
+        console.warn('Acceso denegado: Sesión no válida.');
         router.navigate(['/login']);
         return false;
       }
+
+      const esAdmin = user.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false;
+      const urlDestino = state.url;
+
+      // Rutas restringidas únicamente a administradores
+      if (urlDestino.includes('/products') || urlDestino.includes('/admin')) {
+        if (esAdmin) {
+          return true;
+        } else {
+          console.warn('Acceso denegado: Requiere rol de Administrador.');
+          router.navigate(['/']);
+          return false;
+        }
+      }
+
+      // El perfil y el carrito son de acceso libre para cualquier usuario logueado
+      return true;
     }),
   );
 };

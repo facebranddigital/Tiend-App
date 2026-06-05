@@ -5,21 +5,22 @@
     <title>Bracasfood</title>
     <base href="/" />
 
-    <!-- 🔑 DIRECTIVA CSP COMPLETA Y REPARADA (Permite locales, fotos y pasarela) -->
+    <!-- 🔑 DIRECTIVA CSP COMPLETA Y REPARADA (Permite locales, fotos de Firebase Storage y Mercado Pago) -->
     <meta 
       http-equiv="Content-Security-Policy" 
-      content="default-src 'self' http://localhost:* https://*.mercadopago.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.mercadopago.com https://mercadopago.com; style-src 'self' 'unsafe-inline' https://cloudflare.com; font-src 'self' https://cloudflare.com; img-src 'self' data: blob: http://localhost:* https://lh3.googleusercontent.com https://*.googleusercontent.com https://*.mercadopago.com https://*.firebaseimg.com;"
+      content="default-src 'self' http://localhost:* https://*.mercadopago.com https://*.firebaseapp.com https://*.googleapis.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.mercadopago.com https://mercadopago.com; style-src 'self' 'unsafe-inline' https://cloudflare.com; font-src 'self' https://cloudflare.com; img-src 'self' data: blob: http://localhost:* https://googleusercontent.com https://*.googleusercontent.com https://*.mercadopago.com https://googleapis.com https://*.googleapis.com; connect-src 'self' http://localhost:* https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.mercadopago.com;"
     />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link class="visual-anchor" rel="icon" type="image/x-icon" href="favicon.ico" />
 
     <!-- 1. CARGA EL SDK DE MERCADO PAGO -->
     <script src="https://mercadopago.com"></script>
 
+    <!-- 2. ICONOS DE FONT AWESOME -->
     <link
       rel="stylesheet"
-      href="https://cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      href="https://cloudflare.com"
     />
   </head>
   <body>

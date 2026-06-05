@@ -13,17 +13,18 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./perfil.scss'],
 })
 export class PerfilComponent implements OnInit, OnDestroy {
-  // Datos del perfil
+  // Datos del perfil adaptados a tu base de datos
   public nombre: string = '';
   public telefono: string = '';
   public direccion: string = '';
-  public fotoUrl: string = 'assets/driver-avatar.png';
+  public fotoUrl: string = 'assets/driver-avatar.png'; // Fallback por defecto
   public ultimoPedidoId: string = '';
 
-  // ✅ NUEVO: Estado del pedido en tiempo real para el perfil
+  // Estado del pedido en tiempo real para el perfil
   public pedidoEstadoActual: number = 0;
   public pedidoTiempoEstimado: number = 35;
   private pedidoSub!: Subscription;
+  private usuarioSub!: Subscription;
 
   // Estados de control de la UI
   public cargando: boolean = true;
@@ -38,7 +39,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    this.firebaseService.usuarioActivo$.subscribe({
+    this.usuarioSub = this.firebaseService.usuarioActivo$.subscribe({
       next: (user) => {
         if (user) {
           this.userUid = user.uid;
@@ -51,15 +52,14 @@ export class PerfilComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.error = 'Error de autenticación.';
         this.cargando = false;
+        this.cdr.detectChanges();
       },
     });
   }
 
   ngOnDestroy(): void {
-    // ✅ Cancelamos la suscripción a Firebase para evitar fugas de memoria
-    if (this.pedidoSub) {
-      this.pedidoSub.unsubscribe();
-    }
+    if (this.pedidoSub) this.pedidoSub.unsubscribe();
+    if (this.usuarioSub) this.usuarioSub.unsubscribe();
   }
 
   private cargarDatosPerfil(uid: string): void {
@@ -69,9 +69,10 @@ export class PerfilComponent implements OnInit, OnDestroy {
           this.nombre = perfil.nombre || '';
           this.telefono = perfil.telefono || '';
           this.direccion = perfil.direccion || '';
-          this.fotoUrl = perfil.fotoUrl || 'assets/driver-avatar.png';
+          
+          // ✅ SOLUCIÓN AL NOMBRE DEL CAMPO: Lee 'URLFOTO' en mayúsculas desde tu Firestore
+          this.fotoUrl = perfil.URLFOTO || 'assets/driver-avatar.png';
 
-          // Si el ID del pedido cambió o se cargó por primera vez, activamos el rastreador interno
           if (perfil.ultimoPedidoId && perfil.ultimoPedidoId !== this.ultimoPedidoId) {
             this.ultimoPedidoId = perfil.ultimoPedidoId;
             this.conectarRastreadorPedidoInterno(this.ultimoPedidoId);
@@ -83,11 +84,11 @@ export class PerfilComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.error = 'No se pudieron cargar los datos del servidor.';
         this.cargando = false;
+        this.cdr.detectChanges();
       },
     });
   }
 
-  // ✅ NUEVO MÉTODO: Escucha el estado del pedido directamente en la pantalla de perfil
   private conectarRastreadorPedidoInterno(orderId: string): void {
     if (this.pedidoSub) this.pedidoSub.unsubscribe();
 
@@ -109,25 +110,20 @@ export class PerfilComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.warn('No hay pedidos activos vinculados para mostrar en la línea de tiempo.');
+        console.warn('No hay pedidos activos vinculados para mostrar.');
         this.pedidoEstadoActual = 0;
+        this.cdr.detectChanges();
       },
     });
   }
 
-  // ✅ NUEVO MÉTODO: Calcula el porcentaje de la barra de progreso del perfil
   public obtenerPorcentajeProgresoPerfil(): number {
     switch (this.pedidoEstadoActual) {
-      case 1:
-        return 0;
-      case 2:
-        return 33;
-      case 3:
-        return 66;
-      case 4:
-        return 100;
-      default:
-        return 0;
+      case 1: return 0;
+      case 2: return 33;
+      case 3: return 66;
+      case 4: return 100;
+      default: return 0;
     }
   }
 
@@ -137,13 +133,20 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
     this.subiendoImagen = true;
     this.error = '';
+    this.cdr.detectChanges();
 
     try {
       const urlDescarga = await this.firebaseService.subirFotoPerfil(this.userUid, archivo);
       this.fotoUrl = urlDescarga;
-      await this.firebaseService.guardarPerfilUsuario(this.userUid, { fotoUrl: urlDescarga });
+      
+      // ✅ SOLUCIÓN: Guarda usando la clave 'URLFOTO' en mayúsculas para no duplicar campos
+      await this.firebaseService.guardarPerfilUsuario(this.userUid, { URLFOTO: urlDescarga });
+      
       this.mensajeExito = '¡Foto de perfil actualizada!';
-      setTimeout(() => (this.mensajeExito = ''), 3000);
+      setTimeout(() => {
+        this.mensajeExito = '';
+        this.cdr.detectChanges();
+      }, 3000);
     } catch (err) {
       this.error = 'Error al subir la imagen.';
     } finally {
@@ -160,6 +163,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
     this.guardando = true;
     this.error = '';
+    this.cdr.detectChanges();
 
     const datosPerfil = {
       nombre: this.nombre,
@@ -170,7 +174,10 @@ export class PerfilComponent implements OnInit, OnDestroy {
     try {
       await this.firebaseService.guardarPerfilUsuario(this.userUid, datosPerfil);
       this.mensajeExito = '¡Perfil guardado con éxito!';
-      setTimeout(() => (this.mensajeExito = ''), 3000);
+      setTimeout(() => {
+        this.mensajeExito = '';
+        this.cdr.detectChanges();
+      }, 3000);
     } catch (err) {
       this.error = 'No se pudieron guardar los cambios.';
     } finally {

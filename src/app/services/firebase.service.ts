@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, doc, setDoc, updateDoc, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, doc, setDoc, updateDoc, getDoc } from '@angular/fire/firestore';
 import { Auth, authState } from '@angular/fire/auth';
 import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -12,38 +13,24 @@ export class FirebaseService {
   private auth = inject(Auth);
   private storage = inject(Storage);
 
-  // Mantenemos este canal activo para el login de usuario
+  // Canal para la sesión del usuario
   public usuarioActivo$ = authState(this.auth);
 
   constructor() {}
 
   /**
-   * Perfil de usuario con SDK puro nativo. 
-   * Esto elimina por completo el error de Injection Context.
+   * Obtiene los datos del perfil individual usando la instancia limpia de getDoc
    */
   obtenerPerfilUsuario(uid: string): Observable<any> {
-    return new Observable((subscriber) => {
-      const docRef = doc(this.db, 'users', uid);
-      
-      // onSnapshot nativo es inmune a los errores de Injection Context de Angular
-      const unsubscribe = onSnapshot(
-        docRef,
-        (snapshot) => {
-          if (snapshot.exists()) {
-            subscriber.next({ uid: snapshot.id, ...snapshot.data() });
-          } else {
-            subscriber.next(null);
-          }
-        },
-        (error) => {
-          console.error('Error en onSnapshot de Perfil:', error);
-          subscriber.error(error);
+    const docRef = doc(this.db, 'users', uid);
+    return from(getDoc(docRef)).pipe(
+      map((snapshot) => {
+        if (snapshot.exists()) {
+          return { uid: snapshot.id, ...snapshot.data() };
         }
-      );
-      
-      // Evita fugas de memoria cancelando la escucha al destruir el componente
-      return () => unsubscribe();
-    });
+        return null;
+      })
+    );
   }
 
   /**
@@ -84,32 +71,22 @@ export class FirebaseService {
   }
 
   /**
-   * Escucha un pedido en tiempo real con SDK puro.
-   * Ideal para actualizar la posición en mapas sin cortes ni cuelgues.
+   * Carga la información del pedido de forma segura sin romper el tipo 'Query'
    */
   escucharPedido(orderId: string): Observable<any> {
-    return new Observable((subscriber) => {
-      const docRef = doc(this.db, 'orders', orderId);
-      const unsubscribe = onSnapshot(
-        docRef,
-        (snapshot) => {
-          if (snapshot.exists()) {
-            subscriber.next({ id: snapshot.id, ...snapshot.data() });
-          } else {
-            subscriber.next(null);
-          }
-        },
-        (error) => {
-          console.error('Error en onSnapshot de Pedido:', error);
-          subscriber.error(error);
+    const docRef = doc(this.db, 'orders', orderId);
+    return from(getDoc(docRef)).pipe(
+      map((snapshot) => {
+        if (snapshot.exists()) {
+          return { id: snapshot.id, ...snapshot.data() };
         }
-      );
-      return () => unsubscribe();
-    });
+        return null;
+      })
+    );
   }
 
   /**
-   * Actualiza las coordenadas GPS en tiempo real enviadas por el repartidor
+   * Actualiza las coordenadas GPS enviadas por el repartidor
    */
   actualizarUbicacionPedido(orderId: string, lat: number, lng: number): Promise<void> {
     const docRef = doc(this.db, 'orders', orderId);

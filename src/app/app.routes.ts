@@ -20,7 +20,7 @@ import { PerfilComponent } from './pages/perfil/perfil';
 import { AdminRepartidorComponent } from './pages/admin-repartidor/admin-repartidor';
 
 export const routes: Routes = [
-  { path: '', component: LandingComponent },
+  { path: '', component: LandingComponent }, // Puedes dejar la landing directa
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'sabores-narino', component: SaboresNarinoComponent },
@@ -28,42 +28,47 @@ export const routes: Routes = [
 
   {
     path: 'products',
-    component: ProductListComponent,
+    loadComponent: () =>
+      import('./pages/products/product-list/product-list').then((m) => m.ProductListComponent),
     canActivate: [authGuard],
   },
   {
     path: 'products/new',
-    component: ProductFormComponent,
+    loadComponent: () =>
+      import('./pages/products/product-form/product-form').then((m) => m.ProductFormComponent),
     canActivate: [authGuard],
   },
   {
     path: 'products/edit/:id',
-    component: ProductFormComponent,
+    loadComponent: () =>
+      import('./pages/products/product-form/product-form').then((m) => m.ProductFormComponent),
     canActivate: [authGuard],
   },
   {
     path: 'admin/finanzas',
-    component: AdminFinanzasComponent,
+    loadComponent: () =>
+      import('./pages/products/admin-finanzas/admin-finanzas').then(
+        (m) => m.AdminFinanzasComponent,
+      ),
     canActivate: [authGuard],
   },
   { path: 'cart', component: CartComponent },
 
-  // RUTA DEL SEGUIMIENTO EN VIVO DEL CLIENTE
-  { path: 'seguimiento/:id', component: SeguimientoComponent },
-
-  // RUTA DE PERFIL PROTEGIDA CON TU GUARD DE AUTENTICACIÓN
+  {
+    path: 'seguimiento/:id',
+    loadComponent: () =>
+      import('./components/seguimiento/seguimiento.component').then((m) => m.SeguimientoComponent),
+  },
   {
     path: 'perfil',
-    component: PerfilComponent,
+    loadComponent: () => import('./pages/perfil/perfil').then((m) => m.PerfilComponent),
     canActivate: [authGuard],
   },
-
-  // ✅ 4. NUEVA RUTA SECRETA DEL PANEL DE CONTROL DEL REPARTIDOR
   {
     path: 'admin/repartidor/:id',
-    component: AdminRepartidorComponent,
+    loadComponent: () =>
+      import('./pages/admin-repartidor/admin-repartidor').then((m) => m.AdminRepartidorComponent),
   },
 
-  // Redirección por defecto si la URL no existe (Debe ir siempre al final)
   { path: '**', redirectTo: '' },
 ];
