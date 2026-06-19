@@ -283,7 +283,7 @@
 
   <!-- BOTÓN FLOTANTE DEL CARRITO (OCULTO EN SCHNEIDER) -->
   <button
-    *ngIf="!(isCalculadoraAdminActive$ | async)"
+    *ngIf="!(isEverAdminActive$ | async)"
     class="bracas-float-btn"
     (click)="scrollToTop()"
   >
@@ -344,7 +344,7 @@
         <!-- 2. BOTONES SUGERIDOS DEL BOT (SOLO BRACASFOOD) -->
         <div
           *ngIf="
-            !(isCalculadoraAdminActive$ | async) && (step() === 1 || step() === 3) && step() !== 6
+            !(isEverAdminActive$ | async) && (step() === 1 || step() === 3) && step() !== 6
           "
           class="bot-action-area"
         >
@@ -372,7 +372,7 @@
         </div>
 
         <!-- 3. ACCIONES FINALES DE PAGO (SOLO BRACASFOOD) -->
-        <div *ngIf="!(isCalculadoraAdminActive$ | async) && step() === 6" class="p-3 text-center">
+        <div *ngIf="!(isEverAdminActive$ | async) && step() === 6" class="p-3 text-center">
           <button
             *ngIf="datosPedido.pago.toLowerCase().includes('nequi')"
             (click)="confirmarPagoEnWhatsApp()"
@@ -403,7 +403,7 @@
           [(ngModel)]="userInput"
           (keyup.enter)="sendMessage()"
           [placeholder]="placeholderText()"
-          [disabled]="isLoading() || (!(isCalculadoraAdminActive$ | async) && step() === 6)"
+          [disabled]="isLoading() || (!(isEverAdminActive$ | async) && step() === 6)"
         />
 
         <button
@@ -421,7 +421,7 @@
       <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
         <img
           [src]="
-            (isCalculadoraAdminActive$ | async)
+            (isEverAdminActive$ | async)
               ? 'assets/ceschneider.jpg'
               : 'assets/bracasfoodlogo.jpeg'
           "
