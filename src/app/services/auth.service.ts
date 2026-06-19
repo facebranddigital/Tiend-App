@@ -27,8 +27,14 @@ export class AuthService {
     'facebranddigital@gmail.com',
   ];
 
+  // 🟠 Permisos de administrador generales para los 6 correos (Inventarios, Finanzas, etc.)
   isAdmin$: Observable<boolean> = this.user$.pipe(
     map((user) => !!user && !!user.email && this.ADMIN_EMAILS.includes(user.email.toLowerCase())),
+  );
+
+  // 🔮 VALIDACIÓN EXCLUSIVA PARA EVER: Único que activa la interfaz de C&E Schneider
+  isEverAdminActive$: Observable<boolean> = this.user$.pipe(
+    map((user) => !!user && !!user.email && user.email.toLowerCase() === 'eversozinho@gmail.com')
   );
 
   getCurrentUser() {

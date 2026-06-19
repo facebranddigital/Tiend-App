@@ -13,6 +13,6 @@ import { AuthService } from '../../services/auth.service'; // Tu servicio de usu
 export class FooterComponent {
   private authService = inject(AuthService); 
 
-  // 🧡 CONECTADO CON LA VARIABLE REAL: Usamos isAdmin$ que sí existe en tu AuthService
-  isEverAdminActive$ = this.authService.isAdmin$; 
+  // 🔮 SOLUCIÓN: Cambiado de isAdmin$ a isEverAdminActive$ para blindar la interfaz de Ever
+  isEverAdminActive$ = this.authService.isEverAdminActive$; 
 }

@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   private themeSubscription!: Subscription;
 
-  // 1. LISTA DE OWNERS (Mantenela siempre actualizada aquí)
+  // 1. LISTA DE OWNERS GENERALES DE BRACASFOOD
   private readonly ADMIN_EMAILS: string[] = [
     'teveventaspasto@gmail.com',
     'eversozinho@gmail.com',
@@ -30,13 +30,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
     'yjairobravo@gmail.com',
   ];
 
-  // 2. VALIDACIÓN DE ADMIN (Para mostrar/ocultar botones)
-  public isAdmin$: Observable<boolean> = this.authService.user$.pipe(
-    map((user) => !!user?.email && this.ADMIN_EMAILS.includes(user.email.toLowerCase())),
-  );
+  // 2. VALIDACIÓN DE ADMIN GENERAL (Para mostrar/ocultar botones de inventario comunes)
+  public isAdmin$: Observable<boolean> = this.authService.isAdmin$;
 
-  // 🌟 CAMBIO CLAVE: Ahora el Navbar se entera globalmente si debe usar el tema morado/fucsia C&E Schneider
-  public isCalculadoraAdminActive$: Observable<boolean> = this.isAdmin$;
+  // 🌟 SOLUCIÓN: Ahora la Navbar usa la variable exclusiva de tu AuthService.
+  // Únicamente dará true si el correo logueado es strictly 'eversozinho@gmail.com'
+  public isCalculadoraAdminActive$: Observable<boolean> = this.authService.isEverAdminActive$;
 
   // 3. DISPARADOR INTELIGENTE DE ENLACE DEL LOGO
   logoLink$: Observable<string> = this.router.events.pipe(
@@ -67,7 +66,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   isSearchActive = false;
 
-  // 🌟 INYECCIÓN GLOBAL AUTOMÁTICA DEL TEMA EN EL BODY
+  // 🌟 INYECCIÓN GLOBAL AUTOMÁTICA DEL TEMA EN EL BODY (BLINDADO CON IS_EVER)
   ngOnInit(): void {
     this.themeSubscription = this.isCalculadoraAdminActive$.subscribe(isSchneiderAdmin => {
       if (isSchneiderAdmin) {
