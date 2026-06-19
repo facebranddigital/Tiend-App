@@ -280,7 +280,7 @@
 
     // Texto personalizado y grueso con degradado neón para C&E Schneider
     .logo-admin-text {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: 950 !important; /* Súper grueso consistente */
       letter-spacing: 0px;
       cursor: pointer;
@@ -326,5 +326,44 @@
       color: #0f0919 !important;
       font-weight: 900;
     }
+  }
+}
+/* Estilos Cyberpunk para el Footer de Ever */
+.footer.footer-schneider {
+  background: #1a0626 !important; /* Fondo morado noche ultra oscuro */
+  border-top: 4px solid #2b103c !important; /* Línea divisoria morada */
+  
+  h3 {
+    color: #9d8dfd !important; /* Títulos morado neón pastel */
+  }
+
+  a:hover {
+    color: #ffffff !important;
+    text-shadow: 0 0 8px #9d8dfd !important;
+  }
+
+  .btn-schneider-footer {
+    background: linear-gradient(95deg, #2b103c 20%, #6a1b9a 80%) !important;
+    color: white !important;
+    border: 2px solid #000000 !important;
+    border-radius: 20px !important;
+    padding: 10px 20px !important;
+    font-weight: 900 !important;
+    box-shadow: 0 4px 0 #1a0626 !important;
+    cursor: pointer;
+    width: 100%;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+
+    &:hover {
+      filter: brightness(1.2);
+      box-shadow: 0 6px 0 #1a0626 !important;
+      transform: translateY(-2px);
+    }
+  }
+
+  .schneider-bottom {
+    border-top: 1px dashed rgba(157, 141, 253, 0.2) !important;
+    color: #888888 !important;
   }
 }

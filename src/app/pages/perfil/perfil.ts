@@ -36,7 +36,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
   private firebaseService = inject(FirebaseService);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
+  private injectCdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.usuarioSub = this.firebaseService.usuarioActivo$.subscribe({
@@ -52,7 +52,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.error = 'Error de autenticación.';
         this.cargando = false;
-        this.cdr.detectChanges();
+        this.injectCdr.detectChanges();
       },
     });
   }
@@ -69,9 +69,9 @@ export class PerfilComponent implements OnInit, OnDestroy {
           this.nombre = perfil.nombre || '';
           this.telefono = perfil.telefono || '';
           this.direccion = perfil.direccion || '';
-          
-          // ✅ SOLUCIÓN AL NOMBRE DEL CAMPO: Lee 'URLFOTO' en mayúsculas desde tu Firestore
-          this.fotoUrl = perfil.URLFOTO || 'assets/driver-avatar.png';
+
+          // Lee correctamente 'fotoUrl' desde tu base de datos de Firestore
+          this.fotoUrl = perfil.fotoUrl || 'assets/driver-avatar.png';
 
           if (perfil.ultimoPedidoId && perfil.ultimoPedidoId !== this.ultimoPedidoId) {
             this.ultimoPedidoId = perfil.ultimoPedidoId;
@@ -79,12 +79,12 @@ export class PerfilComponent implements OnInit, OnDestroy {
           }
         }
         this.cargando = false;
-        this.cdr.detectChanges();
+        this.injectCdr.detectChanges();
       },
       error: (err) => {
         this.error = 'No se pudieron cargar los datos del servidor.';
         this.cargando = false;
-        this.cdr.detectChanges();
+        this.injectCdr.detectChanges();
       },
     });
   }
@@ -107,51 +107,66 @@ export class PerfilComponent implements OnInit, OnDestroy {
         if (pedidoData.estimatedTime) {
           this.pedidoTiempoEstimado = pedidoData.estimatedTime;
         }
-        this.cdr.detectChanges();
+        this.injectCdr.detectChanges();
       },
       error: (err) => {
         console.warn('No hay pedidos activos vinculados para mostrar.');
         this.pedidoEstadoActual = 0;
-        this.cdr.detectChanges();
+        this.injectCdr.detectChanges();
       },
     });
   }
 
   public obtenerPorcentajeProgresoPerfil(): number {
     switch (this.pedidoEstadoActual) {
-      case 1: return 0;
-      case 2: return 33;
-      case 3: return 66;
-      case 4: return 100;
-      default: return 0;
+      case 1:
+        return 0;
+      case 2:
+        return 33;
+      case 3:
+        return 66;
+      case 4:
+        return 100;
+      default:
+        return 0;
     }
   }
 
+  /**
+   * PROCESO DE SUBIDA DE IMAGEN TOTALMENTE CORREGIDO
+   */
   async cambiarFoto(event: any) {
+    // ✅ CORREGIDO: Captura correctamente el primer archivo del arreglo
     const archivo = event.target.files?.[0];
     if (!archivo) return;
 
     this.subiendoImagen = true;
     this.error = '';
-    this.cdr.detectChanges();
+    this.injectCdr.detectChanges();
 
     try {
+      // 1. Sube el archivo binario a Storage y extrae la URL pública
       const urlDescarga = await this.firebaseService.subirFotoPerfil(this.userUid, archivo);
+
+      // 2. Guarda la URL bajo la clave exacta 'fotoUrl' para actualizar Firestore
+      await this.firebaseService.guardarPerfilUsuario(this.userUid, { fotoUrl: urlDescarga });
+
+      // 3. Renderiza de inmediato en la interfaz
       this.fotoUrl = urlDescarga;
-      
-      // ✅ SOLUCIÓN: Guarda usando la clave 'URLFOTO' en mayúsculas para no duplicar campos
-      await this.firebaseService.guardarPerfilUsuario(this.userUid, { URLFOTO: urlDescarga });
-      
+
       this.mensajeExito = '¡Foto de perfil actualizada!';
+      this.injectCdr.detectChanges();
+
       setTimeout(() => {
         this.mensajeExito = '';
-        this.cdr.detectChanges();
+        this.injectCdr.detectChanges();
       }, 3000);
     } catch (err) {
+      console.error('Error al procesar la imagen: ', err);
       this.error = 'Error al subir la imagen.';
     } finally {
       this.subiendoImagen = false;
-      this.cdr.detectChanges();
+      this.injectCdr.detectChanges();
     }
   }
 
@@ -163,7 +178,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
     this.guardando = true;
     this.error = '';
-    this.cdr.detectChanges();
+    this.injectCdr.detectChanges();
 
     const datosPerfil = {
       nombre: this.nombre,
@@ -176,13 +191,13 @@ export class PerfilComponent implements OnInit, OnDestroy {
       this.mensajeExito = '¡Perfil guardado con éxito!';
       setTimeout(() => {
         this.mensajeExito = '';
-        this.cdr.detectChanges();
+        this.injectCdr.detectChanges();
       }, 3000);
     } catch (err) {
       this.error = 'No se pudieron guardar los cambios.';
     } finally {
       this.guardando = false;
-      this.cdr.detectChanges();
+      this.injectCdr.detectChanges();
     }
   }
 

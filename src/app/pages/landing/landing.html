@@ -1,17 +1,28 @@
 <div id="top" class="landing-container">
-  <!-- HERO SECTION -->
+  <!-- HERO SECTION PERFECTAMENTE BALANCEADO -->
   <section class="hero">
     <a routerLink="/categorias" class="logo-link">
-      <img src="assets/bracasfoodlogo.jpeg" alt="Logo de Bracasfood" class="hero-img" />
+      <!-- LOGO HERO DINÁMICO: Cambia a Schneider SOLO con tu correo -->
+      <img
+        *ngIf="!(isEverAdminActive$ | async); else schneiderLogo"
+        src="assets/bracasfoodlogo.jpeg"
+        alt="Logo de Bracasfood"
+        class="hero-img"
+      />
+      <ng-template #schneiderLogo>
+        <img src="assets/schneiderlogo.png" alt="Logo de C&E Schneider" class="hero-img" />
+      </ng-template>
     </a>
 
     <div class="hero-overlay"></div>
-    <div class="hero-wrapper">
-      <!-- ... resto de tu código ... -->
 
+    <div class="hero-wrapper">
       <div class="hero-logo-space"></div>
+
+      <!-- 🌟 CONTENIDO DEL HERO MODIFICADO -->
       <div class="hero-content">
-        <div class="cta-buttons">
+        <!-- 🟠 MODO BRACASFOOD: Botones naranjas normales si NO eres tú -->
+        <div *ngIf="!(isEverAdminActive$ | async)" class="cta-buttons">
           <button class="btn-primary" (click)="scrollTo('bolis-leche')" data-testid="hero-cta">
             Bolis Leche
           </button>
@@ -28,185 +39,240 @@
             Bolis Natural
           </button>
         </div>
+
+        <!-- 🔮 MODO C&E SCHNEIDER: Botones exclusivos SOLO si inicias sesión tú -->
+        <div *ngIf="isEverAdminActive$ | async" class="admin-schneider-buttons">
+          <button class="btn-schneider-nav" routerLink="/admin/finanzas">
+            Calculadora de Balance 📊
+          </button>
+          <button class="btn-schneider-nav" routerLink="/products">Inventario Admin 🛠️</button>
+          <button class="btn-schneider-nav" routerLink="/categorias">
+            Gestionar Categorías 🗂️
+          </button>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- 🌟 BANNER DINÁMICO CENTRAL REGULADO -->
   <div class="promo-banner">
-    <h2>¡Consiente tu paladar! <i class="fas fa-apple-alt"></i></h2>
+    <!-- Si NO eres tú, ve el banner naranja tradicional de Bracasfood -->
+    <h2
+      *ngIf="!(isEverAdminActive$ | async)"
+      style="color: #ff6b00; font-weight: 1000; font-size: 2.2rem; text-transform: uppercase"
+    >
+      ¡Consiente tu paladar! <i class="fas fa-apple-alt"></i>
+    </h2>
+
+    <!-- Si eres tú, cambia al letrero animado de la constructora -->
+    <ng-template [ngIf]="isEverAdminActive$ | async">
+      <h2 class="titulo-schneider-blanco-animado">
+        Remodelaciones C&E Schneider <i class="fas fa-tools"></i>
+      </h2>
+    </ng-template>
   </div>
 
-  <!-- SECCIÓN DE PRODUCTOS -->
+    <!-- SECCIÓN DE PRODUCTOS (DINÁMICA: BRACASFOOD / OBRA BLANCA SCHNEIDER) -->
   <section class="featured-products">
     <div class="product-grid">
-      <!-- Platanos BF -->
+      
+      <!-- 1. Platanos BF / Obra Blanca Acabados -->
       <div class="product-card" id="platanos">
         <div class="product-image">
-          <img src="assets/bracasfood2.webp" alt="Platanos BF" loading="lazy" />
+          <!-- 🟠 IMAGEN CLIENTE PÚBLICO -->
+          <img *ngIf="!(isEverAdminActive$ | async)" src="assets/bracasfood2.webp" alt="Platanos BF" loading="lazy" />
+          <!-- 🔮 IMAGEN ADMIN EVER -->
+          <img *ngIf="isEverAdminActive$ | async" src="assets/obrablanca.jpg" alt="Obra Blanca" loading="lazy" />
         </div>
         <div class="product-info">
-          <div class="text-group">
-            <h3>Platanos BF</h3>
-            <span class="price">$2.500</span>
-          </div>
-          <div class="purchase-row">
-            <div class="qty-mini">
-              <button (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()">
-                -
-              </button>
-              <input #pQty1 type="number" value="1" readonly />
-              <button (click)="pQty1.value = (+pQty1.value + 1).toString()">+</button>
+          <!-- 🟠 VISTA CLIENTE PÚBLICO -->
+          <div *ngIf="!(isEverAdminActive$ | async)" style="display: contents">
+            <div class="text-group">
+              <h3>Platanos BF</h3>
+              <span class="price">$2.500</span>
             </div>
-            <button
-              class="add-btn"
-              (click)="
-                onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)
-              "
-              data-testid="add-to-cart"
-            >
-              COMPRAR
+            <div class="purchase-row">
+              <div class="qty-mini">
+                <button (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()">-</button>
+                <input #pQty1 type="number" value="1" readonly />
+                <button (click)="pQty1.value = (+pQty1.value + 1).toString()">+</button>
+              </div>
+              <button
+                class="add-btn"
+                (click)="onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)"
+                data-testid="add-to-cart"
+              >
+                COMPRAR
+              </button>
+            </div>
+          </div>
+          <!-- 🔮 VISTA ADMIN EVER -->
+          <div *ngIf="isEverAdminActive$ | async" class="info-obra-blanca">
+            <h3>Obra Blanca</h3>
+            <p class="estado-material">🧱 <strong>Progreso:</strong> En masillado y lijado</p>
+            <p class="estado-material">🎨 <strong>Material:</strong> Tipo 1 - Blanco Estuco</p>
+            <button class="btn-admin-obra" routerLink="/admin/finanzas">
+              Gestionar Proyecto 🛠️
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Bolis de Leche -->
+      <!-- 2. Bolis de Leche / Obra Blanca Revestimientos -->
       <div class="product-card" id="bolis-leche">
         <div class="product-image">
-          <img src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
+          <!-- 🟠 IMAGEN CLIENTE PÚBLICO -->
+          <img *ngIf="!(isEverAdminActive$ | async)" src="assets/bracasfoodbolis.webp" alt="Bolis de Leche" loading="lazy" />
+          <!-- 🔮 IMAGEN ADMIN EVER -->
+          <img *ngIf="isEverAdminActive$ | async" src="assets/iluminacion.jpg" alt="Iluminación" loading="lazy" />
         </div>
         <div class="product-info">
-          <div class="text-group">
-            <h3>Bolis de Leche</h3>
-            <span class="price">$2.000</span>
-          </div>
-          <div class="purchase-row">
-            <div class="qty-mini">
-              <button (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()">
-                -
-              </button>
-              <input #pQty2 type="number" value="1" readonly />
-              <button (click)="pQty2.value = (+pQty2.value + 1).toString()">+</button>
+          <!-- 🟠 VISTA CLIENTE PÚBLICO -->
+          <div *ngIf="!(isEverAdminActive$ | async)" style="display: contents">
+            <div class="text-group">
+              <h3>Bolis de Leche</h3>
+              <span class="price">$2.000</span>
             </div>
-            <button
-              class="add-btn"
-              (click)="
-                onAddToCart(
-                  'Bolis de Leche',
-                  2000,
-                  'Postres',
-                  'assets/bracasfoodbolis.webp',
-                  pQty2.value
-                )
-              "
-            >
-              COMPRAR
-            </button>
+            <div class="purchase-row">
+              <div class="qty-mini">
+                <button (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()">-</button>
+                <input #pQty2 type="number" value="1" readonly />
+                <button (click)="pQty2.value = (+pQty2.value + 1).toString()">+</button>
+              </div>
+              <button
+                class="add-btn"
+                (click)="onAddToCart('Bolis de Leche', 2000, 'Postres', 'assets/bracasfoodbolis.webp', pQty2.value)"
+              >
+                COMPRAR
+              </button>
+            </div>
+          </div>
+          <!-- 🔮 VISTA ADMIN EVER -->
+          <div *ngIf="isEverAdminActive$ | async" class="info-obra-blanca">
+            <h3>Molduras e Iluminación</h3>
+            <p class="estado-material">🧱 <strong>Instalación:</strong> Cielo raso en Drywall</p>
+            <p class="estado-material">💡 <strong>Detalle:</strong> Ojos de buey LED instalados</p>
+            <button class="btn-admin-obra" routerLink="/products">Inventario Admin 🛠️</button>
           </div>
         </div>
       </div>
 
-      <!-- Bolis Naturales -->
+      <!-- 3. Bolis Naturales / Obra Blanca Enchapes -->
       <div class="product-card" id="bolis-natural">
         <div class="product-image">
-          <img src="assets/bolismorados.webp" alt="Bolis Naturales" loading="lazy" />
-          <span class="badge">-20%</span>
+          <!-- 🟠 IMAGEN CLIENTE PÚBLICO -->
+          <img *ngIf="!(isEverAdminActive$ | async)" src="assets/bolismorados.webp" alt="Bolis Naturales" loading="lazy" />
+          <!-- 🔮 IMAGEN ADMIN EVER -->
+          <img *ngIf="isEverAdminActive$ | async" src="assets/enchape.jpg" alt="Enchapes" loading="lazy" />
+          <span *ngIf="!(isEverAdminActive$ | async)" class="badge">-20%</span>
         </div>
         <div class="product-info">
-          <div class="text-group">
-            <h3>Bolis Naturales</h3>
-            <span class="price">$1.500</span>
-          </div>
-          <div class="purchase-row">
-            <div class="qty-mini">
-              <button (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()">
-                -
-              </button>
-              <input #pQty3 type="number" value="1" readonly />
-              <button (click)="pQty3.value = (+pQty3.value + 1).toString()">+</button>
+          <!-- 🟠 VISTA CLIENTE PÚBLICO -->
+          <div *ngIf="!(isEverAdminActive$ | async)" style="display: contents">
+            <div class="text-group">
+              <h3>Bolis Naturales</h3>
+              <span class="price">$1.500</span>
             </div>
-            <button
-              class="add-btn"
-              (click)="
-                onAddToCart(
-                  'Bolis Naturales',
-                  1500,
-                  'Postres',
-                  'assets/bolismorados.webp',
-                  pQty3.value
-                )
-              "
-            >
-              COMPRAR
-            </button>
+            <div class="purchase-row">
+              <div class="qty-mini">
+                <button (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()">-</button>
+                <input #pQty3 type="number" value="1" readonly />
+                <button (click)="pQty3.value = (+pQty3.value + 1).toString()">+</button>
+              </div>
+              <button
+                class="add-btn"
+                (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp', pQty3.value)"
+              >
+                COMPRAR
+              </button>
+            </div>
+          </div>
+          <!-- 🔮 VISTA ADMIN EVER -->
+          <div *ngIf="isEverAdminActive$ | async" class="info-obra-blanca">
+            <h3>Pisos y Enchapes</h3>
+            <p class="estado-material">🧱 <strong>Área:</strong> Cocina y Zona Social</p>
+            <p class="estado-material">📐 <strong>Material:</strong> Porcelanato Rectificado</p>
+            <button class="btn-admin-obra" routerLink="/categorias">Gestionar Categorías 🗂️</button>
           </div>
         </div>
       </div>
 
-      <!-- Papitas BF -->
+      <!-- 4. Papitas BF / Obra Blanca Pintura Interior -->
       <div class="product-card" id="papitas">
         <div class="product-image">
-          <img src="assets/papasbf.webp" alt="Papitas BF" loading="lazy" />
+          <!-- 🟠 IMAGEN CLIENTE PÚBLICO -->
+          <img *ngIf="!(isEverAdminActive$ | async)" src="assets/papasbf.webp" alt="Papitas BF" loading="lazy" />
+          <!-- 🔮 IMAGEN ADMIN EVER -->
+          <img *ngIf="isEverAdminActive$ | async" src="assets/pintura.jpg" alt="Pintura" loading="lazy" />
         </div>
         <div class="product-info">
-          <div class="text-group">
-            <h3>Papitas BF</h3>
-            <span class="price">$2.500</span>
-          </div>
-          <div class="purchase-row">
-            <div class="qty-mini">
-              <button (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()">
-                -
-              </button>
-              <input #pQty4 type="number" value="1" readonly />
-              <button (click)="pQty4.value = (+pQty4.value + 1).toString()">+</button>
+          <!-- 🟠 VISTA CLIENTE PÚBLICO -->
+          <div *ngIf="!(isEverAdminActive$ | async)" style="display: contents">
+            <div class="text-group">
+              <h3>Papitas BF</h3>
+              <span class="price">$2.500</span>
             </div>
-            <button
-              class="add-btn"
-              (click)="
-                onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)
-              "
-            >
-              COMPRAR
-            </button>
+            <div class="purchase-row">
+              <div class="qty-mini">
+                <button (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()">-</button>
+                <input #pQty4 type="number" value="1" readonly />
+                <button (click)="pQty4.value = (+pQty4.value + 1).toString()">+</button>
+              </div>
+              <button
+                class="add-btn"
+                (click)="onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)"
+              >
+                COMPRAR
+              </button>
+            </div>
+          </div>
+          <!-- 🔮 VISTA ADMIN EVER -->
+          <div *ngIf="isEverAdminActive$ | async" class="info-obra-blanca">
+            <h3>Pintura General</h3>
+            <p class="estado-material">🧱 <strong>Mano 1:</strong> Sellador Antihumedad</p>
+            <p class="estado-material">🎨 <strong>Mano 2:</strong> Vinilo Tipo 1 Lavable</p>
+            <button class="btn-admin-obra" routerLink="/admin/finanzas">Ver Balance 📊</button>
           </div>
         </div>
       </div>
 
-      <!-- Tocineta BF -->
-      <div class="product-card" id="tocineta">
+      <!-- 5. Tocineta BF (SE OCULTA COMPLETAMENTE EN MODO SCHNEIDER USANDO EL *ngIf EN EL CONTENEDOR PRINCIPAL) -->
+      <div class="product-card" id="tocineta" *ngIf="!(isEverAdminActive$ | async)">
         <div class="product-image">
           <img src="assets/tocinetabf.webp" alt="Tocineta BF" loading="lazy" />
         </div>
         <div class="product-info">
-          <div class="text-group">
-            <h3>Tocineta BF</h3>
-            <span class="price">$2.500</span>
-          </div>
-          <div class="purchase-row">
-            <div class="qty-mini">
-              <button (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()">
-                -
-              </button>
-              <input #pQty5 type="number" value="1" readonly />
-              <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
+          <!-- 🟠 VISTA CLIENTE PÚBLICO -->
+          <div style="display: contents">
+            <div class="text-group">
+              <h3>Tocineta BF</h3>
+              <span class="price">$2.500</span>
             </div>
-            <button
-              class="add-btn"
-              (click)="
-                onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)
-              "
-            >
-              COMPRAR
-            </button>
+            <div class="purchase-row">
+              <div class="qty-mini">
+                <button (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()">-</button>
+                <input #pQty5 type="number" value="1" readonly />
+                <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
+              </div>
+              <button
+                class="add-btn"
+                (click)="onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)"
+              >
+                COMPRAR
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- BANNER FINAL -->
-  <section class="promo-banner secondary">
+  <!-- BANNER FINAL (DINÁMICO: SE LOGUEA EVER Y SE OCULTA EL CONTENIDO DE BRACASFOOD) -->
+  <section
+    class="promo-banner secondary"
+    *ngIf="!(isEverAdminActive$ | async) && !(isCalculadoraAdminActive$ | async)"
+  >
     <div class="promo-content">
       <h2>¡Consiente tu paladar!</h2>
       <button class="btn-main" (click)="hacerPedidoWhatsApp()">
@@ -215,8 +281,12 @@
     </div>
   </section>
 
-  <!-- BOTÓN DE SCROLL (Carrito flotante) -->
-  <button class="bracas-float-btn" (click)="scrollToTop()">
+  <!-- BOTÓN FLOTANTE DEL CARRITO (OCULTO EN SCHNEIDER) -->
+  <button
+    *ngIf="!(isCalculadoraAdminActive$ | async)"
+    class="bracas-float-btn"
+    (click)="scrollToTop()"
+  >
     <svg
       viewBox="0 0 24 24"
       fill="none"
@@ -235,31 +305,49 @@
     </span>
   </button>
 
-  <!-- ASISTENTE VIRTUAL BRACASBOT -->
+  <!-- ASISTENTE VIRTUAL DINÁMICO (BRACASBOT / SCHNEIDERBOT) -->
   <div class="chat-wrapper">
     <div class="chat-window" *ngIf="isOpen()">
       <div class="chat-header">
         <div class="header-info" style="display: flex; align-items: center; gap: 8px">
+          <!-- IMAGEN INTERNA DEL CHATBOT -->
           <img
-            src="assets/bracasfoodlogo.jpeg"
-            alt="Logo"
-            style="width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #ff6b00"
+            [src]="
+              (isCalculadoraAdminActive$ | async)
+                ? 'assets/ceschneider.jpg'
+                : 'assets/bracasfoodlogo.jpeg'
+            "
+            alt="Logo Chatbot"
+            style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover"
+            [style.border]="
+              (isCalculadoraAdminActive$ | async)
+                ? '1.5px solid var(--color-acento)'
+                : '1.5px solid #ff6b00'
+            "
           />
-          <p>BracasBot</p>
+          <!-- NOMBRE DINÁMICO DEL CHATBOT -->
+          <p style="font-weight: bold; margin: 0">
+            {{ (isCalculadoraAdminActive$ | async) ? 'SchneiderBot' : 'BracasBot' }}
+          </p>
         </div>
         <button class="close-btn" (click)="toggleChat()">×</button>
       </div>
 
       <div class="chat-body" #scrollMe>
-        <!-- Ciclo moderno compatible con tus Signals de Angular -->
-        @for (msg of messages(); track $index; let first = $first) {
+        <!-- 1. CICLO DE MENSAJES PERFECTAMENTE CERRADO -->
+        @for (msg of messages(); track $index) {
           <div [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }">
             <div class="message-bubble" [innerHTML]="formatText(msg.text)"></div>
           </div>
         }
 
-        <!-- Botones dinámicos del bot existentes abajo -->
-        <div *ngIf="(step() === 1 || step() === 3) && step() !== 6" class="bot-action-area">
+        <!-- 2. BOTONES SUGERIDOS DEL BOT (SOLO BRACASFOOD) -->
+        <div
+          *ngIf="
+            !(isCalculadoraAdminActive$ | async) && (step() === 1 || step() === 3) && step() !== 6
+          "
+          class="bot-action-area"
+        >
           <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #666">
             SELECCIONA PARA AÑADIR:
           </p>
@@ -274,7 +362,6 @@
             </button>
           </div>
 
-          <!-- El botón de finalizar solo sale si realmente hay algo que finalizar -->
           <button
             *ngIf="cartService.count() > 0"
             (click)="procesarPagoDirecto()"
@@ -284,8 +371,8 @@
           </button>
         </div>
 
-        <!-- Acciones finales de pago -->
-        <div *ngIf="step() === 6" class="p-3 text-center">
+        <!-- 3. ACCIONES FINALES DE PAGO (SOLO BRACASFOOD) -->
+        <div *ngIf="!(isCalculadoraAdminActive$ | async) && step() === 6" class="p-3 text-center">
           <button
             *ngIf="datosPedido.pago.toLowerCase().includes('nequi')"
             (click)="confirmarPagoEnWhatsApp()"
@@ -303,18 +390,20 @@
           </button>
         </div>
 
+        <!-- 4. ANIMACIÓN DE CARGA -->
         <div class="bot-msg" *ngIf="isLoading()">
           <div class="message-bubble typing"><span></span><span></span><span></span></div>
         </div>
       </div>
 
+      <!-- 5. AREA DEL FOOTER (INPUTS Y ENVÍO) -->
       <div class="chat-footer">
         <input
           type="text"
           [(ngModel)]="userInput"
           (keyup.enter)="sendMessage()"
           [placeholder]="placeholderText()"
-          [disabled]="isLoading() || step() === 6"
+          [disabled]="isLoading() || (!(isCalculadoraAdminActive$ | async) && step() === 6)"
         />
 
         <button
@@ -327,17 +416,21 @@
       </div>
     </div>
 
-    <!-- BOTÓN FLOTANTE DEL CHAT -->
+    <!-- 6. BOTÓN FLOTANTE EXTERNO DEL CHAT -->
     <div class="action-buttons">
       <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
         <img
-          src="assets/bracasfoodlogo.jpeg"
-          alt="Logo"
+          [src]="
+            (isCalculadoraAdminActive$ | async)
+              ? 'assets/ceschneider.jpg'
+              : 'assets/bracasfoodlogo.jpeg'
+          "
+          alt="Logo Botón"
           class="bot-icon-img"
+          style="object-fit: cover; border-radius: 50%"
           [style.opacity]="isOpen() ? '0.5' : '1'"
         />
       </button>
     </div>
   </div>
-  <!-- Este div cierra 'landing-container' -->
 </div>

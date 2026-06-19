@@ -1,10 +1,21 @@
-<footer class="footer">
+<footer class="footer" [ngClass]="{'footer-schneider': (isEverAdminActive$ | async)}">
   <div class="footer-column">
+    <!-- 🟠 MODO BRACASFOOD: Nombre normal -->
     <div
+      *ngIf="!(isEverAdminActive$ | async)"
       class="logo-footer"
       style="font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 1.5rem"
     >
       Bracasfood
+    </div>
+
+    <!-- 🔮 MODO C&E SCHNEIDER: Nombre constructora -->
+    <div
+      *ngIf="isEverAdminActive$ | async"
+      class="logo-footer"
+      style="font-size: 1.8rem; font-weight: 800; color: white; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px;"
+    >
+      C&E Schneider 🛠️
     </div>
 
     <div class="social-icons">
@@ -63,24 +74,61 @@
   </div>
 
   <div class="footer-column">
-    <h3>Soporte</h3>
-    <ul>
-      <li><a href="#">Contacto</a></li>
-      <li><a href="#">Preguntas frecuentes</a></li>
-      <li><a href="#">Devoluciones</a></li>
-      <!-- ✅ CORREGIDO: Ahora envía el ID del pedido a la ruta dinámica para que Angular la acepte -->
-      <li><a [routerLink]="['/seguimiento']">Seguimiento de envío</a></li>
-    </ul>
-  </div>
+    <!-- 🟠 MODO BRACASFOOD: Enlaces de Soporte -->
+    <div *ngIf="!(isEverAdminActive$ | async)" style="display: contents">
+      <h3>Soporte</h3>
+      <ul>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Preguntas frecuentes</a></li>
+        <li><a href="#">Devoluciones</a></li>
+        <li><a [routerLink]="['/seguimiento']">Seguimiento de envío</a></li>
+      </ul>
+    </div>
 
-  <div class="footer-column newsletter">
-    <h3>Inscríbete</h3>
-    <p>Recibe las últimas ofertas and lanzamientos directamente en tu email.</p>
-    <div class="signup-form">
-      <input type="email" placeholder="Tu email..." />
-      <button>Suscribir</button>
+    <!-- 🔮 MODO C&E SCHNEIDER: Enlaces Administrativos -->
+    <div *ngIf="isEverAdminActive$ | async" style="display: contents">
+      <h3>Consola Administrativa</h3>
+      <ul>
+        <li><a routerLink="/admin/finanzas">📊 Calculadora de Balance</a></li>
+        <li><a routerLink="/products">🛠️ Inventario del Administrador</a></li>
+        <li><a routerLink="/categorias">🗂️ Control de Categorías</a></li>
+      </ul>
     </div>
   </div>
 
-  <div class="footer-bottom">&copy; 2026 Bracasfood E-commerce. Todos los derechos reservados.</div>
+  <div class="footer-column newsletter">
+    <!-- 🟠 MODO BRACASFOOD: Formulario de ofertas -->
+    <div *ngIf="!(isEverAdminActive$ | async)" style="display: contents">
+      <h3>Inscríbete</h3>
+      <p>Recibe las últimas ofertas and lanzamientos directamente en tu email.</p>
+      <div class="signup-form">
+        <input type="email" placeholder="Tu email..." />
+        <button>Suscribir</button>
+      </div>
+    </div>
+
+    <!-- 🔮 MODO C&E SCHNEIDER: Panel rápido de control financiero -->
+    <div *ngIf="isEverAdminActive$ | async" style="display: contents">
+      <h3>Control de Operaciones</h3>
+      <p>Ingreso seguro a las bitácoras globales del sistema financiero.</p>
+      <div class="signup-form" style="display: block;">
+        <button 
+          routerLink="/admin/finanzas" 
+          style="width: 100%; font-weight: 900; text-transform: uppercase;"
+        >
+          Ver Balances Actuales 📊
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🟠 BARRA INFERIOR MODO BRACASFOOD -->
+  <div *ngIf="!(isEverAdminActive$ | async)" class="footer-bottom">
+    &copy; 2026 Bracasfood E-commerce. Todos los derechos reservados.
+  </div>
+
+  <!-- 🔮 BARRA INFERIOR MODO C&E SCHNEIDER -->
+  <div *ngIf="isEverAdminActive$ | async" class="footer-bottom">
+    &copy; 2026 C&E Schneider Remodelaciones. Panel de Control Exclusivo de Ever.
+  </div>
 </footer>

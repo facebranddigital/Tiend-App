@@ -316,3 +316,95 @@
     letter-spacing: 1px;
   }
 }
+.admin-finanzas-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  /* Estructura común que muta sola gracias al tema del body */
+  background-color: var(--bg-app);
+  border-radius: 24px;
+  transition: all 0.3s ease;
+
+  .calc-header-main {
+    margin-bottom: 30px;
+    h1 { margin: 0; font-size: 2.5rem; font-weight: 950; color: var(--txt-principal); }
+    p { margin: 0; color: var(--txt-destacado); font-weight: 950; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+  }
+
+  .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--bg-panel);
+    padding: 20px;
+    border-radius: 20px;
+    border: var(--borde-tarjeta);
+    box-shadow: var(--sombra-tarjeta);
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      h3 { margin: 0; color: var(--txt-principal); font-weight: 930; }
+    }
+    
+    p { color: var(--txt-principal); }
+    label { color: var(--txt-etiquetas); font-weight: 950; text-transform: uppercase; }
+  }
+
+  .card.highlight {
+    border: var(--borde-resaltado);
+    box-shadow: var(--sombra-tarjeta);
+  }
+
+  .editable-row {
+    display: flex; gap: 8px; margin-bottom: 10px; width: 100%;
+    input {
+      padding: 10px; border-radius: 10px; font-weight: 900; min-width: 0;
+      background: var(--bg-interno); color: var(--txt-principal); border: var(--borde-tarjeta);
+      &:first-child { flex: 1; }
+      &:nth-child(2) { flex: 0 0 90px; text-align: left; }
+      &:focus { border-color: var(--txt-destacado); outline: none; }
+    }
+    .btn-del {
+      background: var(--btn-del-bg); color: var(--btn-del-txt);
+      border: none; border-radius: 8px; flex-shrink: 0;
+      cursor: pointer; width: 35px; height: 35px; font-size: 1.7rem; font-weight: 900;
+      display: flex; align-items: center; justify-content: center; transition: transform 0.1s ease;
+      &:active { transform: scale(0.9); }
+    }
+  }
+
+  .btn-add-row {
+    background: var(--btn-principal-bg); color: var(--btn-principal-txt);
+    border: none; padding: 5px 12px; border-radius: 15px; font-weight: 700; cursor: pointer;
+    white-space: nowrap; width: 80px; height: 32px; display: flex; align-items: center; justify-content: center;
+    &:active { transform: scale(0.95); }
+  }
+
+  .subtotal-row { margin-top: 15px; font-weight: 800; color: var(--txt-destacado); text-align: right; }
+
+  .results-box {
+    margin-top: 20px;
+    .res-item {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+      span { color: var(--txt-principal); font-weight: 930; }
+      strong { color: var(--txt-destacado); font-weight: 850; }
+      h2 { margin: 0; font-size: 2.2rem; font-weight: 900; }
+      &.plus h2 { color: #10b981; }
+      &.minus h2 { color: #ef4444; }
+    }
+  }
+}
+
+/* Clases globales del componente adaptadas */
+.input-modern {
+  display: flex; align-items: center; background: var(--bg-interno); border: var(--borde-tarjeta); border-radius: 12px; padding: 0 15px; margin-top: 8px;
+  span { color: var(--txt-destacado); font-weight: 900; font-size: 1.2rem; }
+  input { border: none; background: transparent; padding: 12px; width: 100%; font-weight: 900; font-size: 1.2rem; outline: none; color: var(--txt-principal); }
+}

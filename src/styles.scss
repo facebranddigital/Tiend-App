@@ -1,5 +1,57 @@
 @import 'leaflet/dist/leaflet.css';
 
+/* ==========================================================================
+   👑 ARQUITECTURA DE TEMAS GLOBALES (MUTACIÓN DINÁMICA)
+   ========================================================================== */
+
+/* 🟠 TEMA POR DEFECTO: BRACASFOOD */
+:root {
+  --bg-app: #fcfcfc;
+  --bg-panel: #ffffff;
+  --bg-interno: #f9f9f9;
+  
+  --txt-principal: #111111;
+  --txt-destacado: #ff6b00; /* Naranja Bracas */
+  --txt-etiquetas: #333333;
+  
+  --borde-tarjeta: 1.5px solid #eeeeee;
+  --borde-resaltado: 2px solid #e46a07;
+  --sombra-tarjeta: 0 10px 25px rgba(0, 0, 0, 0.05);
+  
+  --btn-principal-bg: #ff6b00;
+  --btn-principal-txt: #ffffff;
+  --btn-del-bg: #fee2e2;
+  --btn-del-txt: #ef4444;
+  
+  --fuente-app: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* 🔮 TEMA EXCLUSIVO: MODO ADMIN C&E SCHNEIDER */
+/* Se activa automáticamente inyectando esta clase en el body desde Angular */
+body.tema-schneider {
+  --bg-app: #0f0919;        /* Morado casi negro de fondo */
+  --bg-panel: #211333;      /* Morado oscuro profundo para tarjetas */
+  --bg-interno: #0f0919;    /* Fondo oscuro interno para inputs */
+  
+  --txt-principal: #ffffff;
+  --txt-destacado: #9d8dfd; /* Violeta Neón Brillante */
+  --txt-etiquetas: #9d8dfd;
+  
+  --borde-tarjeta: 2px solid #4d326c;
+  --borde-resaltado: 3px solid #9d8dfd;
+  --sombra-tarjeta: 0 12px 35px rgba(0, 0, 0, 0.6);
+  
+  --btn-principal-bg: #9d8dfd;
+  --btn-principal-txt: #0f0919;
+  --btn-del-bg: #4d326c;
+  --btn-del-txt: #ffffff;
+  
+  --fuente-app: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ==========================================================================
+   REGLAS BASE DIGITALES
+   ========================================================================== */
 * {
   margin: 0;
   padding: 0;
@@ -7,26 +59,18 @@
 }
 
 body {
-  font-family:
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-  background-color: #fcfcfc;
-  color: #111;
+  font-family: var(--fuente-app);
+  background-color: var(--bg-app);
+  color: var(--txt-principal);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 button {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--fuente-app);
 }
 
-html,
-body {
+html, body {
   overflow-x: hidden;
 }

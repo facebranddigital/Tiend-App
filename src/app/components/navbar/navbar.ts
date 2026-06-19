@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
-import { map, filter, startWith, switchMap } from 'rxjs/operators'; 
-import { Observable, combineLatest, of } from 'rxjs'; // Agregamos combineLatest y of
+import { map, filter, startWith } from 'rxjs/operators'; 
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -13,10 +13,12 @@ import { Observable, combineLatest, of } from 'rxjs'; // Agregamos combineLatest
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit, OnDestroy {
   public authService = inject(AuthService);
   public cartService = inject(CartService);
   private router = inject(Router);
+
+  private themeSubscription!: Subscription;
 
   // 1. LISTA DE OWNERS (Mantenela siempre actualizada aquí)
   private readonly ADMIN_EMAILS: string[] = [
@@ -33,18 +35,10 @@ export class NavbarComponent {
     map((user) => !!user?.email && this.ADMIN_EMAILS.includes(user.email.toLowerCase())),
   );
 
- // 🔥 CONDICIONAL QUIRÚRGICA: Solo muta si está en /admin/finanzas
-  public isCalculadoraAdminActive$: Observable<boolean> = this.router.events.pipe(
-    filter((event) => event instanceof NavigationEnd),
-    startWith(null), 
-    map(() => this.router.url.split('?')[0] === '/admin/finanzas'), // Comprobación exacta sin query params
-    switchMap((isExactRoute) => {
-      if (!isExactRoute) return of(false); // Si sale de la ruta, apaga el estilo C&E de inmediato
-      return this.isAdmin$; // Si está en la ruta, valida si es uno de tus correos administradores
-    })
-  );
+  // 🌟 CAMBIO CLAVE: Ahora el Navbar se entera globalmente si debe usar el tema morado/fucsia C&E Schneider
+  public isCalculadoraAdminActive$: Observable<boolean> = this.isAdmin$;
 
-   // 3. DISPARADOR INTELIGENTE (Inspirado en el botón de Inicio)
+  // 3. DISPARADOR INTELIGENTE DE ENLACE DEL LOGO
   logoLink$: Observable<string> = this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
     startWith(null),
@@ -63,7 +57,7 @@ export class NavbarComponent {
       // LÓGICA DE RETROCESO:
       if (isAtCalculadora) return '/products'; // De Calculadora al Inventario
       
-      // SI ESTÁ EN INVENTARIO: Usamos la lógica del botón de Inicio que viste
+      // SI ESTÁ EN INVENTARIO: Retorna a la raíz
       if (isAtInventario) return '/'; 
 
       // Si está en la Landing: Entra al Inventario
@@ -72,6 +66,24 @@ export class NavbarComponent {
   );
 
   isSearchActive = false;
+
+  // 🌟 INYECCIÓN GLOBAL AUTOMÁTICA DEL TEMA EN EL BODY
+  ngOnInit(): void {
+    this.themeSubscription = this.isCalculadoraAdminActive$.subscribe(isSchneiderAdmin => {
+      if (isSchneiderAdmin) {
+        document.body.classList.add('tema-schneider');
+      } else {
+        document.body.classList.remove('tema-schneider');
+      }
+    });
+  }
+
+  // Limpieza de memoria al destruir el componente
+  ngOnDestroy(): void {
+    if (this.themeSubscription) {
+      this.themeSubscription.unsubscribe();
+    }
+  }
 
   toggleSearch(): void {
     this.isSearchActive = !this.isSearchActive;
@@ -93,6 +105,8 @@ export class NavbarComponent {
 
   onLogout(): void {
     this.authService.logout().then(() => {
+      // 🌟 Nos aseguramos de retirar la clase al salir antes de redirigir
+      document.body.classList.remove('tema-schneider');
       this.router.navigate(['/login']);
     });
   }

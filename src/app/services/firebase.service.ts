@@ -29,7 +29,7 @@ export class FirebaseService {
           return { uid: snapshot.id, ...snapshot.data() };
         }
         return null;
-      })
+      }),
     );
   }
 
@@ -45,8 +45,10 @@ export class FirebaseService {
    * Sube una foto a Firebase Storage y retorna su URL pública
    */
   async subirFotoPerfil(uid: string, archivo: File): Promise<string> {
-    const rutaAlmacenamiento = `profiles/${uid}/${archivo.name}`;
+    const extension = archivo.name.split('.').pop();
+    const rutaAlmacenamiento = `profiles/${uid}/foto-perfil.${extension}`;
     const referenciaStorage = ref(this.storage, rutaAlmacenamiento);
+
     await uploadBytes(referenciaStorage, archivo);
     return await getDownloadURL(referenciaStorage);
   }
@@ -81,7 +83,7 @@ export class FirebaseService {
           return { id: snapshot.id, ...snapshot.data() };
         }
         return null;
-      })
+      }),
     );
   }
 

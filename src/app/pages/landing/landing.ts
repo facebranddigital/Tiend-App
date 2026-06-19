@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject, OnDestroy } from '@angular/core';
+import { Component, signal, computed, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -6,11 +6,9 @@ import { CartService } from '../../services/cart.service';
 import { AuthService } from '../../services/auth.service';
 import { effect } from '@angular/core';
 import confetti from 'canvas-confetti';
-import Swal from 'sweetalert2';
 
-// 1. RUTAS RELATIVAS EXACTAS (Asegúrate de que existan estas carpetas)
-import { NavbarComponent } from '../../components/navbar/navbar';
-import { FooterComponent } from '../../components/footer/footer';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface Message {
   role: 'user' | 'model';
@@ -20,24 +18,20 @@ interface Message {
 @Component({
   selector: 'app-landing',
   standalone: true,
-  // 2. IMPORTACIONES CON LA PRIMERA LETRA EN MAYÚSCULA (PascalCase)
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
   templateUrl: './landing.html',
   styleUrls: ['./landing.scss'],
 })
-export class LandingComponent implements OnDestroy {
+export class LandingComponent implements OnInit, OnDestroy {
   public cartService = inject(CartService);
   public auth = inject(AuthService);
-  private musica = new Audio('assets/relaxshiva.mp');
+  private musica = new Audio('assets/relaxshiva.');
   public musicaActiva = false;
   private route = inject(ActivatedRoute);
+
   public isOpen = signal<boolean>(false);
   public step = signal<number>(0);
-
-  // 🔽 AGREGA ESTA LÍNEA AQUÍ:
   public trackingActive = signal<boolean>(false);
-
-  // --- SEÑALES DE ESTADO ---
   showModal = signal(false);
   qty2 = signal(0);
   searchTerm = signal('');
@@ -46,6 +40,24 @@ export class LandingComponent implements OnDestroy {
   messages = signal<Message[]>([]);
   pedidoTemporal = signal<any[]>([]);
   productoEnCurso = signal<any>(null);
+
+  private readonly ADMIN_EMAILS: string[] = [
+    'teveventaspasto@gmail.com',
+    'eversozinho@gmail.com',
+    'facebranddigital@gmail.com',
+    'anaportilla143@gmail.com',
+    'jbravo35@estudiantes.areandina.edu.co',
+    'yjairobravo@gmail.com',
+  ];
+
+  public isCalculadoraAdminActive$: Observable<boolean> = this.auth.user$.pipe(
+    map((user) => !!user?.email && this.ADMIN_EMAILS.includes(user.email.toLowerCase())),
+  );
+
+  // 🌟 NUEVO: Esto será TRUE únicamente para tu correo exacto
+  public isEverAdminActive$: Observable<boolean> = this.auth.user$.pipe(
+    map((user) => !!user?.email && user.email.toLowerCase() === 'eversozinho@gmail.com'),
+  );
 
   placeholderText = computed(() => {
     const s = this.step();
@@ -59,7 +71,7 @@ export class LandingComponent implements OnDestroy {
       case 3:
         return '¿Quieres algo más o "pagar"?';
       case 4:
-        return 'Escribe tu dirección de entrega...'; // Aquí ya no dirá "¿Qué deseas?"
+        return 'Escribe tu dirección de entrega...';
       case 5:
         return '¿Nequi o Efectivo?';
       case 6:
@@ -73,51 +85,53 @@ export class LandingComponent implements OnDestroy {
     direccion: '',
     pago: '',
   };
-
-  products = [
-    { id: 'bolis-oreo', name: 'Bolis Oreo 🍪', price: 2000, category: 'Bolis' },
-    { id: 'bolis-fresa', name: 'Bolis Fresa 🍓', price: 2000, category: 'Bolis' },
-    { id: 'bolis-choco', name: 'Bolis Chocolate 🍫', price: 2000, category: 'Bolis' },
-    { id: 'bolis-mora', name: 'Bolis Mora 🍇', price: 1500, category: 'Bolis' },
-    { id: 'bolis-mango', name: 'Bolis Mango 🥭', price: 1500, category: 'Bolis' },
-    { id: 'bolis-sandia', name: 'Bolis Sandía 🍉', price: 1500, category: 'Bolis' },
-    { id: 'papitas', name: 'Papitas BF 🍟', price: 2500, category: 'Pasabocas' },
-    { id: 'platanos', name: 'Platanos BF 🥓', price: 2500, category: 'Pasabocas' },
-    { id: 'tocineta', name: 'Tocineta BF 🥩', price: 2500, category: 'Pasabocas' },
+    products = [
+    { id: 'bolis-oreo', name: 'Bolis Oreo 🍪', price: 2000, category: 'Bolis', image: 'assets/bracasfoodbolis.webp' },
+    { id: 'bolis-fresa', name: 'Bolis Fresa 🍓', price: 2000, category: 'Bolis', image: 'assets/bracasfoodbolis.webp' },
+    { id: 'bolis-choco', name: 'Bolis Chocolate 🍫', price: 2000, category: 'Bolis', image: 'assets/bracasfoodbolis.webp' },
+    { id: 'bolis-mora', name: 'Bolis Mora 🍇', price: 1500, category: 'Bolis', image: 'assets/bolismorados.webp' },
+    { id: 'bolis-mango', name: 'Bolis Mango 🥭', price: 1500, category: 'Bolis', image: 'assets/bolismorados.webp' },
+    { id: 'bolis-sandia', name: 'Bolis Sandía 🍉', price: 1500, category: 'Bolis', image: 'assets/bolismorados.webp' },
+    { id: 'papitas', name: 'Papitas BF 🍟', price: 2500, category: 'Pasabocas', image: 'assets/papasbf.webp' },
+    { id: 'platanos', name: 'Platanos BF 🥓', price: 2500, category: 'Pasabocas', image: 'assets/bracasfood2.webp' },
+    { id: 'tocineta', name: 'Tocineta BF 🥩', price: 2500, category: 'Pasabocas', image: 'assets/tocinetabf.webp' },
   ];
-  // 1. AÑADE ESTO AQUÍ (Justo debajo de products)
+
+  // 🏢 NUEVO: Catálogo exclusivo para C&E Schneider cuando tú inicias sesión
+  productsSchneider = [
+    { id: 'remodelacion', name: 'Remodelación de Interiores 🏗️', price: 150000, category: 'Construcción', image: 'assets/ceschneider.jpg' },
+    { id: 'pintura', name: 'Pintura de Fachadas 🎨', price: 80000, category: 'Acabados', image: 'assets/ceschneider.jpg' },
+    { id: 'diseno', name: 'Diseño de Planos 3D 📐', price: 350000, category: 'Planificación', image: 'assets/ceschneider.jpg' },
+    { id: 'concreto', name: 'Vaciado de Placas 🧱', price: 500000, category: 'Estructura', image: 'assets/ceschneider.jpg' },
+  ];
+
+   // 🔄 CORREGIDO: Cambia los productos leyendo el método correcto del AuthService
+  activeCatalog = computed(() => {
+    // Usamos getCurrentUser() que es el método que sí existe en tu auth.service.ts
+    const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null; 
+    const isEver = user?.email?.toLowerCase() === 'eversozinho@gmail.com';
+    
+    return isEver ? this.productsSchneider : this.products;
+  });
+
+
+  // 🔍 CORREGIDO: Ahora el buscador filtra dinámicamente sobre la lista que esté activa en pantalla
   filteredProducts = computed(() => {
     const term = this.searchTerm().toLowerCase();
-    if (!term) return this.products;
-    return this.products.filter(
+    const currentCatalog = this.activeCatalog(); // Obtiene la lista actual de Bracas o Schneider
+    
+    if (!term) return currentCatalog;
+    return currentCatalog.filter(
       (p) => p.name.toLowerCase().includes(term) || p.category.toLowerCase().includes(term),
     );
   });
+
   constructor() {
-    this.route.queryParams.subscribe((params) => {
-      if (params['openbot'] === 'true') {
-        setTimeout(() => {
-          this.isOpen.set(true);
-          this.messages.set([
-            {
-              role: 'model',
-              text: '¡Hola! ⚡ Proceso de **pago rápido** iniciado.\n\nToca el botón de abajo para recibir el QR de Nequi en WhatsApp.',
-            },
-          ]);
-          // Seteamos datos automáticos para que no los pida
-          this.datosPedido.direccion = 'PAGO EN PERSONA (LOCAL)';
-          this.datosPedido.pago = 'Nequi';
-          this.step.set(6); // Ir directo al botón de WhatsApp
-        }, 1000);
-      }
-    });
-    // Efecto para scroll automático corregido
     effect(() => {
-      this.messages(); // Monitorea mensajes
-      this.step(); // Monitorea el cambio a los botones de pago
+      this.messages();
+      this.step();
 
       setTimeout(() => {
-        // CAMBIO CLAVE: Buscamos '.chat-body' que es la clase real en tu HTML
         const chatContainer = document.querySelector('.chat-body');
         if (chatContainer) {
           chatContainer.scrollTo({
@@ -125,8 +139,9 @@ export class LandingComponent implements OnDestroy {
             behavior: 'smooth',
           });
         }
-      }, 200); // 200ms para que alcancen a cargar los botones
+      }, 200);
     });
+
 
     const activarAudio = () => {
       this.musica.loop = true;
@@ -142,7 +157,25 @@ export class LandingComponent implements OnDestroy {
     document.addEventListener('click', activarAudio, { once: true });
   }
 
-  // --- LIMPIEZA DE AUDIO PARA EVITAR ECOS ---
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if (params['openbot'] === 'true') {
+        setTimeout(() => {
+          this.isOpen.set(true);
+          this.messages.set([
+            {
+              role: 'model',
+              text: '¡Hola! ⚡ Proceso de **pago rápido** iniciado.\n\nToca el botón de abajo para recibir el QR de Nequi en WhatsApp.',
+            },
+          ]);
+          this.datosPedido.direccion = 'PAGO EN PERSONA (LOCAL)';
+          this.datosPedido.pago = 'Nequi';
+          this.step.set(6);
+        }, 1000);
+      }
+    });
+  }
+
   ngOnDestroy() {
     if (this.musica) {
       this.musica.pause();
@@ -150,8 +183,6 @@ export class LandingComponent implements OnDestroy {
       this.musica.load();
     }
   }
-
-  // --- FUNCIONES DEL CHAT ---
 
   formatText(text: string): string {
     if (!text) return '';
@@ -207,7 +238,6 @@ export class LandingComponent implements OnDestroy {
     }, 1000);
   }
 
-  // Mejora en el flujo de pasos del chat
   sendMessage() {
     const text = this.userInput.trim();
     if (!text) return;
@@ -220,14 +250,13 @@ export class LandingComponent implements OnDestroy {
     setTimeout(() => {
       let response = '';
 
-      // 📍 INTERCEPCIÓN DE RASTREO: Si está esperando un ID de pedido, rompe el switch de pasos
       if (this.trackingActive()) {
         response = `Buscando la orden **#${text}** en el sistema de Bracasfood... Actualmente se encuentra **En Camino (66%)** y va directo a tu ubicación. 🛵✨`;
-        this.trackingActive.set(false); // Resetea el estado de rastreo
+        this.trackingActive.set(false);
 
         this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
         this.isLoading.set(false);
-        return; // Detiene la ejecución para no entrar al flujo por pasos
+        return;
       }
 
       const currentStep = this.step();
@@ -296,7 +325,6 @@ export class LandingComponent implements OnDestroy {
           const totalConfirmado = this.cartService
             .items()
             .reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
-
           response = `✅ *Dirección: ${text}*\n💰 *Total: $${totalConfirmado.toLocaleString('es-CO')}*\n\n¿Cómo deseas pagar? \n\n💸 **Efectivo** \n💱 **Nequi**`;
           this.step.set(5);
           break;
@@ -305,7 +333,6 @@ export class LandingComponent implements OnDestroy {
           this.datosPedido.pago = text;
           const esNequi = lowerText.includes('nequi');
           const colorBoton = esNequi ? 'morado' : 'verde';
-
           response = `🎯 *¡TODO LISTO!*\n\n1️⃣ Toca el botón **${colorBoton}**\n2️⃣ Confirma el mensaje en WhatsApp.\n3️⃣ ¡Y listo! Estaremos procesando tu pedido.`;
           this.step.set(6);
           break;
@@ -323,9 +350,6 @@ export class LandingComponent implements OnDestroy {
     }, 1500);
   }
 
-  // ... aquí termina tu sendMessage() { ... }
-
-  // ESTA ES LA NUEVA FUNCIÓN INDEPENDIENTE
   procesarPagoDirecto() {
     const total = this.cartService
       .items()
@@ -339,17 +363,13 @@ export class LandingComponent implements OnDestroy {
         text: `🛍️ ¡Excelente! Tu pedido suma **$${total.toLocaleString('es-CO')}**.\n\n¿A qué **dirección** enviamos tu pedido?`,
       },
     ]);
-
     this.step.set(4);
   }
-
-  // ... aquí puede seguir dispararConfeti() o las otras funciones
 
   dispararConfeti() {
     const duration = 3000;
     const animationEnd = Date.now() + duration;
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
-
     const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
 
     const interval: any = setInterval(() => {
@@ -357,16 +377,13 @@ export class LandingComponent implements OnDestroy {
       if (timeLeft <= 0) return clearInterval(interval);
 
       const particleCount = 50 * (timeLeft / duration);
-
-      // Disparo izquierdo
-      (confetti as any)({
+      confetti({
         ...defaults,
         particleCount,
         colors: ['#ff6b00', '#ffbb00', '#ffffff'],
         origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
       });
-      // Disparo derecho
-      (confetti as any)({
+      confetti({
         ...defaults,
         particleCount,
         colors: ['#ff6b00', '#ffbb00', '#ffffff'],
@@ -374,8 +391,6 @@ export class LandingComponent implements OnDestroy {
       });
     }, 250);
   }
-
-  // --- INTEGRACIÓN WHATSAPP ---
 
   hacerPedidoWhatsApp() {
     this.isOpen.set(true);
@@ -389,21 +404,16 @@ export class LandingComponent implements OnDestroy {
       ]);
     }
   }
+
   confirmarPagoEnWhatsApp() {
     const telefono = '573218119383';
     const items = this.cartService.items();
     const total = items.reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
 
-    // 1. Mapeamos los productos uno debajo del otro con un puntito estético
     const lineasProductos = items.map((i: any) => `• *${i.name}* (x${i.quantity || 1})`);
-    // 2. Armamos el bloque de texto bien estructurado y elegante
     const bloquesMensaje = [
       `💱 *PAGO NEQUI BRACAS* ⚡`,
       `🚀 *PAGO EXPRESS*`,
-      `=========================`,
-      `📥 _Descarga el QR_`,
-      `🖨️ _Escanealo en Nequi_`,
-      `📲 _Envianos el comprobante_`,
       `=========================`,
       `🛒 *DETALLE DEL PEDIDO:*`,
       ...lineasProductos,
@@ -414,13 +424,9 @@ export class LandingComponent implements OnDestroy {
       `💬 _Solicito el QR de Nequi para proceder con el pago._`,
     ];
 
-    // Unimos todo con saltos de línea reales (\n)
     const mensaje = bloquesMensaje.join('\n');
-
-    // 3. Tu formato ganador wa.me que nunca falla
-    const urlWhatsApp = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+    const urlWhatsApp = `https://wa.me{telefono}?text=${encodeURIComponent(mensaje)}`;
     window.open(urlWhatsApp, '_blank');
-
     this.dispararConfeti();
   }
 
@@ -433,76 +439,62 @@ export class LandingComponent implements OnDestroy {
       const total = items.reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
       const lista = items.map((i: any) => `• ${i.name} x${i.quantity || 1}`).join('\n');
 
-      const mensaje = `*📦 NUEVO PEDIDO - EFECTIVO*\n\n${lista}\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *DIR:* ${this.datosPedido.direccion}\n💸 *PAGO:* Efectivo`;
-
-      window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
-      this.resetearTodo();
+      const mensaje = `*📦 NUEVO PEDIDO - EFECTIVO*\n\n${lista}\n\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *DIR:* ${this.datosPedido.direccion || 'Recogida en Local'}`;
+      const urlWhatsApp = `https://wa.me{telefono}?text=${encodeURIComponent(mensaje)}`;
+      window.open(urlWhatsApp, '_blank');
+      this.dispararConfeti();
     }
   }
 
-  // --- UTILIDADES ---
+  public onAddToCart(
+    name: string,
+    price: number,
+    category: string,
+    img: string,
+    quantity: number | string,
+  ): void {
+    const qty = typeof quantity === 'string' ? parseInt(quantity) : quantity;
+    const currentItems = [...this.cartService.items()];
+    const exist = currentItems.find((i) => i.name === name);
 
-  onAddToCart(name: string, price: any, category: string, image: string, quantity: any) {
-    const qty = parseInt(quantity) || 1;
-    this.cartService.addToCart({
-      name,
-      price: parseInt(price),
-      category,
-      imageUrl: image,
-      quantity: qty,
-    });
+    if (exist) {
+      const baseQty = exist.quantity || 0;
+      exist.quantity = baseQty + qty;
+    } else {
+      currentItems.push({ name, price, category, quantity: qty });
+    }
 
-    Swal.fire({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-      icon: 'success',
-      title: `¡Añadido!`,
-      html: `
-      <div style="display: flex; align-items: center; gap: 10px; text-align: left;">
-        <img src="assets/bracasfoodlogo.jpeg" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #ff6b00;">
-        <div>
-          <b style="color: #ff6b00;">${qty}x</b> ${name}<br>
-          <small style="color: #666;">Se sumó al carrito</small>
-        </div>
-      </div>
-    `,
-      background: '#fff',
-      color: '#333',
-      iconColor: '#ff6b00',
-      didOpen: (toast: any) => {
-        toast.addEventListener('mouseenter', Swal.stopTimer);
-        toast.addEventListener('mouseleave', Swal.resumeTimer);
-      },
-    });
+    const cartSignal = this.cartService.items as any;
+    if (typeof cartSignal.set === 'function') {
+      cartSignal.set(currentItems);
+    } else if (typeof cartSignal.update === 'function') {
+      cartSignal.update(() => currentItems);
+    }
   }
 
-  seleccionarProductoDesdeBot(prod: any) {
+  public seleccionarProductoDesdeBot(prod: any): void {
     this.productoEnCurso.set(prod);
-    this.messages.update((prev) => [...prev, { role: 'model', text: `¿Cuántos *${prod.name}*?` }]);
-    this.step.set(2);
+    this.messages.update((prev) => [...prev, { role: 'user', text: `Añadir ${prod.name}` }]);
+    this.onAddToCart(prod.name, prod.price, prod.category, '', 1);
+
+    this.messages.update((prev) => [
+      ...prev,
+      {
+        role: 'model',
+        text: `📥 Añadido **1x ${prod.name}** al pedido.\n\n¿Quieres agregar algo más o ya deseas **pagar**?`,
+      },
+    ]);
+    this.step.set(3);
   }
 
-  toggleMusica() {
-    this.musica.paused ? this.musica.play() : this.musica.pause();
-    this.musicaActiva = !this.musica.paused;
+  public scrollTo(elementId: string): void {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
-  scrollToTop() {
+  public scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  scrollTo(id: string) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  private resetearTodo() {
-    this.cartService.clearCart();
-    this.messages.set([]);
-    this.step.set(0);
-    this.isOpen.set(false);
-    this.datosPedido = { direccion: '', pago: '' };
   }
 }

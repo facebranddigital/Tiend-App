@@ -118,3 +118,184 @@
     width: 100%;
   }
 }
+/* ==========================================================================
+   🔮 ESTILOS DEL FOOTER EN MODO C&E SCHNEIDER (SOLO EVER)
+   ========================================================================== */
+
+/* Colores por defecto para Bracasfood */
+.footer {
+  color: #ffffff;
+  .logo-footer { color: #ffffff; }
+  .footer-column ul li a { color: #cccccc; }
+  .signup-form button { background: #230e6d; color: #ffffff; }
+}
+
+/* Modificaciones exclusivas cuando inicia sesión tu correo */
+.footer.modo-schneider {
+  
+  /* 1. Cambia el color del título de tu marca a Celeste brillante */
+  .texto-schneider-footer {
+    color: #00c6ff !important;
+    font-weight: 900;
+    text-shadow: 0 0 10px rgba(0, 198, 255, 0.2);
+  }
+
+  /* 2. Cambia los encabezados de las columnas de soporte/inscripción a Azul */
+  .footer-column h3 {
+    color: #007bff !important; 
+    font-weight: 700;
+  }
+
+  /* 3. Cambia el color de los enlaces del menú a un tono gris azulado suave */
+  .footer-column ul li a {
+    color: #b0c4de !important;
+    transition: color 0.2s ease;
+
+    /* Destello celeste al pasar el mouse por encima */
+    &:hover {
+      color: #00c6ff !important;
+    }
+  }
+
+  /* 4. Cambia los iconos de las redes sociales para que hagan juego */
+  .social-icons .icon {
+    color: #b0c4de !important;
+    &:hover {
+      color: #00c6ff !important;
+    }
+  }
+
+  /* 5. Modifica el botón de suscripción a un degradado azul corporativo */
+  .signup-form button.btn-suscripcion {
+    background: linear-gradient(95deg, #007bff, #00c6ff) !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3) !important;
+  }
+}
+/* 🟠 MODO BRACASFOOD: Botones del Hero idénticos a los de la tienda de abajo */
+.cta-buttons:not(.admin-schneider-buttons) {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important; /* Espaciado idéntico entre botones */
+  justify-content: center !important;
+  margin-top: 20px;
+
+  button.btn-primary,
+  button.btn-secondary {
+    background: #ff6b00; /* Naranja idéntico */
+    color: #ffffff !important;      /* Texto blanco legible */
+    font-size: 0.9rem !important;   /* Tamaño balanceado */
+    font-weight: 700 !important;    /* Texto seminegrita igual a 'COMPRAR' */
+    padding: 8px 18px !important;   /* Relleno compacto */
+    border-radius: 30px !important; /* Bordes perfectamente redondeados tipo píldora */
+    border: none !important;
+    text-transform: none !important; /* Evita que se fuercen mayúsculas rígidas */
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 107, 0, 0.25) !important; /* Sombra sutil de elevación */
+    transition: transform 0.2s ease, filter 0.2s ease !important;
+
+    &:hover {
+      filter: brightness(1.08) !important;
+      transform: translateY(-1px); /* Efecto sutil al pasar el mouse */
+    }
+
+    &:active {
+      transform: scale(0.97) !important;
+    }
+  }
+}
+/* 🟠 MODO BRACASFOOD: Réplica exacta de los botones COMPRAR de abajo */
+.cta-buttons:not(.admin-schneider-buttons) {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;                 /* Mismo espacio compacto de abajo */
+  justify-content: center !important;
+  margin-top: 20px;
+
+  button.btn-primary,
+  button.btn-secondary {
+    background: #ff6b00 !important;     /* El mismo naranja encendido */
+    color: #ffffff !important;          /* Letras blancas */
+    font-size: 0.85rem !important;      /* Tamaño de letra compacto de la tienda */
+    font-weight: 700 !important;         /* Negrita idéntica a COMPRAR */
+    padding: 6px 12px !important;       /* Relleno exacto de los de abajo */
+    border-radius: 4px !important;      /* Esquinas rectangulares suavizadas como el original */
+    border: none !important;
+    text-transform: uppercase !important; /* Forzar mayúsculas igual que 'COMPRAR' */
+    cursor: pointer;
+    
+    /* 💥 EL SOMBREADO IDÉNTICO: Sombra de caja gris abajo */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important; 
+    transition: transform 0.1s ease, background-color 0.1s ease !important;
+
+    &:hover {
+      background: #e66000 !important;   /* Oscurece un poco al pasar el mouse */
+    }
+
+    &:active {
+      transform: scale(0.96) !important; /* Pequeño hundimiento táctil */
+    }
+  }
+}
+/* ==========================================================================
+   🔮 ESTILOS CYBERPUNK PARA EL FOOTER DE SCHNEIDER (CUANDO ENTRA EL ADMIN)
+   ========================================================================== */
+.footer.footer-schneider {
+  background: #1a0626 !important; /* Fondo morado noche ultra oscuro */
+  border-top: 4px solid #2b103c !important; /* Línea divisoria morada superior */
+  transition: all 0.5s ease-in-out !important;
+
+  /* Títulos de las columnas en morado neón pastel */
+  h3 {
+    color: #9d8dfd !important; 
+    font-weight: 1000 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  /* Los enlaces cambian a color gris claro y brillan al pasar el mouse */
+  ul li a {
+    color: #cdcdcd !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease;
+
+    &:hover {
+      color: #ffffff !important;
+      text-shadow: 0 0 8px #9d8dfd, 0 0 15px #6a1b9a !important; /* Destello neón */
+      padding-left: 5px !important; /* Efecto de desplazamiento sutil */
+    }
+  }
+
+  /* El botón de ver balances se vuelve completamente Cyberpunk */
+  .signup-form button {
+    background: linear-gradient(95deg, #2b103c 20%, #6a1b9a 80%) !important;
+    color: #ffffff !important;
+    border: 2px solid #000000 !important;
+    border-radius: 20px !important;
+    box-shadow: 0 4px 0 #1a0626, 0 0 10px rgba(157, 141, 253, 0.2) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+
+    &:hover {
+      filter: brightness(1.3) !important;
+      box-shadow: 0 6px 0 #1a0626, 0 0 15px rgba(157, 141, 253, 0.5) !important;
+      transform: translateY(-2px) !important;
+    }
+
+    &:active {
+      transform: translateY(2px) !important;
+      box-shadow: 0 1px 0 #1a0626 !important;
+    }
+  }
+
+  /* La barra inferior de derechos reservados */
+  .footer-bottom {
+    border-top: 1px dashed rgba(157, 141, 253, 0.15) !important;
+    color: #777777 !important;
+    font-weight: 600 !important;
+  }
+}

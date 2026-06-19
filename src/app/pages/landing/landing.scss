@@ -9,102 +9,174 @@
     align-items: center !important;
     padding: 0 !important;
   }
-  /* 2. EL LOGO: Tamaño reducido (xxxpx) para que respire el diseño */
+
+  /* 2. EL LOGO: Tamaño reducido para que respire el diseño */
   .hero-img {
-    width: 244px !important; /* Un poco más grande para el G72 */
-    height: 244px !important;
+    width: 144px !important;
+    height: 144px !important;
     z-index: 10 !important;
-    margin-left: -8px !important; /* Lo alejamos para que los botones no lo asfixien */
+    margin-left: -8px !important;
     margin-top: 0 !important;
     border-radius: 50% !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
   }
+
   /* =======================================================
-        DEFECTO BOTONES "LOCO LUCAS" (BRILLO Y 3D)
+        DEFECTO BOTONES "LOCO LUCAS" (BRILLO Y 3D - BRACAS)
    ======================================================= */
-  /* 3. CONTENEDOR DE BOTONES: Centrado vertical perfecto */
+  /* 3. CONTENEDOR DE BOTONES BRACASFOOD */
   :host .cta-buttons {
     position: absolute !important;
-    right: 5px !important;
-    top: 28% !important;
+    right: 55px !important;
+    top: 10% !important;
     transform: translateY(-50%) !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 5px !important;
+    gap: 35px !important;
     width: auto !important;
-    z-index: 100 !important;
+    z-index: 80 !important;
     animation: subtlePulse 3s infinite ease-in-out;
   }
 
-  /* 4. BOTONES XL PARA EL G72 */
+  /* 4. BOTONES XL PARA EL G72 (BRACASFOOD) */
   :host .cta-buttons button {
-    /* 1. LA FORMA DE PÍLDORA */
-    width: 121px !important; /* Botones más cortos para que quepan */
-    height: 35px !important; /* Más grosor */
-    border-radius: 25px; /* Lo que hace que las puntas sean redondas */
+    width: 121px !important;
+    height: 35px !important;
+    border-radius: 25px !important;
     animation: subtlePulse 3s infinite ease-in-out;
-
-    /* 2. EL COLOR (Degradado naranja de tu marca) */
-    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
-    color: white; /* Letras blancas */
-
-    /* 3. EL BORDE Y LA SOMBRA (Lo que les da el estilo "sticker") */
-    border: 2px solid #000; /* El borde negro marcado que se ve en la foto */
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4); /* La sombra negra hacia abajo y /
-    
-     /* 4. EL TEXTO */
-    font-size: 1rem; /* Tamaño de la letra *Desktop / 
-    font-weight: 900; /* Super negrita */
-    text-transform: none; /* O uppercase si las quieres en mayúsculas */
-    white-space: nowrap; /* Evita que el texto se parta en dos renglones */
-
-    /* 5. ALINEACIÓN INTERNA */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: linear-gradient(95deg, #ff6b00, #ffb800, #ff6b00) !important;
+    color: white !important;
+    border: 2px solid #000 !important;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4) !important;
+    font-size: 1rem !important;
+    font-weight: 900 !important;
+    text-transform: none !important;
+    white-space: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
-  /* El 1 y el 5 se meten más a la izquierda, el 3 se queda fuera */
+  /* Curva de alineación "Loco Lucas" para Bracas */
   :host .cta-buttons button:nth-child(1) {
-    transform: translateX(-18px);
+    transform: translateX(-50px) !important;
   }
   :host .cta-buttons button:nth-child(2) {
-    transform: translateX(3px);
+    transform: translateX(33px) !important;
   }
   :host .cta-buttons button:nth-child(3) {
-    transform: translateX(10px);
+    transform: translateX(30px) !important;
   }
   :host .cta-buttons button:nth-child(4) {
-    transform: translateX(4px);
+    transform: translateX(24px) !important;
   }
   :host .cta-buttons button:nth-child(5) {
-    transform: translateX(-12px);
+    transform: translateX(-42px) !important;
   }
-}
 
-.promo-banner h2 {
-  /* 1. Colores de los botones (Degradado) */
-  background: linear-gradient(95deg, #ff6b00 35%, #ffb800 65%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 10px !important; /* Que no empuje nada hacia abajo */
-  margin-top: 50px !important; /* Esto separa el texto de los botones del logo */
-  ///* 2. Estilo de fuente *///
-  font-size: 1rem !important; /* Más grande para que resalte */
-  font-weight: 1000 !important; /* Super negrita */
-  text-align: center;
-  text-transform: uppercase; /* En mayúsculas se ve más imponente */
-  letter-spacing: 0.5px;
+  /* =======================================================
+        🔮 CONFIGURACIÓN EXCLUSIVA PARA MÓVIL SCHNEIDER 
+   ======================================================= */
+  /* Contenedor de botones Schneider alineado perfectamente en el Hero móvil */
+  :host .admin-schneider-buttons {
+    position: absolute !important;
+    right: 55px !important;
+    top: 10% !important;
+    transform: translateY(-50%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 15px !important; /* Espaciado compacto para el menú administrativo */
+    width: auto !important;
+    z-index: 80 !important;
+  }
 
-  /* 3. Espaciado y Sombra */
-  margin: 7px 0 2px 0 !important; /* Bajamos el margen superior e inferior al mínimo */
-  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1)); /* Sombra suave para dar profundidad */
+  /* Estética de botones idéntica a tu módulo de finanzas morado/neón */
+  :host .admin-schneider-buttons button.btn-schneider-nav {
+    width: 135px !important; /* Un poco más ancho por los textos de administración */
+    height: 38px !important;
+    border-radius: 12px !important; /* Esquinas suavizadas tipo input */
+    background: linear-gradient(135deg, #ec4899, #a855f7) !important; /* Degradado rosa a morado */
+    color: #ffffff !important;
+    font-size: 0.75rem !important;
+    font-weight: 800 !important;
+    border: 2px solid #a855f7 !important; /* Borde neón */
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+  }
 
-  /* Animación opcional para que "vibre" un poco de vida */
-  animation: subtlePulse 3s infinite ease-in-out;
-}
+  /* Ajuste de curvas para Schneider en móvil (Menos agresivo para texto largo) */
+  :host .admin-schneider-buttons button:nth-child(1) {
+    transform: translateX(-20px) !important;
+  }
+  :host .admin-schneider-buttons button:nth-child(2) {
+    transform: translateX(10px) !important;
+  }
+  :host .admin-schneider-buttons button:nth-child(3) {
+    transform: translateX(5px) !important;
+  }
 
+  /* =======================================================
+                CONTROL INTELIGENTE DEL BANNER MÓVIL
+     ======================================================= */
+  .promo-banner {
+    /* 🎨 EDITA AQUÍ EL RECTÁNGULO DE BRACASFOOD (PÚBLICO Y OTROS ADMINS) */
+    background: #ff6b00; /* Color de fondo del rectángulo público */
+    border: 3px solid #050211 !important; /* Color del borde del rectángulo público */
+    box-shadow: 5px 5px 0px #080014 !important; /* Sombra estilo sticker o 3D */
+    border-radius: 16px !important; /* Curvatura de las esquinas */
+
+    padding: 15px 10px !important;
+    margin: 15px auto !important;
+    width: 92% !important;
+    max-width: 90% !important;
+    transition: all 0.3s ease !important;
+  }
+
+  /* El degradado de texto naranja tradicional para Bracasfood */
+  .promo-banner h2 {
+    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+
+    /* Combinamos los márgenes: 50px arriba para el G72, 0 a los lados, 10px abajo */
+    margin: 50px 0 10px 0 !important;
+
+    font-size: 2.2rem !important; /* <--- Súbelo de 1rem a 2.2rem para que tenga impacto */
+    font-weight: 1000 !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    filter: drop-shadow(2px 2px 4px rgba(0, 2, 10, 0.1)) !important;
+    animation: subtlePulse 3s infinite ease-in-out !important;
+  }
+
+  /* 🔮 EXCLUSIÓN TOTAL PARA SCHNEIDER (SÓLO CUANDO INICIA EVER) */
+  .promo-banner:has(.titulo-schneider-blanco-animado) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .promo-banner .titulo-schneider-blanco-animado {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 15px 10px !important;
+    display: block !important;
+    -webkit-text-fill-color: initial !important; /* Resetea el degradado para que se vea blanco */
+    background-clip: initial !important;
+  }
+} /* <--- AQUÍ SE CIERRA EL MEDIA QUERY MÓVIL PERFECTAMENTE */
+
+/* =======================================================
+                     ANIMACIONES NATIVAS
+   ======================================================= */
 @keyframes subtlePulse {
   0% {
     transform: scale(1);
@@ -139,7 +211,7 @@
     }
 
     a {
-      color: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+      color: linear-gradient(95deg, #ffffff 10%, #9d8dfd 90%);
       font-weight: 500;
       text-decoration: none;
 
@@ -225,7 +297,7 @@
   position: absolute;
   top: 50px;
   left: 15px;
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  background: linear-gradient(95deg, #401182 20%, #9d8dfd 80%);
   color: white;
   padding: 5px 15px;
   border-radius: 20px;
@@ -331,6 +403,7 @@
       height: 42px !important;
       border-radius: 25px !important;
       background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
+
       color: white !important;
       font-weight: 900;
       font-size: 0.95rem !important;
@@ -392,7 +465,7 @@
   box-shadow: 0 20px 50px rgba(222, 141, 3, 0.15);
 
   h2 {
-    color: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    color: linear-gradient(95deg, #ffffff 10%, #9d8dfd 90%);
     font-size: 2rem;
     font-weight: 1000;
     margin-bottom: 1rem;
@@ -421,7 +494,7 @@
   margin-bottom: 1rem;
 
   h3 {
-    color: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    color: linear-gradient(95deg, #ffffff 10%, #9d8dfd 90%);
 
     font-size: 1.8rem; // Tamaño del nombre del producto (Pasabocas, etc.)
     margin-bottom: 1px;
@@ -703,16 +776,43 @@
     }
   }
 }
-/* BANNER PROMOCIONAL */
+/* ==========================================================================
+   🔮 CONTROL INTELIGENTE DEL BANNER PROMOCIONAL
+   ========================================================================== */
+
+.promo-banner {
+  /* Fondo por defecto limpio y transparente para los clientes de Bracasfood */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 20px !important;
+  margin: 25px auto !important;
+  max-width: 90% !important;
+  transition: all 0.3s ease;
+}
+
 .promo-banner h2 {
-  // Desktop //
   font-size: 0.5rem !important;
   font-weight: 1000 !important;
   text-align: center;
-  color: #ff6b00;
+  color: #ff6b00; /* Naranja original de Bracasfood */
   text-transform: uppercase;
   animation: subtlePulse 3s infinite ease-in-out;
   margin-top: 50px !important;
+}
+
+/* 
+   Aislamiento Cyberpunk: El fondo morado oscuro y el borde de neón brillante 
+   solo se activan si el navegador detecta que adentro está tu título de Schneider.
+*/
+/* 1. BANNER LIMPIO PARA BRACASFOOD (POR DEFECTO) */
+.promo-banner {
+  background: transparent !important; /* Totalmente transparente */
+  border: none !important;
+  box-shadow: none !important;
+  padding: 20px !important;
+  margin: 25px auto !important;
+  max-width: 90% !important;
 }
 
 /* =======================================================
@@ -823,15 +923,16 @@
   } /* Antes -32 */
 
   .promo-banner h2 {
-    margin-top: 50px !important; /* El empujón para el G72 */
-    font-size: 0.5rem !important;
+    margin-top: 50px !important; /* Mantiene el empujón para el G72 */
+    font-size: 2.2rem !important; /* ¡Subido de 0.5rem para que la letra no sea diminuta! */
     font-weight: 1000 !important;
     text-align: center;
-    color: #ff6b00;
+    color: #ff6b00 !important; /* ¡Cambiado de morado oscuro a Naranja Bracasfood! */
     text-transform: uppercase;
     animation: subtlePulse 3s infinite ease-in-out;
   }
 }
+
 /* =======================================================
                        ANIMACIONES
    ======================================================= */
@@ -863,7 +964,7 @@
   font-size: 0.5rem !important;
   font-weight: 1000 !important;
   text-align: center;
-  color: #ff6b00;
+  color: #040009;
   text-transform: uppercase;
   animation: subtlePulse 3s infinite ease-in-out;
   margin-top: 50px !important;
@@ -937,7 +1038,7 @@
     position: relative !important;
     overflow: hidden !important; /* VITAL para el brillo */
     border-radius: 25px !important;
-    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
+    background: linear-gradient(95deg, #250383 20%, #555577 80%) !important;
     color: white !important;
     border: 2.5px solid #000 !important;
     box-shadow:
@@ -981,13 +1082,13 @@
     transform: translateX(9.5px);
   }
   :host .cta-buttons button:nth-child(3) {
-    transform: translateX(16px);
+    transform: translateX(18px);
   }
   :host .cta-buttons button:nth-child(4) {
-    transform: translateX(9px);
+    transform: translateX(15px);
   }
   :host .cta-buttons button:nth-child(5) {
-    transform: translateX(-25px);
+    transform: translateX(-2px);
   }
 } /* <--- ESTA LLAVE CIERRA EL MEDIA QUERY */
 
@@ -1007,8 +1108,8 @@
 .promo-banner h2 {
   font-size: 0.5rem !important;
   font-weight: 1000 !important;
-  text-align: center;
-  color: #ff6b00;
+  text-align: right;
+  color: #040112;
   text-transform: uppercase;
   animation: subtlePulse 3s infinite ease-in-out;
   margin-top: 50px !important;
@@ -1019,13 +1120,13 @@
    ======================================================= */
 @keyframes flashShine {
   0% {
-    left: -150%;
+    right: -150%;
   }
   30% {
-    left: 150%;
+    right: 150%;
   }
   100% {
-    left: 150%;
+    right: 150%;
   }
 }
 
@@ -1047,7 +1148,7 @@
   font-weight: 1000 !important;
   text-align: center;
   /* Gradiente real para texto */
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+  background: linear-gradient(75deg, #ff6b00 30%, #ffb800 70%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1535,7 +1636,7 @@
   }
   :host .cta-buttons button:nth-child(5),
   .cta-buttons button:nth-child(5) {
-    transform: translateX(-32px) rotate(10deg) !important;
+    transform: translateX(-52px) rotate(10deg) !important;
   }
 
   /* EL BOTÓN DE PEDIDO (btn-main) DENTRO DEL MEDIA PARA MÓVIL */
@@ -1702,40 +1803,50 @@
     text-align: center;
     width: 90%;
   }
-}
-/* --- ESTILO DE LAS BURBUJAS DEL BOT --- */
+} /* ==========================================================================
+   💬 1. ESTILO DE LAS BURBUJAS DEL BOT (COMPACTO PERO LEGIBLE)
+   ========================================================================== */
 .message-bubble {
-  line-height: 1.2; /* Junta las letras y líneas para que no se vean despegadas */
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  letter-spacing: -3px; /* Estilo más moderno y compacto */
+  line-height: 1.4; /* Espaciado perfecto para evitar que las líneas se encimen */
+  font-family: var(--fuente-app);
+  letter-spacing: -0.2px; /* Estilo compacto moderno sin amontonar las letras */
   padding: 10px 14px;
+  color: var(--txt-principal);
 
   strong {
-    color: #ff6b00; /* Naranja Bracas para resaltar lo importante */
+    color: var(
+      --txt-destacado
+    ) !important; /* Muta solo: Naranja en Bracas / Violeta neón en Schneider */
     font-weight: 700;
   }
 }
 
-/* --- ESTILO DEL TICKET (PAGO EXPRESS) --- */
+/* ==========================================================================
+   🧾 2. ESTILO DEL TICKET / RECUADRO DE TEXTO (PAGO EXPRESS)
+   ========================================================================== */
 .ticket-box {
-  background: #f9f9f9;
-  border-right: 3px solid #ff6b00;
-  padding: 3px;
+  background: var(
+    --bg-interno
+  ) !important; /* Fondo claro en Bracas / Gris ultra oscuro en Schneider */
+  border-right: 3px solid var(--txt-destacado) !important; /* Línea naranja o fucsia según corresponda */
+  padding: 10px;
   margin: 8px 0;
   font-family: 'Courier New', monospace; /* Tipo recibo real */
   font-size: 0.9rem;
-  color: #333;
+  color: var(--txt-principal) !important;
   border-radius: 4px;
 }
 
-/* Alineación a la izquierda para que no "vuele" el texto */
+/* Alineación limpia del contenedor del bot */
 .bot-msg {
   display: flex;
-  justify-content: center;
-  text-align: center !important;
+  justify-content: flex-end; /* Alinea al inicio para una lectura natural */
+  text-align: left !important;
 }
+
+/* Botones de WhatsApp */
 .btn-whatsapp-express {
-  background-color: #643193 !important; // Color Nequi
+  background-color: #643193 !important; // Color Nequi fixed
   color: white;
   width: 100%;
   padding: 15px;
@@ -1746,7 +1857,7 @@
 }
 
 .btn-whatsapp-normal {
-  background-color: #25d366 !important; // Color WhatsApp
+  background-color: #25d366 !important; // Color WhatsApp fixed
   color: white;
   width: 100%;
   padding: 15px;
@@ -1755,8 +1866,10 @@
   border: none;
   cursor: pointer;
 }
-// --- LIMPIEZA DE ELEMENTOS FANTASMA ---
 
+/* ==========================================================================
+   🧼 3. LIMPIEZA DE ELEMENTOS FANTASMA Y ANIMACIONES
+   ========================================================================== */
 .action-buttons {
   .float-btn.ai {
     position: relative;
@@ -1764,7 +1877,7 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    overflow: hidden; // Esto corta cualquier residuo que salga del círculo
+    overflow: hidden;
 
     .bot-icon-img {
       width: 100%;
@@ -1775,14 +1888,14 @@
   }
 }
 
-// Regla de oro: Si un elemento está vacío, no debe ocupar espacio ni mostrarse
+/* Regla de oro: Si un elemento está vacío, no ocupa espacio */
 span:empty,
 div:empty,
 p:empty {
   display: none !important;
 }
 
-// Estilo para los puntos de carga (solo si existen)
+/* Puntos de carga reactivos */
 .typing {
   display: flex;
   gap: 4px;
@@ -1790,7 +1903,7 @@ p:empty {
   span {
     width: 6px;
     height: 6px;
-    background: #ff6b00;
+    background: var(--txt-destacado); /* Usa el color del tema activo */
     border-radius: 50%;
     animation: bounce 1.4s infinite ease-in-out both;
   }
@@ -1806,17 +1919,297 @@ p:empty {
     transform: scale(1);
   }
 }
-.logo-link {
-  z-index: 20; // Lo pone por encima del overlay oscuro para que reciba el click
-  display: block;
-  cursor: pointer;
-
-  .hero-img {
-    transition: transform 0.3s ease;
-
-    // Efecto visual para que el cliente sepa que es un botón
+/* ==========================================================================
+     🔮 MEGA ZOOM EXCLUSIVO PARA EL LOGO CYBERPUNK DE SCHNEIDER
+     ========================================================================== */
+  .hero-img[src*='ceschneider'] {
+    /* 🚀 MEGA ZOOM: Subido a 2.5 para expandir el gráfico interno al máximo */
+    transform: scale(2.5) !important; 
+    
+    /* Forzamos el encuadre para eliminar los bordes vacíos del render */
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 50% !important;
+    
+    /* Agregamos una transición suave por si cambia de tamaño */
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    
+    /* 💥 MANTENEMOS EL FEEDBACK TÁCTIL AL PRESIONAR: Escala desde su nuevo mega zoom */
     &:active {
-      transform: scale(0.95);
+      transform: scale(2.2) !important; 
+    }
+    
+    /* 🔥 EFECTO ADICIONAL CYBERPUNK: Brillo neón morado incrementado para acompañar el tamaño */
+    box-shadow: 0 0 30px rgba(157, 141, 253, 0.6), inset 0 0 20px rgba(106, 27, 154, 0.4) !important;
+    border: 1.5px solid rgba(157, 141, 253, 0.3) !important;
+  }
+
+/* ==========================================================================
+   🍔 INTERFAZ NORMAL / PÚBLICA (BRACASFOOD)
+   ========================================================================== */
+
+/* Forzar que los botones clásicos de Bracasfood conserven sus colores de comida siempre */
+.cta-buttons {
+  button.btn-primary,
+  button.btn-secondary {
+    background: #ff9900 !important; /* 🔥 CORREGIDO: Tu verdadero naranja encendido de Bracasfood */
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+  }
+}
+/* ==========================================================================
+   🔮 ESTILOS EXCLUSIVOS CUANDO SE INICIA SESIÓN EN C&E SCHNEIDER (EVER)
+   ========================================================================== */
+
+/* 1. El título principal con degradado líquido Cyberpunk Neón y destello */
+.titulo-schneider-blanco-animado {
+  display: block !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  width: 100% !important;
+  font-size: 2.6rem !important; 
+  font-weight: 1000 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  margin-top: 15px !important;
+
+  /* 🌌 Degradado Cyberpunk unificado con el logo (Rosa, Morado y Cian Eléctrico) */
+  background: linear-gradient(135deg, #ec4899 20%, #a855f7 50%, #00e5ff 80%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  
+  /* Filtro de sombra de neón exterior de alto impacto */
+  filter: drop-shadow(0px 0px 10px rgba(168, 85, 247, 0.6)) !important;
+  animation: subtlePulse 3s infinite ease-in-out !important;
+
+  /* El subtítulo interactivo debajo de forma simulada vía CSS */
+  &::after {
+    content: 'INTERFAZ DE ADMINISTRACIÓN AVANZADA' !important;
+    display: block !important;
+    font-size: 0.9rem !important;
+    color: #00e5ff !important; 
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+    margin-top: 8px !important;
+    -webkit-text-fill-color: #00e5ff !important; 
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.6) !important;
+  }
+}
+
+/* 2. Banner central: Ahora tendrá la estética de las tarjetas de tu módulo de finanzas */
+.promo-banner {
+  background: #180828 !important; /* El fondo morado oscuro exacto de tus contenedores */
+  border: 2px solid #090111 !important; /* Borde de neón morado brillante */
+  border-radius: 16px !important; /* Esquinas redondeadas idénticas */
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.3) !important; /* Brillo exterior */
+  padding: 20px !important;
+  margin: 25px auto !important;
+  max-width: 90% !important;
+}
+
+/* 3. Botones del Hero: Adaptados a los botones de acción rápidos de tu panel */
+.admin-schneider-buttons {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+  justify-content: center !important;
+  margin-top: 25px !important;
+  width: 100% !important;
+
+  button.btn-schneider-nav {
+    background: linear-gradient(135deg, #ec4899, #a855f7) !important;
+    color: #ffffff !important;
+    font-size: 0.9rem !important;
+    font-weight: 800 !important;
+    padding: 8px 18px !important;
+    border-radius: 12px !important; 
+    border: none !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    width: auto !important;
+    display: inline-block !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 4px 10px rgba(168, 85, 247, 0.4) !important;
+    transition: transform 0.1s ease, filter 0.1s ease !important;
+
+    &:hover {
+      filter: brightness(1.15) !important;
+      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.6) !important;
+    }
+
+    &:active {
+      transform: scale(0.96) !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   🍔 INTERFAZ NORMAL / PÚBLICA (BRACASFOOD)
+   ========================================================================== */
+
+/* 4. Mantiene el naranja tradicional para los clientes públicos */
+.cta-buttons {
+  button.btn-primary,
+  button.btn-secondary {
+    background: #ff6b00 !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+  }
+}
+
+/* ==========================================================================
+   📱 CONFIGURACIÓN DE RESPONSIVE SECTORIZADO (MOTOROLA G72)
+   ========================================================================== */
+@media screen and (max-width: 412px) {
+  /* 🚀 MEGA ZOOM RESPONSIVO DEL LOGO PARA CELULARES */
+  .logo-link .hero-img[src*='ceschneider'] {
+    transform: scale(1.9) !important; /* Aumentado a 1.9 para máximo impacto en móvil */
+    box-shadow: 0 0 20px rgba(157, 141, 253, 0.6) !important;
+    
+    &:active {
+      transform: scale(1.7) !important;
+    }
+  }
+
+  .titulo-schneider-blanco-animado {
+    font-size: 1.6rem !important;
+
+    &::after {
+      font-size: 0.75rem !important;
+    }
+  }
+
+  .hero-content {
+    margin-top: -10px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+
+    .admin-schneider-buttons {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      width: 90% !important;
+      margin: 0 auto !important;
+
+      button.btn-schneider-nav {
+        width: 100% !important;
+        padding: 10px 15px !important;
+        font-size: 0.9rem !important;
+      }
+    }
+  }
+
+  .promo-banner {
+    width: 92% !important;
+    padding: 15px 10px !important;
+  }
+
+  .cta-buttons {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    justify-content: center !important;
+
+    button {
+      width: auto !important;
+      padding: 6px 12px !important;
+      font-size: 0.85rem !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   🧡 BOTÓN COMPRAR - VISTA PÚBLICA (BRACASFOOD)
+   ========================================================================== */
+.add-btn {
+  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important; 
+  color: white !important;
+  font-weight: 1000 !important;
+  font-size: 1.1rem !important;
+  border: 2px solid #000000 !important; 
+  border-radius: 20px !important;
+  padding: 8px 18px !important;
+  box-shadow: 0 4px 0 #b34a00 !important; 
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #b34a00 !important;
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #b34a00 !important;
+  }
+}
+
+/* ==========================================================================
+   🔮 ESTILOS EXCLUSIVOS PARA LA OBRA BLANCA DE EVER (CYBERPUNK / SCHNEIDER)
+   ========================================================================== */
+.info-obra-blanca {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  width: 100% !important;
+  padding: 12px !important;
+  background: rgba(43, 16, 60, 0.07) !important; 
+  border-radius: 18px !important;
+  border: 2px dashed #2b103c !important; 
+  box-sizing: border-box !important;
+  box-shadow: inset 0 0 10px rgba(106, 27, 154, 0.1) !important;
+
+  h3 {
+    font-size: 1.5rem !important;
+    font-weight: 1000 !important;
+    color: #2b103c !important; 
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin: 0 !important;
+  }
+
+  .estado-material {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #444444 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+  }
+
+  .btn-admin-obra {
+    background: linear-gradient(95deg, #2b103c 20%, #6a1b9a 80%) !important; 
+    color: white !important;
+    border: 2px solid #000000 !important; 
+    padding: 10px 15px !important;
+    border-radius: 20px !important;
+    font-weight: 1000 !important;
+    font-size: 1.1rem !important;
+    cursor: pointer !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 4px 0 #1a0626 !important; 
+    transition: all 0.2s ease !important;
+    display: inline-block !important;
+    text-align: center !important;
+
+    &:hover {
+      filter: brightness(1.2) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 0 #1a0626 !important;
+    }
+
+    &:active {
+      transform: translateY(2px) !important;
+      box-shadow: 0 1px 0 #1a0626 !important;
     }
   }
 }
