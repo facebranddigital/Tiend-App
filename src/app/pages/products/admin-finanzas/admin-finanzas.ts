@@ -41,7 +41,7 @@ export class AdminFinanzasComponent {
     if (!usuarioActual) return false;
 
     // Reemplaza este correo por el tuyo real de administrador
-    return usuarioActual.email === 'eversozinho@gmail.com';
+    return usuarioActual.email?.toLowerCase() === 'eversozinho@gmail.com';
   });
 
   // --- ESTADO EDITABLE (SIGNALS) ---
