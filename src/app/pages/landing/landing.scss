@@ -80,7 +80,7 @@
     margin: 0 auto !important;
     position: absolute !important;
     left: 50% !important;
-    top: 35% !important;
+    top: 50% !important;
     transform: translate(-50%, -50%) !important; /* Fuerza el eje central perfecto */
     z-index: 10 !important;
 
@@ -101,7 +101,7 @@
   :host .admin-schneider-buttons {
     position: absolute !important;
     right: 2px !important;          /* Pegados a la banda derecha externa */
-    top: 35% !important;            /* Alineados al mismo centro vertical de la chapa circular */
+    top: 50% !important;            /* Alineados al mismo centro vertical de la chapa circular */
     transform: translateY(-50%) !important;
     display: flex !important;
     flex-direction: column !important;
