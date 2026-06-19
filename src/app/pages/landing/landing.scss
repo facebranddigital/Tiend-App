@@ -88,7 +88,7 @@
       width: 175px !important;       /* Tamaño masivo y controlado para celular */
       height: 175px !important;
       transform: scale(1) !important; /* Reseteamos el scale para evitar desbordes */
-      object-fit: cover !important;
+      object-fit: cover !important; transform: scale(1.65) !important; overflow: hidden !important; border-radius: 50% !important; border-radius: 50% !important; overflow: hidden !important; background: transparent !important;
       object-position: center !important;
       border-radius: 50% !important;
       margin: 0 !important;
@@ -144,17 +144,17 @@
   :host .admin-schneider-buttons button:nth-child(3) {
     transform: translateX(-35px) !important; /* Se mete hacia la izquierda siguiendo el arco inferior */
   }
-
-  /* ==========================================================================
+   /* ==========================================================================
                 CONTROL INTELIGENTE DEL BANNER MÓVIL (BRACASFOOD / EVER)
      ========================================================================== */
+  /* 🟠 ESTILO LIMPIO PARA EL PÚBLICO GENERAL DE BRACASFOOD (Naranja clásico sin bordes) */
   .promo-banner {
-    background: #ff6b00; 
-    border: 3px solid #050211 !important; 
-    box-shadow: 5px 5px 0px #080014 !important; 
+    background: #ff6b00 !important; 
+    border: none !important; 
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.25) !important; 
     border-radius: 16px !important; 
     padding: 15px 10px !important;
-    margin: 180px auto 15px !important; /* 🚀 Empujón masivo para dar espacio al logo absoluto */
+    margin: 180px auto 15px !important; /* Mantiene el empujón masivo para dar espacio al logo absoluto */
     width: 92% !important;
     max-width: 90% !important;
     transition: all 0.3s ease !important;
@@ -176,11 +176,13 @@
     animation: subtlePulse 3s infinite ease-in-out !important;
   }
 
-  /* 🔮 AISLAMIENTO ABSOLUTO DE COLORES PARA EL MODO SCHNEIDER DE EVER */
+  /* 🔮 ESTILO EXCLUSIVO CON FONDO OSCURO PARA EL MODO SCHNEIDER DE EVER */
+  /* Al detectar tu título, muta al fondo negro idéntico al Footer y al Navbar */
   .promo-banner:has(.titulo-schneider-blanco-animado) {
-    background: transparent !important; 
-    border: none !important;
-    box-shadow: none !important;
+    background: #111111 !important; /* 👈 Color negro exacto de tu Footer */
+    border: 2px solid #2b103c !important; /* Borde morado oscuro de tu barra superior */
+    box-shadow: 0 0 15px rgba(157, 141, 253, 0.2) !important; /* Brillo neón sutil */
+    border-radius: 16px !important;
   }
 
   /* Forzamos la inyección del degradado neón en el texto del letrero */
@@ -209,7 +211,6 @@
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.03); }
 }
-
 
 /* =======================================================
                   SECCIÓN DE PRODUCTOS 
@@ -696,7 +697,7 @@
     max-width: 80px !important;
     max-height: 80px !important;
     border-radius: 50% !important;
-    object-fit: cover !important; /* Para que no se estire */
+    object-fit: cover !important; border-radius: 50% !important; overflow: hidden !important; background: transparent !important; /* Para que no se estire */
     position: static !important; /* Para que no use el position del Hero */
     display: block !important;
   }
@@ -1237,7 +1238,7 @@
   .bot-icon-img {
     width: 95% !important;
     height: 95% !important;
-    object-fit: cover !important;
+    object-fit: cover !important; border-radius: 50% !important; overflow: hidden !important; background: transparent !important;
   }
 }
 
@@ -1946,10 +1947,10 @@ p:empty {
      ========================================================================== */
   .hero-img[src*='ceschneider'] {
     /* 🚀 MEGA ZOOM: Subido a 2.5 para expandir el gráfico interno al máximo */
-    transform: scale(2.5) !important; 
+    transform: scale(4.2) !important; 
     
     /* Forzamos el encuadre para eliminar los bordes vacíos del render */
-    object-fit: cover !important;
+    object-fit: cover !important; transform: scale(1.65) !important; overflow: hidden !important; border-radius: 50% !important; border-radius: 50% !important; overflow: hidden !important; background: transparent !important;
     object-position: center !important;
     border-radius: 50% !important;
     
@@ -2008,7 +2009,6 @@ p:empty {
 
   /* El subtítulo interactivo debajo de forma simulada vía CSS */
   &::after {
-    content: 'INTERFAZ DE ADMINISTRACIÓN AVANZADA' !important;
     display: block !important;
     font-size: 0.9rem !important;
     color: #00e5ff !important; 
@@ -2021,7 +2021,7 @@ p:empty {
 }
 
 /* 2. Banner central: Ahora tendrá la estética de las tarjetas de tu módulo de finanzas */
-.promo-banner {
+.promo-banner:has(.titulo-schneider-blanco-animado) {
   background: #180828 !important; /* El fondo morado oscuro exacto de tus contenedores */
   border: 2px solid #090111 !important; /* Borde de neón morado brillante */
   border-radius: 16px !important; /* Esquinas redondeadas idénticas */
@@ -2124,7 +2124,7 @@ p:empty {
       width: 180px !important;       /* Tamaño ideal controlado para la pantalla del celular */
       height: 180px !important;
       transform: scale(1) !important; /* Reseteamos el scale gigante de escritorio para que quepa */
-      object-fit: cover !important;
+      object-fit: cover !important; transform: scale(1.65) !important; overflow: hidden !important; border-radius: 50% !important; border-radius: 50% !important; overflow: hidden !important; background: transparent !important;
       object-position: center !important;
       border-radius: 50% !important;
       margin: 0 auto !important;

@@ -195,3 +195,155 @@
     }
   }
 }
+
+/* ==========================================================================
+   🔮 PERSONALIZACIÓN CYBERPUNK EXCLUSIVA PARA SCHNEIDERBOT
+   ========================================================================== */
+.chat-wrapper.chat-schneider {
+  .chat-window {
+    border: 2px solid #a855f7 !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4) !important;
+    background: #180828 !important;
+  }
+
+  /* Cabecera en Morado Oscuro con destello cian */
+  .chat-header {
+    background: linear-gradient(135deg, #2b103c 20%, #180828 80%) !important;
+    border-bottom: 2px solid #a855f7 !important;
+    
+    p {
+      color: #ffffff !important;
+      text-shadow: 0 0 8px rgba(168, 85, 247, 0.8) !important;
+    }
+
+    .status-dot {
+      background-color: #00e5ff !important; /* Punto de estado en cian eléctrico */
+      box-shadow: 0 0 8px #00e5ff !important;
+    }
+    
+    .close-btn {
+      color: #a855f7 !important;
+      &:hover { color: #ec4899 !important; }
+    }
+  }
+
+  /* Cuerpo del chat adaptado al modo oscuro */
+  .chat-body {
+    background: #0d0415 !important;
+    
+    .bot-msg .message-bubble {
+      background: #2b103c !important;
+      color: #ffffff !important;
+      border: 1px solid #6a1b9a !important;
+    }
+    
+    .user-msg .message-bubble {
+      background: linear-gradient(135deg, #ec4899, #a855f7) !important;
+      color: #ffffff !important;
+    }
+  }
+
+  /* Input y botón de enviar en la parte inferior */
+  .chat-footer {
+    background: #180828 !important;
+    border-top: 1px solid #2b103c !important;
+
+    input {
+      background: #0d0415 !important;
+      border: 1px solid #6a1b9a !important;
+      color: #ffffff !important;
+      
+      &:focus {
+        border-color: #00e5ff !important;
+        box-shadow: 0 0 8px rgba(0, 229, 255, 0.3) !important;
+      }
+    }
+
+    /* Botón enviar en degradado Cyberpunk */
+    .send-btn {
+      background: linear-gradient(135deg, #ec4899, #a855f7) !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.4) !important;
+
+      &:hover {
+        filter: brightness(1.2) !important;
+      }
+    }
+  }
+}
+
+/* ==========================================================================
+   🔮 PERSONALIZACIÓN CYBERPUNK EXCLUSIVA PARA SCHNEIDERBOT
+   ========================================================================== */
+.chat-wrapper.chat-schneider {
+  .chat-window {
+    border: 2px solid #a855f7 !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4) !important;
+    background: #180828 !important;
+  }
+
+  /* Cabecera en Morado Oscuro con destello cian */
+  .chat-header {
+    background: linear-gradient(135deg, #2b103c 20%, #180828 80%) !important;
+    border-bottom: 2px solid #a855f7 !important;
+    
+    p {
+      color: #ffffff !important;
+      text-shadow: 0 0 8px rgba(168, 85, 247, 0.8) !important;
+    }
+
+    .status-dot {
+      background-color: #00e5ff !important; /* Punto de estado en cian eléctrico */
+      box-shadow: 0 0 8px #00e5ff !important;
+    }
+    
+    .close-btn {
+      color: #a855f7 !important;
+      &:hover { color: #ec4899 !important; }
+    }
+  }
+
+  /* Cuerpo del chat adaptado al modo oscuro */
+  .chat-body {
+    background: #0d0415 !important;
+    
+    .bot-msg .message-bubble {
+      background: #2b103c !important;
+      color: #ffffff !important;
+      border: 1px solid #6a1b9a !important;
+    }
+    
+    .user-msg .message-bubble {
+      background: linear-gradient(135deg, #ec4899, #a855f7) !important;
+      color: #ffffff !important;
+    }
+  }
+
+  /* Input y botón de enviar en la parte inferior */
+  .chat-footer {
+    background: #180828 !important;
+    border-top: 1px solid #2b103c !important;
+
+    input {
+      background: #0d0415 !important;
+      border: 1px solid #6a1b9a !important;
+      color: #ffffff !important;
+      
+      &:focus {
+        border-color: #00e5ff !important;
+        box-shadow: 0 0 8px rgba(0, 229, 255, 0.3) !important;
+      }
+    }
+
+    /* Botón enviar en degradado Cyberpunk */
+    .send-btn {
+      background: linear-gradient(135deg, #ec4899, #a855f7) !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.4) !important;
+
+      &:hover {
+        filter: brightness(1.2) !important;
+      }
+    }
+  }
+}
