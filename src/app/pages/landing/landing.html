@@ -313,21 +313,21 @@
           <!-- IMAGEN INTERNA DEL CHATBOT -->
           <img
             [src]="
-              (isCalculadoraAdminActive$ | async)
+              (isEverAdminActive$ | async)
                 ? 'assets/ceschneider.jpg'
                 : 'assets/bracasfoodlogo.jpeg'
             "
             alt="Logo Chatbot"
             style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover"
             [style.border]="
-              (isCalculadoraAdminActive$ | async)
+              (isEverAdminActive$ | async)
                 ? '1.5px solid var(--color-acento)'
                 : '1.5px solid #ff6b00'
             "
           />
           <!-- NOMBRE DINÁMICO DEL CHATBOT -->
           <p style="font-weight: bold; margin: 0">
-            {{ (isCalculadoraAdminActive$ | async) ? 'SchneiderBot' : 'BracasBot' }}
+            {{ (isEverAdminActive$ | async) ? 'SchneiderBot' : 'BracasBot' }}
           </p>
         </div>
         <button class="close-btn" (click)="toggleChat()">×</button>
