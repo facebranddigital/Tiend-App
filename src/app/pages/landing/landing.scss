@@ -1,3 +1,6 @@
+/* ==========================================================================
+   📐 CONFIGURACIÓN RESPONSIVE TABLETS (HASTA 992PX)
+   ========================================================================== */
 @media screen and (max-width: 992px) {
   /* 1. CONTENEDOR MAESTRO: Más compacto para evitar espacios muertos */
   .hero-container {
@@ -10,21 +13,17 @@
     padding: 0 !important;
   }
 
-  /* 2. EL LOGO: Tamaño reducido para que respire el diseño */
+  /* 2. EL LOGO BASE */
   .hero-img {
     width: 144px !important;
     height: 144px !important;
     z-index: 10 !important;
-    margin-left: -8px !important;
     margin-top: 0 !important;
     border-radius: 50% !important;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
   }
 
-  /* =======================================================
-        DEFECTO BOTONES "LOCO LUCAS" (BRILLO Y 3D - BRACAS)
-   ======================================================= */
-  /* 3. CONTENEDOR DE BOTONES BRACASFOOD */
+  /* 3. CONTENEDOR DE BOTONES PÚBLICOS BRACASFOOD */
   :host .cta-buttons {
     position: absolute !important;
     right: 55px !important;
@@ -58,48 +57,69 @@
   }
 
   /* Curva de alineación "Loco Lucas" para Bracas */
-  :host .cta-buttons button:nth-child(1) {
-    transform: translateX(-50px) !important;
-  }
-  :host .cta-buttons button:nth-child(2) {
-    transform: translateX(33px) !important;
-  }
-  :host .cta-buttons button:nth-child(3) {
-    transform: translateX(30px) !important;
-  }
-  :host .cta-buttons button:nth-child(4) {
-    transform: translateX(24px) !important;
-  }
-  :host .cta-buttons button:nth-child(5) {
-    transform: translateX(-42px) !important;
+  :host .cta-buttons button:nth-child(1) { transform: translateX(-50px) !important; }
+  :host .cta-buttons button:nth-child(2) { transform: translateX(33px) !important; }
+  :host .cta-buttons button:nth-child(3) { transform: translateX(30px) !important; }
+  :host .cta-buttons button:nth-child(4) { transform: translateX(24px) !important; }
+  :host .cta-buttons button:nth-child(5) { transform: translateX(-42px) !important; }
+} /* 👈 ✅ AQUÍ SE CIERRA EL MEDIA QUERY DE TABLETS DE FORMA CORRECTA */
+
+
+/* ==========================================================================
+   🔮 CONFIGURACIÓN EXCLUSIVA PARA MÓVIL SCHNEIDER (MOTOROLA G72)
+   ========================================================================== */
+@media screen and (max-width: 412px) {
+
+  /* 🚀 EL LOGO EMBLEMA: Centrado absoluto milimétrico en la pantalla del celular */
+  .logo-link {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 35% !important;
+    transform: translate(-50%, -50%) !important; /* Fuerza el eje central perfecto */
+    z-index: 10 !important;
+
+    .hero-img[src*='ceschneider'] {
+      width: 175px !important;       /* Tamaño masivo y controlado para celular */
+      height: 175px !important;
+      transform: scale(1) !important; /* Reseteamos el scale para evitar desbordes */
+      object-fit: cover !important;
+      object-position: center !important;
+      border-radius: 50% !important;
+      margin: 0 !important;
+      box-shadow: 0 0 25px rgba(157, 141, 253, 0.7) !important;
+      border: 1.5px solid rgba(157, 141, 253, 0.4) !important;
+    }
   }
 
-  /* =======================================================
-        🔮 CONFIGURACIÓN EXCLUSIVA PARA MÓVIL SCHNEIDER 
-   ======================================================= */
-  /* Contenedor de botones Schneider alineado perfectamente en el Hero móvil */
+  /* 🚀 CONTENEDOR DE BOTONES ADMINISTRATIVOS: Siguiendo la curvatura del logo circular */
   :host .admin-schneider-buttons {
     position: absolute !important;
-    right: 55px !important;
-    top: 10% !important;
+    right: 2px !important;          /* Pegados a la banda derecha externa */
+    top: 35% !important;            /* Alineados al mismo centro vertical de la chapa circular */
     transform: translateY(-50%) !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 15px !important; /* Espaciado compacto para el menú administrativo */
+    gap: 12px !important;           /* Compactos para el menú administrativo */
     width: auto !important;
-    z-index: 80 !important;
+    z-index: 100 !important;        /* Flotan encima de la chapa */
   }
 
-  /* Estética de botones idéntica a tu módulo de finanzas morado/neón */
+  /* Estética de botones adaptada con degradado rosa/neón de tu panel de finanzas */
   :host .admin-schneider-buttons button.btn-schneider-nav {
-    width: 135px !important; /* Un poco más ancho por los textos de administración */
-    height: 38px !important;
-    border-radius: 12px !important; /* Esquinas suavizadas tipo input */
-    background: linear-gradient(135deg, #ec4899, #a855f7) !important; /* Degradado rosa a morado */
+    width: 140px !important;        /* Ancho justo para que quepa el texto de admin */
+    height: 40px !important;        /* Altura ergonómica para celulares */
+    border-radius: 12px !important; 
+    background: linear-gradient(135deg, #ec4899, #a855f7) !important; 
     color: #ffffff !important;
-    font-size: 0.75rem !important;
-    font-weight: 800 !important;
-    border: 2px solid #a855f7 !important; /* Borde neón */
+    font-size: 0.72rem !important;   /* Ajuste fino de la tipografía */
+    font-weight: 900 !important;
+    border: 2px solid #a855f7 !important; 
     box-shadow: 0 0 10px rgba(168, 85, 247, 0.4) !important;
     display: flex !important;
     align-items: center !important;
@@ -107,31 +127,34 @@
     text-transform: uppercase !important;
     white-space: nowrap !important;
     cursor: pointer !important;
+    transition: all 0.2s ease !important;
+
+    &:active {
+      transform: scale(0.95) !important;
+    }
   }
 
-  /* Ajuste de curvas para Schneider en móvil (Menos agresivo para texto largo) */
+  /* 🪄 LA MAGIA DEL VAIVÉN: Los botones abrazan la órbita de la chapa circular */
   :host .admin-schneider-buttons button:nth-child(1) {
-    transform: translateX(-20px) !important;
+    transform: translateX(-42px) !important; /* Se mete hacia la izquierda siguiendo el arco superior */
   }
   :host .admin-schneider-buttons button:nth-child(2) {
-    transform: translateX(10px) !important;
+    transform: translateX(-5px) !important;  /* Eje central de la chapa exterior */
   }
   :host .admin-schneider-buttons button:nth-child(3) {
-    transform: translateX(5px) !important;
+    transform: translateX(-35px) !important; /* Se mete hacia la izquierda siguiendo el arco inferior */
   }
 
-  /* =======================================================
-                CONTROL INTELIGENTE DEL BANNER MÓVIL
-     ======================================================= */
+  /* ==========================================================================
+                CONTROL INTELIGENTE DEL BANNER MÓVIL (BRACASFOOD / EVER)
+     ========================================================================== */
   .promo-banner {
-    /* 🎨 EDITA AQUÍ EL RECTÁNGULO DE BRACASFOOD (PÚBLICO Y OTROS ADMINS) */
-    background: #ff6b00; /* Color de fondo del rectángulo público */
-    border: 3px solid #050211 !important; /* Color del borde del rectángulo público */
-    box-shadow: 5px 5px 0px #080014 !important; /* Sombra estilo sticker o 3D */
-    border-radius: 16px !important; /* Curvatura de las esquinas */
-
+    background: #ff6b00; 
+    border: 3px solid #050211 !important; 
+    box-shadow: 5px 5px 0px #080014 !important; 
+    border-radius: 16px !important; 
     padding: 15px 10px !important;
-    margin: 15px auto !important;
+    margin: 180px auto 15px !important; /* 🚀 Empujón masivo para dar espacio al logo absoluto */
     width: 92% !important;
     max-width: 90% !important;
     transition: all 0.3s ease !important;
@@ -143,11 +166,8 @@
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
-
-    /* Combinamos los márgenes: 50px arriba para el G72, 0 a los lados, 10px abajo */
     margin: 50px 0 10px 0 !important;
-
-    font-size: 2.2rem !important; /* <--- Súbelo de 1rem a 2.2rem para que tenga impacto */
+    font-size: 2.2rem !important; 
     font-weight: 1000 !important;
     text-align: center !important;
     text-transform: uppercase !important;
@@ -156,38 +176,40 @@
     animation: subtlePulse 3s infinite ease-in-out !important;
   }
 
-  /* 🔮 EXCLUSIÓN TOTAL PARA SCHNEIDER (SÓLO CUANDO INICIA EVER) */
+  /* 🔮 AISLAMIENTO ABSOLUTO DE COLORES PARA EL MODO SCHNEIDER DE EVER */
   .promo-banner:has(.titulo-schneider-blanco-animado) {
-    background: transparent !important;
+    background: transparent !important; 
     border: none !important;
     box-shadow: none !important;
   }
 
+  /* Forzamos la inyección del degradado neón en el texto del letrero */
   .promo-banner .titulo-schneider-blanco-animado {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 15px 10px !important;
+    background: linear-gradient(135deg, #ec4899 20%, #a855f7 50%, #00e5ff 80%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important; 
+    background-clip: text !important;
     display: block !important;
-    -webkit-text-fill-color: initial !important; /* Resetea el degradado para que se vea blanco */
-    background-clip: initial !important;
+    font-size: 1.4rem !important; 
+    font-weight: 1000 !important;
+    text-align: center !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin: 0 auto 5px !important;
+    padding: 0 !important;
+    filter: drop-shadow(0px 0px 8px rgba(168, 85, 247, 0.6)) !important;
   }
 } /* <--- AQUÍ SE CIERRA EL MEDIA QUERY MÓVIL PERFECTAMENTE */
 
-/* =======================================================
+
+/* ==========================================================================
                      ANIMACIONES NATIVAS
-   ======================================================= */
+   ========================================================================== */
 @keyframes subtlePulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.03);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
 }
+
 
 /* =======================================================
                   SECCIÓN DE PRODUCTOS 
@@ -2062,54 +2084,128 @@ p:empty {
 }
 
 /* ==========================================================================
-   📱 CONFIGURACIÓN DE RESPONSIVE SECTORIZADO (MOTOROLA G72)
+   📱 CONFIGURACIÓN DE RESPONSIVE TOTALMENTE ARREGLADA (MOTOROLA G72)
    ========================================================================== */
 @media screen and (max-width: 412px) {
-  /* 🚀 MEGA ZOOM RESPONSIVO DEL LOGO PARA CELULARES */
-  .logo-link .hero-img[src*='ceschneider'] {
-    transform: scale(1.9) !important; /* Aumentado a 1.9 para máximo impacto en móvil */
-    box-shadow: 0 0 20px rgba(157, 141, 253, 0.6) !important;
-    
-    &:active {
-      transform: scale(1.7) !important;
-    }
+  
+  /* 🛠️ 1. REESTRUCTURACIÓN DEL CONTENEDOR HERO GENERAL EN MÓVIL */
+  .hero {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    min-height: auto !important;
+    padding: 20px 10px !important;
+    box-sizing: border-box !important;
   }
 
-  .titulo-schneider-blanco-animado {
-    font-size: 1.6rem !important;
-
-    &::after {
-      font-size: 0.75rem !important;
-    }
+  .hero-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    position: relative !important;
   }
 
-  .hero-content {
-    margin-top: -10px !important;
+  /* 🚀 2. CORRECCIÓN RADICAL DEL LOGO ELEVADO: Centrado perfecto sin desbordar */
+  .logo-link {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     width: 100% !important;
+    padding: 0 !important;
+    margin: 15px auto !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    float: none !important;
 
+    .hero-img[src*='ceschneider'] {
+      width: 180px !important;       /* Tamaño ideal controlado para la pantalla del celular */
+      height: 180px !important;
+      transform: scale(1) !important; /* Reseteamos el scale gigante de escritorio para que quepa */
+      object-fit: cover !important;
+      object-position: center !important;
+      border-radius: 50% !important;
+      margin: 0 auto !important;
+      box-shadow: 0 0 20px rgba(157, 141, 253, 0.6) !important;
+      border: 1.5px solid rgba(157, 141, 253, 0.3) !important;
+    }
+  }
+
+  /* 💼 3. LOS BOTONES DE NAVEGACIÓN ADMINISTRATIVOS: Centrados y apilados en columna */
+  .hero-content {
+    margin-top: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+
+    /* Contenedor de botones exclusivos de Ever */
     .admin-schneider-buttons {
       display: flex !important;
-      flex-direction: column !important;
-      gap: 8px !important;
-      width: 90% !important;
-      margin: 0 auto !important;
+      flex-direction: column !important; /* Cambiado a columna para evitar que se amontonen a la derecha */
+      gap: 10px !important;
+      width: 90% !important; /* Ocupa el ancho idóneo de lectura táctil */
+      margin: 15px auto 0 !important;
+      position: relative !important;
+      right: auto !important;
+      top: auto !important;
+      transform: none !important;
 
       button.btn-schneider-nav {
-        width: 100% !important;
-        padding: 10px 15px !important;
+        width: 100% !important; /* Botones cómodos de ancho completo */
+        padding: 12px 15px !important; 
         font-size: 0.9rem !important;
+        font-weight: 800 !important;
+        border-radius: 12px !important;
+        text-align: center !important;
+        justify-content: center !important;
+        box-shadow: 0 4px 10px rgba(168, 85, 247, 0.3) !important;
       }
     }
   }
 
+  /* 🌌 4. CORRECCIÓN DEL TÍTULO CENTRAL: Adiós al naranja Bracasfood, forzado a Cyberpunk */
+  .promo-banner h2 {
+    font-size: 1.4rem !important;      /* Tamaño controlado para evitar rupturas toscas */
+    line-height: 1.3 !important;       
+    padding: 0 10px !important;        
+    margin: 25px auto 10px !important;       
+    letter-spacing: 0.5px !important;
+    text-align: center !important;
+    width: 95% !important;
+
+    /* Inyección directa del degradado líquido neón de la marca */
+    background: linear-gradient(135deg, #ec4899 20%, #a855f7 50%, #00e5ff 80%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: drop-shadow(0px 0px 8px rgba(168, 85, 247, 0.5)) !important;
+  }
+
+  /* El subtítulo interactivo de administración en móvil */
+  .promo-banner h2::after {
+    font-size: 0.75rem !important;    
+    margin-top: 6px !important;
+    color: #00e5ff !important; 
+    -webkit-text-fill-color: #00e5ff !important; 
+    text-shadow: 0 0 6px rgba(0, 229, 255, 0.6) !important;
+  }
+
+  /* El banner promocional contenedor en móvil */
   .promo-banner {
     width: 92% !important;
     padding: 15px 10px !important;
+    margin: 15px auto !important;
   }
 
+  /* Botones normales de la vista pública de Bracasfood */
   .cta-buttons {
     display: flex !important;
     flex-direction: row !important;
