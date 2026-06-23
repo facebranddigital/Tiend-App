@@ -1,43 +1,39 @@
 <div id="top" class="landing-container">
   <!-- HERO SECTION PERFECTAMENTE BALANCEADO -->
   <section class="hero">
-    <a routerLink="/categorias" class="logo-link">
-      <!-- LOGO HERO DINÁMICO: Cambia a Schneider SOLO con tu correo -->
-      <img
-        *ngIf="!(isEverAdminActive$ | async); else schneiderLogo"
-        src="assets/bracasfoodlogo.jpeg"
-        alt="Logo de Bracasfood"
-        class="hero-img"
-      />
-      <ng-template #schneiderLogo>
-        <img src="assets/schneiderlogo.png" alt="Logo de C&E Schneider" class="hero-img" />
-      </ng-template>
-    </a>
+    
+    <!-- 🔄 INTERCAMBIO SUPERIOR SIN HERENCIA DE ESTILOS FEOS -->
+    <ng-container *ngIf="!(isEverAdminActive$ | async); else schneiderVideoTop">
+      <a routerLink="/categorias" class="logo-link">
+        <img src="assets/bracasfoodlogo.jpeg" alt="Logo de Bracasfood" class="hero-img" />
+      </a>
+    </ng-container>
+    
+    <!-- 🎥 VIDEO EN LA PARTE SUPERIOR (Totalmente libre del óvalo) -->
+    <ng-template #schneiderVideoTop>
+      <div class="schneider-promo-container">
+        <video autoplay loop muted playsinline class="video-propaganda">
+          <source src="assets/remodelaciones.mp4" type="video/mp4">
+          Tu navegador no soporta videos.
+        </video>
+      </div>
+    </ng-template>
 
     <div class="hero-overlay"></div>
+
 
     <div class="hero-wrapper">
       <div class="hero-logo-space"></div>
 
-      <!-- 🌟 CONTENIDO DEL HERO MODIFICADO -->
+      <!-- 🌟 CONTENIDO DEL HERO -->
       <div class="hero-content">
         <!-- 🟠 MODO BRACASFOOD: Botones naranjas normales si NO eres tú -->
         <div *ngIf="!(isEverAdminActive$ | async)" class="cta-buttons">
-          <button class="btn-primary" (click)="scrollTo('bolis-leche')" data-testid="hero-cta">
-            Bolis Leche
-          </button>
-          <button class="btn-secondary" (click)="scrollTo('papitas')" data-testid="hero-cta">
-            Papitas BF
-          </button>
-          <button class="btn-secondary" (click)="scrollTo('tocineta')" data-testid="hero-cta">
-            Tocineta BF
-          </button>
-          <button class="btn-primary" (click)="scrollTo('platanos')" data-testid="hero-cta">
-            Platanos BF
-          </button>
-          <button class="btn-primary" (click)="scrollTo('bolis-natural')" data-testid="hero-cta">
-            Bolis Natural
-          </button>
+          <button class="btn-primary" (click)="scrollTo('bolis-leche')" data-testid="hero-cta">Bolis Leche</button>
+          <button class="btn-secondary" (click)="scrollTo('papitas')" data-testid="hero-cta">Papitas BF</button>
+          <button class="btn-secondary" (click)="scrollTo('tocineta')" data-testid="hero-cta">Tocineta BF</button>
+          <button class="btn-primary" (click)="scrollTo('platanos')" data-testid="hero-cta">Platanos BF</button>
+          <button class="btn-primary" (click)="scrollTo('bolis-natural')" data-testid="hero-cta">Bolis Natural</button>
         </div>
 
         <!-- 🔮 MODO C&E SCHNEIDER: Botones exclusivos SOLO si inicias sesión tú -->
@@ -50,27 +46,40 @@
             Gestionar Categorías 🗂️
           </button>
         </div>
+
+        <!-- 🌟 BANNER DINÁMICO CENTRAL REGULADO -->
+        <div class="promo-banner">
+          <!-- Si NO eres tú, ve el banner naranja tradicional de Bracasfood -->
+          <h2
+            *ngIf="!(isEverAdminActive$ | async)"
+            style="color: #ff6b00; font-weight: 1000; font-size: 2.2rem; text-transform: uppercase"
+          >
+            ¡Consiente tu paladar! <i class="fas fa-apple-alt"></i>
+          </h2>
+
+          <!-- Si eres tú, cambia al letrero animado de la constructora -->
+          <ng-template [ngIf]="isEverAdminActive$ | async">
+            <h2 class="titulo-schneider-blanco-animado">
+              Remodelaciones C&E Schneider <i class="fas fa-tools"></i>
+            </h2>
+          </ng-template>
+        </div>
+
+        <!-- 🔮 UBICACIÓN DEL LOGO DESPUÉS DEL BANNER (SOLO EN MODO SCHNEIDER) -->
+        <div *ngIf="isEverAdminActive$ | async" class="schneider-logo-after-banner" style="text-align: center; margin-top: 20px;">
+          <img 
+            src="assets/schneiderlogo.png" 
+            alt="Logo de C&E Schneider" 
+            class="hero-img" 
+            style="max-width: 180px; border-radius: 50%; border: 3px solid #7b2cbf; box-shadow: 0 0 15px rgba(123, 44, 191, 0.6);"
+          />
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- 🌟 BANNER DINÁMICO CENTRAL REGULADO -->
-  <div class="promo-banner">
-    <!-- Si NO eres tú, ve el banner naranja tradicional de Bracasfood -->
-    <h2
-      *ngIf="!(isEverAdminActive$ | async)"
-      style="color: #ff6b00; font-weight: 1000; font-size: 2.2rem; text-transform: uppercase"
-    >
-      ¡Consiente tu paladar! <i class="fas fa-apple-alt"></i>
-    </h2>
-
-    <!-- Si eres tú, cambia al letrero animado de la constructora -->
-    <ng-template [ngIf]="isEverAdminActive$ | async">
-      <h2 class="titulo-schneider-blanco-animado">
-        Remodelaciones C&E Schneider <i class="fas fa-tools"></i>
-      </h2>
-    </ng-template>
-  </div>
+ 
 
     <!-- SECCIÓN DE PRODUCTOS (DINÁMICA: BRACASFOOD / OBRA BLANCA SCHNEIDER) -->
   <section class="featured-products">

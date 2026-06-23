@@ -2067,7 +2067,6 @@ p:empty {
     }
   }
 }
-
 /* ==========================================================================
    🍔 INTERFAZ NORMAL / PÚBLICA (BRACASFOOD)
    ========================================================================== */
@@ -2084,7 +2083,7 @@ p:empty {
 }
 
 /* ==========================================================================
-   📱 CONFIGURACIÓN DE RESPONSIVE TOTALMENTE ARREGLADA (MOTOROLA G72)
+   📱 CONFIGURACIÓN DE RESPONSIVE TOTALMENTE ARREGLADA (MOTOROLA / MOTO G04S)
    ========================================================================== */
 @media screen and (max-width: 412px) {
   
@@ -2107,30 +2106,18 @@ p:empty {
     position: relative !important;
   }
 
-  /* 🚀 2. CORRECCIÓN RADICAL DEL LOGO ELEVADO: Centrado perfecto sin desbordar */
+  /* 🚀 2. CORRECCIÓN DEL CONTENEDOR SUPERIOR EN MÓVIL (Sincronizado con el Video) */
   .logo-link {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     width: 100% !important;
     padding: 0 !important;
-    margin: 15px auto !important;
+    margin: 10px auto !important;
     position: relative !important;
     left: auto !important;
     right: auto !important;
     float: none !important;
-
-    .hero-img[src*='ceschneider'] {
-      width: 180px !important;       /* Tamaño ideal controlado para la pantalla del celular */
-      height: 180px !important;
-      transform: scale(1) !important; /* Reseteamos el scale gigante de escritorio para que quepa */
-      object-fit: cover !important; transform: scale(1.65) !important; overflow: hidden !important; border-radius: 50% !important; border-radius: 50% !important; overflow: hidden !important; background: transparent !important;
-      object-position: center !important;
-      border-radius: 50% !important;
-      margin: 0 auto !important;
-      box-shadow: 0 0 20px rgba(157, 141, 253, 0.6) !important;
-      border: 1.5px solid rgba(157, 141, 253, 0.3) !important;
-    }
   }
 
   /* 💼 3. LOS BOTONES DE NAVEGACIÓN ADMINISTRATIVOS: Centrados y apilados en columna */
@@ -2149,9 +2136,9 @@ p:empty {
     /* Contenedor de botones exclusivos de Ever */
     .admin-schneider-buttons {
       display: flex !important;
-      flex-direction: column !important; /* Cambiado a columna para evitar que se amontonen a la derecha */
+      flex-direction: column !important; 
       gap: 10px !important;
-      width: 90% !important; /* Ocupa el ancho idóneo de lectura táctil */
+      width: 90% !important; 
       margin: 15px auto 0 !important;
       position: relative !important;
       right: auto !important;
@@ -2159,7 +2146,7 @@ p:empty {
       transform: none !important;
 
       button.btn-schneider-nav {
-        width: 100% !important; /* Botones cómodos de ancho completo */
+        width: 100% !important; 
         padding: 12px 15px !important; 
         font-size: 0.9rem !important;
         font-weight: 800 !important;
@@ -2171,12 +2158,12 @@ p:empty {
     }
   }
 
-  /* 🌌 4. CORRECCIÓN DEL TÍTULO CENTRAL: Adiós al naranja Bracasfood, forzado a Cyberpunk */
+  /* 🌌 4. CORRECCIÓN DEL TÍTULO CENTRAL: Forzado a Cyberpunk */
   .promo-banner h2 {
-    font-size: 1.4rem !important;      /* Tamaño controlado para evitar rupturas toscas */
+    font-size: 1.4rem !important;      
     line-height: 1.3 !important;       
     padding: 0 10px !important;        
-    margin: 25px auto 10px !important;       
+    margin: 20px auto 10px !important;       
     letter-spacing: 0.5px !important;
     text-align: center !important;
     width: 95% !important;
@@ -2307,5 +2294,76 @@ p:empty {
       transform: translateY(2px) !important;
       box-shadow: 0 1px 0 #1a0626 !important;
     }
+  }
+}
+
+/* ==========================================================================
+   DISEÑO ULTRA-RESPONSIVO (OPTIMIZADO PARA MOTO G04S & RESPONSIVE)
+   ========================================================================== */
+
+/* 🎥 VIDEO SUPERIOR (Formato Panorámico Limpio) */
+.schneider-promo-container {
+  width: 85vw !important;       /* Se adapta al ancho de la pantalla del Moto G */
+  max-width: 420px !important;  /* Límite para que no se estire en pantallas grandes */
+  height: auto !important;
+  margin: 15px auto !important; /* Espaciado vertical controlado para pantallas 20:9 */
+  display: block !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4) !important;
+  overflow: hidden !important;
+
+  video.video-propaganda {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    aspect-ratio: 16 / 9 !important; /* Mantiene la proporción original del clip */
+    object-fit: cover !important;     /* Llena el contenedor sin dejar franjas negras */
+    border-radius: 12px !important;
+  }
+}
+
+/* 🔮 LOGO CIRCULAR (Ubicación después del Banner) */
+.schneider-logo-after-banner {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 20px auto !important;
+  width: 100% !important;
+  background: transparent !important;
+
+  img.hero-img {
+    // Usamos el mismo tamaño en ancho y alto con variables locales para forzar un círculo y CERO óvalos
+    width: 35vw !important;        /* Escala perfecto según el ancho del celular */
+    height: 35vw !important;       /* Mismo tamaño para garantizar simetría */
+    max-width: 140px !important;   /* Tamaño máximo en pantallas de escritorio */
+    max-height: 140px !important;
+    min-width: 110px !important;   /* Tamaño mínimo en pantallas muy pequeñas */
+    min-height: 110px !important;
+    
+    border-radius: 50% !important; /* Forzado circular al 100% */
+    object-fit: cover !important;  /* Evita que el logo interno se comprima o estire */
+    border: 3px solid #7b2cbf !important;
+    box-shadow: 0 0 12px rgba(123, 44, 191, 0.6) !important;
+    background-color: transparent !important;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+/* 📱 CONSULTA ESPECÍFICA PARA DISPOSITIVOS TIPO MOTO G (PANTALLAS MEDIANAS/CHICAS) */
+@media (max-width: 400px) {
+  .schneider-promo-container {
+    width: 90vw !important; /* Aprovecha un poco más el espacio lateral en el Moto G */
+    margin: 10px auto !important;
+  }
+  
+  .schneider-logo-after-banner img.hero-img {
+    width: 38vw !important;
+    height: 38vw !important;
   }
 }
