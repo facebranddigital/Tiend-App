@@ -21,11 +21,10 @@
 
     <div class="hero-overlay"></div>
 
-
     <div class="hero-wrapper">
       <div class="hero-logo-space"></div>
 
-      <!-- 🌟 CONTENIDO DEL HERO -->
+      <!-- 🌟 CONTENIDO DEL HERO REESTRUCTURADO -->
       <div class="hero-content">
         <!-- 🟠 MODO BRACASFOOD: Botones naranjas normales si NO eres tú -->
         <div *ngIf="!(isEverAdminActive$ | async)" class="cta-buttons">
@@ -66,12 +65,11 @@
         </div>
 
         <!-- 🔮 UBICACIÓN DEL LOGO DESPUÉS DEL BANNER (SOLO EN MODO SCHNEIDER) -->
-        <div *ngIf="isEverAdminActive$ | async" class="schneider-logo-after-banner" style="text-align: center; margin-top: 20px;">
+        <div *ngIf="isEverAdminActive$ | async" class="schneider-logo-after-banner">
           <img 
             src="assets/schneiderlogo.png" 
             alt="Logo de C&E Schneider" 
             class="hero-img" 
-            style="max-width: 180px; border-radius: 50%; border: 3px solid #7b2cbf; box-shadow: 0 0 15px rgba(123, 44, 191, 0.6);"
           />
         </div>
 
