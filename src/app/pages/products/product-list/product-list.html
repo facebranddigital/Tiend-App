@@ -4,10 +4,15 @@
     <div class="header-content">
       <div class="title-with-logo">
         <h1>Inventario</h1>
-        <img src="assets/bracasfoodlogo.jpeg" alt="Logo" class="mini-logo" />
+        
+        <!-- Si es Ever ve schneiderlogo.png, sino bracasfoodlogo.jpeg -->
+        <img *ngIf="isEver$ | async; else bracasLogo" src="assets/schneiderlogo.png" alt="Logo Schneider" class="mini-logo" />
+        <ng-template #bracasLogo>
+          <img src="assets/bracasfoodlogo.jpeg" alt="Logo Bracasfood" class="mini-logo" />
+        </ng-template>
       </div>
-      <p>Control Total Bracasfood</p>
-    </div>
+      <p>Control Total</p>
+    </div> <!-- Cierre correcto del header-content -->
 
     <!-- BUSCADOR -->
     <div class="search-container">
@@ -108,4 +113,5 @@
     </div>
   </div>
 </main>
+
 <button [routerLink]="['/admin/finanzas']" class="btn-finance">📊 Calcular Ganancias</button>

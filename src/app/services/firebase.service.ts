@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, doc, setDoc, updateDoc, getDoc } from '@angular/fire/firestore';
+import { Firestore, doc, setDoc, updateDoc, getDoc, docData } from '@angular/fire/firestore'; // 👈 Agregamos 'docData'
 import { Auth, authState } from '@angular/fire/auth';
 import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
 import { Observable, from } from 'rxjs';
@@ -13,7 +13,6 @@ export class FirebaseService {
   private auth = inject(Auth);
   private storage = inject(Storage);
 
-  // Canal para la sesión del usuario
   public usuarioActivo$ = authState(this.auth);
 
   constructor() {}
@@ -73,18 +72,12 @@ export class FirebaseService {
   }
 
   /**
-   * Carga la información del pedido de forma segura sin romper el tipo 'Query'
+   * 🌟 REPARADO: Escucha cambios EN TIEMPO REAL del pedido sin romper instancias.
+   * Esto evitará el error en la consola que bloqueaba tu video.
    */
   escucharPedido(orderId: string): Observable<any> {
     const docRef = doc(this.db, 'orders', orderId);
-    return from(getDoc(docRef)).pipe(
-      map((snapshot) => {
-        if (snapshot.exists()) {
-          return { id: snapshot.id, ...snapshot.data() };
-        }
-        return null;
-      }),
-    );
+    return docData(docRef, { idField: 'id' }); // 👈 Utiliza la reactividad limpia de AngularFire
   }
 
   /**

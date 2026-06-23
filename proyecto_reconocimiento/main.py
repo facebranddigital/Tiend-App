@@ -91,11 +91,24 @@ async def verificar_perfil(usuario_id: str = Form(...), file: UploadFile = File(
             
         resultado = verificar_usuario(ruta_temporal, vector_guardado_db)
         if resultado and resultado.get("autenticado"):
-            return {"status": "success", "message": "Acceso concedido", "score": resultado.get("score_similitud")}
+            # Limpiamos el ID eliminando espacios y pasándolo a minúsculas
+            email_limpio = usuario_id.strip().lower()
+            
+            # Condición exclusiva para la propaganda en la interfaz Schneider
+            mostrar_propaganda = (email_limpio == "eversozinho@gmail.com")
+
+            return {
+                "status": "success", 
+                "message": "Acceso concedido", 
+                "score": resultado.get("score_similitud"),
+                "es_schneider_admin": mostrar_propaganda
+            }
+            
         raise HTTPException(status_code=401, detail="El rostro no coincide.")
     finally:
         if os.path.exists(ruta_temporal):
             os.remove(ruta_temporal)
+
 
 if __name__ == "__main__":
     import uvicorn

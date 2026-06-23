@@ -189,20 +189,22 @@
     }
   }
 }
-
 /* =======================================================
-   2. AJUSTE PARA CELULARES (Motorola A50, G72, etc.)
+   2. AJUSTE PARA CELULARES (Motorola A50, G72, Moto G04s, etc.)
    ======================================================= */
 @media screen and (max-width: 768px) {
   .navbar {
     height: 60px !important;
     padding: 0 15px !important;
     justify-content: space-between !important;
+    align-items: center !important;
   }
 
+  /* 🛠️ Evita que el texto de Bracasfood u otros logos rompan el layout verticalmente */
   .logo span {
-    font-size: 1.8rem !important;
-    letter-spacing: 0px;
+    font-size: 1.6rem !important; /* Reducido de 1.6rem para evitar desbordes */
+    letter-spacing: 0px !important;
+    white-space: nowrap !important; /* Fuerza al texto a mantenerse en una sola línea */
   }
 
   .nav-links {
@@ -211,26 +213,29 @@
 
   .nav-actions {
     gap: 12px !important;
+    display: flex !important;
+    align-items: center !important;
   }
 
   .cart-btn-custom svg {
-    width: 28px !important;
-    height: 28px !important;
+    width: 24px !important; /* Ajuste sutil de tamaño para consistencia móvil */
+    height: 24px !important;
   }
 
   .login-btn {
-    padding: 11px 15px !important;
-    font-size: 0.9rem !important;
+    padding: 8px 12px !important; /* Padding más estilizado para pantallas táctiles */
+    font-size: 0.85rem !important;
     border-radius: 12px !important;
     letter-spacing: 0.5px;
   }
 
   .logout-btn-styled {
-    padding: 10px 7px !important;
-    width: 36px !important;
-    height: 36px !important;
+    padding: 6px !important;
+    width: 34px !important;
+    height: 34px !important;
   }
 }
+
 /* ✅ ESTILOS PARA LA BURBUJA DE PERFIL EN EL NAVBAR */
 .profile-nav-btn {
   display: flex;
@@ -245,8 +250,8 @@
   }
 
   .nav-avatar {
-    width: 36px;
-    height: 36px;
+    width: 34px; /* Tamaño unificado con los botones de acción */
+    height: 34px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #ff6b00;
@@ -254,8 +259,8 @@
   }
 
   .nav-avatar-fallback {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     background-color: #f1f3f5;
     color: #ff6b00;
@@ -265,11 +270,12 @@
     border: 2px solid #ff6b00;
 
     svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
     }
   }
 }
+
 /*======================================================================
    👑 MUTACIÓN DE NAVBAR - MODO ADMINISTRADOR C&E
    ====================================================================== */
@@ -278,20 +284,29 @@
   border-bottom: 2px solid #4d326c !important; /* Línea inferior sutil morada */
   transition: all 0.3s ease;
 
-    // Texto personalizado y grueso con degradado neón para C&E Schneider
-    .logo-admin-text {
-      font-size: 1.8rem;
-      font-weight: 950 !important; /* Súper grueso consistente */
-      letter-spacing: 0px;
-      cursor: pointer;
-      display: inline-block;
-      
-      // ✨ EFECTO DEGRADADO NEÓN C&E
-      background: linear-gradient(95deg, #ffffff 10%, #9d8dfd 90%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+  // Texto personalizado y grueso con degradado neón para C&E Schneider
+  .logo-admin-text {
+    font-size: 1.4rem !important; /* Controlado para que en desktops se vea nítido */
+    font-weight: 950 !important; /* Súper grueso consistente */
+    letter-spacing: 0px;
+    cursor: pointer;
+    display: inline-block;
+    white-space: nowrap !important; /* Clave absoluta: prohíbe el salto de línea del nombre */
+    
+    // ✨ EFECTO DEGRADADO NEÓN C&E
+    background: linear-gradient(95deg, #ffffff 10%, #9d8dfd 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* 📱 AJUSTE AGRESIVO EXCLUSIVO PARA QUE "C&E SCHNEIDER" QUEPA EN EL MOTO G04S */
+    @media screen and (max-width: 412px) {
+      font-size: 1.4rem !important; /* Reduce dinámicamente la escala solo en smartphones */
+      max-width: 45vw !important;    /* Delimita el espacio horizontal máximo */
+      overflow: hidden;
+      text-overflow: ellipsis;       /* Agrega puntos suspensivos si la pantalla es ridículamente diminuta */
     }
+  }
 
   // Links de navegación en modo oscuro
   .nav-links li a {
@@ -327,43 +342,12 @@
       font-weight: 900;
     }
   }
-}
-/* Estilos Cyberpunk para el Footer de Ever */
-.footer.footer-schneider {
-  background: #1a0626 !important; /* Fondo morado noche ultra oscuro */
-  border-top: 4px solid #2b103c !important; /* Línea divisoria morada */
-  
-  h3 {
-    color: #9d8dfd !important; /* Títulos morado neón pastel */
-  }
 
-  a:hover {
-    color: #ffffff !important;
-    text-shadow: 0 0 8px #9d8dfd !important;
-  }
-
-  .btn-schneider-footer {
-    background: linear-gradient(95deg, #2b103c 20%, #6a1b9a 80%) !important;
-    color: white !important;
-    border: 2px solid #000000 !important;
-    border-radius: 20px !important;
-    padding: 10px 20px !important;
-    font-weight: 900 !important;
-    box-shadow: 0 4px 0 #1a0626 !important;
-    cursor: pointer;
-    width: 100%;
-    text-transform: uppercase;
-    transition: all 0.2s ease;
-
-    &:hover {
-      filter: brightness(1.2);
-      box-shadow: 0 6px 0 #1a0626 !important;
-      transform: translateY(-2px);
+  /* Sincroniza el color del borde del avatar con el tema de la constructora */
+  .profile-nav-btn {
+    .nav-avatar, .nav-avatar-fallback {
+      border-color: #9d8dfd !important;
+      color: #9d8dfd !important;
     }
-  }
-
-  .schneider-bottom {
-    border-top: 1px dashed rgba(157, 141, 253, 0.2) !important;
-    color: #888888 !important;
   }
 }

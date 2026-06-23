@@ -39,7 +39,7 @@
       }
     }
     p {
-      color: #ff6b00;
+      color: #1d053a;
       font-weight: 700;
       text-transform: uppercase;
       font-size: 0.8rem;
@@ -261,4 +261,31 @@
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(255, 107, 0, 0.3);
   }
+}
+// Cambios estéticos personalizados
+.btn-add {
+  background: linear-gradient(135deg, #200457, #41046c) !important;
+  border: none !important;
+  color: #fefafa !important; // Texto negro para que contraste bien con el verde
+  box-shadow: 0 0 15px rgba(27, 198, 180, 0.4) !important;
+}
+
+.btn-finance {
+  background: linear-gradient(135deg, #200457, #41046c) !important;
+  border: none !important;
+  color: #f9f7f7 !important;
+}
+
+.mini-logo {
+  border: 2px solid #fdfcfe !important;
+  box-shadow: 0 0 10px rgba(101, 27, 198, 0.3)!important;
+}
+// Asegurar el mini logo redondo de Schneider / Bracasfood
+.mini-logo {
+  width: 40px !important;       // Tamaño unificado para que quepa bien en el header
+  height: 40px !important;      // Alto idéntico para que sea un círculo perfecto
+  border-radius: 50% !important; // El truco mágico para volverlo redondo
+  object-fit: cover !important; // Evita que la imagen se estire o se rompa
+  border: 2px solid #ffffff !important; // Un borde blanco sutil para que resalte del fondo oscuro
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2) !important;
 }

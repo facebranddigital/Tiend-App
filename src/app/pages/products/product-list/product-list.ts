@@ -1,8 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute } from '@angular/router'; // Import unificado
+import { RouterModule, ActivatedRoute } from '@angular/router'; 
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../services/product.service';
+import { AuthService } from '../../../services/auth.service'; 
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
@@ -16,12 +17,15 @@ import { map, startWith } from 'rxjs/operators';
 export class ProductListComponent implements OnInit {
   private productService = inject(ProductService);
   private route = inject(ActivatedRoute);
+  private authService = inject(AuthService); 
   
   private searchSubject = new BehaviorSubject<string>('');
   products$!: Observable<any[]>;
+  isEver$!: Observable<boolean>; // <-- Aquí se define la propiedad que faltaba
 
   ngOnInit() {
-    // 1. Escuchar parámetros de la URL (Categorías)
+    this.isEver$ = this.authService.isEverAdminActive$;
+
     this.route.queryParams.subscribe(params => {
       const category = params['category'];
       if (category) {
@@ -29,11 +33,9 @@ export class ProductListComponent implements OnInit {
       }
     });
 
-    // 2. Definir el flujo de datos
     const allProducts$ = this.productService.getProducts();
     const filter$ = this.searchSubject.asObservable().pipe(startWith(''));
 
-    // 3. Combinar productos y filtro en un solo flujo
     this.products$ = combineLatest([allProducts$, filter$]).pipe(
       map(([products, filterString]) => {
         if (!products) return [];
@@ -42,15 +44,12 @@ export class ProductListComponent implements OnInit {
         const search = filterString.toLowerCase();
         
         return products.filter((product: any) => {
-          // Busca coincidencia en Nombre O en Categoría
           return product.name?.toLowerCase().includes(search) ||
                  product.category?.toLowerCase().includes(search)
         });
       })
     );
   }
-
-  // --- MÉTODOS DE APOYO ---
 
   onSearch(text: string) {
     this.searchSubject.next(text);

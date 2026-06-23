@@ -45,7 +45,15 @@ export class LoginComponent {
         this.loading = false;
         console.log('Inicio de sesión exitoso mediante Firebase.');
 
-        // Redirección directa e instantánea sin pasar por reconocimiento facial
+        // Limpiamos el email y verificamos si es el admin de Schneider
+        const emailLimpio = email.trim().toLowerCase();
+        if (emailLimpio === 'eversozinho@gmail.com') {
+          localStorage.setItem('es_schneider_admin', 'true');
+        } else {
+          localStorage.removeItem('es_schneider_admin');
+        }
+
+        // Redirección directa al listado de productos / interfaz principal
         this.router.navigate(['/products']);
       })
       .catch((err) => {
