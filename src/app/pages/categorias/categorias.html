@@ -1,25 +1,53 @@
-<div class="categorias-container">
+<div class="categorias-container" [class.perfil-ever]="esPerfilEver">
   <div class="header-categorias">
-    <h1>Explora Bracasfood</h1>
+    <!-- Ahora el título cambia dinámicamente -->
+    <h1>{{ tituloPrincipal }}</h1> 
   </div>
 
   <div class="categorias-grid">
-    <!-- SECCIÓN NARIÑO -->
-    <div class="categoria-card card-tradicion" (click)="filtrarPor('tradicion')">
+    <!-- SECCIÓN NARIÑO / VIDEOS -->
+    <div 
+      class="categoria-card card-tradicion" 
+      [ngStyle]="{'background-image': 'url(' + fondoNarino + ')'}"
+      (click)="filtrarPor('tradicion')">
       <div class="overlay">
-        <h2>Sabores de Nariño</h2>
-        <p>Cuy Asado, Gallina y Tradición Pastusa</p>
-        <button class="btn-ver">Ver Platos</button>
+        <h2>{{ tituloNarino }}</h2>
+        <p>{{ descNarino }}</p>
+        <!-- Ahora el botón cambia dinámicamente -->
+        <button class="btn-ver">{{ textoBotonNarino }}</button> 
       </div>
     </div>
 
-    <!-- SECCIÓN SNACKS -->
-    <div class="categoria-card card-snacks" (click)="filtrarPor('snacks')">
+    <!-- SECCIÓN SNACKS / FOTOS -->
+    <div 
+      class="categoria-card card-snacks" 
+      [ngStyle]="{'background-image': 'url(' + fondoSnacks + ')'}"
+      (click)="filtrarPor('snacks')">
       <div class="overlay">
-        <h2>Pasabocas y Bebidas</h2>
-        <p>Bolis Gourmet, Papitas y Tocineta BF</p>
-        <button class="btn-ver">Ver Snacks</button>
+        <h2>{{ tituloSnacks }}</h2>
+        <p>{{ descSnacks }}</p>
+        <!-- Ahora el botón cambia dinámicamente -->
+        <button class="btn-ver">{{ textoBotonSnacks }}</button> 
       </div>
     </div>
+  </div>
+</div>
+
+<!-- 🎬 MODAL FLOTANTE: REPRODUCTOR DE VIDEO -->
+<div class="video-modal-overlay" *ngIf="mostrarModalVideo" (click)="cerrarVideo()">
+  <div class="video-modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar-modal" (click)="cerrarVideo()">✕</button>
+    <video controls autoplay class="reproductor-ever">
+      <source [src]="rutaVideoEver" type="video/mp4">
+      Tu navegador no soporta la reproducción de este video.
+    </video>
+  </div>
+</div>
+
+<!-- 🖼️ MODAL FLOTANTE: VISUALIZADOR DE FOTO -->
+<div class="foto-modal-overlay" *ngIf="mostrarModalFoto" (click)="cerrarFoto()">
+  <div class="foto-modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar-modal" (click)="cerrarFoto()">✕</button>
+    <img [src]="rutaFotoEver" alt="Registro Fotográfico" class="visor-foto-ever">
   </div>
 </div>
