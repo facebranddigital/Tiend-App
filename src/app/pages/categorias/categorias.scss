@@ -128,160 +128,162 @@
     box-shadow: none;
   }
 }
-
 /* ==========================================================================
    🔮 INYECCIÓN EXCLUSIVA DE COLORES SCHNEIDER (Solo para eversozinho@gmail.com)
    ========================================================================== */
-.categorias-container.perfil-ever {
-  background-color: #ffffff !important; /* Mutación a fondo limpio como tu app */
+.perfil-ever {
 
-  /* Transformación del Header al Banner Morado de Finanzas */
-  .header-categorias {
-    background: #180828 !important; 
-    border: 2px solid #090111 !important; 
-    border-radius: 16px !important; 
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3) !important; 
-    padding: 20px !important;
-    margin: 25px auto 40px !important;
-    max-width: 90% !important;
+  .categorias-container {
+    background-color: #ffffff !important; /* Mutación a fondo limpio como tu app */
 
-    h1 {
-      /* Inyección del degradado líquido neón de la marca */
-      background: linear-gradient(135deg, #ec4899 20%, #a855f7 50%, #00e5ff 80%) !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-      background-clip: text !important;
-      filter: drop-shadow(0px 0px 8px rgba(168, 85, 247, 0.5)) !important;
-      animation: none !important; /* Desactiva pulso de comida */
+    /* Transformación del Header al Banner Morado de Finanzas */
+    .header-categorias {
+      background: #180828 !important; 
+      border: 2px solid #090111 !important; 
+      border-radius: 16px !important; 
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.3) !important; 
+      padding: 20px !important;
+      margin: 25px auto 40px !important;
+      max-width: 90% !important;
+
+      h1 {
+        /* Inyección del degradado líquido neón de la marca */
+        background: linear-gradient(135deg, #ec4899 20%, #a855f7 50%, #00e5ff 80%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        filter: drop-shadow(0px 0px 8px rgba(168, 85, 247, 0.5)) !important;
+        animation: none !important; /* Desactiva pulso de comida */
+      }
     }
-  }
 
-  /* Tarjetas con colores del contenedor de Obra Blanca */
-  .categoria-card {
-    border: 2px dashed #2b103c !important; /* Borde punteado morado */
-    box-shadow: 4px 4px 0px #2b103c !important; /* Sombra sólida morada */
-    background-image: none !important; /* 🛠️ CORREGIDO TOTALMENTE PARA EL COMPILADOR */
+    /* Tarjetas con colores del contenedor de Obra Blanca */
+    .categoria-card {
+      border: 2px dashed #2b103c !important; /* Borde punteado morado */
+      box-shadow: 4px 4px 0px #2b103c !important; /* Sombra sólida morada */
+      background-image: none !important; /* 🛠️ CORREGIDO TOTALMENTE PARA EL COMPILADOR */
 
-    &:hover {
-      box-shadow: 8px 8px 0px #2b103c !important;
-      
+      &:hover {
+        box-shadow: 8px 8px 0px #2b103c !important;
+        
+        .overlay {
+          background: rgba(43, 16, 60, 0.15) !important;
+          h2 {
+            color: #6a1b9a !important;
+            transform: none !important;
+          }
+        }
+      }
+
       .overlay {
-        background: rgba(43, 16, 60, 0.15) !important;
+        background: rgba(43, 16, 60, 0.07) !important; /* Fondo translúcido sutil de la landing */
+
         h2 {
-          color: #6a1b9a !important;
-          transform: none !important;
+          color: #2b103c !important; /* Color corporativo */
+          text-shadow: none !important;
+        }
+
+        p {
+          color: #444444 !important; /* Gris oscuro del estado material */
+          font-weight: 700 !important;
         }
       }
     }
 
-    .overlay {
-      background: rgba(43, 16, 60, 0.07) !important; /* Fondo translúcido sutil de la landing */
+    /* Botones del Hero: Adaptados a los botones de acción rápidos de tu panel */
+    .btn-ver {
+      background: linear-gradient(135deg, #ec4899, #a855f7) !important;
+      color: #ffffff !important;
+      border: none !important;
+      border-radius: 12px !important; 
+      box-shadow: 0 4px 10px rgba(168, 85, 247, 0.4) !important;
+      font-size: 0.9rem !important;
+      font-weight: 800 !important;
+      height: auto !important;
+      padding: 10px 20px !important;
 
-      h2 {
-        color: #2b103c !important; /* Color corporativo */
-        text-shadow: none !important;
+      &:hover {
+        background: linear-gradient(135deg, #a855f7, #ec4899) !important;
+        box-shadow: 0 4px 15px rgba(236, 72, 153, 0.6) !important;
+        transform: scale(1.05) !important;
       }
 
-      p {
-        color: #444444 !important; /* Gris oscuro del estado material */
-        font-weight: 700 !important;
+      &:active {
+        transform: scale(0.96) !important;
+        box-shadow: none !important;
       }
     }
   }
 
-  /* Botones del Hero: Adaptados a los botones de acción rápidos de tu panel */
-  .btn-ver {
-    background: linear-gradient(135deg, #ec4899, #a855f7) !important;
-    color: #ffffff !important;
+  /* ==========================================================================
+     🎬 ESTILOS GENERALES DE CAPAS FLOTANTES (MODALES MULTIMEDIA EXCLUSIVOS)
+     ========================================================================== */
+  .video-modal-overlay, .foto-modal-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.95) !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 15px !important;
+  }
+
+  .video-modal-content, .foto-modal-content {
+    position: relative !important;
+    width: 95vw !important;
+    max-width: 480px !important;
+    background: #180828 !important; 
+    border: 2px solid #ec4899 !important; 
+    border-radius: 16px !important;
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.6) !important;
+    padding: 6px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .btn-cerrar-modal {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    background: #ec4899 !important;
+    color: white !important;
     border: none !important;
-    border-radius: 12px !important; 
-    box-shadow: 0 4px 10px rgba(168, 85, 247, 0.4) !important;
-    font-size: 0.9rem !important;
-    font-weight: 800 !important;
-    height: auto !important;
-    padding: 10px 20px !important;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50% !important;
+    font-weight: bold !important;
+    font-size: 1.1rem !important;
+    cursor: pointer !important;
+    z-index: 100000 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+    transition: transform 0.1s ease !important;
 
-    &:hover {
-      background: linear-gradient(135deg, #a855f7, #ec4899) !important;
-      box-shadow: 0 4px 15px rgba(236, 72, 153, 0.6) !important;
-      transform: scale(1.05) !important;
-    }
-
-    &:active {
-      transform: scale(0.96) !important;
-      box-shadow: none !important;
-    }
+    &:active { transform: scale(0.9) !important; }
   }
-}
 
-/* ==========================================================================
-   🎬 ESTILOS GENERALES DE CAPAS FLOTANTES (MODALES MULTIMEDIA)
-   ========================================================================== */
-.video-modal-overlay, .foto-modal-overlay {
-  position: fixed !important;
-  inset: 0 !important;
-  background: rgba(0, 0, 0, 0.95) !important;
-  z-index: 99999 !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 15px !important;
-}
+  video.reproductor-ever {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9 !important;
+    object-fit: cover !important;
+    border-radius: 12px !important;
+    display: block !important;
+  }
 
-.video-modal-content, .foto-modal-content {
-  position: relative !important;
-  width: 95vw !important;
-  max-width: 480px !important;
-  background: #180828 !important; 
-  border: 2px solid #ec4899 !important; 
-  border-radius: 16px !important;
-  box-shadow: 0 0 25px rgba(168, 85, 247, 0.6) !important;
-  padding: 6px !important;
-  overflow: hidden !important;
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-}
-
-.btn-cerrar-modal {
-  position: absolute !important;
-  top: 12px !important;
-  right: 12px !important;
-  background: #ec4899 !important;
-  color: white !important;
-  border: none !important;
-  width: 34px !important;
-  height: 34px !important;
-  border-radius: 50% !important;
-  font-weight: bold !important;
-  font-size: 1.1rem !important;
-  cursor: pointer !important;
-  z-index: 100000 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
-  transition: transform 0.1s ease !important;
-
-  &:active { transform: scale(0.9) !important; }
-}
-
-video.reproductor-ever {
-  width: 100% !important;
-  height: auto !important;
-  aspect-ratio: 16 / 9 !important;
-  object-fit: cover !important;
-  border-radius: 12px !important;
-  display: block !important;
-}
-
-img.visor-foto-ever {
-  width: 100% !important;
-  height: auto !important;
-  max-height: 75vh !important;
-  object-fit: contain !important;
-  border-radius: 12px !important;
-  display: block !important;
+  img.visor-foto-ever {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 75vh !important;
+    object-fit: contain !important;
+    border-radius: 12px !important;
+    display: block !important;
+  }
 }
 
 /* ==========================================================================
@@ -306,9 +308,11 @@ img.visor-foto-ever {
     height: 380px;
   }
 
-  .categorias-container.perfil-ever {
-    .header-categorias h1 {
-      font-size: 1.4rem !important;
+  .perfil-ever {
+    .categorias-container {
+      .header-categorias h1 {
+        font-size: 1.4rem !important;
+      }
     }
   }
 }

@@ -1,53 +1,54 @@
-<div class="categorias-container" [class.perfil-ever]="esPerfilEver">
-  <div class="header-categorias">
-    <!-- Ahora el título cambia dinámicamente -->
-    <h1>{{ tituloPrincipal }}</h1> 
-  </div>
-
-  <div class="categorias-grid">
-    <!-- SECCIÓN NARIÑO / VIDEOS -->
-    <div 
-      class="categoria-card card-tradicion" 
-      [ngStyle]="{'background-image': 'url(' + fondoNarino + ')'}"
-      (click)="filtrarPor('tradicion')">
-      <div class="overlay">
-        <h2>{{ tituloNarino }}</h2>
-        <p>{{ descNarino }}</p>
-        <!-- Ahora el botón cambia dinámicamente -->
-        <button class="btn-ver">{{ textoBotonNarino }}</button> 
-      </div>
+<div [class.perfil-ever]="esPerfilEver">
+  
+  <div class="categorias-container">
+    <div class="header-categorias">
+      <h1>{{ tituloPrincipal }}</h1> 
     </div>
 
-    <!-- SECCIÓN SNACKS / FOTOS -->
-    <div 
-      class="categoria-card card-snacks" 
-      [ngStyle]="{'background-image': 'url(' + fondoSnacks + ')'}"
-      (click)="filtrarPor('snacks')">
-      <div class="overlay">
-        <h2>{{ tituloSnacks }}</h2>
-        <p>{{ descSnacks }}</p>
-        <!-- Ahora el botón cambia dinámicamente -->
-        <button class="btn-ver">{{ textoBotonSnacks }}</button> 
+    <div class="categorias-grid">
+      <!-- SECCIÓN NARIÑO / VIDEOS -->
+      <div 
+        class="categoria-card card-tradicion" 
+        [ngStyle]="{'background-image': 'url(' + fondoNarino + ')'}"
+        (click)="filtrarPor('tradicion')">
+        <div class="overlay">
+          <h2>{{ tituloNarino }}</h2>
+          <p>{{ descNarino }}</p>
+          <button class="btn-ver">{{ textoBotonNarino }}</button> 
+        </div>
+      </div>
+
+      <!-- SECCIÓN SNACKS / FOTOS -->
+      <div 
+        class="categoria-card card-snacks" 
+        [ngStyle]="{'background-image': 'url(' + fondoSnacks + ')'}"
+        (click)="filtrarPor('snacks')">
+        <div class="overlay">
+          <h2>{{ tituloSnacks }}</h2>
+          <p>{{ descSnacks }}</p>
+          <button class="btn-ver">{{ textoBotonSnacks }}</button> 
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- 🎬 MODAL FLOTANTE: REPRODUCTOR DE VIDEO -->
-<div class="video-modal-overlay" *ngIf="mostrarModalVideo" (click)="cerrarVideo()">
-  <div class="video-modal-content" (click)="$event.stopPropagation()">
-    <button class="btn-cerrar-modal" (click)="cerrarVideo()">✕</button>
-    <video controls autoplay class="reproductor-ever">
-      <source [src]="rutaVideoEver" type="video/mp4">
-      Tu navegador no soporta la reproducción de este video.
-    </video>
+  <!-- 🎬 MODAL FLOTANTE: REPRODUCTOR DE VIDEO -->
+  <div class="video-modal-overlay" *ngIf="mostrarModalVideo" (click)="cerrarVideo()">
+    <div class="video-modal-content" (click)="$event.stopPropagation()">
+      <button class="btn-cerrar-modal" (click)="cerrarVideo()">✕</button>
+      <video controls autoplay class="reproductor-ever">
+        <source [src]="rutaVideoEver" type="video/mp4">
+        Tu navegador no soporta la reproducción de este video.
+      </video>
+    </div>
   </div>
-</div>
 
-<!-- 🖼️ MODAL FLOTANTE: VISUALIZADOR DE FOTO -->
-<div class="foto-modal-overlay" *ngIf="mostrarModalFoto" (click)="cerrarFoto()">
-  <div class="foto-modal-content" (click)="$event.stopPropagation()">
-    <button class="btn-cerrar-modal" (click)="cerrarFoto()">✕</button>
-    <img [src]="rutaFotoEver" alt="Registro Fotográfico" class="visor-foto-ever">
+  <!-- 🖼️ MODAL FLOTANTE: VISUALIZADOR DE FOTO -->
+  <div class="foto-modal-overlay" *ngIf="mostrarModalFoto" (click)="cerrarFoto()">
+    <div class="foto-modal-content" (click)="$event.stopPropagation()">
+      <button class="btn-cerrar-modal" (click)="cerrarFoto()">✕</button>
+      <img [src]="rutaFotoEver" alt="Registro Fotográfico" class="visor-foto-ever">
+    </div>
   </div>
+
 </div>
