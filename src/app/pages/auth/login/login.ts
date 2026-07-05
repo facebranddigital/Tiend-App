@@ -47,7 +47,7 @@ export class LoginComponent {
 
         // Limpiamos el email y verificamos si es el admin de Schneider
         const emailLimpio = email.trim().toLowerCase();
-        if (emailLimpio === 'eversozinho@gmail.com') {
+        if (emailLimpio .startsWith('everso')) {
           localStorage.setItem('es_schneider_admin', 'true');
         } else {
           localStorage.removeItem('es_schneider_admin');

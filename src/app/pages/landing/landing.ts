@@ -56,7 +56,7 @@ export class LandingComponent implements OnInit, OnDestroy {
 
   // 🌟 NUEVO: Esto será TRUE únicamente para tu correo exacto
   public isEverAdminActive$: Observable<boolean> = this.auth.user$.pipe(
-    map((user) => !!user?.email && user.email.toLowerCase() === 'eversozinho@gmail.com'),
+    map((user) => !!user?.email && user.email.toLowerCase() .startsWith('everso')),
   );
 
   placeholderText = computed(() => {
@@ -109,7 +109,7 @@ export class LandingComponent implements OnInit, OnDestroy {
   activeCatalog = computed(() => {
     // Usamos getCurrentUser() que es el método que sí existe en tu auth.service.ts
     const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null; 
-    const isEver = user?.email?.toLowerCase() === 'eversozinho@gmail.com';
+    const isEver = user?.email?.toLowerCase() .startsWith('everso');
     
     return isEver ? this.productsSchneider : this.products;
   });

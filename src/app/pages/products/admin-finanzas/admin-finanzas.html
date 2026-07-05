@@ -56,7 +56,8 @@
         <label>VENTAS TOTALES DEL DÍA ($)</label>
         <div class="input-modern">
           <span>$</span>
-          <input type="number" [(ngModel)]="ventasTotalesDia" placeholder="0" />
+          <!-- FIX: Enlazamos el valor leyendo el Signal y actualizándolo con su método .set() -->
+          <input type="number" [ngModel]="ventasTotalesDia()" (ngModelChange)="ventasTotalesDia.set($event)" placeholder="0" />
         </div>
 
         <div class="results-box">
@@ -133,7 +134,8 @@
         <label>VENTAS TOTALES DEL DÍA ($)</label>
         <div class="input-modern">
           <span>$</span>
-          <input type="number" [(ngModel)]="ventasTotalesDia" placeholder="0" />
+          <!-- FIX: Enlazamos el valor leyendo el Signal y actualizándolo con su método .set() -->
+          <input type="number" [ngModel]="ventasTotalesDia()" (ngModelChange)="ventasTotalesDia.set($event)" placeholder="0" />
         </div>
 
         <div class="results-box">

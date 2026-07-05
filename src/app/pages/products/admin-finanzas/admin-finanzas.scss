@@ -8,15 +8,15 @@
 
   // ----------------------------------------------------------------------
   // 🛒 ESTILOS EXCLUSIVOS MODO PÚBLICO (BRACASFOOD - NARANJA ORIGINAL)
-  // Encapsulado para que NO afecte al modo administrador
+  // Se aplica a TODOS por defecto, excepto si tiene la clase admin-theme
   // ----------------------------------------------------------------------
   &:not(.admin-theme) {
     background-color: white;
 
     .calc-header-main {
       margin-bottom: 30px;
-      h1 { color: #ed9907; }
-      p { color: #ff6b00; }
+      h1 { color: #ed9907 !important; }
+      p { color: #ff6b00 !important; }
     }
 
     .card {
@@ -34,32 +34,32 @@
         span { color: #1a1a1a !important; }
         strong { color: #ff6b00 !important; }
       }
-      &.highlight { border: 2px solid #e46a07; }
+      &.highlight { border: 2px solid #e46a07 !important; }
     }
 
     .input-modern {
       background: #f9f9f9;
       border: 2px solid #eee;
-      span { color: #ff6b00; }
+      span { color: #ff6b00 !important; }
       input { color: #1a1a1a; }
     }
 
     .btn-add-row {
-      background: #ff6b00;
-      color: white;
+      background: #ff6b00 !important;
+      color: white !important;
     }
 
     .subtotal-row { color: #060300; }
 
     .results-box .res-item {
       &.plus h2 { color: #10b981; }
-      &.minus h2 { color: #ff6b00; }
+      &.minus h2 { color: #ff6b00 !important; }
     }
   }
 
   // ======================================================================
   // 👑 ESTILOS EXCLUSIVOS MODO ADMIN - PALETA VIOLETA/MORADO C&E
-  // Blindado con selectores internos para aplastar cualquier estilo viejo
+  // Solo se activa si la directiva de Angular detecta a eversozinho
   // ======================================================================
   &.admin-theme {
     background-color: #0f0919 !important; 
@@ -154,6 +154,7 @@
       }
     }
   }
+
 
   // ----------------------------------------------------------------------
   // COMPORTAMIENTOS ESTRUCTURALES COMPARTIDOS

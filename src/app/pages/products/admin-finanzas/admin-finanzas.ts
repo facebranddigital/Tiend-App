@@ -1,4 +1,4 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -27,21 +27,22 @@ interface Message {
   templateUrl: './admin-finanzas.html',
   styleUrl: './admin-finanzas.scss',
 })
-export class AdminFinanzasComponent {
+export class AdminFinanzasComponent implements OnInit {
   // --- SERVICIOS ---
   public auth = inject(AuthService);
   public cartService = inject(CartService);
   private router = inject(Router);
 
   // --- CONTROL DE INTERFAZ EXCLUSIVA PARA EL ADMIN ---
+  // Creamos un signal local para rastrear de forma reactiva el correo del usuario logueado
+  private userEmailSignal = signal<string | null>(null);
+
   public isAdminExclusivo = computed(() => {
-    // Llamamos correctamente al método de tu servicio que se ve en consola
-    const usuarioActual = (this.auth as any).getCurrentUser();
-
-    if (!usuarioActual) return false;
-
-    // Reemplaza este correo por el tuyo real de administrador
-    return usuarioActual.email?.toLowerCase() === 'eversozinho@gmail.com';
+    const email = this.userEmailSignal();
+    if (!email) return false;
+    
+    // Evalúa de forma limpia si el correo empieza por everso
+    return email.toLowerCase().startsWith('everso');
   });
 
   // --- ESTADO EDITABLE (SIGNALS) ---
@@ -73,6 +74,20 @@ export class AdminFinanzasComponent {
   );
 
   gananciaNetaDia = computed(() => this.ventasTotalesDia() - this.costoTotalReal());
+
+  ngOnInit() {
+    // Al iniciar el componente nos suscribimos al flujo asíncrono de autenticación de tu app
+    // para capturar dinámicamente si es eversozinho o teveventaspasto
+    if ((this.auth as any).user$) {
+      (this.auth as any).user$.subscribe((usuarioActual: any) => {
+        this.userEmailSignal.set(usuarioActual?.email || null);
+      });
+    } else {
+      // Fallback por si usan el método plano en vez del observable continuo
+      const usuarioActual = (this.auth as any).getCurrentUser();
+      this.userEmailSignal.set(usuarioActual?.email || null);
+    }
+  }
 
   // --- ACCIONES DE FINANZAS ---
   agregarInsumo() {
@@ -117,13 +132,11 @@ export class AdminFinanzasComponent {
     }
   }
 
-  // Manejador de respuestas del usuario y lógica de Nequi
   sendMessage() {
     const text = this.userInput.trim().toLowerCase();
     if (!text) return;
 
     this.messages.update((prev) => [...prev, { role: 'user', text: this.userInput }]);
-    const currentInput = this.userInput;
     this.userInput = '';
     this.isLoading.set(true);
 
@@ -142,7 +155,6 @@ export class AdminFinanzasComponent {
         botResponse =
           'Entendido. 💵 Por favor, indícame tu dirección para coordinar la entrega y el cambio necesario.';
       } else if (text.length > 5 && this.metodoPagoSeleccionado !== '') {
-        // Asumimos que envió la dirección
         botResponse =
           '¡Datos recibidos! 📍 Haz clic en el botón de abajo para confirmar en WhatsApp y recibir tu QR o detalles de entrega.';
       } else {
@@ -154,12 +166,11 @@ export class AdminFinanzasComponent {
     }, 1000);
   }
 
-  // DISPARADOR PARA WHATSAPP CON KEYWORD
   irAWhatsapp(direccion: string) {
-    const telefono = '3218119383'; // PONÉ ACÁ TU NÚMERO DE BRACASFOOD
+    const telefono = '3218119383'; 
     const keyword =
       this.metodoPagoSeleccionado === 'NEQUI' ? '[REF: NEQUI-PAY]' : '[REF: EFECTIVO]';
-    const total = this.cartService.total(); // Suponiendo que tenés total() en tu CartService
+    const total = this.cartService.total(); 
 
     const mensaje =
       `¡Hola Bracasfood! 🍦 Quiero confirmar mi pedido.\n\n` +

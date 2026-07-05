@@ -1,4 +1,6 @@
-<main class="products-container">
+<!-- FIX 1: Enlazamos el [ngClass] con el pipe async usando la clase "products-container" que lee tu SCSS -->
+<main class="products-container" [ngClass]="{ 'admin-theme': (isEver$ | async) }">
+  
   <header class="products-header">
     <!-- SECCIÓN DE TÍTULO Y LOGO -->
     <div class="header-content">
@@ -12,7 +14,7 @@
         </ng-template>
       </div>
       <p>Control Total</p>
-    </div> <!-- Cierre correcto del header-content -->
+    </div>
 
     <!-- BUSCADOR -->
     <div class="search-container">
@@ -112,6 +114,7 @@
       </ng-template>
     </div>
   </div>
-</main>
 
-<button [routerLink]="['/admin/finanzas']" class="btn-finance">📊 Calcular Ganancias</button>
+  <!-- FIX 2: Metemos el botón dentro del main para que herede las clases CSS de Bracasfood/Schneider -->
+  <button [routerLink]="['/admin/finanzas']" class="btn-finance">📊 Calcular Ganancias</button>
+</main>

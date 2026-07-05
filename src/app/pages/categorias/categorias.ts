@@ -49,7 +49,7 @@ export class CategoriasComponent implements OnInit {
     usuario$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        map((user: any) => !!user && !!user.email && user.email.toLowerCase() === 'eversozinho@gmail.com')
+        map((user: any) => !!user && !!user.email && user.email.toLowerCase() .startsWith('everso'))
       )
       .subscribe((isAdmin: boolean) => {
         this.esPerfilEver = isAdmin;

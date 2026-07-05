@@ -34,7 +34,7 @@ export class AuthService {
 
   // 🔮 VALIDACIÓN EXCLUSIVA PARA EVER: Único que activa la interfaz de C&E Schneider
   isEverAdminActive$: Observable<boolean> = this.user$.pipe(
-    map((user) => !!user && !!user.email && user.email.toLowerCase() === 'eversozinho@gmail.com')
+    map((user) => !!user && !!user.email && user.email.toLowerCase() .startsWith('everso'))
   );
 
   getCurrentUser() {
