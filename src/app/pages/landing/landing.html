@@ -21,10 +21,11 @@
 
     <div class="hero-overlay"></div>
 
+    <!-- EL WRAPPER ORIGINAL PARA EL LOGO Y LOS BOTONES -->
     <div class="hero-wrapper">
       <div class="hero-logo-space"></div>
 
-      <!-- 🌟 CONTENIDO DEL HERO REESTRUCTURADO -->
+      <!-- CONTENIDO DEL HERO ORIGINAL (Aquí dentro NO va el video) -->
       <div class="hero-content">
         <!-- 🟠 MODO BRACASFOOD: Botones naranjas normales si NO eres tú -->
         <div *ngIf="!(isEverAdminActive$ | async)" class="cta-buttons">
@@ -45,37 +46,43 @@
             Gestionar Categorías 🗂️
           </button>
         </div>
-
-        <!-- 🌟 BANNER DINÁMICO CENTRAL REGULADO -->
-        <div class="promo-banner">
-          <!-- Si NO eres tú, ve el banner naranja tradicional de Bracasfood -->
-          <h2
-            *ngIf="!(isEverAdminActive$ | async)"
-            style="color: #ff6b00; font-weight: 1000; font-size: 2.2rem; text-transform: uppercase"
-          >
-            ¡Consiente tu paladar! <i class="fas fa-apple-alt"></i>
-          </h2>
-
-          <!-- Si eres tú, cambia al letrero animado de la constructora -->
-          <ng-template [ngIf]="isEverAdminActive$ | async">
-            <h2 class="titulo-schneider-blanco-animado">
-              Remodelaciones C&E Schneider <i class="fas fa-tools"></i>
-            </h2>
-          </ng-template>
-        </div>
-
-           <!-- 🔮 UBICACIÓN DEL LOGO DESPUÉS DEL BANNER (SOLO EN MODO SCHNEIDER) -->
-        <div *ngIf="isEverAdminActive$ | async" class="schneider-logo-after-banner">
-          <img 
-            src="assets/schneiderlogo.png" 
-            alt="Logo de C&E Schneider" 
-            class="hero-img" 
-          />
-        </div>
-
       </div> <!-- Cierre de hero-content -->
     </div> <!-- Cierre de hero-wrapper -->
-  </section> <
+
+    <!-- 🌟 BANNER DINÁMICO CENTRAL REGULADO (FUERA DEL WRAPPER, CAE ABAJO NATURALMENTE) -->
+    <div class="promo-banner-container">
+      <div class="promo-banner">
+        <!-- 🎥 NUEVO: VIDEO BANNER DE COMIDA (Visible para todos, MENOS para eversozinho) -->
+        <div class="banner-video-comida-container" *ngIf="!(isEverAdminActive$ | async)">
+          <video class="video-banner-publico" autoplay loop muted playsinline>
+            <source src="assets/videobracas.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de videos.
+          </video>
+          <div class="overlay-texto-banner">
+            <h2>¡Consiente tu paladar! <i class="fas fa-apple-alt"></i></h2>
+          </div>
+        </div>
+
+        <!-- Si eres tú (eversozinho), el video de arriba se destruye y cambia a tu letrero animado -->
+        <ng-template [ngIf]="isEverAdminActive$ | async">
+          <h2 class="titulo-schneider-blanco-animado">
+            Remodelaciones C&E Schneider <i class="fas fa-tools"></i>
+          </h2>
+        </ng-template>
+      </div>
+
+      <!-- 🔮 UBICACIÓN DEL LOGO DESPUÉS DEL BANNER (SOLO EN MODO SCHNEIDER) -->
+      <div *ngIf="isEverAdminActive$ | async" class="schneider-logo-after-banner">
+        <img 
+          src="assets/schneiderlogo.png" 
+          alt="Logo de C&E Schneider" 
+          class="hero-img" 
+        />
+      </div>
+    </div>
+
+  </section>
+
  
 
     <!-- SECCIÓN DE PRODUCTOS (DINÁMICA: BRACASFOOD / OBRA BLANCA SCHNEIDER) -->

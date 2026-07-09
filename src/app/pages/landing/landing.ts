@@ -54,9 +54,9 @@ export class LandingComponent implements OnInit, OnDestroy {
     map((user) => !!user?.email && this.ADMIN_EMAILS.includes(user.email.toLowerCase())),
   );
 
-  // 🌟 NUEVO: Esto será TRUE únicamente para tu correo exacto
+  // 🔥 ESTE OBSERVABLE SERÁ TRUE ÚNICAMENTE PARA TU CORREO EXACTO
   public isEverAdminActive$: Observable<boolean> = this.auth.user$.pipe(
-    map((user) => !!user?.email && user.email.toLowerCase() .startsWith('everso')),
+    map((user) => !!user?.email && user.email.toLowerCase().startsWith('everso')),
   );
 
   placeholderText = computed(() => {

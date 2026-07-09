@@ -2367,3 +2367,240 @@ p:empty {
     height: 38vw !important;
   }
 }
+/* ==========================================================================
+   🎥 ADAPTACIÓN EXACTA DEL VIDEO BANNER PÚBLICO (BRACASFOOD)
+   ========================================================================== */
+.banner-video-comida-container {
+  width: 85vw !important;       /* Clon exacto de tu regla para schneider-promo-container */
+  max-width: 420px !important;  /* Límite para que no se estire en pantallas grandes */
+  height: auto !important;
+  margin: 15px auto !important; /* Espaciado vertical controlado */
+  display: block !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 12px !important; /* Esquinas idénticas al video superior */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4) !important;
+  overflow: hidden !important;
+  position: relative !important;
+
+  video.video-banner-publico {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    aspect-ratio: 16 / 9 !important; /* Mantiene la proporción original del clip */
+    object-fit: cover !important;     /* Llena el contenedor sin dejar franjas negras */
+    border-radius: 12px !important;
+  }
+
+  /* Ocultamos el overlay con el texto para que solo se vea el video limpio en el celular */
+  .overlay-texto-banner {
+    display: none !important;
+  }
+}
+
+/* 📱 CONSULTA ESPECÍFICA ADAPTADA A TU REGLA DE DISPOSITIVOS CHICOS */
+@media (max-width: 400px) {
+  .banner-video-comida-container {
+    width: 90vw !important; /* Aprovecha un poco más el espacio lateral en el Moto G */
+    margin: 10px auto !important;
+  }
+}
+/* ==========================================================================
+   NUEVO CONTENEDOR DE BANNER (FLUJO NATURAL ABAJO DEL LOGO Y BOTONES)
+   ========================================================================== */
+.promo-banner-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-top: 25px !important; /* Despega el video del bloque de los botones */
+  position: relative !important;
+  clear: both !important;
+}
+
+.promo-banner {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+/* 🎥 VIDEO SUPERIOR SCHNEIDER */
+.schneider-promo-container {
+  width: 85vw !important;       
+  max-width: 420px !important;  
+  height: auto !important;
+  margin: 15px auto !important; 
+  display: block !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4) !important;
+  overflow: hidden !important;
+
+  video.video-propaganda {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    aspect-ratio: 16 / 9 !important; 
+    object-fit: cover !important;     
+    border-radius: 12px !important;
+  }
+}
+
+/* 🔮 LOGO CIRCULAR SCHNEIDER */
+.schneider-logo-after-banner {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 20px auto !important;
+  width: 100% !important;
+  background: transparent !important;
+
+  img.hero-img {
+    width: 35vw !important;        
+    height: 35vw !important;       
+    max-width: 140px !important;   
+    max-height: 140px !important;
+    min-width: 110px !important;   
+    min-height: 110px !important;
+    border-radius: 50% !important; 
+    object-fit: cover !important;  
+    border: 3px solid #7b2cbf !important;
+    box-shadow: 0 0 12px rgba(123, 44, 191, 0.6) !important;
+    background-color: transparent !important;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+/* 🎥 ADAPTACIÓN EXACTA DEL VIDEO BANNER PÚBLICO (BRACASFOOD) */
+.banner-video-comida-container {
+  width: 85vw !important;       
+  max-width: 420px !important;  
+  height: auto !important;
+  margin: 15px auto !important; 
+  display: block !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 12px !important; 
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4) !important;
+  overflow: hidden !important;
+  position: relative !important;
+
+  video.video-banner-publico {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    aspect-ratio: 16 / 9 !important; 
+    object-fit: cover !important;     
+    border-radius: 12px !important;
+  }
+
+  .overlay-texto-banner {
+    display: none !important;
+  }
+}
+
+/* 📱 DISPOSITIVOS PEQUEÑOS (MOTO G) */
+@media (max-width: 400px) {
+  .schneider-promo-container,
+  .banner-video-comida-container {
+    width: 90vw !important; 
+    margin: 10px auto !important;
+  }
+  
+  .schneider-logo-after-banner img.hero-img {
+    width: 38vw !important;
+    height: 38vw !important;
+  }
+}
+/* ==========================================================================
+   ESTRUCTURA CONTROLADA CON GRID (CORRECCIÓN INTEGRAL EN VIVO)
+   ========================================================================== */
+
+/* 1. Forzamos al contenedor del Hero a medir lo que mide su contenido real */
+.hero {
+  position: relative !important;
+  display: block !important;
+  height: auto !important;         /* 🛑 Adiós altos fijos que ocultan o enciman cosas */
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;    /* Deja que el video respire hacia abajo */
+}
+
+/* 2. El wrapper distribuye el espacio de forma limpia en el Moto G */
+.hero-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* 3. El contenedor donde viven los botones y el video */
+.hero-content {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: auto !important;
+  gap: 20px !important;            /* Separación perfecta entre botones y video */
+}
+
+/* 4. Forzamos a los botones a mantener su posición arriba */
+.cta-buttons, 
+.admin-schneider-buttons {
+  width: 100% !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 10px !important;
+}
+
+/* ==========================================================================
+   🎥 CORRECCIÓN DEL CONTENEDOR DEL VIDEO BANNER
+   ========================================================================== */
+.promo-banner {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 10px !important;
+  clear: both !important;
+}
+
+.banner-video-comida-container {
+  width: 85vw !important;         /* Medida ideal para la pantalla de tu Moto G */
+  max-width: 420px !important;  
+  height: auto !important;
+  display: block !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 12px !important; 
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4) !important;
+  overflow: hidden !important;
+  position: relative !important;
+
+  video.video-banner-publico {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    aspect-ratio: 16 / 9 !important; 
+    object-fit: cover !important;     
+    border-radius: 12px !important;
+  }
+
+  /* Dejamos el texto oculto en móvil tal como lo pediste */
+  .overlay-texto-banner {
+    display: none !important;
+  }
+}
+
+/* 📱 CONSULTA DE PANTALLA PARA MOTO G */
+@media (max-width: 400px) {
+  .banner-video-comida-container {
+    width: 90vw !important;       /* Raspa un poquito más los bordes en tu celular */
+  }
+}
