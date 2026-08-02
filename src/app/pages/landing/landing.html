@@ -320,8 +320,9 @@
 
   <!-- ASISTENTE VIRTUAL DINÁMICO (BRACASBOT / SCHNEIDERBOT) -->
   <div class="chat-wrapper">
-    <div class="chat-window" *ngIf="isOpen()">
-      <div class="chat-header">
+    <div class="chat-window" *ngIf="isOpen()" [style.background-color]="themeColors().backgroundChat">
+      <!-- 🧱 CABECERA DEL BOT -->
+      <div class="chat-header" [style.background-color]="themeColors().headerBot" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; min-height: 45px; height: auto; background-color: #000000 !important;">
         <div class="header-info" style="display: flex; align-items: center; gap: 8px">
           <!-- IMAGEN INTERNA DEL CHATBOT -->
           <img
@@ -335,22 +336,27 @@
             [style.border]="
               (isEverAdminActive$ | async)
                 ? '1.5px solid var(--color-acento)'
-                : '1.5px solid #ff6b00'
+                : '1.5px solid #b020a1'
             "
           />
           <!-- NOMBRE DINÁMICO DEL CHATBOT -->
-          <p style="font-weight: bold; margin: 0">
-            {{ (isEverAdminActive$ | async) ? 'SchneiderBot' : 'BracasBot' }}
+          <p [style.color]="themeColors().textUser" style="font-weight: bold; margin: 0">
+            {{ (isEverAdminActive$ | async) ? 'SchneiderBot 🏗️' : 'BracasBot 🤖' }}
           </p>
         </div>
-        <button class="close-btn" (click)="toggleChat()">×</button>
+        <button class="close-btn" (click)="toggleChat()" [style.color]="themeColors().textUser" style="background: transparent; border: none; font-size: 20px; cursor: pointer;">×</button>
       </div>
 
-      <div class="chat-body" #scrollMe>
+      <!-- 💬 CUERPO DEL CHAT -->
+      <div class="chat-body" #scrollMe style="flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; justify-content: flex-start !important;">
         <!-- 1. CICLO DE MENSAJES PERFECTAMENTE CERRADO -->
         @for (msg of messages(); track $index) {
-          <div [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }">
-            <div class="message-bubble" [innerHTML]="formatText(msg.text)"></div>
+          <div [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }" style="display: flex; width: 100%; margin-bottom: 4px;" [style.justify-content]="msg.role === 'user' ? 'flex-end' : 'flex-start'">
+            <div class="message-bubble" 
+                 [style.background-color]="msg.role === 'user' ? themeColors().bubbleUser : themeColors().bubbleModel"
+                 [style.color]="msg.role === 'user' ? themeColors().textUser : themeColors().textModel"
+                 style="padding: 10px 14px; border-radius: 12px; max-width: 80%; word-break: break-word; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"
+                 [innerHTML]="formatText(msg.text)"></div>
           </div>
         }
 
@@ -378,11 +384,52 @@
           <button
             *ngIf="cartService.count() > 0"
             (click)="procesarPagoDirecto()"
-            class="btn-bot-confirm"
+            class="btn-bot-confirm" style="background: linear-gradient(135deg, #3a1c5c 0%, #1a1a24 50%, #0d0d12 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 12px rgba(176, 32, 161, 0.4); text-transform: uppercase;" style="background-color: #b020a1 !important; color: #ffffff !important; box-shadow: 0 0 10px #b020a1;"
           >
             FINALIZAR Y PAGAR 🏁
           </button>
         </div>
+
+        <!-- 🏗️ 3. BOTONES SUGERIDOS DEL BOT (EXCLUSIVO C&E SCHNEIDER) -->
+        <div
+          *ngIf="
+            (isEverAdminActive$ | async) && (step() === 1 || step() === 3) && step() !== 6
+          "
+          class="bot-action-area"
+          style="margin-top: 5px; padding: 5px;"
+        >
+          <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #aaa">
+            SELECCIONA SERVICIO PARA COTIZAR:
+          </p>
+
+          <div class="bot-grid-buttons" style="display: grid; grid-template-columns: 1fr; gap: 6px;">
+            <button
+              *ngFor="let prod of productsSchneider"
+              (click)="seleccionarProductoDesdeBot(prod)"
+              class="btn-bot-item"
+              [style.background-color]="themeColors().bubbleModel"
+              [style.color]="themeColors().textModel"
+              [style.border]="'1px solid ' + themeColors().bubbleUser"
+              style="padding: 8px 12px; border-radius: 6px; text-align: left; cursor: pointer; font-size: 12px; transition: background 0.2s;"
+            >
+              + {{ prod.name }}
+            </button>
+          </div>
+
+          <button
+            *ngIf="cartService.count() > 0"
+            (click)="procesarPagoDirecto()"
+            class="btn-bot-confirm" style="background: linear-gradient(135deg, #3a1c5c 0%, #1a1a24 50%, #0d0d12 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 12px rgba(176, 32, 161, 0.4); text-transform: uppercase;" style="background-color: #b020a1 !important; color: #ffffff !important; box-shadow: 0 0 10px #b020a1;"
+            [style.background-color]="themeColors().bubbleUser"
+            [style.color]="themeColors().textUser"
+            style="width: 100%; margin-top: 10px; padding: 10px; border-radius: 6px; font-weight: bold; border: none; cursor: pointer;"
+          >
+            REVISAR PRESUPUESTO Y AGENDAR 🏁
+          </button>
+        </div>
+    
+
+
 
         <!-- 3. ACCIONES FINALES DE PAGO (SOLO BRACASFOOD) -->
         <div *ngIf="!(isEverAdminActive$ | async) && step() === 6" class="p-3 text-center">

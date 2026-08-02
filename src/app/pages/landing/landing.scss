@@ -272,13 +272,13 @@
       box-shadow: 0 5px 15px rgba(255, 107, 0, 0.2); /* Brillo naranja suave */
       background-color: #fffaf5;
       transition: all 0.1s ease;
-      border-color: #ff6b00; /* Agregué esto para que el borde también se pinte */
+      border-color: #b020a1 !important; /* Agregué esto para que el borde también se pinte */
     }
 
     /* 3. QUITA EL BORDE AZUL DE ENFOQUE */
     &:focus {
       outline: none;
-      border-color: #ff6b00; /* Cambia el borde gris por naranja al seleccionar */
+      border-color: #b020a1 !important; /* Cambia el borde gris por naranja al seleccionar */
     }
   }
   /* LA IMAGEN CUADRADA */
@@ -359,7 +359,7 @@
       // cop  //
       font-size: 1.8rem !important; /* Precio resaltado */
       font-weight: 950 !important;
-      color: #ff6b00; /* Naranja Bracasfood */
+      color: #b020a1 !important; /* Naranja Bracasfood */
       margin-top: 4px !important;
       display: block;
     }
@@ -818,7 +818,7 @@
   font-size: 0.5rem !important;
   font-weight: 1000 !important;
   text-align: center;
-  color: #ff6b00; /* Naranja original de Bracasfood */
+  color: #b020a1 !important; /* Naranja original de Bracasfood */
   text-transform: uppercase;
   animation: subtlePulse 3s infinite ease-in-out;
   margin-top: 50px !important;
@@ -1257,14 +1257,14 @@
   position: relative !important; /* Ya está dentro del fixed wrapper */
 
   .chat-header {
-    background-color: #1a1a1a !important;
+    background-color: transparent;
     padding: 12px !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    border-bottom: 3px solid #ff6b00 !important;
+    border-bottom: 1px solid #b020a1 !important;
     p {
-      color: #ff6b00 !important;
+      color: #ffffff !important;
       font-weight: 1000 !important;
       margin: 0 !important;
       text-transform: uppercase !important;
@@ -1282,7 +1282,7 @@
     flex: 1 !important;
     background-color: #f9f9f9 !important;
     overflow-y: auto !important;
-    padding-top: 70px !important;
+    padding-top: 10px !important;
     padding-right: 15px !important;
     padding-bottom: 15px !important;
     padding-left: 15px !important; /* Arriba, Derecha, Abajo, Izquierda */
@@ -1292,7 +1292,7 @@
     scroll-behavior: smooth;
 
     .message-bubble {
-      padding: 12px 16px !important; // Un poco más de aire
+      padding: 8px 12px !important; // Un poco más de aire
       border-radius: 20px !important;
       font-size: 0.9rem !important;
       font-weight: 500 !important; // 800 es muy pesado para leer párrafos, 500 es ideal
@@ -1440,7 +1440,7 @@
     &:active {
       transform: translate(2px, 2px);
       box-shadow: 0px 0px 0px #ff6b00;
-      background: #ff6b00;
+      background: #000000 !important;
       color: white;
     }
   }
@@ -1534,7 +1534,7 @@
   span {
     width: 6px;
     height: 6px;
-    background: #ff6b00;
+    background: #000000 !important;
     border-radius: 50%;
     animation: blink 1.4s infinite both;
     &:nth-child(2) {
@@ -1570,7 +1570,7 @@
   position: absolute;
   font-size: 2.3rem;
   font-weight: 900;
-  color: #ff6b00; /* Naranja para que resalte sobre el logo opaco */
+  color: #b020a1 !important; /* Naranja para que resalte sobre el logo opaco */
   text-shadow: 2px 2px 0px #000;
   pointer-events: none;
 }
@@ -1624,7 +1624,7 @@
   bottom: 8px; // Encima del botón de WhatsApp
   right: 11px;
   z-index: 999;
-  background: #ff6b00;
+  background: #000000 !important;
   border: none;
   border-radius: 50%;
   width: 45px;
@@ -1792,7 +1792,7 @@
     font-size: 0.8rem;
     cursor: pointer;
     &:hover {
-      background: #ff6b00;
+      background: #000000 !important;
       color: white;
     }
   }

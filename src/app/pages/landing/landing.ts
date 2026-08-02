@@ -98,32 +98,59 @@ export class LandingComponent implements OnInit, OnDestroy {
   ];
 
   // 🏢 NUEVO: Catálogo exclusivo para C&E Schneider cuando tú inicias sesión
-  productsSchneider = [
-    { id: 'remodelacion', name: 'Remodelación de Interiores 🏗️', price: 150000, category: 'Construcción', image: 'assets/ceschneider.jpg' },
-    { id: 'pintura', name: 'Pintura de Fachadas 🎨', price: 80000, category: 'Acabados', image: 'assets/ceschneider.jpg' },
-    { id: 'diseno', name: 'Diseño de Planos 3D 📐', price: 350000, category: 'Planificación', image: 'assets/ceschneider.jpg' },
-    { id: 'concreto', name: 'Vaciado de Placas 🧱', price: 500000, category: 'Estructura', image: 'assets/ceschneider.jpg' },
+    productsSchneider = [
+    { id: 'sch-1', name: '1️⃣ Molduras e Iluminación en Drywall 💡', price: 45000, category: 'Techos', image: 'assets/ceschneider.jpg' },
+    { id: 'sch-2', name: '2️⃣ Pisos y Enchapados Cerámicos 🧱', price: 65000, category: 'Pisos', image: 'assets/ceschneider.jpg' },
+    { id: 'sch-3', name: '3️⃣ Pintura General e Impermeabilización 🎨', price: 25000, category: 'Paredes', image: 'assets/ceschneider.jpg' },
+    { id: 'sch-4', name: '4️⃣ Estuco y Alisado de Muros ✨', price: 18000, category: 'Paredes', image: 'assets/ceschneider.jpg' },
+    { id: 'sch-5', name: '5️⃣ Instalación de Aparatos Sanitarios y Grifería 🚰', price: 80000, category: 'Baños', image: 'assets/ceschneider.jpg' },
   ];
+
 
    // 🔄 CORREGIDO: Cambia los productos leyendo el método correcto del AuthService
   activeCatalog = computed(() => {
     // Usamos getCurrentUser() que es el método que sí existe en tu auth.service.ts
     const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null; 
-    const isEver = user?.email?.toLowerCase() .startsWith('everso');
+    const isEver = user?.email?.toLowerCase().startsWith('everso');
     
     return isEver ? this.productsSchneider : this.products;
   });
 
-
   // 🔍 CORREGIDO: Ahora el buscador filtra dinámicamente sobre la lista que esté activa en pantalla
   filteredProducts = computed(() => {
-    const term = this.searchTerm().toLowerCase();
+    const term = this.searchTerm().toLowerCase().trim();
     const currentCatalog = this.activeCatalog(); // Obtiene la lista actual de Bracas o Schneider
     
     if (!term) return currentCatalog;
     return currentCatalog.filter(
       (p) => p.name.toLowerCase().includes(term) || p.category.toLowerCase().includes(term),
     );
+  });
+
+  // 🎨 NUEVO: Paleta hexadecimal calculada según el negocio activo en pantalla
+  themeColors = computed(() => {
+    const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null;
+    const isSchneider = user?.email?.toLowerCase().startsWith('everso');
+
+    if (isSchneider) {
+      return {
+        backgroundChat: '#15141b', // Fondo ultra oscuro de tu sección de remodelaciones
+        headerBot: '#15141b',       // Sincronizado con el fondo
+        bubbleModel: '#221f2d',     // Morado ceniza oscuro para las respuestas del bot
+        bubbleUser: '#b020a1',      // Fucsia / Magenta neón de tus botones "GESTIONAR PROYECTO"
+        textModel: '#ffffff',
+        textUser: '#ffffff'
+      };
+    } else {
+      return {
+        backgroundChat: '#ffffff', // Fondo blanco limpio para Bracasfood
+        headerBot: '#522d80',       // Morado corporativo insignia
+        bubbleModel: '#f1f1f1',     // Burbuja gris claro clásica para el bot
+        bubbleUser: '#522d80',      // Burbuja morada para el usuario
+        textModel: '#333333',
+        textUser: '#ffffff'
+      };
+    }
   });
 
   constructor() {
@@ -193,15 +220,28 @@ export class LandingComponent implements OnInit, OnDestroy {
       .replace(/\n/g, '<br>');
   }
 
-  toggleChat() {
+   toggleChat() {
     this.isOpen.update((v) => !v);
     if (this.isOpen() && this.messages().length === 0) {
-      this.messages.set([
-        {
-          role: 'model',
-          text: '¡Hola! Soy BracasBot 🤖. ¿Qué deseas hacer? \n\n1️⃣ **Hacer un pedido** 🛵 \n2️⃣ **Pagar un pedido** 💸 \n3️⃣ **Seguimiento de pedido** 📍',
-        },
-      ]);
+      // 🔄 Verificamos dinámicamente el usuario para adaptar el saludo inicial
+      const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null;
+      const isSchneider = user?.email?.toLowerCase().startsWith('everso');
+
+      if (isSchneider) {
+        this.messages.set([
+          {
+            role: 'model',
+            text: '¡Hola! Soy **SchneiderBot** 🤖, tu asistente virtual de **Remodelaciones Schneider**. \n\n¿Qué deseas hacer hoy? \n\n1️⃣ **Cotizar acabados u Obra Blanca** 🏗️ \n2️⃣ **Gestionar un pago de proyecto** 💸 \n3️⃣ **Consultar estado de mi obra** 📍',
+          },
+        ]);
+      } else {
+        this.messages.set([
+          {
+            role: 'model',
+            text: '¡Hola! Soy BracasBot 🤖. ¿Qué deseas hacer? \n\n1️⃣ **Hacer un pedido** 🛵 \n2️⃣ **Pagar un pedido** 💸 \n3️⃣ **Seguimiento de pedido** 📍',
+          },
+        ]);
+      }
       this.step.set(1);
     }
   }
@@ -214,22 +254,33 @@ export class LandingComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       let botResponse = '';
+      
+      // 🔄 Verificamos dinámicamente si el usuario actual es Schneider
+      const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null;
+      const isSchneider = user?.email?.toLowerCase().startsWith('everso');
 
       if (optionType === 'hacer_pedido') {
         this.step.set(1);
-        botResponse =
-          '¡Excelente elección! Aquí abajo tienes nuestro menú dinámico. Presiona sobre cualquiera de ellos para sumarlo a tu orden. 🛒';
+        botResponse = isSchneider
+          ? '¡Excelente elección! Aquí abajo tienes nuestro catálogo de **Servicios y Obras**. Presiona sobre cualquiera de ellos para cotizarlo o sumarlo a tu orden de trabajo. 🏗️📐'
+          : '¡Excelente elección! Aquí abajo tienes nuestro menú dinámico. Presiona sobre cualquiera de ellos para sumarlo a tu orden. 🛒';
       } else if (optionType === 'pagar_pedido') {
         const total = this.cartService.totalPagar();
         if (total > 0) {
-          botResponse = `Tu total a pagar es **$${total.toLocaleString('es-CO')}**. Puedes procesar tu pago directamente con el botón de confirmación en la caja. 💳`;
+          botResponse = isSchneider
+            ? `El valor estimado de tus servicios a contratar es **$${total.toLocaleString('es-CO')}**. Puedes proceder a confirmar los detalles de la obra en el botón de la caja. 💳`
+            : `Tu total a pagar es **$${total.toLocaleString('es-CO')}**. Puedes procesar tu pago directamente con el botón de confirmación en la caja. 💳`;
+          this.step.set(5);
         } else {
-          botResponse =
-            'El carrito está vacío. ¡Agrega tus productos favoritos primero usando el menú interactivo para poder proceder al pago! 🍦';
+          botResponse = isSchneider
+            ? 'La lista de cotización está vacía. ¡Selecciona un servicio de remodelación o ingeniería primero usando el catálogo interactivo! 🏗️'
+            : 'El carrito está vacío. ¡Agrega tus productos favoritos primero usando el menú interactivo para poder proceder al pago! 🍦';
+          this.step.set(1);
         }
       } else if (optionType === 'seguimiento_pedido') {
-        botResponse =
-          'Por favor, escríbeme el **ID o código de tu pedido** (ejemplo: _BR-323_) para consultar su estado en tiempo real. 📍';
+        botResponse = isSchneider
+          ? 'Por favor, escríbeme el **ID de radicado u orden de obra** (ejemplo: _CS-842_) para consultar el estado del proyecto en tiempo real. 📍'
+          : 'Por favor, escríbeme el **ID o código de tu pedido** (ejemplo: _BR-323_) para consultar su estado en tiempo real. 📍';
         this.trackingActive.set(true);
       }
 
@@ -238,7 +289,8 @@ export class LandingComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  sendMessage() {
+
+     sendMessage() {
     const text = this.userInput.trim();
     if (!text) return;
 
@@ -249,9 +301,15 @@ export class LandingComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       let response = '';
+      
+      // 🔄 Detección dinámica de la interfaz activa de Schneider o Bracasfood
+      const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null;
+      const isSchneider = user?.email?.toLowerCase().startsWith('everso');
 
       if (this.trackingActive()) {
-        response = `Buscando la orden **#${text}** en el sistema de Bracasfood... Actualmente se encuentra **En Camino (66%)** y va directo a tu ubicación. 🛵✨`;
+        response = isSchneider
+          ? `Buscando el radicado de obra **#${text}** en el sistema de C&E Schneider... Actualmente se encuentra en **Fase de Planificación e Inicio (33%)**. 🏗️📐`
+          : `Buscando la orden **#${text}** en el sistema de Bracasfood... Actualmente se encuentra **En Camino (66%)** y va directo a tu ubicación. 🛵✨`;
         this.trackingActive.set(false);
 
         this.messages.update((prev) => [...prev, { role: 'model', text: response }]);
@@ -264,18 +322,28 @@ export class LandingComponent implements OnInit, OnDestroy {
       switch (currentStep) {
         case 1: // Menú Inicial
           if (lowerText.includes('seguimiento') || lowerText.includes('3')) {
-            response =
-              'Por favor, escríbeme el **ID o código de tu pedido** (ejemplo: _BR-323_) para consultar su estado en tiempo real. 📍';
+            response = isSchneider
+              ? 'Por favor, escríbeme el **ID de radicado u orden de obra** (ejemplo: _CS-842_) para consultar el estado del proyecto en tiempo real. 📍'
+              : 'Por favor, escríbeme el **ID o código de tu pedido** (ejemplo: _BR-323_) para consultar su estado en tiempo real. 📍';
             this.trackingActive.set(true);
           } else if (lowerText.includes('pagar') || lowerText.includes('2')) {
-            if (this.cartService.items().length > 0) {
-              response = '🛍️ ¡Excelente! **¿A qué dirección enviamos tu pedido?**';
+            const tieneItems = this.cartService.items ? this.cartService.items().length > 0 : false;
+            if (tieneItems) {
+              response = isSchneider
+                ? '🛍️ ¡Excelente! **¿A qué dirección o ubicación se realizará la obra o servicio?**'
+                : '🛍️ ¡Excelente! **¿A qué dirección enviamos tu pedido?**';
               this.step.set(4);
             } else {
-              response = '🛒 Tu carrito está vacío. ¡Toca un producto para empezar!';
+              response = isSchneider
+                ? '🛒 Tu lista de cotización está vacía. ¡Toca un servicio para empezar!'
+                : '🛒 Tu carrito está vacío. ¡Toca un producto para empezar!';
             }
           } else {
-            response = '🛵 ¡Dale! Selecciona los productos que desees de la lista.';
+            response = isSchneider
+              ? '🏗️ ¡Dale! Selecciona los servicios de ingeniería y acabados que desees de la lista:'
+              : '🛵 ¡Dale! Selecciona los productos que desees de la lista:';
+            // 🎯 Forzamos el paso 1 para que el HTML dibuje los botones interactivos abajo del texto
+            this.step.set(1);
           }
           break;
 
@@ -283,10 +351,12 @@ export class LandingComponent implements OnInit, OnDestroy {
           const cantidad = parseInt(text);
           if (!isNaN(cantidad) && cantidad > 0) {
             const prod = this.productoEnCurso();
-            this.onAddToCart(prod.name, prod.price, prod.category, '', cantidad);
+            this.onAddToCart(prod.name, prod.price, prod.category, prod.image || '', cantidad);
 
             if (lowerText.includes('pagar')) {
-              response = `📥 ¡Listo! **${cantidad}x ${prod.name}** añadidos.\n\n🛍️ **¿A qué dirección enviamos tu pedido?**`;
+              response = isSchneider
+                ? `📥 ¡Listo! **${cantidad}x ${prod.name}** añadidos a tu cotización.\n\n🛍️ **¿A qué dirección o ubicación se realizará la obra o servicio?**`
+                : `📥 ¡Listo! **${cantidad}x ${prod.name}** añadidos.\n\n🛍️ **¿A qué dirección enviamos tu pedido?**`;
               this.step.set(4);
             } else {
               response = `📥 Añadido **${cantidad}x ${prod.name}**.\n\n¿Quieres agregar algo más o ya deseas **pagar**?`;
@@ -303,29 +373,33 @@ export class LandingComponent implements OnInit, OnDestroy {
             lowerText.includes('pago') ||
             lowerText.includes('2')
           ) {
-            const total = this.cartService
-              .items()
-              .reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
+            const total = this.cartService.totalPagar();
 
             if (total === 0) {
-              response = '🛒 Tu carrito está vacío. ¡Elige un producto antes de pagar!';
+              response = isSchneider
+                ? '🛒 Tu lista de cotización está vacía. ¡Elige un servicio antes de pagar!'
+                : '🛒 Tu carrito está vacío. ¡Elige un producto antes de pagar!';
               this.step.set(1);
             } else {
-              response = `🛍️ ¡Listo! Tu pedido suma **$${total.toLocaleString('es-CO')}**.\n\n¿A qué **dirección** enviamos tu pedido?`;
+              response = isSchneider
+                ? `🛍️ ¡Listo! Tu presupuesto estimado suma **$${total.toLocaleString('es-CO')}**.\n\n¿A qué **dirección o ubicación** se realizará la obra o servicio?`
+                : `🛍️ ¡Listo! Tu pedido suma **$${total.toLocaleString('es-CO')}**.\n\n¿A qué **dirección** enviamos tu pedido?`;
               this.step.set(4);
             }
           } else {
-            response = '🛵 ¡Vale! Sigue eligiendo. Cuando estés listo, escribe **"pagar"**.';
+            response = isSchneider
+              ? '🏗️ ¡Vale! Sigue eligiendo servicios. Cuando estés listo, escribe **"pagar"**.'
+              : '🛵 ¡Vale! Sigue eligiendo. Cuando estés listo, escribe **"pagar"**.';
             this.step.set(1);
           }
           break;
 
         case 4: // Recibiendo Dirección
           this.datosPedido.direccion = text;
-          const totalConfirmado = this.cartService
-            .items()
-            .reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
-          response = `✅ *Dirección: ${text}*\n💰 *Total: $${totalConfirmado.toLocaleString('es-CO')}*\n\n¿Cómo deseas pagar? \n\n💸 **Efectivo** \n💱 **Nequi**`;
+          const totalConfirmado = this.cartService.totalPagar();
+          response = isSchneider
+            ? `✅ *Ubicación de Obra: ${text}*\n💰 *Presupuesto Estimado: $${totalConfirmado.toLocaleString('es-CO')}*\n\n¿Cómo deseas gestionar tu anticipo o pago? \n\n💸 **Efectivo** \n💱 **Nequi**`
+            : `✅ *Dirección: ${text}*\n💰 *Total: $${totalConfirmado.toLocaleString('es-CO')}*\n\n¿Cómo deseas pagar? \n\n💸 **Efectivo** \n💱 **Nequi**`;
           this.step.set(5);
           break;
 
@@ -333,7 +407,9 @@ export class LandingComponent implements OnInit, OnDestroy {
           this.datosPedido.pago = text;
           const esNequi = lowerText.includes('nequi');
           const colorBoton = esNequi ? 'morado' : 'verde';
-          response = `🎯 *¡TODO LISTO!*\n\n1️⃣ Toca el botón **${colorBoton}**\n2️⃣ Confirma el mensaje en WhatsApp.\n3️⃣ ¡Y listo! Estaremos procesando tu pedido.`;
+          response = isSchneider
+            ? `🎯 *¡CONTRATACIÓN LISTA!*\n\n1️⃣ Toca el botón **${colorBoton}**\n2️⃣ Confirma los detalles técnicos y cronograma en WhatsApp.\n3️⃣ ¡Y listo! Agendaremos el inicio de tu proyecto.`
+            : `🎯 *¡TODO LISTO!*\n\n1️⃣ Toca el botón **${colorBoton}**\n2️⃣ Confirma el mensaje en WhatsApp.\n3️⃣ ¡Y listo! Estaremos procesando tu pedido.`;
           this.step.set(6);
           break;
 
