@@ -318,11 +318,11 @@
     </span>
   </button>
 
-  <!-- ASISTENTE VIRTUAL DINÁMICO (BRACASBOT / SCHNEIDERBOT) -->
+    <!-- ASISTENTE VIRTUAL DINÁMICO (BRACASBOT / SCHNEIDERBOT) -->
   <div class="chat-wrapper">
     <div class="chat-window" *ngIf="isOpen()" [style.background-color]="themeColors().backgroundChat">
-      <!-- 🧱 CABECERA DEL BOT -->
-      <div class="chat-header" [style.background-color]="themeColors().headerBot" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; min-height: 45px; height: auto; background-color: #000000 !important;">
+      <!-- 🧱 CABECERA DEL BOT: Fondo negro puro y texto blanco absoluto -->
+      <div class="chat-header" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; min-height: 45px; height: auto; background-color: #000000 !important;">
         <div class="header-info" style="display: flex; align-items: center; gap: 8px">
           <!-- IMAGEN INTERNA DEL CHATBOT -->
           <img
@@ -335,19 +335,19 @@
             style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover"
             [style.border]="
               (isEverAdminActive$ | async)
-                ? '1.5px solid var(--color-acento)'
-                : '1.5px solid #b020a1'
+                ? '1.5px solid #b020a1'
+                : '1.5px solid #ff6b00'
             "
           />
-          <!-- NOMBRE DINÁMICO DEL CHATBOT -->
-          <p [style.color]="themeColors().textUser" style="font-weight: bold; margin: 0">
+          <!-- NOMBRE DINÁMICO DEL CHATBOT: Forzado a blanco -->
+          <p style="font-weight: bold; margin: 0; color: #ffffff !important;">
             {{ (isEverAdminActive$ | async) ? 'SchneiderBot 🏗️' : 'BracasBot 🤖' }}
           </p>
         </div>
-        <button class="close-btn" (click)="toggleChat()" [style.color]="themeColors().textUser" style="background: transparent; border: none; font-size: 20px; cursor: pointer;">×</button>
+        <button class="close-btn" (click)="toggleChat()" style="background: transparent; border: none; font-size: 20px; cursor: pointer; color: #ffffff !important;">×</button>
       </div>
 
-      <!-- 💬 CUERPO DEL CHAT -->
+      <!-- 💬 CUERPO DEL CHAT: Corregido con flex-start superior para eliminar el espacio vacío inicial -->
       <div class="chat-body" #scrollMe style="flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; justify-content: flex-start !important;">
         <!-- 1. CICLO DE MENSAJES PERFECTAMENTE CERRADO -->
         @for (msg of messages(); track $index) {
@@ -375,7 +375,7 @@
             <button
               *ngFor="let prod of products"
               (click)="seleccionarProductoDesdeBot(prod)"
-              class="btn-bot-item"
+              class="btn-bot-item" style="background: linear-gradient(135deg, #15141b 0%, #221f2d 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 8px rgba(176, 32, 161, 0.2); margin-bottom: 4px;"
             >
               + {{ prod.name }}
             </button>
@@ -384,7 +384,8 @@
           <button
             *ngIf="cartService.count() > 0"
             (click)="procesarPagoDirecto()"
-            class="btn-bot-confirm" style="background: linear-gradient(135deg, #3a1c5c 0%, #1a1a24 50%, #0d0d12 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 12px rgba(176, 32, 161, 0.4); text-transform: uppercase;" style="background-color: #b020a1 !important; color: #ffffff !important; box-shadow: 0 0 10px #b020a1;"
+            class="btn-bot-confirm" 
+            style="width: 100%; margin-top: 10px; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; background: linear-gradient(135deg, #3a1c5c 0%, #1a1a24 50%, #0d0d12 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 12px rgba(176, 32, 161, 0.4); text-transform: uppercase;"
           >
             FINALIZAR Y PAGAR 🏁
           </button>
@@ -406,7 +407,7 @@
             <button
               *ngFor="let prod of productsSchneider"
               (click)="seleccionarProductoDesdeBot(prod)"
-              class="btn-bot-item"
+              class="btn-bot-item" style="background: linear-gradient(135deg, #15141b 0%, #221f2d 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 8px rgba(176, 32, 161, 0.2); margin-bottom: 4px;"
               [style.background-color]="themeColors().bubbleModel"
               [style.color]="themeColors().textModel"
               [style.border]="'1px solid ' + themeColors().bubbleUser"
@@ -419,17 +420,12 @@
           <button
             *ngIf="cartService.count() > 0"
             (click)="procesarPagoDirecto()"
-            class="btn-bot-confirm" style="background: linear-gradient(135deg, #3a1c5c 0%, #1a1a24 50%, #0d0d12 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 12px rgba(176, 32, 161, 0.4); text-transform: uppercase;" style="background-color: #b020a1 !important; color: #ffffff !important; box-shadow: 0 0 10px #b020a1;"
-            [style.background-color]="themeColors().bubbleUser"
-            [style.color]="themeColors().textUser"
-            style="width: 100%; margin-top: 10px; padding: 10px; border-radius: 6px; font-weight: bold; border: none; cursor: pointer;"
+            class="btn-bot-confirm" 
+            style="width: 100%; margin-top: 10px; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; background: linear-gradient(135deg, #3a1c5c 0%, #1a1a24 50%, #0d0d12 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 12px rgba(176, 32, 161, 0.4); text-transform: uppercase;"
           >
             REVISAR PRESUPUESTO Y AGENDAR 🏁
           </button>
         </div>
-    
-
-
 
         <!-- 3. ACCIONES FINALES DE PAGO (SOLO BRACASFOOD) -->
         <div *ngIf="!(isEverAdminActive$ | async) && step() === 6" class="p-3 text-center">
@@ -493,4 +489,3 @@
       </button>
     </div>
   </div>
-</div>

@@ -97,8 +97,8 @@ export class LandingComponent implements OnInit, OnDestroy {
     { id: 'tocineta', name: 'Tocineta BF 🥩', price: 2500, category: 'Pasabocas', image: 'assets/tocinetabf.webp' },
   ];
 
-  // 🏢 NUEVO: Catálogo exclusivo para C&E Schneider cuando tú inicias sesión
-    productsSchneider = [
+   // 🏢 NUEVO: Catálogo exclusivo para C&E Schneider cuando tú inicias sesión
+  productsSchneider = [
     { id: 'sch-1', name: '1️⃣ Molduras e Iluminación en Drywall 💡', price: 45000, category: 'Techos', image: 'assets/ceschneider.jpg' },
     { id: 'sch-2', name: '2️⃣ Pisos y Enchapados Cerámicos 🧱', price: 65000, category: 'Pisos', image: 'assets/ceschneider.jpg' },
     { id: 'sch-3', name: '3️⃣ Pintura General e Impermeabilización 🎨', price: 25000, category: 'Paredes', image: 'assets/ceschneider.jpg' },
@@ -106,47 +106,43 @@ export class LandingComponent implements OnInit, OnDestroy {
     { id: 'sch-5', name: '5️⃣ Instalación de Aparatos Sanitarios y Grifería 🚰', price: 80000, category: 'Baños', image: 'assets/ceschneider.jpg' },
   ];
 
-
-   // 🔄 CORREGIDO: Cambia los productos leyendo el método correcto del AuthService
+  // 🔄 CORREGIDO: Cambia los productos leyendo el método correcto del AuthService
   activeCatalog = computed(() => {
-    // Usamos getCurrentUser() que es el método que sí existe en tu auth.service.ts
     const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null; 
     const isEver = user?.email?.toLowerCase().startsWith('everso');
-    
     return isEver ? this.productsSchneider : this.products;
   });
 
   // 🔍 CORREGIDO: Ahora el buscador filtra dinámicamente sobre la lista que esté activa en pantalla
   filteredProducts = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
-    const currentCatalog = this.activeCatalog(); // Obtiene la lista actual de Bracas o Schneider
-    
+    const currentCatalog = this.activeCatalog();
     if (!term) return currentCatalog;
     return currentCatalog.filter(
       (p) => p.name.toLowerCase().includes(term) || p.category.toLowerCase().includes(term),
     );
   });
 
-  // 🎨 NUEVO: Paleta hexadecimal calculada según el negocio activo en pantalla
+  // 🎨 CORREGIDO: Unificación de cabeceras en negro puro (#000000) respetando la estética cyberpunk
   themeColors = computed(() => {
     const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null;
     const isSchneider = user?.email?.toLowerCase().startsWith('everso');
 
     if (isSchneider) {
       return {
-        backgroundChat: '#15141b', // Fondo ultra oscuro de tu sección de remodelaciones
-        headerBot: '#15141b',       // Sincronizado con el fondo
-        bubbleModel: '#221f2d',     // Morado ceniza oscuro para las respuestas del bot
-        bubbleUser: '#b020a1',      // Fucsia / Magenta neón de tus botones "GESTIONAR PROYECTO"
+        backgroundChat: '#15141b', // Fondo ultra oscuro Schneider
+        headerBot: '#000000',       // Cabecera negra pura cyberpunk
+        bubbleModel: '#221f2d',     // Morado ceniza oscuro para el bot
+        bubbleUser: '#b020a1',      // Fucsia neón para el usuario
         textModel: '#ffffff',
         textUser: '#ffffff'
       };
     } else {
       return {
         backgroundChat: '#ffffff', // Fondo blanco limpio para Bracasfood
-        headerBot: '#522d80',       // Morado corporativo insignia
+        headerBot: '#000000',       // Cabecera negra pura solicitada
         bubbleModel: '#f1f1f1',     // Burbuja gris claro clásica para el bot
-        bubbleUser: '#522d80',      // Burbuja morada para el usuario
+        bubbleUser: '#522d80',      // Burbuja morada original para el usuario
         textModel: '#333333',
         textUser: '#ffffff'
       };
@@ -168,7 +164,6 @@ export class LandingComponent implements OnInit, OnDestroy {
         }
       }, 200);
     });
-
 
     const activarAudio = () => {
       this.musica.loop = true;
@@ -220,10 +215,9 @@ export class LandingComponent implements OnInit, OnDestroy {
       .replace(/\n/g, '<br>');
   }
 
-   toggleChat() {
+  toggleChat() {
     this.isOpen.update((v) => !v);
     if (this.isOpen() && this.messages().length === 0) {
-      // 🔄 Verificamos dinámicamente el usuario para adaptar el saludo inicial
       const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null;
       const isSchneider = user?.email?.toLowerCase().startsWith('everso');
 
@@ -245,6 +239,7 @@ export class LandingComponent implements OnInit, OnDestroy {
       this.step.set(1);
     }
   }
+
 
   public selectOption(optionType: string, label: string): void {
     if (this.isLoading()) return;
