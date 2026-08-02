@@ -2083,9 +2083,9 @@ p:empty {
 }
 
 /* ==========================================================================
-   📱 CONFIGURACIÓN DE RESPONSIVE TOTALMENTE ARREGLADA (MOTOROLA / MOTO G04S)
+   📱 CONFIGURACIÓN DE RESPONSIVE TOTALMENTE ARREGLADA (MOTOROLA / MOTO G55)
    ========================================================================== */
-@media screen and (max-width: 412px) {
+@media screen and (max-width: 480px) {
   
   /* 🛠️ 1. REESTRUCTURACIÓN DEL CONTENEDOR HERO GENERAL EN MÓVIL */
   .hero {
@@ -2094,7 +2094,7 @@ p:empty {
     align-items: center !important;
     justify-content: flex-start !important;
     min-height: auto !important;
-    padding: 20px 10px !important;
+    padding: 10px 10px !important;
     box-sizing: border-box !important;
   }
 
@@ -2188,25 +2188,38 @@ p:empty {
   /* El banner promocional contenedor en móvil */
   .promo-banner {
     width: 92% !important;
-    padding: 15px 10px !important;
+    padding: 10px 10px !important;
     margin: 15px auto !important;
   }
 
-  /* Botones normales de la vista pública de Bracasfood */
+  /* 🔥 CORREGIDO: Botones normales de la vista pública de Bracasfood ordenados para el Moto G55 */
   .cta-buttons {
     display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    gap: 8px !important;
-    justify-content: center !important;
+    flex-direction: column !important; /* Cambiado de row a column para apilar verticalmente */
+    gap: 12px !important;              /* Espaciado uniforme para que no se peguen */
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 290px !important;       /* Tamaño ideal para que respiren en pantallas de 20:9 */
+    margin: 0 auto !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;        /* Limpia desfaces individuales previos */
 
     button {
-      width: auto !important;
-      padding: 6px 12px !important;
-      font-size: 0.85rem !important;
+      width: 100% !important;          /* Ahora todos miden lo mismo y no se desbordan */
+      padding: 12px 20px !important;   /* Área táctil cómoda para el dedo */
+      font-size: 1rem !important;      /* Letra más legible */
+      border-radius: 25px !important;  /* Mantiene las cápsulas perfectas de Bracas */
+      text-align: center !important;
+      position: relative !important;
+      top: auto !important;
+      left: auto !important;
+      transform: none !important;      /* Elimina el efecto escalera asimétrico */
     }
   }
 }
+
 
 /* ==========================================================================
    🧡 BOTÓN COMPRAR - VISTA PÚBLICA (BRACASFOOD)
@@ -2505,7 +2518,7 @@ p:empty {
 }
 
 /* 📱 DISPOSITIVOS PEQUEÑOS (MOTO G) */
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   .schneider-promo-container,
   .banner-video-comida-container {
     width: 90vw !important; 
@@ -2547,7 +2560,7 @@ p:empty {
   align-items: center !important;
   width: 100% !important;
   height: auto !important;
-  gap: 20px !important;            /* Separación perfecta entre botones y video */
+  gap: 10px !important;            /* Separación perfecta entre botones y video */
 }
 
 /* 4. Forzamos a los botones a mantener su posición arriba */
@@ -2599,8 +2612,127 @@ p:empty {
 }
 
 /* 📱 CONSULTA DE PANTALLA PARA MOTO G */
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   .banner-video-comida-container {
     width: 90vw !important;       /* Raspa un poquito más los bordes en tu celular */
   }
+}
+
+
+/* ==========================================================================
+   💻 PARCHE QUIRÚRGICO EXCLUSIVO PARA COMPUTADORAS / LAPTOPS
+   ========================================================================== */
+@media screen and (min-width: 992px) {
+  
+  /* 1. Forzamos un contenedor ordenado en horizontal para PC */
+  .hero-container {
+    display: flex !important;
+    flex-direction: row !important; /* Logo a la izquierda, botones a la derecha */
+    justify-content: center !important;
+    align-items: center !important;
+    height: 400px !important; /* Altura fija controlada para laptop */
+    gap: 80px !important; /* Espacio de separación elegante entre logo y botones */
+    position: relative !important;
+    margin: 0 auto !important;
+    max-width: 1200px !important; /* Evita que se estalle en monitores gigantes */
+    padding: 20px !important;
+  }
+
+  /* 2. El logo circular en la laptop */
+  .hero-img {
+    position: relative !important;
+    width: 240px !important; /* Más imponente en escritorio */
+    height: 240px !important;
+    margin: 0 !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+  }
+
+  /* 3. El bloque de botones naranjas al lado del logo */
+  :host .cta-buttons {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important; /* Lista vertical limpia en PC */
+    gap: 15px !important; /* Espaciado cómodo para dar clic con el mouse */
+    width: 250px !important; /* Ancho estético de cápsula en PC */
+    top: auto !important;
+    right: 50px !important;
+    transform: none !important;
+  }
+
+  /* 4. Reseteamos los botones para que no tengan la curva del celular en PC */
+  :host .cta-buttons button,
+  :host .cta-buttons button:nth-child(1),
+  :host .cta-buttons button:nth-child(2),
+  :host .cta-buttons button:nth-child(3),
+  :host .cta-buttons button:nth-child(4),
+  :host .cta-buttons button:nth-child(5) {
+    width: 100% !important; /* Rellenan el ancho de 250px anterior */
+    height: 45px !important;
+    transform: none !important; /* Adiós al desfase "Loco Lucas" en la laptop */
+    margin: 0 !important;
+  }
+
+  /* 5. Aseguramos que la sección de plátanos y productos de abajo respire */
+  .promo-banner {
+    margin-top: 20px !important;
+  }
+}
+/* ==========================================================================
+   📱 ACTUALIZACIÓN EXCLUSIVA PARA MOTOROLA (MOTO G55 / PANTALLAS ALARGADAS)
+   ========================================================================== */
+@media screen and (max-width: 412px) {
+
+  /* 1. Forzar contenedor en vertical para que el video respire abajo */
+  .hero, .hero-wrapper, .promo-banner-container {
+    display: flex !important;
+    flex-direction: column !important; 
+    align-items: center !important;
+    height: auto !important;
+    min-height: auto !important;
+    gap: 2px !important;
+  }
+
+  /* 2. Centrar el logo circular y quitarle empujones de lado */
+  .logo-link, .schneider-logo-after-banner {
+    margin: 10px auto !important;
+    transform: none !important;
+    right: 20% !important;
+    top: auto !important;
+  }
+
+  /* 3. ARREGLO DE LOS BOTONES: Cambiados de ROW a COLUMN */
+  .cta-buttons, .hero-content, .admin-schneider-buttons {
+    display: flex !important;
+    flex-direction: column !important; /* 🔥 AQUÍ SE ALINEAN EN FILA INDIA */
+    gap: 2px !important;              /* Espaciado para que no se peguen */
+    width: 100% !important;
+    max-width: 280px !important;       /* Tamaño cápsula centrado */
+    margin: 10px auto !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+
+    /* 4. RESETEO DE CADA BOTÓN (Quita el efecto escalera "Loco Lucas") */
+    button {
+      width: 100% !important;          /* Todos miden lo mismo y no se desbordan */
+      height: 45px !important;
+      padding: 2px;
+      border-radius: 25px !important;  /* Mantiene la curva de Bracas */
+      margin: 0 !important;            /* Borra márgenes individuales dañinos */
+      position: relative !important;
+      top: 50% !important;
+      left: auto !important;
+      transform: none !important;      /* 🔥 DESTRUYE CUALQUIER ROTACIÓN O TRANSLATE */
+    }
+  }
+
+  /* 5. El contenedor del video de las papitas/propaganda */
+  .schneider-promo-container, .banner-video-comida-container {
+    width: 88vw !important;            /* Aprovecha el ancho del G55 sin salirse */
+    margin: 10px auto !important;
+  }
+  
 }
