@@ -149,7 +149,8 @@
      ========================================================================== */
   /* 🟠 ESTILO LIMPIO PARA EL PÚBLICO GENERAL DE BRACASFOOD (Naranja clásico sin bordes) */
   .promo-banner {
-    background: #ff6b00 !important; 
+    background: #fca311 !important;
+    color: #111111 !important; 
     border: none !important; 
     box-shadow: 0 4px 15px rgba(255, 107, 0, 0.25) !important; 
     border-radius: 16px !important; 
@@ -667,7 +668,8 @@
   width: 60px !important; /* Tamaño fijo del círculo */
   height: 60px !important; /* Tamaño fijo del círculo */
   border-radius: 50% !important;
-  background: #ff6b00 !important; /* Naranja de tu marca */
+  background: #fca311 !important;
+    color: #111111 !important; /* Naranja de tu marca */
   border: 3px solid #000 !important; /* Borde negro sticker */
   z-index: 999999 !important; /* Por encima de todo */
   padding: 0 !important;
@@ -1975,7 +1977,8 @@ p:empty {
 .cta-buttons {
   button.btn-primary,
   button.btn-secondary {
-    background: #ff9900 !important; /* 🔥 CORREGIDO: Tu verdadero naranja encendido de Bracasfood */
+    background: #fca311 !important;
+    color: #111111 !important; /* 🔥 CORREGIDO: Tu verdadero naranja encendido de Bracasfood */
     color: #ffffff !important;
     border: none !important;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
@@ -2075,7 +2078,8 @@ p:empty {
 .cta-buttons {
   button.btn-primary,
   button.btn-secondary {
-    background: #ff6b00 !important;
+    background: #fca311 !important;
+    color: #111111 !important;
     color: #ffffff !important;
     border: none !important;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
