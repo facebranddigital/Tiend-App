@@ -15,8 +15,8 @@
 
   /* 2. EL LOGO BASE */
   .hero-img {
-    width: 144px !important;
-    height: 144px !important;
+    width: 244px !important;
+    height: 244px !important;
     z-index: 10 !important;
     margin-top: 0 !important;
     border-radius: 50% !important;
@@ -751,8 +751,8 @@
     }
 
     .hero-img {
-      width: 280px !important; /* Tamaño grande y circular */
-      height: 280px !important;
+      width: 380px !important; /* Tamaño grande y circular */
+      height: 380px !important;
       border-radius: 50% !important;
       object-fit: contain !important; /* Evita que se estire o se corte */
       z-index: 5 !important;
@@ -2657,8 +2657,8 @@ p:empty {
   /* 2. El logo circular en la laptop */
   .hero-img {
     position: relative !important;
-    width: 240px !important; /* Más imponente en escritorio */
-    height: 240px !important;
+    width: 340px !important; /* Más imponente en escritorio */
+    height: 340px !important;
     margin: 0 !important;
     top: auto !important;
     left: auto !important;
@@ -2684,7 +2684,7 @@ p:empty {
   :host .cta-buttons button:nth-child(3),
   :host .cta-buttons button:nth-child(4),
   :host .cta-buttons button:nth-child(5) {
-    width: 100% !important; /* Rellenan el ancho de 250px anterior */
+    width: 120% !important; /* Rellenan el ancho de 250px anterior */
     height: 45px !important;
     transform: none !important; /* Adiós al desfase "Loco Lucas" en la laptop */
     margin: 0 !important;
