@@ -60,8 +60,8 @@
   :host .cta-buttons button:nth-child(1) { transform: translateX(-50px) !important; }
   :host .cta-buttons button:nth-child(2) { transform: translateX(33px) !important; }
   :host .cta-buttons button:nth-child(3) { transform: translateX(30px) !important; }
-  :host .cta-buttons button:nth-child(4) { transform: translateX(24px) !important; }
-  :host .cta-buttons button:nth-child(5) { transform: translateX(-42px) !important; }
+  :host .cta-buttons button:nth-child(4) { transform: translateX(15px) !important; }
+  :host .cta-buttons button:nth-child(5) { transform: translateX(-1px) !important; }
 } /* 👈 ✅ AQUÍ SE CIERRA EL MEDIA QUERY DE TABLETS DE FORMA CORRECTA */
 
 
@@ -149,7 +149,7 @@
      ========================================================================== */
   /* 🟠 ESTILO LIMPIO PARA EL PÚBLICO GENERAL DE BRACASFOOD (Naranja clásico sin bordes) */
   .promo-banner {
-    background: linear-gradient(135deg, #1f1f1f 0%, #111111 50%, #2a2a2a 100%) !important; color: #fca311 !important; border: 1px solid #333333 !important;
+    background: linear-gradient(135deg, #1f1f1f 0%, #111111 50%, #2a2a2a 100%) !important; color: #4a3b1c !important; border: 1px solid #333333 !important;
      
     border: none !important; 
     box-shadow: 0 4px 15px rgba(255, 107, 0, 0.25) !important; 
@@ -163,7 +163,7 @@
 
   /* El degradado de texto naranja tradicional para Bracasfood */
   .promo-banner h2 {
-    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    background: linear-gradient(95deg, #4a3b1c 20%, #2c2010 80%);
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
@@ -407,7 +407,7 @@
 
       button {
         background: none !important;
-        color: #ff6b00 !important;
+        color: #e6c663 !important;
         font-size: 1.8rem !important;
         font-weight: bold;
         border: none !important;
@@ -500,7 +500,7 @@
     top: 7px;
     right: 30px;
     font-size: 1.9rem;
-    color: #cd640f;
+    color: #4a3b1c;
     background: none;
     border: none;
     cursor: pointer;
@@ -525,7 +525,7 @@
   }
 
   p {
-    color: #e68b14;
+    color: #4a3b1c;
     font-size: 1rem;
     line-height: 1.3;
   }
@@ -581,7 +581,7 @@
 }
 
 .btn-registrar:hover {
-  background-color: #e66000; /* Un naranja más oscurito al pasar el mouse */
+  background-color: #4a3b1c; /* Un naranja más oscurito al pasar el mouse */
   transform: translateY(-2px); /* Pequeño salto hacia arriba */
   box-shadow: 0 6px 20px rgba(236, 158, 12, 0.4);
 }
@@ -630,7 +630,7 @@
 }
 
 .btn-cart-end {
-  background: linear-gradient(135deg, #ff9800, #f44336);
+  background: linear-gradient(135deg, #ff9800, #4a3b1c);
   color: white;
   border: none;
   padding: 18px 40px;
@@ -668,7 +668,7 @@
   width: 60px !important; /* Tamaño fijo del círculo */
   height: 60px !important; /* Tamaño fijo del círculo */
   border-radius: 50% !important;
-  background: linear-gradient(135deg, #1f1f1f 0%, #111111 50%, #2a2a2a 100%) !important; color: #fca311 !important; border: 1px solid #333333 !important;
+  background: linear-gradient(135deg, #1f1f1f 0%, #111111 50%, #2a2a2a 100%) !important; color: #4a3b1c !important; border: 1px solid #333333 !important;
      /* Naranja de tu marca */
   border: 3px solid #000 !important; /* Borde negro sticker */
   z-index: 999999 !important; /* Por encima de todo */
@@ -708,7 +708,7 @@
     position: absolute !important;
     top: -5px !important;
     right: -5px !important;
-    background: #ff8c00 !important;
+    background: #4a3b1c !important;
     color: #ffffff !important;
     font-size: 13px !important;
     font-weight: bold !important;
@@ -797,7 +797,7 @@
       transform: translateX(-5px);
     }
     .cta-buttons button:nth-child(5) {
-      transform: translateX(-15px);
+      transform: translateX(-18px);
     }
   }
 }
@@ -865,7 +865,7 @@
     width: 150px !important;
     height: 48px !important;
     border-radius: 25px;
-    background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%);
+    background: linear-gradient(95deg, #4a3b1c 20%, #ffb800 80%);
     color: rgb(255, 255, 255);
     font-size: 1.5rem !important; // letra cel //
     font-weight: 900;
@@ -952,7 +952,7 @@
     font-size: 2.2rem !important; /* ¡Subido de 0.5rem para que la letra no sea diminuta! */
     font-weight: 1000 !important;
     text-align: center;
-    color: #ff6b00 !important; /* ¡Cambiado de morado oscuro a Naranja Bracasfood! */
+    color: #4a3b1c !important; /* ¡Cambiado de morado oscuro a Naranja Bracasfood! */
     text-transform: uppercase;
     animation: subtlePulse 3s infinite ease-in-out;
   }
@@ -1173,7 +1173,7 @@
   font-weight: 1000 !important;
   text-align: center;
   /* Gradiente real para texto */
-  background: linear-gradient(75deg, #ff6b00 30%, #ffb800 70%);
+  background: linear-gradient(75deg, #4a3b1c 30%, #ffb800 70%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1184,7 +1184,7 @@
 }
 
 .btn-main {
-  background: linear-gradient(95deg, #ff6b00 20%, #ffb800 80%) !important;
+  background: linear-gradient(95deg, #4a3b1c 20%, #ffb800 80%) !important;
   color: white !important;
   padding: 14px 30px !important;
   border-radius: 50px !important;
@@ -1313,7 +1313,7 @@
       // Estilo para cuando usas **negritas** en el bot
       strong,
       b {
-        color: #ff6b00 !important;
+        color: #4a3b1c !important;
         font-weight: 700 !important;
       }
 
@@ -1335,7 +1335,7 @@
     .user-msg {
       align-self: flex-end !important;
       .message-bubble {
-        background: linear-gradient(135deg, #ff8c00, #ff6b00) !important; // Gradiente sutil
+        background: linear-gradient(135deg, #ff8c00, #4a3b1c) !important; // Gradiente sutil
         color: white !important;
         border-bottom-right-radius: 4px !important; // Efecto colita de mensaje
 
@@ -1370,7 +1370,7 @@
       font-weight: 700 !important;
     }
     .send-btn {
-      background-color: #ff6b00 !important;
+      background-color: #4a3b1c !important;
       color: white !important;
       border: none !important;
       border-radius: 10px !important;
@@ -1409,11 +1409,11 @@
   background: #fff5eb; // Fondo naranja muy suave
   border-radius: 15px;
   margin: 10px 0;
-  border: 1.5px dashed #ff6b00;
+  border: 1.5px dashed #4a3b1c;
 
   p {
     font-size: 0.75rem !important;
-    color: #ff6b00 !important;
+    color: #4a3b1c !important;
     text-transform: uppercase;
     margin-bottom: 8px !important;
     letter-spacing: 0.5px;
@@ -1437,11 +1437,11 @@
     color: #1a1a1a;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 2px 2px 0px #ff6b00; // Sombra sólida naranja
+    box-shadow: 2px 2px 0px #4a3b1c; // Sombra sólida naranja
 
     &:active {
       transform: translate(2px, 2px);
-      box-shadow: 0px 0px 0px #ff6b00;
+      box-shadow: 0px 0px 0px #4a3b1c;
       background: #000000 !important;
       color: white;
     }
@@ -1455,7 +1455,7 @@
   padding: 12px;
 
   // EL ESTILO DE "HAZ TU PEDIDO AQUÍ"
-  background: linear-gradient(90deg, #ff8c00 0%, #ff5e00 100%) !important;
+  background: linear-gradient(90deg, #4a3b1c 0%, #2c2010 100%) !important;
   color: white !important;
   font-weight: 800 !important;
   font-size: 0.9rem !important;
@@ -1606,7 +1606,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
     margin: 12px 0 !important;
     position: relative;
-    border-left: 4px solid #ff6b00 !important; // Detalle de marca
+    border-left: 4px solid #4a3b1c !important; // Detalle de marca
     overflow-x: auto !important;
 
     // Efecto de "papel cortado" abajo
@@ -1643,25 +1643,25 @@
     flex-direction: column !important;
   }
 
-  :host .cta-buttons button:nth-child(1),
+  :host .cta-buttons button:nth-child(1), /* botones del logo */ 
   .cta-buttons button:nth-child(1) {
-    transform: translateX(-22px) rotate(-10deg) !important;
+    transform: translateX(-16px) rotate(-10deg) !important;
   }
   :host .cta-buttons button:nth-child(2),
   .cta-buttons button:nth-child(2) {
-    transform: translateX(0px) rotate(-5deg) !important;
+    transform: translateX(-1px) rotate(-5deg) !important;
   }
   :host .cta-buttons button:nth-child(3),
   .cta-buttons button:nth-child(3) {
-    transform: translateX(5px) !important;
+    transform: translateX(4px) !important;
   }
   :host .cta-buttons button:nth-child(4),
   .cta-buttons button:nth-child(4) {
-    transform: translateX(-11px) rotate(5deg) !important;
+    transform: translateX(-6px) rotate(5deg) !important;
   }
   :host .cta-buttons button:nth-child(5),
   .cta-buttons button:nth-child(5) {
-    transform: translateX(-52px) rotate(10deg) !important;
+    transform: translateX(-30px) rotate(10deg) !important;
   }
 
   /* EL BOTÓN DE PEDIDO (btn-main) DENTRO DEL MEDIA PARA MÓVIL */
@@ -1978,7 +1978,7 @@ p:empty {
   button.btn-primary,
   button.btn-secondary {
     background: linear-gradient(145deg, #282828 0%, #151515 50%, #0d0d0d 100%) !important;
-    color: #ffd700 !important;
+    color: #4a3b1c !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 8px rgba(255, 215, 0, 0.4) !important;
     font-weight: 600 !important;
     border: 1px solid #444444 !important;
@@ -2087,7 +2087,7 @@ p:empty {
   button.btn-primary,
   button.btn-secondary {
     background: linear-gradient(135deg, #1f1f1f 0%, #111111 50%, #2a2a2a 100%) !important;
-    color: #ffd700 !important;
+    color: #4a3b1c !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 8px rgba(255, 215, 0, 0.4) !important;
     font-weight: 600 !important;
     border: 1px solid #333333 !important;
@@ -2255,12 +2255,12 @@ p:empty {
   &:hover {
     filter: brightness(1.1);
     transform: translateY(-2px);
-    box-shadow: 0 6px 0 #b34a00 !important;
+    box-shadow: 0 6px 0 #4a3b1c !important;
   }
 
   &:active {
     transform: translateY(2px);
-    box-shadow: 0 1px 0 #b34a00 !important;
+    box-shadow: 0 1px 0 #4a3b1c !important;
   }
 }
 
@@ -2751,4 +2751,27 @@ p:empty {
     margin: 10px auto !important;
   }
   
+}
+/* Forzar cuadrícula de 2 columnas para productos en computadoras */
+@media (min-width: 768px) {
+  .products-grid, .product-container, .grid-productos, .catalog-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(280px, 350px)) !important;
+    gap: 24px !important;
+    justify-content: center !important;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Forzar 2 columnas en pantallas de computadora para las tarjetas de productos */
+@media (min-width: 768px) {
+  .product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(320px, 400px)) !important;
+    gap: 30px !important;
+    justify-content: center !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+  }
 }

@@ -30,7 +30,7 @@
     <link rel="preload" as="image" href="assets/bracasfoodlogo.jpeg" />
   </head>
   <body>
-        <app-root>
+            <app-root>
       <div
         style="
           position: fixed;
@@ -47,39 +47,21 @@
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         "
       >
-        <!-- Contenedor relativo para superponer el spinner alrededor del logo -->
-        <div style="position: relative; width: 160px; height: 160px; display: flex; align-items: center; justify-content: center;">
-          <!-- Anillo de carga giratorio envolvente -->
-          <div
-            style="
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 160px;
-              height: 160px;
-              border: 4px solid rgba(255, 255, 255, 0.2);
-              border-top: 4px solid #ffffff;
-              border-radius: 50%;
-              animation: spin 1s linear infinite;
-            "
-          ></div>
+        <!-- Tu Logo limpio y grande en el centro -->
+        <img
+          src="assets/bracasfoodlogo.jpeg"
+          style="
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+            animation: pulse 1.5s infinite ease-in-out;
+          "
+          alt="Cargando Bracasfood..."
+        />
 
-          <!-- Tu Logo centrado dentro del anillo -->
-          <img
-            src="assets/bracasfoodlogo.jpeg"
-            style="
-              width: 130px;
-              height: 130px;
-              border-radius: 50%;
-              object-fit: cover;
-              box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-              animation: pulse 1.5s infinite ease-in-out;
-            "
-            alt="Cargando Bracasfood..."
-          />
-        </div>
-
-        <!-- Texto de carga -->
+        <!-- Texto de carga opcional -->
         <div
           style="
             margin-top: 25px;
@@ -95,10 +77,6 @@
       </div>
 
       <style>
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
         @keyframes pulse {
           0%, 100% { transform: scale(1); }
           50% { transform: scale(1.05); }
