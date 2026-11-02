@@ -218,7 +218,7 @@
     th { background: #f8f9fa; color: #666; }
     td { border-bottom: 1px solid #f0f0f0; color: #333; }
   }
-  .loading-container { color: #666; &::before { border-top-color: #ff6b00; } }
+  .loading-container { color: #666; &::before { border-top-color: #C5A059; border-right-color: #F5E0B3; border-bottom-color: #9A7B38; } }
 }
 
 /* ======================================================================

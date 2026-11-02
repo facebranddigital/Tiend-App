@@ -43,7 +43,7 @@
     height: 35px !important;
     border-radius: 25px !important;
     animation: subtlePulse 3s infinite ease-in-out;
-    background: linear-gradient(95deg, #ff6b00, #ffb800, #ff6b00) !important;
+    background: radial-gradient(circle, #2b2316 0%, #111111 100%) !important;
     color: white !important;
     border: 2px solid #000 !important;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4) !important;
@@ -2663,6 +2663,7 @@ p:empty {
     top: auto !important;
     left: auto !important;
     transform: none !important;
+    
   }
 
   /* 3. El bloque de botones naranjas al lado del logo */
