@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this.cargando = false;
       console.log('¡Plataforma lista y cargada!');
-    }, 1500);
+    }, 1800);
 
     // 2. 🌟 ESCUCHA GLOBAL DE USUARIO: Cambia el tema de toda la web según el email
     if (this.authService.user$) {
