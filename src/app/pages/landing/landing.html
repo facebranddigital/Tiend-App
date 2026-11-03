@@ -1,3 +1,4 @@
+<canvas id="networkCanvas"></canvas>
 <div id="top" class="landing-container">
   <!-- HERO SECTION PERFECTAMENTE BALANCEADO -->
   <section class="hero">
@@ -174,7 +175,7 @@
       <div class="product-card" id="bolis-natural">
         <div class="product-image">
           <!-- 🟠 IMAGEN CLIENTE PÚBLICO -->
-          <img *ngIf="!(isEverAdminActive$ | async)" src="assets/bolismorados.webp" alt="Bolis Naturales" loading="lazy" />
+          <img *ngIf="!(isEverAdminActive$ | async)" src="assets/bolismorados.png" alt="Bolis Naturales" loading="lazy" />
           <!-- 🔮 IMAGEN ADMIN EVER -->
           <img *ngIf="isEverAdminActive$ | async" src="assets/enchape.jpg" alt="Enchapes" loading="lazy" />
           <span *ngIf="!(isEverAdminActive$ | async)" class="badge">-20%</span>
@@ -214,7 +215,7 @@
       <div class="product-card" id="papitas">
         <div class="product-image">
           <!-- 🟠 IMAGEN CLIENTE PÚBLICO -->
-          <img *ngIf="!(isEverAdminActive$ | async)" src="assets/papasbf.webp" alt="Papitas BF" loading="lazy" />
+          <img *ngIf="!(isEverAdminActive$ | async)" src="assets/papasbf.png" alt="Papitas BF" loading="lazy" />
           <!-- 🔮 IMAGEN ADMIN EVER -->
           <img *ngIf="isEverAdminActive$ | async" src="assets/pintura.jpg" alt="Pintura" loading="lazy" />
         </div>
@@ -252,7 +253,7 @@
       <!-- 5. Tocineta BF (SE OCULTA COMPLETAMENTE EN MODO SCHNEIDER USANDO EL *ngIf EN EL CONTENEDOR PRINCIPAL) -->
       <div class="product-card" id="tocineta" *ngIf="!(isEverAdminActive$ | async)">
         <div class="product-image">
-          <img src="assets/tocinetabf.webp" alt="Tocineta BF" loading="lazy" />
+          <img src="assets/tocinetabf.png" alt="Tocineta BF" loading="lazy" />
         </div>
         <div class="product-info">
           <!-- 🟠 VISTA CLIENTE PÚBLICO -->
