@@ -107,13 +107,13 @@
             </div>
             <div class="purchase-row">
               <div class="qty-mini">
-                <button (click)="pQty1.value = (+pQty1.value > 1 ? +pQty1.value - 1 : 1).toString()">-</button>
+                <button type="button" (click)="pQty1.stepDown()">-</button>
                 <input #pQty1 type="number" value="1" readonly />
-                <button (click)="pQty1.value = (+pQty1.value + 1).toString()">+</button>
+                <button type="button" (click)="pQty1.stepUp()">+</button>
               </div>
               <button
                 class="add-btn"
-                (click)="onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', pQty1.value)"
+                (click)="onAddToCart('Platanos BF', 2500, 'Snacks', 'assets/bracasfood2.webp', +pQty1.value || 1)"
                 data-testid="add-to-cart"
               >
                 COMPRAR
@@ -149,13 +149,13 @@
             </div>
             <div class="purchase-row">
               <div class="qty-mini">
-                <button (click)="pQty2.value = (+pQty2.value > 1 ? +pQty2.value - 1 : 1).toString()">-</button>
+                <button type="button" (click)="pQty2.stepDown()">-</button>
                 <input #pQty2 type="number" value="1" readonly />
-                <button (click)="pQty2.value = (+pQty2.value + 1).toString()">+</button>
+                <button type="button" (click)="pQty2.stepUp()">+</button>
               </div>
               <button
                 class="add-btn"
-                (click)="onAddToCart('Bolis de Leche', 2000, 'Postres', 'assets/bracasfoodbolis.webp', pQty2.value)"
+                (click)="onAddToCart('Bolis de Leche', 2000, 'Postres', 'assets/bracasfoodbolis.webp', +pQty2.value || 1)"
               >
                 COMPRAR
               </button>
@@ -189,13 +189,13 @@
             </div>
             <div class="purchase-row">
               <div class="qty-mini">
-                <button (click)="pQty3.value = (+pQty3.value > 1 ? +pQty3.value - 1 : 1).toString()">-</button>
+                <button type="button" (click)="pQty3.stepDown()">-</button>
                 <input #pQty3 type="number" value="1" readonly />
-                <button (click)="pQty3.value = (+pQty3.value + 1).toString()">+</button>
+                <button type="button" (click)="pQty3.stepUp()">+</button>
               </div>
               <button
                 class="add-btn"
-                (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp', pQty3.value)"
+                (click)="onAddToCart('Bolis Naturales', 1500, 'Postres', 'assets/bolismorados.webp', +pQty3.value || 1)"
               >
                 COMPRAR
               </button>
@@ -228,13 +228,13 @@
             </div>
             <div class="purchase-row">
               <div class="qty-mini">
-                <button (click)="pQty4.value = (+pQty4.value > 1 ? +pQty4.value - 1 : 1).toString()">-</button>
+                <button type="button" (click)="pQty4.stepDown()">-</button>
                 <input #pQty4 type="number" value="1" readonly />
-                <button (click)="pQty4.value = (+pQty4.value + 1).toString()">+</button>
+                <button type="button" (click)="pQty4.stepUp()">+</button>
               </div>
               <button
                 class="add-btn"
-                (click)="onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', pQty4.value)"
+                (click)="onAddToCart('Papitas BF', 2500, 'Snacks', 'assets/papasbf.webp', +pQty4.value || 1)"
               >
                 COMPRAR
               </button>
@@ -264,13 +264,13 @@
             </div>
             <div class="purchase-row">
               <div class="qty-mini">
-                <button (click)="pQty5.value = (+pQty5.value > 1 ? +pQty5.value - 1 : 1).toString()">-</button>
+                <button type="button" (click)="pQty5.stepDown()">-</button>
                 <input #pQty5 type="number" value="1" readonly />
-                <button (click)="pQty5.value = (+pQty5.value + 1).toString()">+</button>
+                <button type="button" (click)="pQty5.stepUp()">+</button>
               </div>
               <button
                 class="add-btn"
-                (click)="onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', pQty5.value)"
+                (click)="onAddToCart('Tocineta BF', 2500, 'Snacks', 'assets/tocinetabf.webp', +pQty5.value || 1)"
               >
                 COMPRAR
               </button>

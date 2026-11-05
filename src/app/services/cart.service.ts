@@ -1,6 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
 
-// 1. Modificamos el id para que sea opcional (?); así TypeScript no se queja en landing.ts
 export interface CartItem {
   id?: any;
   nombre?: string;
@@ -10,8 +9,8 @@ export interface CartItem {
   cantidad?: number;
   quantity?: number;
   imagen?: string;
-  category?: string;
-  imageUrl?: string;
+  image?: string;
+  img?: string;
 }
 
 @Injectable({
@@ -37,33 +36,22 @@ export class CartService {
     return this.itemsSignal().reduce((acc, item) => acc + (item.cantidad ?? item.quantity ?? 1), 0);
   });
 
-  // 2. Método blindado que procesa y repara objetos incompletos que vengan de la landing
   addToCart(producto: CartItem) {
     this.itemsSignal.update((items) => {
-      // Si el producto no tiene ID, usamos su nombre como ID único temporal o generamos uno alternativo
-      const idFinal = producto.id ?? producto.name ?? producto.nombre ?? Math.random().toString();
-
-      const exist = items.find((i) => i.id === idFinal);
-
-      if (exist) {
-        return items.map((i) => {
-          if (i.id === idFinal) {
-            const nuevaCant = (i.cantidad ?? i.quantity ?? 1) + 1;
-            return { ...i, cantidad: nuevaCant, quantity: nuevaCant };
-          }
-          return i;
-        });
-      }
+      const idFinal = Date.now().toString() + '_' + Math.random().toString(36).substring(2, 9);
+      const cantElegida = producto.cantidad ?? producto.quantity ?? 1;
+      const imgValida = producto.imagen ?? producto.image ?? 'assets/bracasfoodlogo.jpeg';
 
       const nuevoItem: CartItem = {
         ...producto,
-        id: idFinal, // Asignamos el ID resuelto
+        id: idFinal,
         nombre: producto.nombre ?? producto.name ?? 'Producto',
         name: producto.name ?? producto.nombre ?? 'Producto',
         precio: producto.precio ?? producto.price ?? 0,
         price: producto.price ?? producto.precio ?? 0,
-        cantidad: producto.cantidad ?? producto.quantity ?? 1,
-        quantity: producto.quantity ?? producto.cantidad ?? 1,
+        cantidad: cantElegida,
+        quantity: cantElegida,
+        imagen: imgValida
       };
       return [...items, nuevoItem];
     });
@@ -76,34 +64,20 @@ export class CartService {
   clearCart() {
     this.itemsSignal.set([]);
   }
+
   limpiarCarrito() {
     this.clearCart();
   }
 
   obtenerTextoPedido(idUnico: string): string {
-    // 1. Mapeamos cada producto con un formato limpio y emoji de comida
-    const lineas = this.itemsSignal().map((i) => {
+    const items = this.itemsSignal() || [];
+    const lineas = items.map((i: CartItem) => {
       const nombre = i.nombre ?? i.name ?? 'Producto';
       const cantidad = i.cantidad ?? i.quantity ?? 1;
       const precio = i.precio ?? i.price ?? 0;
       const subtotal = precio * cantidad;
-
-      return `🔸 *${nombre}* (x${cantidad}) -> _$${subtotal.toLocaleString()}_`;
+      return `- ${cantidad}x ${nombre} ($${subtotal})`;
     });
-
-    // 2. Armamos la estructura final del mensaje usando saltos de línea claros
-    return [
-      `🔥 *¡NUEVO PEDIDO BRACASFOOD!* 🔥`,
-      `=========================`,
-      `🆔 *Orden:* #${idUnico}`,
-      `⏰ *Fecha:* ${new Date().toLocaleDateString()}`,
-      `=========================`,
-      `🛒 *DETALLE DEL PEDIDO:*`,
-      ...lineas,
-      `=========================`,
-      `💰 *TOTAL A PAGAR:* $${this.totalPagar().toLocaleString()}`,
-      `=========================`,
-      `🛵 _Por favor, confírmame el tiempo estimado de entrega._`,
-    ].join('\n');
+    return lineas.join("\n");
   }
 }

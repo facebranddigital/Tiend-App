@@ -15,7 +15,7 @@
     <!-- Lista de Productos -->
     <div class="cart-items">
       <div *ngFor="let item of cartService.cartItems()" class="cart-item">
-        <img [src]="item.imagen || 'assets/bracasfoodlogo.jpeg'" [alt]="item.nombre" />
+        <img [src]="item.imagen || item.image || item.img || 'assets/bracasfoodlogo.jpeg'" [alt]="item.nombre || item.name" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;" />
 
         <div class="item-info">
           <h3>{{ item.nombre || item.name }}</h3>
