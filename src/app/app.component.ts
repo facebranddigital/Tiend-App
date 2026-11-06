@@ -30,11 +30,26 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    // 1. Simulación de carga existente
-    setTimeout(() => {
-      this.cargando = false;
-      console.log('¡Plataforma lista y cargada!');
-    }, 1800);
+    // 1. 🎬 CONTROL DEL SPLASH SCREEN DE VIDEO (5 segundos o al terminar)
+    const splash = document.getElementById('splash-screen');
+    const video = document.getElementById('splash-video') as HTMLVideoElement;
+
+    const hideSplash = () => {
+      if (splash && splash.style.display !== 'none') {
+        splash.style.opacity = '0';
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 500);
+      }
+    };
+
+    if (video) {
+      video.play().catch(e => console.log('Autoplay prevenido:', e));
+      video.onended = hideSplash;
+    }
+
+    // Temporizador de respaldo exacto a los 5 segundos (5000ms)
+    setTimeout(hideSplash, 10000);
 
     // 2. 🌟 ESCUCHA GLOBAL DE USUARIO: Cambia el tema de toda la web según el email
     if (this.authService.user$) {
