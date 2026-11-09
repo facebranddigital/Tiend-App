@@ -2846,3 +2846,444 @@ p:empty {
   margin-right: 0 !important;
   text-align: center !important;
 }
+
+/* 🚀 Carrusel horizontal compacto de productos debajo del logo */
+.product-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 1.5rem !important;
+  overflow-x: auto !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 2rem auto !important;
+  padding: 1rem 2rem 1rem 2rem !important;
+  scroll-snap-type: x mandatory !important;
+  box-sizing: border-box !important;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ff6b00;
+    border-radius: 4px;
+  }
+
+  .product-card {
+    flex: 0 0 280px !important;
+    scroll-snap-align: start !important;
+  }
+}
+
+/* ==========================================================================
+   🎬 EFECTO HERO: VÍDEO DE FONDO CON LOGO Y BOTONES FLOTANTES
+   ========================================================================== */
+
+.hero-container {
+  position: relative;
+  width: 100%;
+  min-height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.bg-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 2;
+}
+
+.hero-content-overlay {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* ==========================================================================
+   🎬 AJUSTE HERO & PRODUCTOS DEBAJO
+   ========================================================================== */
+
+.hero-container {
+  position: relative;
+  width: 100%;
+  min-height: 75vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #000;
+}
+
+.bg-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 2;
+}
+
+.hero-content-overlay {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+}
+
+/* ==========================================================================
+   🛍️ CARRUSEL HORIZONTAL DE PRODUCTOS (ESTILO BRACASFOOD)
+   ========================================================================== */
+
+.product-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 1.5rem !important;
+  overflow-x: auto !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 2rem auto !important;
+  padding: 1rem 2rem !important;
+  scroll-snap-type: x mandatory !important;
+  box-sizing: border-box !important;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #111;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #C5A059;
+    border-radius: 4px;
+  }
+
+  .product-card {
+    flex: 0 0 260px !important;
+    background: linear-gradient(140deg, #181818 0%, #0d0d0d 100%) !important;
+    border: 1.5px solid #333 !important;
+    border-radius: 16px !important;
+    padding: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6) !important;
+    scroll-snap-align: start !important;
+    box-sizing: border-box !important;
+
+    .product-image-container {
+      width: 100% !important;
+      height: 160px !important;
+      border-radius: 10px !important;
+      overflow: hidden !important;
+      margin-bottom: 12px !important;
+      background: #000 !important;
+
+      img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+      }
+    }
+
+    .product-info {
+      width: 100% !important;
+      text-align: center !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+
+      h3 {
+        color: #F5E0B3 !important;
+        font-size: 1.1rem !important;
+        font-weight: 800 !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+
+      .price {
+        color: #ffffff !important;
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+      }
+
+      .add-btn {
+        width: 100% !important;
+        background: linear-gradient(135deg, #F5E0B3 0%, #C5A059 50%, #9A7B38 100%) !important;
+        color: #1a1a1a !important;
+        font-weight: 900 !important;
+        font-size: 0.95rem !important;
+        border: none !important;
+        border-radius: 12px !important;
+        padding: 8px 12px !important;
+        cursor: pointer;
+        transition: transform 0.2s ease, filter 0.2s ease;
+        margin-top: 5px !important;
+
+        &:hover {
+          filter: brightness(1.15);
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+}
+
+/* ==========================================================================
+   ✨ PALETA DORADA ORIGINAL BRACASFOOD & CHATBOT FLOTANTE
+   ========================================================================== */
+
+/* Bordes y acentos con el dorado exacto del navbar */
+.product-grid {
+  .product-card {
+    background: #121212 !important;
+    border: 2px solid #C5A059 !important; /* Dorado característico */
+    box-shadow: 0 8px 20px rgba(197, 160, 89, 0.25) !important;
+
+    .product-info {
+      h3 {
+        color: #F5E0B3 !important;
+      }
+      .price {
+        color: #dfdcd5 !important;
+      }
+      .add-btn {
+        background: linear-gradient(135deg, #F5E0B3 0%, #C5A059 50%, #9A7B38 100%) !important;
+        color: #0c0800 !important;
+        border: 1px solid #ffd700 !important;
+      }
+    }
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #C5A059 !important;
+  }
+}
+
+/* 💬 Posicionamiento estricto del Chatbot AI en la esquina inferior izquierda */
+app-chat-ai {
+  position: fixed !important;
+  bottom: 20px !important;
+  left: 20px !important;
+  z-index: 9999 !important;
+}
+
+/* ==========================================================================
+   🛍️ ESTILO CLÁSICO DE TARJETAS LIMPIAS EN CARRUSEL HORIZONTAL
+   ========================================================================== */
+
+.product-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 1.5rem !important;
+  overflow-x: auto !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 2rem auto !important;
+  padding: 1rem 2rem !important;
+  scroll-snap-type: x mandatory !important;
+  box-sizing: border-box !important;
+
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #111;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ff6b00;
+    border-radius: 4px;
+  }
+
+  .product-card {
+    flex: 0 0 220px !important;
+    background: #ffffff !important; /* Fondo blanco limpio de tus tarjetas */
+    border: 2px solid #e0e0e0 !important;
+    border-radius: 16px !important;
+    padding: 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
+    scroll-snap-align: start !important;
+    box-sizing: border-box !important;
+
+    .product-image-container {
+      width: 100% !important;
+      height: 180px !important;
+      border-radius: 10px !important;
+      overflow: hidden !important;
+      margin-bottom: 12px !important;
+      background: #f9f9f9 !important;
+
+      img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+      }
+    }
+
+    .product-info {
+      width: 100% !important;
+      text-align: center !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 8px !important;
+
+      h3 {
+        color: #1a1a1a !important;
+        font-size: 1.1rem !important;
+        font-weight: 800 !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        width: 100% !important;
+      }
+
+      .price {
+        color: #222222 !important;
+        font-size: 1.1rem !important;
+        font-weight: 900 !important;
+        margin: 0 !important;
+      }
+
+      /* Selector - 1 + idéntico a tu diseño */
+      .qty-mini {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #1a1a1a !important;
+        border: 1.5px solid #C5A059 !important;
+        border-radius: 20px !important;
+        padding: 2px 6px !important;
+        margin: 4px 0 !important;
+
+        button {
+          background: transparent !important;
+          color: #F5E0B3 !important;
+          border: none !important;
+          width: 24px !important;
+          height: 24px !important;
+          font-weight: bold !important;
+          font-size: 1rem !important;
+          cursor: pointer;
+        }
+
+        input[type="number"] {
+          width: 28px !important;
+          height: 24px !important;
+          text-align: center !important;
+          background: transparent !important;
+          color: #FFFFFF !important;
+          border: none !important;
+          font-weight: 900 !important;
+          font-size: 1rem !important;
+        }
+      }
+
+      /* Botón COMPRAR oscuro con bordes y tipografía exacta */
+      .add-btn {
+        width: 100% !important;
+        background: #1a1a1a !important;
+        color: #ffffff !important;
+        font-weight: 900 !important;
+        font-size: 0.95rem !important;
+        border: 1.5px solid #C5A059 !important;
+        border-radius: 20px !important;
+        padding: 8px 12px !important;
+        cursor: pointer;
+        transition: transform 0.2s ease, filter 0.2s ease;
+        margin-top: 5px !important;
+        text-transform: uppercase !important;
+
+        &:hover {
+          background: #2a2a2a !important;
+          filter: brightness(1.15);
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+}
+
+/* 🖼️ Corrección definitiva para que las imágenes de los productos no se deformen */
+.product-grid .product-card .product-image-container {
+  width: 100% !important;
+  height: 150px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #fdfdfd !important;
+  overflow: hidden !important;
+  border-radius: 10px !important;
+  margin-bottom: 10px !important;
+
+  img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* Muestra la imagen completa sin recortarla ni estirarla */
+    background: transparent !important;
+  }
+}
+
+/* 📏 Espaciado superior para separar el carrusel de productos del vídeo */
+.product-grid {
+  margin-top: 6rem !important; /* Aumenta la distancia respecto al hero */
+  margin-bottom: 4rem !important;
+}

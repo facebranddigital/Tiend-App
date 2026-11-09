@@ -25,7 +25,7 @@ interface Message {
 export class LandingComponent implements OnInit, OnDestroy {
   public cartService = inject(CartService);
   public auth = inject(AuthService);
-  private musica = new Audio('assets/relaxshiva.');
+  private musica = new Audio('assets/relaxshiva.mp3');
   public musicaActiva = false;
   private route = inject(ActivatedRoute);
 
@@ -54,7 +54,6 @@ export class LandingComponent implements OnInit, OnDestroy {
     map((user) => !!user?.email && this.ADMIN_EMAILS.includes(user.email.toLowerCase())),
   );
 
-  // 🔥 ESTE OBSERVABLE SERÁ TRUE ÚNICAMENTE PARA TU CORREO EXACTO
   public isEverAdminActive$: Observable<boolean> = this.auth.user$.pipe(
     map((user) => !!user?.email && user.email.toLowerCase().startsWith('everso')),
   );
@@ -85,19 +84,16 @@ export class LandingComponent implements OnInit, OnDestroy {
     direccion: '',
     pago: '',
   };
-    products = [
-    { id: 'bolis-oreo', name: 'Bolis Oreo 🍪', price: 2000, category: 'Bolis', image: 'assets/bracasfoodbolis.webp' },
-    { id: 'bolis-fresa', name: 'Bolis Fresa 🍓', price: 2000, category: 'Bolis', image: 'assets/bracasfoodbolis.webp' },
-    { id: 'bolis-choco', name: 'Bolis Chocolate 🍫', price: 2000, category: 'Bolis', image: 'assets/bracasfoodbolis.webp' },
-    { id: 'bolis-mora', name: 'Bolis Mora 🍇', price: 1500, category: 'Bolis', image: 'assets/bolismorados.webp' },
-    { id: 'bolis-mango', name: 'Bolis Mango 🥭', price: 1500, category: 'Bolis', image: 'assets/bolismorados.webp' },
-    { id: 'bolis-sandia', name: 'Bolis Sandía 🍉', price: 1500, category: 'Bolis', image: 'assets/bolismorados.webp' },
-    { id: 'papitas', name: 'Papitas BF 🍟', price: 2500, category: 'Pasabocas', image: 'assets/papasbf.webp' },
+
+  // ✅ Catálogo limpio con los 2 tipos de bolis y pasabocas principales
+  products = [
+    { id: 'bolis-naturales', name: 'Bolis Naturales 🍇', price: 1500, category: 'Bolis', image: 'assets/bolismorados.png' },
+    { id: 'bolis-leche', name: 'Bolis de Leche 🥛', price: 2000, category: 'Bolis', image: 'assets/bracasfoodbolis.webp' },
+    { id: 'papitas', name: 'Papitas BF 🍟', price: 2500, category: 'Pasabocas', image: 'assets/papasbf.png' },
     { id: 'platanos', name: 'Platanos BF 🥓', price: 2500, category: 'Pasabocas', image: 'assets/bracasfood2.webp' },
-    { id: 'tocineta', name: 'Tocineta BF 🥩', price: 2500, category: 'Pasabocas', image: 'assets/tocinetabf.webp' },
+    { id: 'tocineta', name: 'Tocineta BF 🥩', price: 2500, category: 'Pasabocas', image: 'assets/tocinetabf.png' },
   ];
 
-   // 🏢 NUEVO: Catálogo exclusivo para C&E Schneider cuando tú inicias sesión
   productsSchneider = [
     { id: 'sch-1', name: '1️⃣ Molduras e Iluminación en Drywall 💡', price: 45000, category: 'Techos', image: 'assets/ceschneider.jpg' },
     { id: 'sch-2', name: '2️⃣ Pisos y Enchapados Cerámicos 🧱', price: 65000, category: 'Pisos', image: 'assets/ceschneider.jpg' },
@@ -106,14 +102,12 @@ export class LandingComponent implements OnInit, OnDestroy {
     { id: 'sch-5', name: '5️⃣ Instalación de Aparatos Sanitarios y Grifería 🚰', price: 80000, category: 'Baños', image: 'assets/ceschneider.jpg' },
   ];
 
-  // 🔄 CORREGIDO: Cambia los productos leyendo el método correcto del AuthService
   activeCatalog = computed(() => {
     const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null; 
     const isEver = user?.email?.toLowerCase().startsWith('everso');
     return isEver ? this.productsSchneider : this.products;
   });
 
-  // 🔍 CORREGIDO: Ahora el buscador filtra dinámicamente sobre la lista que esté activa en pantalla
   filteredProducts = computed(() => {
     const term = this.searchTerm().toLowerCase().trim();
     const currentCatalog = this.activeCatalog();
@@ -123,26 +117,25 @@ export class LandingComponent implements OnInit, OnDestroy {
     );
   });
 
-  // 🎨 CORREGIDO: Unificación de cabeceras en negro puro (#000000) respetando la estética cyberpunk
   themeColors = computed(() => {
     const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null;
     const isSchneider = user?.email?.toLowerCase().startsWith('everso');
 
     if (isSchneider) {
       return {
-        backgroundChat: '#15141b', // Fondo ultra oscuro Schneider
-        headerBot: '#000000',       // Cabecera negra pura cyberpunk
-        bubbleModel: '#221f2d',     // Morado ceniza oscuro para el bot
-        bubbleUser: '#b020a1',      // Fucsia neón para el usuario
+        backgroundChat: '#15141b',
+        headerBot: '#000000',
+        bubbleModel: '#221f2d',
+        bubbleUser: '#b020a1',
         textModel: '#ffffff',
         textUser: '#ffffff'
       };
     } else {
       return {
-        backgroundChat: '#ffffff', // Fondo blanco limpio para Bracasfood
-        headerBot: '#000000',       // Cabecera negra pura solicitada
-        bubbleModel: '#f1f1f1',     // Burbuja gris claro clásica para el bot
-        bubbleUser: '#522d80',      // Burbuja morada original para el usuario
+        backgroundChat: '#ffffff',
+        headerBot: '#000000',
+        bubbleModel: '#f1f1f1',
+        bubbleUser: '#522d80',
         textModel: '#333333',
         textUser: '#ffffff'
       };
@@ -240,7 +233,6 @@ export class LandingComponent implements OnInit, OnDestroy {
     }
   }
 
-
   public selectOption(optionType: string, label: string): void {
     if (this.isLoading()) return;
 
@@ -249,8 +241,6 @@ export class LandingComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       let botResponse = '';
-      
-      // 🔄 Verificamos dinámicamente si el usuario actual es Schneider
       const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null;
       const isSchneider = user?.email?.toLowerCase().startsWith('everso');
 
@@ -284,8 +274,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-
-     sendMessage() {
+  sendMessage() {
     const text = this.userInput.trim();
     if (!text) return;
 
@@ -296,8 +285,6 @@ export class LandingComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       let response = '';
-      
-      // 🔄 Detección dinámica de la interfaz activa de Schneider o Bracasfood
       const user = this.auth.getCurrentUser ? this.auth.getCurrentUser() : null;
       const isSchneider = user?.email?.toLowerCase().startsWith('everso');
 
@@ -315,7 +302,7 @@ export class LandingComponent implements OnInit, OnDestroy {
       const currentStep = this.step();
 
       switch (currentStep) {
-        case 1: // Menú Inicial
+        case 1:
           if (lowerText.includes('seguimiento') || lowerText.includes('3')) {
             response = isSchneider
               ? 'Por favor, escríbeme el **ID de radicado u orden de obra** (ejemplo: _CS-842_) para consultar el estado del proyecto en tiempo real. 📍'
@@ -337,12 +324,11 @@ export class LandingComponent implements OnInit, OnDestroy {
             response = isSchneider
               ? '🏗️ ¡Dale! Selecciona los servicios de ingeniería y acabados que desees de la lista:'
               : '🛵 ¡Dale! Selecciona los productos que desees de la lista:';
-            // 🎯 Forzamos el paso 1 para que el HTML dibuje los botones interactivos abajo del texto
             this.step.set(1);
           }
           break;
 
-        case 2: // Recibiendo Cantidad
+        case 2:
           const cantidad = parseInt(text);
           if (!isNaN(cantidad) && cantidad > 0) {
             const prod = this.productoEnCurso();
@@ -362,12 +348,8 @@ export class LandingComponent implements OnInit, OnDestroy {
           }
           break;
 
-        case 3: // Decisión: ¿Seguir o Pagar?
-          if (
-            lowerText.includes('pagar') ||
-            lowerText.includes('pago') ||
-            lowerText.includes('2')
-          ) {
+        case 3:
+          if (lowerText.includes('pagar') || lowerText.includes('pago') || lowerText.includes('2')) {
             const total = this.cartService.totalPagar();
 
             if (total === 0) {
@@ -389,7 +371,7 @@ export class LandingComponent implements OnInit, OnDestroy {
           }
           break;
 
-        case 4: // Recibiendo Dirección
+        case 4:
           this.datosPedido.direccion = text;
           const totalConfirmado = this.cartService.totalPagar();
           response = isSchneider
@@ -398,7 +380,7 @@ export class LandingComponent implements OnInit, OnDestroy {
           this.step.set(5);
           break;
 
-        case 5: // Recibiendo Método de Pago
+        case 5:
           this.datosPedido.pago = text;
           const esNequi = lowerText.includes('nequi');
           const colorBoton = esNequi ? 'morado' : 'verde';
@@ -476,7 +458,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     }
   }
 
-confirmarPagoEnWhatsApp() {
+  confirmarPagoEnWhatsApp() {
     const telefono = '573218119383';
     const items = this.cartService.items();
     const total = items.reduce((acc: number, i: any) => acc + i.price * (i.quantity || 1), 0);
@@ -496,7 +478,6 @@ confirmarPagoEnWhatsApp() {
     ];
 
     const mensaje = bloquesMensaje.join('\n');
-    // ✅ FIX: Corregida la interpolación de la variable `telefono`
     const urlWhatsApp = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
     window.open(urlWhatsApp, '_blank');
     this.dispararConfeti();
@@ -512,13 +493,13 @@ confirmarPagoEnWhatsApp() {
       const lista = items.map((i: any) => `• ${i.name} x${i.quantity || 1}`).join('\n');
 
       const mensaje = `*📦 NUEVO PEDIDO - EFECTIVO*\n\n${lista}\n\n💰 *TOTAL:* $${total.toLocaleString('es-CO')}\n📍 *DIR:* ${this.datosPedido.direccion || 'Recogida en Local'}`;
-      // ✅ FIX: Corregida la interpolación de la variable `telefono`
       const urlWhatsApp = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
       window.open(urlWhatsApp, '_blank');
       this.dispararConfeti();
     }
   }
-    public onAddToCart(
+
+  public onAddToCart(
     name: string,
     price: number,
     category: string,
@@ -528,7 +509,6 @@ confirmarPagoEnWhatsApp() {
     const qty = typeof quantity === 'string' ? parseInt(quantity, 10) : quantity;
     if (isNaN(qty) || qty <= 0) return;
 
-    // 📦 Estructura limpia del nuevo producto
     const productoParaCarrito = {
       id: this.productoEnCurso()?.id || 'prod-bot',
       name,
@@ -538,8 +518,6 @@ confirmarPagoEnWhatsApp() {
       quantity: qty
     };
 
-    // 🔥 SOLUCIÓN DEFINITIVA TS2339:
-    // Forzamos el acceso dinámico al servicio para saltar la validación estricta del compilador.
     const servicioAsAny = this.cartService as any;
 
     if (servicioAsAny.addItem && typeof servicioAsAny.addItem === 'function') {
@@ -549,7 +527,6 @@ confirmarPagoEnWhatsApp() {
     } else if (servicioAsAny.addToCart && typeof servicioAsAny.addToCart === 'function') {
       servicioAsAny.addToCart(productoParaCarrito);
     } else if (servicioAsAny.items) {
-      // 🛠️ Si el servicio no tiene métodos de inserción expuestos, actualizamos su Signal interna usando inmutabilidad directa
       const currentItems = typeof servicioAsAny.items === 'function' ? servicioAsAny.items() : (servicioAsAny.items || []);
       const itemsArreglo = Array.isArray(currentItems) ? currentItems : [];
       const index = itemsArreglo.findIndex((i: any) => i.name === name);
@@ -563,7 +540,6 @@ confirmarPagoEnWhatsApp() {
         updatedItems = [...itemsArreglo, productoParaCarrito];
       }
 
-      // Despachamos el nuevo estado usando set/update de forma dinámica en la señal
       if (typeof servicioAsAny.items.set === 'function') {
         servicioAsAny.items.set(updatedItems);
       } else if (typeof servicioAsAny.items.update === 'function') {
@@ -572,10 +548,8 @@ confirmarPagoEnWhatsApp() {
     }
   }
 
-
   public seleccionarProductoDesdeBot(prod: any): void {
     this.productoEnCurso.set(prod);
-    // 🔄 Mapeamos prod.image correctamente al invocar el método corregido
     this.onAddToCart(prod.name, prod.price, prod.category, prod.image || '', 1);
 
     this.messages.update((prev) => [
@@ -587,7 +561,7 @@ confirmarPagoEnWhatsApp() {
       },
     ]);
 
-    this.step.set(3); // 🏁 Te manda directo al paso de decisión: ¿Seguir o Pagar?
+    this.step.set(3);
   }
 
   public scrollTo(elementId: string): void {
@@ -600,96 +574,4 @@ confirmarPagoEnWhatsApp() {
   public scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
-} // <-- ESTA ES LA ÚLTIMA LLAVE DEL ARCHIVO (cierra LandingComponent)
-
-// --- Motor de Red de Nodos Animados (Canvas) ---
-export function initNetworkCanvas() {
-  const canvas = document.getElementById('networkCanvas') as HTMLCanvasElement;
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  let particles: any[] = [];
-  const numParticles = 35;
-
-  class Particle {
-    x: number;
-    y: number;
-    vx: number;
-    vy: number;
-    radius: number;
-    label: string;
-
-    constructor() {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-      this.vx = (Math.random() - 0.5) * 0.4;
-      this.vy = (Math.random() - 0.5) * 0.4;
-      this.radius = 12;
-      this.label = "BC";
-    }
-
-    draw() {
-      if (!ctx) return;
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(16, 185, 129, 0.3)';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      ctx.fillStyle = 'rgba(16, 185, 129, 0.6)';
-      ctx.font = '9px monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText(this.label, this.x, this.y + 3);
-    }
-
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-      if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-      if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-    }
-  }
-
-  for (let i = 0; i < numParticles; i++) {
-    particles.push(new Particle());
-  }
-
-  function connect() {
-    if (!ctx) return;
-    for (let a = 0; a < particles.length; a++) {
-      for (let b = a; b < particles.length; b++) {
-        let dx = particles[a].x - particles[b].x;
-        let dy = particles[a].y - particles[b].y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (distance < 150) {
-          let opacity = 1 - (distance / 150);
-          ctx.strokeStyle = `rgba(16, 185, 129, ${opacity * 0.25})`;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(particles[a].x, particles[a].y);
-          ctx.lineTo(particles[b].x, particles[b].y);
-          ctx.stroke();
-        }
-      }
-    }
-  }
-
-  function animate() {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-      p.update();
-      p.draw();
-    });
-    connect();
-    requestAnimationFrame(animate);
-  }
-
-  animate();
 }
