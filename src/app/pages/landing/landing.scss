@@ -3287,3 +3287,82 @@ app-chat-ai {
   margin-top: 6rem !important; /* Aumenta la distancia respecto al hero */
   margin-bottom: 4rem !important;
 }
+
+/* 📱 ADAPTACIÓN RESPONSIVA PARA MÓVILES (Moto G72 y pantallas <= 768px) */
+@media (max-width: 768px) {
+  .product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; /* Distribución exacta en 2 columnas */
+    gap: 0.8rem !important;
+    padding: 0.5rem 1rem !important;
+    overflow-x: visible !important;
+    scroll-snap-type: none !important;
+
+    .product-card {
+      flex: none !important;
+      width: 100% !important;
+      padding: 10px !important;
+      border-radius: 12px !important;
+
+      /* 🌟 La última tarjeta (Tocineta BF) ocupa las 2 columnas completas */
+      &:last-child {
+        grid-column: span 2 !important;
+        max-width: 100% !important;
+
+        .product-image-container {
+          height: 180px !important;
+        }
+
+        .product-info {
+          width: 100% !important;
+          max-width: 280px !important;
+          margin: 0 auto !important;
+        }
+      }
+
+      .product-image-container {
+        height: 120px !important;
+      }
+
+      .product-info {
+        h3 {
+          font-size: 0.95rem !important;
+        }
+        .price {
+          font-size: 1rem !important;
+        }
+        .add-btn {
+          padding: 6px 8px !important;
+          font-size: 0.85rem !important;
+        }
+      }
+    }
+  }
+}
+
+/* 📸 AJUSTE DE IMÁGENES MÁS GRANDES Y A PANTALLA COMPLETA EN MÓVILES */
+@media (max-width: 768px) {
+  .product-grid {
+    .product-card {
+      padding: 8px !important;
+
+      .product-image-container {
+        height: 160px !important; /* Aumentamos la altura de 120px a 160px */
+        margin-bottom: 8px !important;
+
+        img {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important; /* Llena completamente el contenedor sin dejar espacios vacíos */
+        }
+      }
+
+      /* Ajuste especial para la tarjeta grande del final */
+      &:last-child {
+        .product-image-container {
+          height: 220px !important; /* La última imagen se verá aún más grande */
+        }
+      }
+    }
+  }
+}

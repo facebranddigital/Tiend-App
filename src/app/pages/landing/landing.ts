@@ -85,21 +85,21 @@ export class LandingComponent implements OnInit, OnDestroy {
     pago: '',
   };
 
-  // ✅ Catálogo limpio con los 2 tipos de bolis y pasabocas principales
+  // ✅ Catálogo con orden exacto y cantidad inicial en 1
   products = [
-    { id: 'bolis-naturales', name: 'Bolis Naturales 🍇', price: 1500, category: 'Bolis', image: 'assets/bolismorados.png' },
-    { id: 'bolis-leche', name: 'Bolis de Leche 🥛', price: 2000, category: 'Bolis', image: 'assets/bracasfoodbolis.webp' },
-    { id: 'papitas', name: 'Papitas BF 🍟', price: 2500, category: 'Pasabocas', image: 'assets/papasbf.png' },
-    { id: 'platanos', name: 'Platanos BF 🥓', price: 2500, category: 'Pasabocas', image: 'assets/bracasfood2.webp' },
-    { id: 'tocineta', name: 'Tocineta BF 🥩', price: 2500, category: 'Pasabocas', image: 'assets/tocinetabf.png' },
+    { id: 'bolis-naturales', name: 'Bolis Naturales 🍇', price: 1500, category: 'Bolis', image: 'assets/bolismorados.png', quantity: 1 },
+    { id: 'bolis-leche', name: 'Bolis de Leche 🥛', price: 2000, category: 'Bolis', image: 'assets/bracasfoodbolis.webp', quantity: 1 },
+    { id: 'platanos', name: 'Platanos BF 🥓', price: 2500, category: 'Pasabocas', image: 'assets/bracasfood2.webp', quantity: 1 },
+    { id: 'papitas', name: 'Papitas BF 🍟', price: 2500, category: 'Pasabocas', image: 'assets/papasbf.png', quantity: 1 },
+    { id: 'tocineta', name: 'Tocineta BF 🥩', price: 2500, category: 'Pasabocas', image: 'assets/tocinetabf.png', quantity: 1 },
   ];
 
   productsSchneider = [
-    { id: 'sch-1', name: '1️⃣ Molduras e Iluminación en Drywall 💡', price: 45000, category: 'Techos', image: 'assets/ceschneider.jpg' },
-    { id: 'sch-2', name: '2️⃣ Pisos y Enchapados Cerámicos 🧱', price: 65000, category: 'Pisos', image: 'assets/ceschneider.jpg' },
-    { id: 'sch-3', name: '3️⃣ Pintura General e Impermeabilización 🎨', price: 25000, category: 'Paredes', image: 'assets/ceschneider.jpg' },
-    { id: 'sch-4', name: '4️⃣ Estuco y Alisado de Muros ✨', price: 18000, category: 'Paredes', image: 'assets/ceschneider.jpg' },
-    { id: 'sch-5', name: '5️⃣ Instalación de Aparatos Sanitarios y Grifería 🚰', price: 80000, category: 'Baños', image: 'assets/ceschneider.jpg' },
+    { id: 'sch-1', name: '1️⃣ Molduras e Iluminación en Drywall 💡', price: 45000, category: 'Techos', image: 'assets/ceschneider.jpg', quantity: 1 },
+    { id: 'sch-2', name: '2️⃣ Pisos y Enchapados Cerámicos 🧱', price: 65000, category: 'Pisos', image: 'assets/ceschneider.jpg', quantity: 1 },
+    { id: 'sch-3', name: '3️⃣ Pintura General e Impermeabilización 🎨', price: 25000, category: 'Paredes', image: 'assets/ceschneider.jpg', quantity: 1 },
+    { id: 'sch-4', name: '4️⃣ Estuco y Alisado de Muros ✨', price: 18000, category: 'Paredes', image: 'assets/ceschneider.jpg', quantity: 1 },
+    { id: 'sch-5', name: '5️⃣ Instalación de Aparatos Sanitarios y Grifería 🚰', price: 80000, category: 'Baños', image: 'assets/ceschneider.jpg', quantity: 1 },
   ];
 
   activeCatalog = computed(() => {
@@ -496,6 +496,17 @@ export class LandingComponent implements OnInit, OnDestroy {
       const urlWhatsApp = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
       window.open(urlWhatsApp, '_blank');
       this.dispararConfeti();
+    }
+  }
+
+  // ➕➖ Método para incrementar o disminuir la cantidad local en la tarjeta
+  public cambiarCantidadLocal(prod: any, cambio: number): void {
+    if (!prod.quantity) {
+      prod.quantity = 1;
+    }
+    prod.quantity += cambio;
+    if (prod.quantity < 1) {
+      prod.quantity = 1;
     }
   }
 
