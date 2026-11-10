@@ -3285,7 +3285,7 @@ app-chat-ai {
 /* 📏 Espaciado superior para separar el carrusel de productos del vídeo */
 .product-grid {
   margin-top: 6rem !important; /* Aumenta la distancia respecto al hero */
-  margin-bottom: 4rem !important;
+  margin-bottom: 6rem !important;
 }
 
 /* 📱 ADAPTACIÓN RESPONSIVA PARA MÓVILES (Moto G72 y pantallas <= 768px) */
@@ -3362,6 +3362,115 @@ app-chat-ai {
         .product-image-container {
           height: 220px !important; /* La última imagen se verá aún más grande */
         }
+      }
+    }
+  }
+}
+
+/* 🖥️ NUEVA VISTA DE ESCRITORIO: Cuadrícula de 2 columnas con la última tarjeta expandida */
+@media (min-width: 769px) {
+  .product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important; /* Exactamente 2 columnas grandes */
+    gap: 2rem !important;
+    max-width: 900px !important;
+    margin: 4rem auto !important;
+    overflow-x: visible !important;
+    scroll-snap-type: none !important;
+    padding: 0 1rem !important;
+
+    .product-card {
+      flex: none !important;
+      width: 100% !important;
+      max-width: none !important;
+      padding: 20px !important;
+      border-radius: 16px !important;
+      box-sizing: border-box !important;
+
+      /* 🌟 La quinta tarjeta (Tocineta BF) ocupa el ancho total de las 2 columnas */
+      &:last-child {
+        grid-column: span 2 !important;
+        
+        .product-image-container {
+          height: 260px !important; /* Imagen imponente y gigante para destacar */
+        }
+
+        .product-info {
+          max-width: 400px !important;
+          margin: 0 auto !important;
+        }
+      }
+
+      .product-image-container {
+        width: 100% !important;
+        height: 200px !important; /* Tarjetas de producto mucho más altas y grandes */
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        margin-bottom: 1rem !important;
+
+        img {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important;
+        }
+      }
+
+      .product-info {
+        h3 {
+          font-size: 1.25rem !important;
+          font-weight: bold !important;
+        }
+        .price {
+          font-size: 1.2rem !important;
+          font-weight: bold !important;
+        }
+        .qty-mini {
+          margin: 1rem 0 !important;
+          input {
+            font-size: 1.1rem !important;
+            padding: 4px 10px !important;
+          }
+          button {
+            padding: 6px 14px !important;
+            font-size: 1.1rem !important;
+          }
+        }
+        .add-btn {
+          width: 100% !important;
+          padding: 12px !important;
+          font-size: 1rem !important;
+          font-weight: bold !important;
+        }
+      }
+    }
+  }
+}
+
+/* 📏 Incremento de la distancia superior entre el vídeo y las tarjetas */
+.product-grid {
+  margin-top: 8rem !important; /* Margen amplio y elegante respecto al video principal */
+}
+
+/* 📱💻 PROPORCIÓN VERTICAL TIPO 9:16 PARA LAS TARJETAS */
+.product-grid {
+  .product-card {
+    /* Relación de aspecto vertical pronunciada */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    min-height: 480px !important; /* Altura generosa para dar el formato vertical */
+
+    .product-image-container {
+      width: 100% !important;
+      height: 320px !important; /* Imagen mucho más alta tipo formato vertical */
+      min-height: 320px !important;
+      overflow: hidden !important;
+      border-radius: 12px !important;
+
+      img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
       }
     }
   }

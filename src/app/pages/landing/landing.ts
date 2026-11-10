@@ -85,13 +85,13 @@ export class LandingComponent implements OnInit, OnDestroy {
     pago: '',
   };
 
-  // ✅ Catálogo con orden exacto y cantidad inicial en 1
+  // ✅ Catálogo de productos con propiedad quantity inicial
   products = [
     { id: 'bolis-naturales', name: 'Bolis Naturales 🍇', price: 1500, category: 'Bolis', image: 'assets/bolismorados.png', quantity: 1 },
     { id: 'bolis-leche', name: 'Bolis de Leche 🥛', price: 2000, category: 'Bolis', image: 'assets/bracasfoodbolis.webp', quantity: 1 },
-    { id: 'platanos', name: 'Platanos BF 🥓', price: 2500, category: 'Pasabocas', image: 'assets/bracasfood2.webp', quantity: 1 },
     { id: 'papitas', name: 'Papitas BF 🍟', price: 2500, category: 'Pasabocas', image: 'assets/papasbf.png', quantity: 1 },
     { id: 'tocineta', name: 'Tocineta BF 🥩', price: 2500, category: 'Pasabocas', image: 'assets/tocinetabf.png', quantity: 1 },
+    { id: 'platanos', name: 'Platanos BF 🥓', price: 2500, category: 'Pasabocas', image: 'assets/bracasfood2.webp', quantity: 1 },
   ];
 
   productsSchneider = [
@@ -499,7 +499,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     }
   }
 
-  // ➕➖ Método para incrementar o disminuir la cantidad local en la tarjeta
+  // ➕➖ Cambiar cantidad local del producto en la tarjeta
   public cambiarCantidadLocal(prod: any, cambio: number): void {
     if (!prod.quantity) {
       prod.quantity = 1;
@@ -510,6 +510,7 @@ export class LandingComponent implements OnInit, OnDestroy {
     }
   }
 
+  // 🛒 Método universal para añadir ítems al CartService sin importar la firma interna
   public onAddToCart(
     name: string,
     price: number,
@@ -518,43 +519,40 @@ export class LandingComponent implements OnInit, OnDestroy {
     quantity: number | string,
   ): void {
     const qty = typeof quantity === 'string' ? parseInt(quantity, 10) : quantity;
-    if (isNaN(qty) || qty <= 0) return;
+    const finalQty = isNaN(qty) || qty <= 0 ? 1 : qty;
 
-    const productoParaCarrito = {
-      id: this.productoEnCurso()?.id || 'prod-bot',
+    const item = {
+      id: name.toLowerCase().replace(/\s+/g, '-'),
       name,
       price,
       category,
       image: image || 'assets/bracasfoodbolis.webp',
-      quantity: qty
+      quantity: finalQty
     };
 
-    const servicioAsAny = this.cartService as any;
+    const s = this.cartService as any;
 
-    if (servicioAsAny.addItem && typeof servicioAsAny.addItem === 'function') {
-      servicioAsAny.addItem(productoParaCarrito);
-    } else if (servicioAsAny.addProduct && typeof servicioAsAny.addProduct === 'function') {
-      servicioAsAny.addProduct(productoParaCarrito);
-    } else if (servicioAsAny.addToCart && typeof servicioAsAny.addToCart === 'function') {
-      servicioAsAny.addToCart(productoParaCarrito);
-    } else if (servicioAsAny.items) {
-      const currentItems = typeof servicioAsAny.items === 'function' ? servicioAsAny.items() : (servicioAsAny.items || []);
-      const itemsArreglo = Array.isArray(currentItems) ? currentItems : [];
-      const index = itemsArreglo.findIndex((i: any) => i.name === name);
-      
-      let updatedItems: any[];
-      if (index !== -1) {
-        updatedItems = itemsArreglo.map((item: any, i: number) => 
-          i === index ? { ...item, quantity: (item.quantity || 0) + qty } : item
-        );
+    if (typeof s.addItem === 'function') {
+      s.addItem(item);
+    } else if (typeof s.addProduct === 'function') {
+      s.addProduct(item);
+    } else if (typeof s.addToCart === 'function') {
+      s.addToCart(item);
+    } else if (s.items) {
+      const current = typeof s.items === 'function' ? s.items() : (s.items || []);
+      const arr = Array.isArray(current) ? [...current] : [];
+      const idx = arr.findIndex((i: any) => i.name === name);
+
+      if (idx !== -1) {
+        arr[idx] = { ...arr[idx], quantity: (arr[idx].quantity || 0) + finalQty };
       } else {
-        updatedItems = [...itemsArreglo, productoParaCarrito];
+        arr.push(item);
       }
 
-      if (typeof servicioAsAny.items.set === 'function') {
-        servicioAsAny.items.set(updatedItems);
-      } else if (typeof servicioAsAny.items.update === 'function') {
-        servicioAsAny.items.update(() => updatedItems);
+      if (typeof s.items.set === 'function') {
+        s.items.set(arr);
+      } else if (typeof s.items.update === 'function') {
+        s.items.update(() => arr);
       }
     }
   }
