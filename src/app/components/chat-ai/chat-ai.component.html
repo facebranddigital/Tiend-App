@@ -1,45 +1,68 @@
-<div class="chat-wrapper">
-  
-  <div class="chat-window" *ngIf="isOpen()">
-    <div class="chat-header">
-      <div class="header-info">
-        <span class="status-dot"></span>
-        <p>BracasBot 🍦</p>
-      </div>
-      <button class="close-btn" (click)="toggleChat()">×</button>
-    </div>
+<ng-container *ngIf="{ isEver: isEverAdminActive$ | async } as state">
+  <div class="chat-wrapper" [class.chat-schneider]="state.isEver">
 
-    <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-      <!-- Iteración de tus mensajes actuales -->
-      <div *ngFor="let msg of messages(); let first = first" 
-           [ngClass]="{'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model'}">
-        <div class="message-bubble">
-          {{ msg.text }}
-                    
+    <!-- Ventana principal del chat -->
+    <div class="chat-window" *ngIf="isOpen()">
+      <div class="chat-header">
+        <div class="header-info">
+          <span class="status-dot"></span>
+          <p>{{ state.isEver ? 'SchneiderBot ⚡' : 'BracasBot 🍦' }}</p>
+        </div>
+        <button class="close-btn" (click)="toggleChat()">×</button>
+      </div>
+
+      <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+        <div *ngFor="let msg of messages(); let first = first"
+             [ngClass]="{'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model'}">
+          <div class="message-bubble">
+            {{ msg.text }}
+
+            <!-- Opciones rápidas originales -->
+            <div class="chat-options-container" *ngIf="first && msg.role === 'model'">
+              <button type="button" class="option-btn"
+                      (click)="selectOption('hacer_pedido', state.isEver ? 'Inventario de obra' : 'Hacer un pedido')">
+                {{ state.isEver ? '📂 Inventario de obra' : '🛒 Hacer un pedido' }}
+              </button>
+              <button type="button" class="option-btn"
+                      (click)="selectOption('pagar_pedido', state.isEver ? 'Balance financiero' : 'Pagar mi pedido')">
+                {{ state.isEver ? '📊 Balance financiero' : '💳 Pagar mi pedido' }}
+              </button>
+              <button type="button" class="option-btn"
+                      (click)="selectOption('seguimiento_pedido', state.isEver ? 'Estado de obra' : 'Rastrear pedido')">
+                {{ state.isEver ? '📍 Estado de obra' : '🛵 Rastrear pedido' }}
+              </button>
+            </div>
           </div>
+        </div>
 
+        <!-- Indicador de carga / Escribiendo -->
+        <div class="bot-msg" *ngIf="isLoading()">
+          <div class="message-bubble typing">
+            <span></span><span></span><span></span>
+          </div>
         </div>
-      
-      <!-- Indicador de carga / Escribiendo -->
-      <div class="bot-msg" *ngIf="isLoading()">
-        <div class="message-bubble typing">
-          <span></span><span></span><span></span>
-        </div>
+      </div>
+
+      <div class="chat-footer">
+        <input
+          type="text"
+          [(ngModel)]="userInput"
+          (keyup.enter)="sendMessage()"
+          [placeholder]="state.isEver ? 'Escribe un comando técnico...' : '¿Buscas bolis o pasabocas?'"
+          [disabled]="isLoading()"
+        />
+        <button class="send-btn" (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">
+          <i class="fas fa-paper-plane"></i>
+        </button>
       </div>
     </div>
 
-    <div class="chat-footer">
-      <input 
-        type="text" 
-        [(ngModel)]="userInput" 
-        (keyup.enter)="sendMessage()" 
-        placeholder="¿Buscas bolis o pasabocas?"
-        [disabled]="isLoading()"
-      />
-      <button class="send-btn" (click)="sendMessage()" [disabled]="isLoading() || !userInput.trim()">
-        <i class="fas fa-paper-plane"></i>
+    <!-- Botón flotante original -->
+    <div class="action-buttons">
+      <button class="float-btn ai" [class.active]="isOpen()" (click)="toggleChat()" aria-label="Abrir chat">
+        <i class="fas" [ngClass]="isOpen() ? 'fa-times' : 'fa-robot'"></i>
       </button>
     </div>
-  </div>
 
-</div>
+  </div>
+</ng-container>

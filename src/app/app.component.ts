@@ -1,3 +1,4 @@
+import { ChatAiComponent } from './components/chat-ai/chat-ai.component';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,6 +14,7 @@ import { AuthService } from './services/auth.service';
   selector: 'app-root',
   standalone: true,
   imports: [
+    ChatAiComponent,
     CommonModule,
     RouterOutlet,
     NavbarComponent, // 2. Registramos el Navbar para habilitar <app-navbar>

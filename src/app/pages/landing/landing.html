@@ -34,3 +34,175 @@
     </div>
   </div>
 </div>
+
+    <!-- ASISTENTE VIRTUAL DINÁMICO (BRACASBOT / SCHNEIDERBOT) -->
+  <div class="chat-wrapper">
+    <div class="chat-window" *ngIf="isOpen()" [style.background-color]="themeColors().backgroundChat">
+      <!-- 🧱 CABECERA DEL BOT: Fondo negro puro y texto blanco absoluto -->
+      <div class="chat-header" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; min-height: 45px; height: auto; background-color: #000000 !important;">
+        <div class="header-info" style="display: flex; align-items: center; gap: 8px">
+          <!-- IMAGEN INTERNA DEL CHATBOT -->
+          <img
+            [src]="
+              (isEverAdminActive$ | async)
+                ? 'assets/ceschneider.jpg'
+                : 'assets/bracasfoodlogo.jpeg'
+            "
+            alt="Logo Chatbot"
+            style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover"
+            [style.border]="
+              (isEverAdminActive$ | async)
+                ? '1.5px solid #b020a1'
+                : '1.5px solid #ff6b00'
+            "
+          />
+          <!-- NOMBRE DINÁMICO DEL CHATBOT: Forzado a blanco -->
+          <p style="font-weight: bold; margin: 0; color: #ffffff !important;">
+            {{ (isEverAdminActive$ | async) ? 'SchneiderBot 🏗️' : 'Bracasfood' }}
+          </p>
+        </div>
+        <button class="close-btn" (click)="toggleChat()" style="background: transparent; border: none; font-size: 20px; cursor: pointer; color: #ffffff !important;">×</button>
+      </div>
+
+      <!-- 💬 CUERPO DEL CHAT: Corregido con flex-start superior para eliminar el espacio vacío inicial -->
+      <div class="chat-body" #scrollMe style="flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; justify-content: flex-start !important;">
+        <!-- 1. CICLO DE MENSAJES PERFECTAMENTE CERRADO -->
+        @for (msg of messages(); track $index) {
+          <div [ngClass]="{ 'user-msg': msg.role === 'user', 'bot-msg': msg.role === 'model' }" style="display: flex; width: 100%; margin-bottom: 4px;" [style.justify-content]="msg.role === 'user' ? 'flex-end' : 'flex-start'">
+            <div class="message-bubble" 
+                 [style.background-color]="msg.role === 'user' ? themeColors().bubbleUser : themeColors().bubbleModel"
+                 [style.color]="msg.role === 'user' ? themeColors().textUser : themeColors().textModel"
+                 style="padding: 10px 14px; border-radius: 12px; max-width: 80%; word-break: break-word; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"
+                 [innerHTML]="formatText(msg.text)"></div>
+          </div>
+        }
+
+        <!-- 2. BOTONES SUGERIDOS DEL BOT (SOLO BRACASFOOD) -->
+        <div
+          *ngIf="
+            !(isEverAdminActive$ | async) && (step() === 1 || step() === 3) && step() !== 6
+          "
+          class="bot-action-area"
+        >
+          <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #666">
+            SELECCIONA PARA AÑADIR:
+          </p>
+
+          <div class="bot-grid-buttons">
+            <button
+              *ngFor="let prod of products"
+              (click)="seleccionarProductoDesdeBot(prod)"
+              class="btn-bot-item" style="background: linear-gradient(135deg, #15141b 0%, #221f2d 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 8px rgba(176, 32, 161, 0.2); margin-bottom: 4px;"
+            >
+              + {{ prod.name }}
+            </button>
+          </div>
+
+          <button
+            *ngIf="cartService.count() > 0"
+            (click)="procesarPagoDirecto()"
+            class="btn-bot-confirm" 
+            style="width: 100%; margin-top: 10px; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; background: linear-gradient(135deg, #3a1c5c 0%, #1a1a24 50%, #0d0d12 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 12px rgba(176, 32, 161, 0.4); text-transform: uppercase;"
+          >
+            FINALIZAR Y PAGAR 🏁
+          </button>
+        </div>
+
+        <!-- 🏗️ 3. BOTONES SUGERIDOS DEL BOT (EXCLUSIVO C&E SCHNEIDER) -->
+        <div
+          *ngIf="
+            (isEverAdminActive$ | async) && (step() === 1 || step() === 3) && step() !== 6
+          "
+          class="bot-action-area"
+          style="margin-top: 5px; padding: 5px;"
+        >
+          <p style="font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; color: #aaa">
+            SELECCIONA SERVICIO PARA COTIZAR:
+          </p>
+
+          <div class="bot-grid-buttons" style="display: grid; grid-template-columns: 1fr; gap: 6px;">
+            <button
+              *ngFor="let prod of productsSchneider"
+              (click)="seleccionarProductoDesdeBot(prod)"
+              class="btn-bot-item" style="background: linear-gradient(135deg, #15141b 0%, #221f2d 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 8px rgba(176, 32, 161, 0.2); margin-bottom: 4px;"
+              [style.background-color]="themeColors().bubbleModel"
+              [style.color]="themeColors().textModel"
+              [style.border]="'1px solid ' + themeColors().bubbleUser"
+              style="padding: 8px 12px; border-radius: 6px; text-align: left; cursor: pointer; font-size: 12px; transition: background 0.2s;"
+            >
+              + {{ prod.name }}
+            </button>
+          </div>
+
+          <button
+            *ngIf="cartService.count() > 0"
+            (click)="procesarPagoDirecto()"
+            class="btn-bot-confirm" 
+            style="width: 100%; margin-top: 10px; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; background: linear-gradient(135deg, #3a1c5c 0%, #1a1a24 50%, #0d0d12 100%) !important; color: #ffffff !important; border: 1px solid #b020a1 !important; box-shadow: 0 0 12px rgba(176, 32, 161, 0.4); text-transform: uppercase;"
+          >
+            REVISAR PRESUPUESTO Y AGENDAR 🏁
+          </button>
+        </div>
+
+        <!-- 3. ACCIONES FINALES DE PAGO (SOLO BRACASFOOD) -->
+        <div *ngIf="!(isEverAdminActive$ | async) && step() === 6" class="p-3 text-center">
+          <button
+            *ngIf="datosPedido.pago.toLowerCase().includes('nequi')"
+            (click)="confirmarPagoEnWhatsApp()"
+            class="btn-whatsapp"
+            style="background-color: #643193 !important"
+          >
+            Confirmar y recibir QR en WhatsApp 🚀
+          </button>
+          <button
+            *ngIf="!datosPedido.pago.toLowerCase().includes('nequi')"
+            (click)="confirmarPedidoWhatsApp()"
+            class="btn-whatsapp"
+          >
+            Confirmar pedido en WhatsApp 🛵
+          </button>
+        </div>
+
+        <!-- 4. ANIMACIÓN DE CARGA -->
+        <div class="bot-msg" *ngIf="isLoading()">
+          <div class="message-bubble typing"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+
+      <!-- 5. AREA DEL FOOTER (INPUTS Y ENVÍO) -->
+      <div class="chat-footer">
+        <input
+          type="text"
+          [(ngModel)]="userInput"
+          (keyup.enter)="sendMessage()"
+          [placeholder]="placeholderText()"
+          [disabled]="isLoading() || (!(isEverAdminActive$ | async) && step() === 6)"
+        />
+
+        <button
+          class="send-btn"
+          (click)="sendMessage()"
+          [disabled]="isLoading() || !userInput.trim()"
+        >
+          ➤
+        </button>
+      </div>
+    </div>
+
+    <!-- 6. BOTÓN FLOTANTE EXTERNO DEL CHAT -->
+    <div class="action-buttons">
+      <button class="float-btn ai" (click)="toggleChat()" [ngClass]="{ active: isOpen() }">
+        <img
+          [src]="
+            (isEverAdminActive$ | async)
+              ? 'assets/ceschneider.jpg'
+              : 'assets/bracasfoodlogo.jpeg'
+          "
+          alt="Logo Botón"
+          class="bot-icon-img"
+          style="object-fit: cover; border-radius: 50%"
+          [style.opacity]="isOpen() ? '0.5' : '1'"
+        />
+      </button>
+    </div>
+  </div>
